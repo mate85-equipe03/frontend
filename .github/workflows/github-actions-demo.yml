@@ -10,5 +10,5 @@ jobs:
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner.\n🖥️ The workflow is now ready to test your code on the runner."
       - name: Run lint in the repository
         run: |
-          npm run lint
+          npm install && npm run lint
       - run: echo "🍏 This job's status is ${{ job.status }}."
