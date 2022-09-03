@@ -4,9 +4,7 @@ jobs:
   Lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Job disparado devido a um evento de ${{ github.event_name }} na branch ${{ github.ref }} do repositório ${{ github.repository }}. Job rodando em um servidor ${{ runner.os }} hospedado pelo GitHub.
       - name: Clonando código do repositório...
         uses: actions/checkout@v3
-      - name: Repositório clonado.
-      - name: Rodando lint no repositório...
+      - name: Rodando lint...
         run: npm install && npm run lint
