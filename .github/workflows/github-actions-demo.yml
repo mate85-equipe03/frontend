@@ -1,10 +1,9 @@
-name: Frontend Actions
 on: [push]
 jobs:
   Lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Clonando código do repositório...
+      - name: Check out repository code
         uses: actions/checkout@v3
-      - name: Rodando lint...
+      - name: Run lint in the repository
         run: npm install && npm run lint
