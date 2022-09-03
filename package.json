@@ -9,8 +9,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "lint": "eslint src/**/*.ts src/**/*.tsx test/**/*.tsx",
-    "lint-fix": "eslint src/**/*.ts src/**/*.tsx test/**/*.tsx --fix"
+    "lint": "eslint {src,test}/**/*.ts*",
+    "lint-fix": "eslint {src,test}/**/*.ts* --fix"
   },
   "dependencies": {
     "react": "^18.2.0",
