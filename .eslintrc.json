@@ -6,8 +6,7 @@
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:prettier/recommended"
+        "plugin:@typescript-eslint/recommended"
     ],
     "overrides": [
     ],
@@ -19,12 +18,11 @@
     "plugins": [
         "react",
         "react-hooks", 
-        "@typescript-eslint", 
-        "prettier"
+        "@typescript-eslint"
     ],
     "rules": {
         "indent": [
-            "error",
+            "warn",
             2
         ],
         "linebreak-style": [
