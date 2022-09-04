@@ -13,8 +13,8 @@
     "eslint-fix": "eslint {src,test}/**/*.ts* --fix",
     "stylelint": "stylelint src/**/*.css",
     "stylelint-fix": "stylelint src/**/*.css --fix",
-    "lint": "eslint {src,test}/**/*.ts* && stylelint src/**/*.css",
-    "lint-fix": "eslint {src,test}/**/*.ts* --fix && stylelint src/**/*.css --fix"
+    "lint": "npm run eslint && npm run stylelint",
+    "lint-fix": "npm run eslint-fix && npm run stylelint-fix"
   },
   "dependencies": {
     "react": "^18.2.0",
