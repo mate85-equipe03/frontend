@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "eslint": "eslint {src,test}/**/*.ts*",
+    "eslint": "eslint --ext js,jsx,ts,tsx --max-warnings 0 --color {src,test}",
     "eslint-fix": "eslint {src,test}/**/*.ts* --fix",
     "stylelint": "stylelint src/**/*.css",
     "stylelint-fix": "stylelint src/**/*.css --fix",
