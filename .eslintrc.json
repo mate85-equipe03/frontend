@@ -5,6 +5,8 @@
     },
     "extends": [
         "eslint:recommended",
+        "airbnb",
+        "airbnb/hooks",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:prettier/recommended"
@@ -23,6 +25,9 @@
         "prettier"
     ],
     "rules": {
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-filename-extension": "off",
+        "import/extensions": "off",
         "indent": [
             "error",
             2
@@ -39,7 +44,8 @@
             "error",
             "always"
         ],
-        "react/react-in-jsx-scope": "off"
+        "camelcase": "error",
+        "no-duplicate-imports": "error"
     },
     "settings": {
         "import/resolver": {
