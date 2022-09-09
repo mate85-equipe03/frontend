@@ -1,10 +1,10 @@
-a {
+.link-login {
   font-weight: 500;
   color: #6dd496;
   text-decoration: inherit;
 }
 
-a:hover {
+.link-login:hover {
   color: #30d16d;
 }
 
