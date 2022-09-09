@@ -3,12 +3,12 @@ import React from "react";
 export default function Login() {
   return (
     <div className="auth-form-container">
-      <img src="../src/assets/logo.png" alt="" />
+      <img src="../src/assets/logo.png" alt="Logo do Sistema" />
       <form className="auth-form">
         <div className="auth-form-content">
           <h3 className="auth-form-title">Login</h3>
           <div className="form-group mt-3">
-            <label htmlFor="matricula">
+            <label id="form" htmlFor="matricula">
               Matrícula
               <input
                 id="matricula"
@@ -19,7 +19,7 @@ export default function Login() {
             </label>
           </div>
           <div className="form-group mt-3">
-            <label htmlFor="senha">
+            <label id="form" htmlFor="senha">
               Password
               <input
                 id="senha"
@@ -30,7 +30,7 @@ export default function Login() {
             </label>
           </div>
           <div className="d-grid gap-2 mt-3">
-            <button type="submit" className="button">
+            <button type="submit" className="button-login">
               Logar
             </button>
           </div>
