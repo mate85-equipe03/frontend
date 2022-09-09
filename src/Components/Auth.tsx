@@ -38,7 +38,9 @@ export default function Login() {
             Não tem conta? <a href="#cadastro">Cadastre-se</a>
           </p>
           <p id="esqueci" className="forgot-password text-right mt-2">
-            <a id="link-login" href="#esqueci">Esqueci a senha</a>
+            <a id="link-login" href="#esqueci">
+              Esqueci a senha
+            </a>
           </p>
         </div>
       </form>
