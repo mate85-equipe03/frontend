@@ -1,41 +1,47 @@
-import React from "react"
+import React from "react";
 
-export default function (props) {
+export default function Login() {
   return (
-    <div className="Auth-form-container">
-    <img src="../src/assets/logo.png" alt="" />
-      <form className="Auth-form">
-        <div className="Auth-form-content">
-          <h3 className="Auth-form-title">Login</h3>
+    <div className="auth-form-container">
+      <img src="../src/assets/logo.png" alt="" />
+      <form className="auth-form">
+        <div className="auth-form-content">
+          <h3 className="auth-form-title">Login</h3>
           <div className="form-group mt-3">
-            <label>Matrícula</label>
-            <input
-              type="text"
-              className="form-control mt-1"
-              placeholder="Digite sua matrícula"
-            />
+            <label htmlFor="matricula">
+              Matrícula
+              <input
+                id="matricula"
+                type="text"
+                className="form-control mt-1"
+                placeholder="Digite sua matrícula"
+              />
+            </label>
           </div>
           <div className="form-group mt-3">
-            <label>Password</label>
-            <input
-              type="password"
-              className="form-control mt-1"
-              placeholder="Digite sua senha"
-            />
+            <label htmlFor="senha">
+              Password
+              <input
+                id="senha"
+                type="password"
+                className="form-control mt-1"
+                placeholder="Digite sua senha"
+              />
+            </label>
           </div>
           <div className="d-grid gap-2 mt-3">
             <button type="submit" className="button">
               Logar
             </button>
           </div>
-          <p className="forgot-password text-right mt-2">
-            Não tem conta? <a href="#">Cadastre-se</a>
+          <p id="cadastro" className="forgot-password text-right mt-2">
+            Não tem conta? <a href="#cadastro">Cadastre-se</a>
           </p>
-          <p className="forgot-password text-right mt-2">
-            <a href="#">Esquecia a senha</a>
+          <p id="esqueci" className="forgot-password text-right mt-2">
+            <a href="#esqueci">Esqueci a senha</a>
           </p>
         </div>
       </form>
     </div>
-  )
+  );
 }
