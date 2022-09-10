@@ -13,8 +13,9 @@
   <a href="https://vitejs.dev/" target="_blank"><img src="https://img.shields.io/badge/Vite-v3.0.7-blue" alt="Vite 3.0.7" /></a>
 </p>
 
-## Descrição 
-[Protótipo](https://www.figma.com/file/j2yQ8paIOmyaE0sPTv3wHC/posgress?node-id=0%3A1)
+## Links
+* [Protótipo](https://www.figma.com/file/j2yQ8paIOmyaE0sPTv3wHC/posgress?node-id=0%3A1);
+* [Logo](https://www.canva.com/design/DAFLwlGOsJs/wcH0fLJuByu4h5xmKGiQTQ/edit?utm_content=DAFLwlGOsJs&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton);
 
 ## Instalação
 ```bash
