@@ -50,7 +50,7 @@ $ npm run lint-fix
 ```
 
 ## Como contribuir
-Todos os _commits_ devem ser feitos a partir de uma _branch_ não protegida, e submetidos via _Pull Request (PR)_ para o _merge_ para a `main`. Para serem _mergeados_, os PRs devem estar de acordo com os seguintes critérios:
+Todos os _commits_ devem ser feitos a partir de uma _branch_ não protegida, e submetidos via _Pull Request (PR)_ para a `main`. Para serem _mergeados_, os PRs devem estar de acordo com os seguintes critérios:
 * Passar pelos testes; 
 * Passar pela verificação do lint;
 * Possuir pelo menos uma revisão com aprovação.
