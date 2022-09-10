@@ -3,11 +3,16 @@
 
 
 ## Tecnologias
-* [React](https://github.com/facebook/react)
-* [Vitest](https://vitest.dev/)
-* [ESLint](https://eslint.org/)
-* [Stylelint](https://stylelint.io/)
-* [Material Design](https://material.io/)
+* [React](https://github.com/facebook/react) - v18.2.0
+* [TypeScript](https://www.typescriptlang.org/) - v4.6.4
+* [Vitest](https://vitest.dev/) - v0.22.1
+* [Material Design](https://material.io/) - v5.10.4
+* [Bootstrap](https://getbootstrap.com/) - v5.10.4
+* [ESLint](https://eslint.org/) - v8.23.0
+* [Vitest](https://vitest.dev/) - v0.22.1
+* [Stylelint](https://stylelint.io/) - v14.11.0
+* [Prettier](https://prettier.io/) - v2.7.1
+* [Vite](https://vitejs.dev/) - v3.0.7
 
 ## Instalação
 ```bash
