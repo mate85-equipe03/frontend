@@ -36,7 +36,7 @@ export default function Login() {
             </button>
           </div>
           <p id="cadastro" className="forgot-password text-right mt-2">
-            Não tem conta?{" "}
+            Não tem conta?
             <a className="link-login" href="#cadastro">
               Cadastre-se
             </a>

@@ -3,7 +3,7 @@ import pgcomp from "../assets/pgcomp-horizontal.png";
 
 function Footer() {
   return (
-    <footer>
+    <footer className="footer">
       <div id="contato-ufba">
         <div>
           <strong>INSTITUTO DE COMPUTAÇÃO</strong>
