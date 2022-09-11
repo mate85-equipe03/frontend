@@ -14,9 +14,9 @@
 </p>
 
 ## Links
-* <a href="https://mate85-equipe03.atlassian.net/jira/software/projects/MATE85/boards/1" target="_blank">Jira</a>;
-* <a href="https://www.figma.com/file/j2yQ8paIOmyaE0sPTv3wHC/posgress?node-id=0%3A1" target="_blank">Protótipo</a>;
-* <a href="https://www.canva.com/design/DAFLwlGOsJs/wcH0fLJuByu4h5xmKGiQTQ/edit?utm_content=DAFLwlGOsJs&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank">Logo</a>.
+* <a href="https://mate85-equipe03.atlassian.net/jira/software/projects/MATE85/boards/1" target="_blank" rel="noopener">Jira</a>;
+* <a href="https://www.figma.com/file/j2yQ8paIOmyaE0sPTv3wHC/posgress?node-id=0%3A1" target="_blank" rel="noopener">Protótipo</a>;
+* <a href="https://www.canva.com/design/DAFLwlGOsJs/wcH0fLJuByu4h5xmKGiQTQ/edit?utm_content=DAFLwlGOsJs&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank" rel="noopener">Logo</a>.
 
 ## Instalação
 ```bash
