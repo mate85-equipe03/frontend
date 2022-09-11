@@ -49,9 +49,7 @@ export default function Login() {
           </p>
         </div>
       </form>
-      <div className="fixed-bottom">
-        <Footer />
-      </div>
+
     </div>
   );
 }
