@@ -1,5 +1,7 @@
 import React from "react";
+
 import { Link, Typography, Stack } from "@mui/material";
+
 import pgcomp from "../assets/pgcomp-horizontal.png";
 
 function Footer() {
@@ -25,6 +27,7 @@ function Footer() {
           <img src={pgcomp} alt="PGCOMP UFBA" height="100px" />
         </Link>
       </Stack>
+
     </footer>
   );
 }
