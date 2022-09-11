@@ -1,10 +1,10 @@
 import React from "react";
-import logo from "../assets/posgress-vertical.png";
+import logoPosgress from "../assets/posgress-vertical.png";
 
 export default function Login() {
   return (
     <div className="auth-form-container">
-      <img src={logo} alt="Logo do Sistema" />
+      <img src={logoPosgress} alt="Logo do Sistema" />
       <form className="auth-form" id="form-login">
         <div className="auth-form-content">
           <h3 className="auth-form-title">Login</h3>
