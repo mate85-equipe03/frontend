@@ -1,7 +1,6 @@
 import React from "react";
 import logoPosgress from "../assets/posgress-vertical.png";
 
-
 export default function Login() {
   return (
     <div className="auth-form-container">
@@ -49,7 +48,6 @@ export default function Login() {
           </p>
         </div>
       </form>
-
     </div>
   );
 }

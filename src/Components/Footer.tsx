@@ -27,7 +27,6 @@ function Footer() {
           <img src={pgcomp} alt="PGCOMP UFBA" height="100px" />
         </Link>
       </Stack>
-
     </footer>
   );
 }
