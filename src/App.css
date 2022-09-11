@@ -41,3 +41,13 @@
   font-weight: 600;
   color: black;
 }
+
+.footer{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #46AE7333;
+  padding: .5em 2em;
+  font-size: 15px;
+}
+

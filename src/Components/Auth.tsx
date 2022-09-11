@@ -1,10 +1,10 @@
 import React from "react";
-import logo from "../assets/logo.png";
+import logoPosgress from "../assets/posgress-vertical.png";
 
 export default function Login() {
   return (
     <div className="auth-form-container">
-      <img src={logo} alt="Logo do Sistema" />
+      <img src={logoPosgress} alt="Logo do Sistema" />
       <form className="auth-form" id="form-login">
         <div className="auth-form-content">
           <h3 className="auth-form-title">Login</h3>
@@ -36,7 +36,7 @@ export default function Login() {
             </button>
           </div>
           <p id="cadastro" className="forgot-password text-right mt-2">
-            Não tem conta?{" "}
+            Não tem conta?
             <a className="link-login" href="#cadastro">
               Cadastre-se
             </a>
