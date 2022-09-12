@@ -1,11 +1,11 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "@emotion/react";
+import Grid from "@mui/material/Grid";
 import Auth from "./Components/Auth";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
-import Grid from "@mui/material/Grid";
-import { ThemeProvider } from "@emotion/react";
 import theme from "./Theme";
 
 function App() {
