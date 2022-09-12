@@ -1,5 +1,6 @@
 import React from "react";
-import { Link, Typography, Grid } from "@mui/material";
+import { Link, Typography, Grid, CardMedia } from "@mui/material";
+import { sizing } from '@mui/system';
 
 import pgcomp from "../assets/pgcomp-horizontal.png";
 
@@ -14,10 +15,11 @@ function Footer() {
         sx={{
           bgcolor: "primary.light",
           px: "2em",
-          height: "100px",
+          minHeight: "100px",
+          minWidth: "400px"
         }}
       >
-        <Grid>
+        <Grid item>
           <Typography fontSize="14px" fontWeight="bold">
             INSTITUTO DE COMPUTAÇÃO
           </Typography>
@@ -32,9 +34,17 @@ function Footer() {
           </Typography>
         </Grid>
 
-        <Link href="https://pgcomp.ufba.br/" target="_blank" rel="noreferrer">
-          <img src={pgcomp} alt="PGCOMP UFBA" height="100px" />
-        </Link>
+        <Grid item height="80px">
+          <Link href="https://pgcomp.ufba.br/" target="_blank" rel="noreferrer" >
+            <CardMedia
+              component="img"
+              image={pgcomp}
+              alt="PGCOMP UFBA"
+              height="100%"
+            />
+          </Link>
+        </Grid>
+
       </Grid>
     </footer>
   );
