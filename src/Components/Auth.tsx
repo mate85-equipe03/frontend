@@ -1,6 +1,5 @@
 import React from "react";
 import logoPosgress from "../assets/posgress-vertical.png";
-import Footer from "./Footer";
 
 export default function Login() {
   return (
@@ -49,9 +48,6 @@ export default function Login() {
           </p>
         </div>
       </form>
-      <div className="fixed-bottom">
-        <Footer />
-      </div>
     </div>
   );
 }
