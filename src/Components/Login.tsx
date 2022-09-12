@@ -18,8 +18,8 @@ import {
   Typography,
 } from "@mui/material";
 import { InfoOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
-import api from "../api";
 import { useNavigate } from "react-router-dom";
+import api from "../api";
 
 interface FormLogin {
   login: string;
@@ -36,7 +36,7 @@ export default function Login() {
     showPassword: false,
   });
 
-  const [loginError, setLoginError] = React.useState<Boolean>(false);
+  const [loginError, setLoginError] = React.useState<boolean>(false);
 
   const handleChange = (prop: keyof FormLogin) => {
     return (event: React.ChangeEvent<HTMLInputElement>) => {

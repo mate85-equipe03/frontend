@@ -10,7 +10,9 @@ export default function Home() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      <Typography variant="h1" align="center">Hello, World!</Typography>
+      <Typography variant="h1" align="center">
+        Hello, World!
+      </Typography>
     </Grid>
   );
 }
