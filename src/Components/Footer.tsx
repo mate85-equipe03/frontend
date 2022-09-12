@@ -14,7 +14,7 @@ function Footer() {
         sx={{
           bgcolor: "primary.light",
           px: "2em",
-          minHeight: "100px",
+          minHeight: "80px",
           minWidth: "400px",
         }}
       >
