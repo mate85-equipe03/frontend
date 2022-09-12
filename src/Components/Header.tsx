@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Link } from "@mui/material";
+import { CardMedia, Grid, Link } from "@mui/material";
 import PosgressLogo from "../assets/posgress-horizontal.png";
 
 function Header() {
@@ -9,15 +9,15 @@ function Header() {
         container
         direction="column"
         alignItems="center"
-        sx={{
-          bgcolor: "primary.light",
-          px: "2em",
-          height: "80px",
-          minWidth: "400px",
-        }}
+        sx={{ height: 80 - 8 }}
       >
-        <Link href="/">
-          <img src={PosgressLogo} alt="PGCOMP UFBA" height="80px" />
+        <Link href="/" sx={{ height: "100%" }}>
+          <CardMedia
+            component="img"
+            image={PosgressLogo}
+            alt="Logo Posgress"
+            sx={{ height: "100%" }}
+          />
         </Link>
       </Grid>
     </header>

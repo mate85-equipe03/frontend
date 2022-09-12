@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, Typography, Grid, CardMedia } from "@mui/material";
 
-import pgcomp from "../assets/pgcomp-horizontal.png";
+import PGCOMPLogo from "../assets/pgcomp-horizontal.png";
 
 function Footer() {
   return (
@@ -9,37 +9,38 @@ function Footer() {
       <Grid
         container
         direction="row"
-        justifyContent="space-between"
+        justifyContent="center"
         alignItems="center"
         sx={{
-          bgcolor: "primary.light",
-          px: "2em",
-          minHeight: "80px",
-          minWidth: "400px",
+          textAlign: { xs: "center", sm: "start" },
         }}
       >
-        <Grid item>
-          <Typography fontSize="14px" fontWeight="bold">
+        <Grid item sm>
+          <Typography fontSize="12px" fontWeight="bold">
             INSTITUTO DE COMPUTAÇÃO
           </Typography>
 
-          <Typography fontSize="14px">
+          <Typography fontSize="10px">
             Avenida Milton Santos, s/n - Campus de Ondina, PAF 2 - Salvador -
             Bahia, CEP 40.170-110
           </Typography>
 
-          <Typography fontSize="14px">
+          <Typography fontSize="10px">
             E-mail: <Link href="mailto:ceapg-ic@ufba.br">ceapg-ic@ufba.br</Link>
           </Typography>
         </Grid>
 
-        <Grid item height="80px">
+        <Grid
+          item
+          sm="auto"
+          sx={{ height: 80 - 32, mt: { xs: 2, sm: 0 }, ml: { xs: 0, sm: 5 } }}
+        >
           <Link href="https://pgcomp.ufba.br/" target="_blank" rel="noreferrer">
             <CardMedia
               component="img"
-              image={pgcomp}
+              image={PGCOMPLogo}
               alt="PGCOMP UFBA"
-              height="100%"
+              sx={{ height: "100%" }}
             />
           </Link>
         </Grid>

@@ -93,7 +93,7 @@ export default function Login() {
 
         <Divider sx={{ mx: 3 }} />
 
-        <CardContent sx={{ px: 10 }}>
+        <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
           <FormControl required fullWidth margin="normal">
             <InputLabel htmlFor="login">Login</InputLabel>
             <OutlinedInput
@@ -139,7 +139,7 @@ export default function Login() {
           </FormControl>
         </CardContent>
 
-        <CardActions sx={{ px: 10 }}>
+        <CardActions sx={{ px: { xs: 5, sm: 10 } }}>
           <Grid container justifyContent="center" alignItems="center">
             <Button
               fullWidth
@@ -157,13 +157,14 @@ export default function Login() {
           container
           direction="column"
           alignItems="center"
-          className="text-sm"
           sx={{ mt: 3, p: 2, backgroundColor: "primary.light" }}
         >
-          <Typography>
+          <Typography fontSize="12px">
             Não tem conta? <Link href="#login">Cadastre-se</Link>
           </Typography>
-          <Link href="#senha">Esqueci minha senha</Link>
+          <Link href="#senha" fontSize="12px">
+            Esqueci minha senha
+          </Link>
         </Grid>
       </Card>
     </Grid>
