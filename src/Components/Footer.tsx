@@ -35,7 +35,6 @@ function Footer() {
         <Link href="https://pgcomp.ufba.br/" target="_blank" rel="noreferrer">
           <img src={pgcomp} alt="PGCOMP UFBA" height="100px" />
         </Link>
-
       </Grid>
     </footer>
   );
