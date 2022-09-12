@@ -12,11 +12,12 @@ function Header() {
         sx={{
           bgcolor: "primary.light",
           px: "2em",
-          height: "100px",
+          height: "80px",
+          minWidth: "400px",
         }}
       >
         <Link href="/">
-          <img src={PosgressLogo} alt="PGCOMP UFBA" height="100px" />
+          <img src={PosgressLogo} alt="PGCOMP UFBA" height="80px" />
         </Link>
       </Grid>
     </header>
