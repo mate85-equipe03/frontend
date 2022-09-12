@@ -1,7 +1,23 @@
 import React from "react";
-import { Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-export default function Home() {
+interface Props {
+  user: string;
+  setUser: (value: string) => void;
+}
+
+export default function Home({ user, setUser }: Props) {
+  const navigate = useNavigate();
+
+  const logout = () => {
+    setUser("");
+  };
+
+  const redirectToLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <Grid
       container
@@ -10,9 +26,36 @@ export default function Home() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      <Typography variant="h1" align="center">
-        Hello, World!
-      </Typography>
+      {user ? (
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          sx={{ width: "100%" }}
+        >
+          <Typography variant="h3" align="center">
+            Hello, {user}!
+          </Typography>
+          <Button
+            type="button"
+            onClick={logout}
+            variant="contained"
+            size="large"
+          >
+            Sair
+          </Button>
+        </Grid>
+      ) : (
+        <Button
+          type="button"
+          onClick={redirectToLogin}
+          variant="contained"
+          size="large"
+        >
+          Login
+        </Button>
+      )}
     </Grid>
   );
 }

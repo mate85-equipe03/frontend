@@ -1,3 +1,4 @@
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
@@ -9,6 +10,9 @@ import theme from "./Theme";
 import Home from "./Components/Home";
 
 function App() {
+  // TODO: Usar React Context futuramente
+  const [user, setUser] = React.useState<string>("");
+
   return (
     <ThemeProvider theme={theme}>
       <Grid
@@ -37,8 +41,11 @@ function App() {
         <Grid item sx={{ width: "100%" }}>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
+              <Route
+                path="/"
+                element={<Home user={user} setUser={setUser} />}
+              />
+              <Route path="/login" element={<Login setUser={setUser} />} />
             </Routes>
           </BrowserRouter>
         </Grid>
