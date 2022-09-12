@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Alert,
   Button,
   Card,
   CardActions,
@@ -17,6 +18,8 @@ import {
   Typography,
 } from "@mui/material";
 import { InfoOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
+import api from "../api";
+import { useNavigate } from "react-router-dom";
 
 interface FormLogin {
   login: string;
@@ -25,11 +28,15 @@ interface FormLogin {
 }
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const [values, setValues] = React.useState<FormLogin>({
     login: "",
     password: "",
     showPassword: false,
   });
+
+  const [loginError, setLoginError] = React.useState<Boolean>(false);
 
   const handleChange = (prop: keyof FormLogin) => {
     return (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,17 +55,32 @@ export default function Login() {
   };
 
   const sendForm = () => {
-    // console.log(values);
+    api
+      .post("/autenticacao/login", {
+        username: values.login,
+        password: values.password,
+      })
+      .then(() => {
+        navigate("/");
+      })
+      .catch(() => {
+        setLoginError(true);
+      });
   };
 
   return (
     <Grid
       container
-      direction="row"
+      direction="column"
       justifyContent="center"
       alignItems="center"
       sx={{ height: "100%" }}
     >
+      {loginError && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          Credenciais inválidas. Tente novamente.
+        </Alert>
+      )}
       <Card sx={{ minWidth: 275, maxWidth: 500 }}>
         <CardHeader
           title="Login"
