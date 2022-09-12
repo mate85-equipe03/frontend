@@ -15,7 +15,12 @@ function App() {
         container
         direction="row"
         justifyContent="center"
-        sx={{ minHeight: "calc(100vh - 200px)", px: 3, py: 5 }}
+        sx={{
+          minHeight: "calc(100vh - 160px)",
+          minWidth: "400px",
+          px: 3,
+          py: 5,
+        }}
       >
         <Grid item>
           <BrowserRouter>
