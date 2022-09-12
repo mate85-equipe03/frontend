@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
 import Grid from "@mui/material/Grid";
-import Auth from "./Components/Auth";
+import Login from "./Components/Login";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import theme from "./Theme";
@@ -16,13 +16,12 @@ function App() {
         container
         direction="row"
         justifyContent="center"
-        alignItems="center"
-        p={3}
+        sx={{ minHeight: "calc(100vh - 200px)", px: 3, py: 5 }}
       >
         <Grid item>
           <BrowserRouter>
             <Routes>
-              <Route path="/auth" element={<Auth />} />
+              <Route path="/login" element={<Login />} />
             </Routes>
           </BrowserRouter>
         </Grid>
