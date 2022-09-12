@@ -51,3 +51,8 @@
     background-color: #30d16d;
   }
 }
+
+.text-sm,
+.text-sm * {
+  font-size: 12px !important;
+}
