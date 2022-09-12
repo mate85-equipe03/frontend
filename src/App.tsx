@@ -6,6 +6,7 @@ import Login from "./Components/Login";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import theme from "./Theme";
+import Home from "./Components/Home";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Grid item>
           <BrowserRouter>
             <Routes>
+              <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
             </Routes>
           </BrowserRouter>
