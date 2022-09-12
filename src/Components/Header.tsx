@@ -13,7 +13,7 @@ function Header() {
           bgcolor: "primary.light",
           px: "2em",
           height: "80px",
-          minWidth:"400px"
+          minWidth: "400px",
         }}
       >
         <Link href="/">

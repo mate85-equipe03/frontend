@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, Typography, Grid, CardMedia } from "@mui/material";
-import { sizing } from '@mui/system';
 
 import pgcomp from "../assets/pgcomp-horizontal.png";
 
@@ -16,7 +15,7 @@ function Footer() {
           bgcolor: "primary.light",
           px: "2em",
           minHeight: "100px",
-          minWidth: "400px"
+          minWidth: "400px",
         }}
       >
         <Grid item>
@@ -35,7 +34,7 @@ function Footer() {
         </Grid>
 
         <Grid item height="80px">
-          <Link href="https://pgcomp.ufba.br/" target="_blank" rel="noreferrer" >
+          <Link href="https://pgcomp.ufba.br/" target="_blank" rel="noreferrer">
             <CardMedia
               component="img"
               image={pgcomp}
@@ -44,7 +43,6 @@ function Footer() {
             />
           </Link>
         </Grid>
-
       </Grid>
     </footer>
   );
