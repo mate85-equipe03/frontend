@@ -1,21 +1,32 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Auth from "./Components/Auth";
+import { ThemeProvider } from "@emotion/react";
+import Grid from "@mui/material/Grid";
+import Login from "./Components/Login";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
+import theme from "./Theme";
 
 function App() {
   return (
-    <div className="app">
+    <ThemeProvider theme={theme}>
       <Header />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/auth" element={<Auth />} />
-        </Routes>
-      </BrowserRouter>
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        sx={{ minHeight: "calc(100vh - 200px)", px: 3, py: 5 }}
+      >
+        <Grid item>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+            </Routes>
+          </BrowserRouter>
+        </Grid>
+      </Grid>
       <Footer />
-    </div>
+    </ThemeProvider>
   );
 }
 

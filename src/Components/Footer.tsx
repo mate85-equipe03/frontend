@@ -1,19 +1,19 @@
 import React from "react";
-
 import { Link, Typography, Stack } from "@mui/material";
 
 import pgcomp from "../assets/pgcomp-horizontal.png";
 
 function Footer() {
   return (
-    <footer className="footer2">
+    <footer>
       <Stack
         direction="row"
         justifyContent="space-between"
         alignItems="center"
         sx={{
-          bgcolor: "#46AE7333",
+          bgcolor: "primary.light",
           px: "2em",
+          height: "100px",
         }}
       >
         <Typography fontSize="14px">
