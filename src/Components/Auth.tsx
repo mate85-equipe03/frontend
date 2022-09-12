@@ -48,7 +48,7 @@ export default function Login() {
   };
 
   const sendForm = () => {
-    console.log(values);
+    // console.log(values);
   };
 
   return (
@@ -97,9 +97,9 @@ export default function Login() {
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
-                  aria-label={
-                    (values.showPassword ? "Ocultar" : "Mostrar") + "senha"
-                  }
+                  aria-label={`${
+                    values.showPassword ? "Ocultar" : "Mostrar"
+                  }senha`}
                   onClick={handleClickShowPassword}
                 >
                   {values.showPassword ? <VisibilityOff /> : <Visibility />}
@@ -132,11 +132,10 @@ export default function Login() {
         sx={{ mt: 3, p: 2, backgroundColor: "primary.light" }}
       >
         <Typography>
-          Não tem conta? <Link href="#">Cadastre-se</Link>
+          Não tem conta? <Link href="#login">Cadastre-se</Link>
         </Typography>
-        <Link href="#">Esqueci minha senha</Link>
+        <Link href="#senha">Esqueci minha senha</Link>
       </Grid>
-    
     </Card>
   );
 }
