@@ -11,19 +11,30 @@ import Home from "./Components/Home";
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Header />
       <Grid
         container
-        direction="row"
-        justifyContent="center"
+        sx={{
+          bgcolor: "primary.light",
+          height: 80,
+          minWidth: 300,
+          px: 4,
+          py: 0.5,
+        }}
+      >
+        <Grid item sx={{ width: "100%" }}>
+          <Header />
+        </Grid>
+      </Grid>
+      <Grid
+        container
         sx={{
           minHeight: "calc(100vh - 160px)",
-          minWidth: "400px",
-          px: 3,
+          minWidth: 300,
+          px: 4,
           py: 5,
         }}
       >
-        <Grid item>
+        <Grid item sx={{ width: "100%" }}>
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -32,7 +43,20 @@ function App() {
           </BrowserRouter>
         </Grid>
       </Grid>
-      <Footer />
+      <Grid
+        container
+        sx={{
+          bgcolor: "primary.light",
+          minHeight: 80,
+          minWidth: 300,
+          px: 4,
+          py: 2,
+        }}
+      >
+        <Grid item sx={{ width: "100%" }}>
+          <Footer />
+        </Grid>
+      </Grid>
     </ThemeProvider>
   );
 }
