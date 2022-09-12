@@ -7,8 +7,12 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import theme from "./Theme";
 import Home from "./Components/Home";
+import React from "react";
 
 function App() {
+  // TODO: Usar React Context futuramente
+  const [user, setUser] = React.useState<string>("");
+
   return (
     <ThemeProvider theme={theme}>
       <Header />
@@ -26,8 +30,8 @@ function App() {
         <Grid item>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Home user={user} setUser={setUser}/>} />
+              <Route path="/login" element={<Login setUser={setUser} />} />
             </Routes>
           </BrowserRouter>
         </Grid>

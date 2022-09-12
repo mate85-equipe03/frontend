@@ -27,7 +27,11 @@ interface FormLogin {
   showPassword: boolean;
 }
 
-export default function Login() {
+interface Props {
+  setUser: (value: string) => void;
+}
+
+export default function Login({ setUser }: Props) {
   const navigate = useNavigate();
 
   const [values, setValues] = React.useState<FormLogin>({
@@ -61,6 +65,7 @@ export default function Login() {
         password: values.password,
       })
       .then(() => {
+        setUser(values.login);
         navigate("/");
       })
       .catch(() => {
