@@ -6,7 +6,7 @@ import Grid from "@mui/material/Grid";
 import Login from "./Components/Login";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
-import {theme} from "./Theme";
+import theme from "./Theme";
 import Home from "./Components/Home";
 
 function App() {
