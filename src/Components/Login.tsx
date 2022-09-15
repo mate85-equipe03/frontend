@@ -150,7 +150,6 @@ export default function Login({ setUser }: Props) {
               fullWidth
               type="submit"
               onClick={sendForm}
-              variant="contained"
               size="large"
             >
               Login

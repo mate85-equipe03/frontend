@@ -10,8 +10,7 @@ const paletteTheme = createTheme({
   },
 });
 
-export default function theme() {
-  return createTheme(paletteTheme, {
+export const theme = createTheme(paletteTheme, {
     typography: {
       h1: {
         color: paletteTheme.palette.primary.main,
@@ -63,6 +62,11 @@ export default function theme() {
           },
         },
       },
+      MuiButton: {
+        defaultProps: {
+          // The props to change the default for.
+          variant: "contained",
+        },
+      },  
     },
   });
-}
