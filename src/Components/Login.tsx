@@ -103,8 +103,8 @@ export default function Login({ setUser }: Props) {
             <InputLabel htmlFor="login">Matrícula/SIAPE</InputLabel>
             <OutlinedInput
               id="login"
-              label="Login"
-              placeholder="Digite seu login"
+              label="Matrícula/SIAPE"
+              placeholder="Digite sua Matrícula/SIAPE"
               type="text"
               value={values.login}
               onChange={handleChange("login")}
