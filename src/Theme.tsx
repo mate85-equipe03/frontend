@@ -10,59 +10,64 @@ const paletteTheme = createTheme({
   },
 });
 
-export default function theme() {
-  return createTheme(paletteTheme, {
-    typography: {
-      h1: {
-        color: paletteTheme.palette.primary.main,
-        fontWeight: "bold",
-      },
-      h2: {
-        color: paletteTheme.palette.primary.main,
-        fontWeight: "bold",
-      },
-      h3: {
-        color: paletteTheme.palette.primary.main,
-        fontWeight: "bold",
-      },
-      h4: {
-        color: paletteTheme.palette.primary.main,
-        fontWeight: "bold",
-      },
-      h5: {
-        color: paletteTheme.palette.primary.main,
-        fontWeight: "bold",
-      },
-      h6: {
-        color: paletteTheme.palette.primary.main,
-        fontWeight: "bold",
+const theme = createTheme(paletteTheme, {
+  typography: {
+    h1: {
+      color: paletteTheme.palette.primary.main,
+      fontWeight: "bold",
+    },
+    h2: {
+      color: paletteTheme.palette.primary.main,
+      fontWeight: "bold",
+    },
+    h3: {
+      color: paletteTheme.palette.primary.main,
+      fontWeight: "bold",
+    },
+    h4: {
+      color: paletteTheme.palette.primary.main,
+      fontWeight: "bold",
+    },
+    h5: {
+      color: paletteTheme.palette.primary.main,
+      fontWeight: "bold",
+    },
+    h6: {
+      color: paletteTheme.palette.primary.main,
+      fontWeight: "bold",
+    },
+  },
+  components: {
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          border: "1px solid #3BC57280",
+        },
       },
     },
-    components: {
-      MuiCard: {
-        styleOverrides: {
-          root: {
-            border: "1px solid #3BC57280",
-          },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          backgroundColor: paletteTheme.palette.primary.main,
         },
       },
-      MuiDivider: {
-        styleOverrides: {
-          root: {
-            backgroundColor: paletteTheme.palette.primary.main,
-          },
-        },
-      },
-      MuiLink: {
-        styleOverrides: {
-          root: {
-            fontWeight: "bold",
-            ":hover": {
-              color: paletteTheme.palette.primary.dark,
-            },
+    },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          fontWeight: "bold",
+          ":hover": {
+            color: paletteTheme.palette.primary.dark,
           },
         },
       },
     },
-  });
-}
+    MuiButton: {
+      defaultProps: {
+        variant: "contained",
+      },
+    },
+  },
+});
+
+export default theme;

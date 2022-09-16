@@ -146,13 +146,7 @@ export default function Login({ setUser }: Props) {
 
         <CardActions sx={{ px: { xs: 5, sm: 10 } }}>
           <Grid container justifyContent="center" alignItems="center">
-            <Button
-              fullWidth
-              type="submit"
-              onClick={sendForm}
-              variant="contained"
-              size="large"
-            >
+            <Button fullWidth type="submit" onClick={sendForm} size="large">
               Login
             </Button>
           </Grid>
