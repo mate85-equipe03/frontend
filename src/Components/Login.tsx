@@ -58,6 +58,12 @@ export default function Login({ setUser }: Props) {
     });
   };
 
+  const sendFormPressEnter = (e:any) => {
+    if(e.keyCode === 13){
+    sendForm();
+    }
+  }
+
   const sendForm = () => {
     api
       .post("/autenticacao/login", {
@@ -108,6 +114,7 @@ export default function Login({ setUser }: Props) {
               type="text"
               value={values.login}
               onChange={handleChange("login")}
+              onKeyDown={sendFormPressEnter}
               endAdornment={
                 <InputAdornment position="end">
                   <Tooltip title="Discentes devem informar a matrícula. Docentes devem informar o SIAPE.">
@@ -128,6 +135,7 @@ export default function Login({ setUser }: Props) {
               type={values.showPassword ? "text" : "password"}
               value={values.password}
               onChange={handleChange("password")}
+              onKeyDown={sendFormPressEnter}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
