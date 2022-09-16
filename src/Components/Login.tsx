@@ -58,11 +58,11 @@ export default function Login({ setUser }: Props) {
     });
   };
 
-  const sendFormPressEnter = (e:any) => {
-    if(e.keyCode === 13){
-    sendForm();
+  const sendFormPressEnter = (e: any) => {
+    if (e.keyCode === 13) {
+      sendForm();
     }
-  }
+  };
 
   const sendForm = () => {
     api
