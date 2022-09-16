@@ -100,7 +100,7 @@ export default function Login({ setUser }: Props) {
 
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
           <FormControl required fullWidth margin="normal">
-            <InputLabel htmlFor="login">Login</InputLabel>
+            <InputLabel htmlFor="login">Matrícula/SIAPE</InputLabel>
             <OutlinedInput
               id="login"
               label="Login"
