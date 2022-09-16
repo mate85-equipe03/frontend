@@ -58,12 +58,6 @@ export default function Login({ setUser }: Props) {
     });
   };
 
-  const sendFormPressEnter = (e: any) => {
-    if (e.keyCode === 13) {
-      sendForm();
-    }
-  };
-
   const sendForm = () => {
     api
       .post("/autenticacao/login", {
@@ -77,6 +71,12 @@ export default function Login({ setUser }: Props) {
       .catch(() => {
         setLoginError(true);
       });
+  };
+
+  const sendFormPressEnter = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key === "Enter") {
+      sendForm();
+    }
   };
 
   return (
