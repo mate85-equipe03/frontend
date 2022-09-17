@@ -156,12 +156,15 @@ export default function Login({ setUser }: Props) {
           container
           direction="column"
           alignItems="center"
-          sx={{ mt: 3, p: 2, backgroundColor: "primary.light" }}
+          sx={{ mt: 3, p: 2, backgroundColor: "primary.main" }}
         >
-          <Typography fontSize="12px">
-            Não tem conta? <Link href="#login">Cadastre-se</Link>
+          <Typography fontSize="12px" color="primary.contrastText">
+            Não tem conta?
+            <Link color="primary.light" href="#login">
+              Cadastre-se
+            </Link>
           </Typography>
-          <Link href="#senha" fontSize="12px">
+          <Link color="primary.light" href="#senha" fontSize="12px">
             Esqueci minha senha
           </Link>
         </Grid>
