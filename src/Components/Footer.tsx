@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, Typography, Grid, CardMedia } from "@mui/material";
 
-import PGCOMPLogo from "../assets/pgcomp-horizontal.png";
+import PGCOMPLogo from "../assets/pgcomp.png";
 
 function Footer() {
   return (
@@ -15,7 +15,7 @@ function Footer() {
           textAlign: { xs: "center", sm: "start" },
         }}
       >
-        <Grid item sm>
+        <Grid item sm sx={{ color: "primary.contrastText" }}>
           <Typography fontSize="12px" fontWeight="bold">
             INSTITUTO DE COMPUTAÇÃO
           </Typography>
@@ -26,7 +26,10 @@ function Footer() {
           </Typography>
 
           <Typography fontSize="10px">
-            E-mail: <Link href="mailto:ceapg-ic@ufba.br">ceapg-ic@ufba.br</Link>
+            E-mail:{" "}
+            <Link color="primary.light" href="mailto:ceapg-ic@ufba.br">
+              ceapg-ic@ufba.br
+            </Link>
           </Typography>
         </Grid>
 

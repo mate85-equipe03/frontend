@@ -3,8 +3,8 @@ import { createTheme } from "@mui/material/styles";
 const paletteTheme = createTheme({
   palette: {
     primary: {
-      main: "#3BC572",
-      light: "#3BC5724D",
+      main: "#00297a",
+      light: "#9bc9ff",
       contrastText: "#fff",
     },
   },
@@ -12,6 +12,11 @@ const paletteTheme = createTheme({
 
 const theme = createTheme(paletteTheme, {
   typography: {
+    styleOverrides: {
+      root: {
+        color: "#fff",
+      },
+    },
     h1: {
       color: paletteTheme.palette.primary.main,
       fontWeight: "bold",
@@ -41,7 +46,8 @@ const theme = createTheme(paletteTheme, {
     MuiCard: {
       styleOverrides: {
         root: {
-          border: "1px solid #3BC57280",
+          border: "1px solid",
+          borderColor: paletteTheme.palette.primary.light,
         },
       },
     },
@@ -55,12 +61,21 @@ const theme = createTheme(paletteTheme, {
     MuiLink: {
       styleOverrides: {
         root: {
+          color: "paletteTheme.palette.primary.light",
           fontWeight: "bold",
           ":hover": {
-            color: paletteTheme.palette.primary.dark,
+            color: "#538dff",
           },
         },
       },
+      variants: [
+        {
+          props: { variant: "lightText" },
+          style: {
+            color: "red",
+          },
+        },
+      ],
     },
     MuiButton: {
       defaultProps: {
