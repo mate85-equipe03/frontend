@@ -159,7 +159,7 @@ export default function Login({ setUser }: Props) {
           sx={{ mt: 3, p: 2, backgroundColor: "primary.main" }}
         >
           <Typography fontSize="12px" color="primary.contrastText">
-            Não tem conta?{" "}
+            Não tem conta?
             <Link color="primary.light" href="#login">
               Cadastre-se
             </Link>
