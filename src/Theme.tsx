@@ -79,7 +79,6 @@ const theme = createTheme(paletteTheme, {
     },
     MuiButton: {
       defaultProps: {
-        // The props to change the default for.
         variant: "contained",
       },
     },
