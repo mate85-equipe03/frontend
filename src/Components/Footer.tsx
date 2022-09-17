@@ -26,7 +26,7 @@ function Footer() {
           </Typography>
 
           <Typography fontSize="10px">
-            E-mail:{" "}
+            E-mail:
             <Link color="primary.light" href="mailto:ceapg-ic@ufba.br">
               ceapg-ic@ufba.br
             </Link>
