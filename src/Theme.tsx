@@ -41,7 +41,7 @@ const theme = createTheme(paletteTheme, {
     MuiCard: {
       styleOverrides: {
         root: {
-          border: "1px solid ",
+          border: "1px solid",
           borderColor: "paletteTheme.palette.primary.main",
         },
       },
