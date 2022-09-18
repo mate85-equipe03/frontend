@@ -38,7 +38,7 @@ export default function Home({ user, setUser }: Props) {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      <Card sx={{ minWidth: 500, maxWidth: 800 }}>
+      <Card sx={{ minWidth: {md:500 }, maxWidth: 800 }}>
         <CardHeader
           title="Processos Seletivos"
           titleTypographyProps={{
@@ -76,13 +76,17 @@ export default function Home({ user, setUser }: Props) {
                   <Typography sx={{ fontSize: 14 }}>
                     Edital PGCOMP-mm/aaaaa
                   </Typography>
-                  <Typography sx={{ fontSize: 10 }}>
-                    Inscrições abertas - até dd/mm/aaaa
-                  </Typography>
+                  <Grid container direction="row" justifyContent="space-between" flex-wrap="wrap">
+                    <Typography sx={{ fontSize: 10, mr:2}}>
+                      Inscrições abertas - Até dd/mm/aaaa
+                    </Typography>
+                    <Typography sx={{ fontSize: 10, color:"primary.main" }}>
+                      Você está inscrito
+                    </Typography>
+                  </Grid>
                 </Grid>
               </ListItemText>
             </ListItemButton>
-
 
             <ListItemButton sx={{ mx:2}} divider>
               <ListItemText>
@@ -91,7 +95,7 @@ export default function Home({ user, setUser }: Props) {
                 </Typography>
                 <Grid container direction="row" justifyContent="space-between">
                   <Typography sx={{ fontSize: 10 }}>
-                    Inscrições abertas - até dd/mm/aaaa
+                    Inscrições abertas - Até dd/mm/aaaa
                   </Typography>
                 </Grid>
               </ListItemText>
@@ -111,7 +115,7 @@ export default function Home({ user, setUser }: Props) {
               </ListSubheader>
             }
           >
-          <ListItemButton sx={{ mx:2}} divider>
+            <ListItemButton sx={{ mx:2}} divider>
               <ListItemText>
                 <Typography sx={{ fontSize: 14 }}>
                   Edital PGCOMP-mm/aaaaa
