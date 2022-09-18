@@ -55,7 +55,8 @@ export default function Login({ setUser }: Props) {
     setShowPassword(!showPassword);
   };
 
-  const sendForm = () => {
+  const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
     api
       .post("/autenticacao/login", loginData)
       .then(() => {
@@ -93,54 +94,58 @@ export default function Login({ setUser }: Props) {
         <Divider sx={{ mx: 3 }} />
 
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
-          <FormControl required fullWidth margin="normal">
-            <InputLabel htmlFor="login">Login</InputLabel>
-            <OutlinedInput
-              id="login"
-              name="username"
-              label="Login"
-              placeholder="Digite seu login"
-              type="text"
-              value={loginData.username}
-              onChange={handleChange()}
-              endAdornment={
-                <InputAdornment position="end">
-                  <Tooltip title="Discentes devem informar a matrícula. Docentes devem informar o SIAPE.">
-                    <IconButton>
-                      <InfoOutlined />
+          <form id="login-form" onSubmit={sendForm}>
+            <FormControl required fullWidth margin="normal">
+              <InputLabel htmlFor="login">Login</InputLabel>
+              <OutlinedInput
+                id="login"
+                name="username"
+                label="Login"
+                placeholder="Digite seu login"
+                type="text"
+                value={loginData.username}
+                onChange={handleChange()}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <Tooltip title="Discentes devem informar a matrícula. Docentes devem informar o SIAPE.">
+                      <IconButton>
+                        <InfoOutlined />
+                      </IconButton>
+                    </Tooltip>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+            <FormControl required fullWidth margin="normal">
+              <InputLabel htmlFor="senha">Senha</InputLabel>
+              <OutlinedInput
+                id="senha"
+                name="password"
+                label="Senha"
+                placeholder="Digite sua senha"
+                type={showPassword ? "text" : "password"}
+                value={loginData.password}
+                onChange={handleChange()}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label={`${
+                        showPassword ? "Ocultar" : "Mostrar"
+                      } senha`}
+                      onClick={handleClickShowPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
-                  </Tooltip>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
-          <FormControl required fullWidth margin="normal">
-            <InputLabel htmlFor="senha">Senha</InputLabel>
-            <OutlinedInput
-              id="senha"
-              name="password"
-              label="Senha"
-              placeholder="Digite sua senha"
-              type={showPassword ? "text" : "password"}
-              value={loginData.password}
-              onChange={handleChange()}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label={`${showPassword ? "Ocultar" : "Mostrar"} senha`}
-                    onClick={handleClickShowPassword}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </form>
         </CardContent>
 
         <CardActions sx={{ px: { xs: 5, sm: 10 } }}>
           <Grid container justifyContent="center" alignItems="center">
-            <Button fullWidth type="submit" onClick={sendForm} size="large">
+            <Button fullWidth type="submit" form="login-form" size="large">
               Login
             </Button>
           </Grid>
