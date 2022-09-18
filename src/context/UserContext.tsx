@@ -5,6 +5,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import auth from "../services/Auth";
 
 interface IUserContext {
   username: string;
@@ -38,12 +39,9 @@ function UserContextProvider({ children }: IPropsContextProvider) {
   );
 
   useEffect(() => {
-    const storagedUserStr = localStorage.getItem("user");
-    if (storagedUserStr) {
-      const storagedUser = JSON.parse(storagedUserStr);
-      if (storagedUser?.username && storagedUser?.token) {
-        setUser(storagedUser);
-      }
+    const storagedUser = auth.getStoragedUser();
+    if (storagedUser) {
+      setUser(storagedUser);
     }
   }, []);
 
@@ -53,4 +51,5 @@ function UserContextProvider({ children }: IPropsContextProvider) {
 }
 
 export { UserContextProvider };
+export type { IUserContext };
 export default UserContext;
