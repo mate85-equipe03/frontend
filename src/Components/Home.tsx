@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Button,
   Grid,
@@ -13,17 +13,15 @@ import {
   ListItemButton,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
-interface Props {
-  user: string;
-  setUser: (value: string) => void;
-}
-
-export default function Home({ user, setUser }: Props) {
+export default function Home() {
   const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
 
   const logout = () => {
-    setUser("");
+    setUser(null);
+    localStorage.removeItem("user");
   };
 
   const redirectToLogin = () => {
@@ -160,7 +158,7 @@ export default function Home({ user, setUser }: Props) {
           sx={{ width: "100%" }}
         >
           <Typography variant="h3" align="center">
-            Hello, {user}!
+            Hello, {user?.username}!
           </Typography>
           <Button type="button" onClick={logout} size="large">
             Sair
