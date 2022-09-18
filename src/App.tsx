@@ -57,8 +57,7 @@ function App() {
           minHeight: 80,
           minWidth: 300,
           px: 4,
-          py: 0,
-          alignContent: "center",
+          py: 2,
         }}
       >
         <Grid item sx={{ width: "100%" }}>
