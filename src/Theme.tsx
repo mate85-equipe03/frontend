@@ -41,14 +41,18 @@ const theme = createTheme(paletteTheme, {
     MuiCard: {
       styleOverrides: {
         root: {
-          border: "1px solid #3BC57280",
+          border: "1px solid",
+          borderColor: "paletteTheme.palette.primary.main",
         },
       },
     },
     MuiDivider: {
       styleOverrides: {
         root: {
-          backgroundColor: paletteTheme.palette.primary.main,
+          borderColor: paletteTheme.palette.primary.main,
+          opacity: "1",
+          "::after": { borderTopColor: paletteTheme.palette.primary.main },
+          "::before": { borderTopColor: paletteTheme.palette.primary.main },
         },
       },
     },
@@ -57,7 +61,7 @@ const theme = createTheme(paletteTheme, {
         root: {
           fontWeight: "bold",
           ":hover": {
-            color: paletteTheme.palette.primary.dark,
+            color: "#538dff",
           },
         },
       },
