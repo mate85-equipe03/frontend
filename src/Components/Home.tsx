@@ -33,7 +33,7 @@ export default function Home() {
           sx={{ width: "100%" }}
         >
           <Typography variant="h3" align="center">
-            Hello, {user.username}!
+            Hello, {user?.username}!
           </Typography>
           <Button type="button" onClick={logout} size="large">
             Sair
