@@ -41,7 +41,7 @@ export default function Home() {
         id: 2,
         nome: "Edital PGCOMP-07/2022",
         etapa: {
-          nome: "Divulgação dos Resultados Parciais",
+          nome: "Análise de inscrições",
           data_fim: "dd/mm/aaaa",
         },
         inscrito: false,
@@ -54,6 +54,7 @@ export default function Home() {
       },
     ],
   };
+
 
   return (
     <Grid
