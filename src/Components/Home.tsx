@@ -30,7 +30,7 @@ export default function Home({ user, setUser }: Props) {
     navigate("/login");
   };
 
-  //Mockup *Temporário*
+  // Mockup *Temporário*
   const editais = {
     em_andamento: [
       {
@@ -40,7 +40,10 @@ export default function Home({ user, setUser }: Props) {
       },
       {
         nome: "Edital PGCOMP-07/2022",
-        etapa: { nome: "Divulgação dos Resultados Parciais", data_fim: "dd/mm/aaaa" },
+        etapa: {
+          nome: "Divulgação dos Resultados Parciais",
+          data_fim: "dd/mm/aaaa",
+        },
         inscrito: false,
       },
     ],
@@ -134,9 +137,7 @@ export default function Home({ user, setUser }: Props) {
             {editais.encerrados.map((edital) => (
               <ListItemButton key={edital.nome} sx={{ mx: 2 }} divider>
                 <ListItemText>
-                  <Typography sx={{ fontSize: 14 }}>
-                    {edital.nome}
-                  </Typography>
+                  <Typography sx={{ fontSize: 14 }}>{edital.nome}</Typography>
                   <Grid
                     container
                     direction="row"
@@ -152,9 +153,7 @@ export default function Home({ user, setUser }: Props) {
           </List>
         </CardContent>
       </Card>
-
       &nbsp;
-      
       {user ? (
         <Grid
           container
