@@ -42,7 +42,7 @@ const theme = createTheme(paletteTheme, {
       styleOverrides: {
         root: {
           border: "1px solid ",
-          borderColor: "paletteTheme.palette.primary.main"
+          borderColor: "paletteTheme.palette.primary.main",
         },
       },
     },
@@ -51,8 +51,8 @@ const theme = createTheme(paletteTheme, {
         root: {
           borderColor: paletteTheme.palette.primary.main,
           opacity: "1",
-          "::after": {borderTopColor:paletteTheme.palette.primary.main },
-            "::before": {borderTopColor:paletteTheme.palette.primary.main}
+          "::after": { borderTopColor: paletteTheme.palette.primary.main },
+          "::before": { borderTopColor: paletteTheme.palette.primary.main },
         },
       },
     },
