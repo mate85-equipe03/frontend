@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Typography } from "@mui/material";
 import { SearchOff } from "@mui/icons-material";
 
-export default function Login() {
+export default function PageNotFound() {
   return (
     <Grid
       container
