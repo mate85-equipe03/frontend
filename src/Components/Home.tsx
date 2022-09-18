@@ -98,7 +98,11 @@ export default function Home({ user, setUser }: Props) {
             {editais.em_andamento.map((edital) => (
               <ListItemButton key={edital.id} sx={{ mx: 2 }} divider>
                 <ListItemText>
-                  <Grid container direction="row" justifyContent="space-between">
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                  >
                     <Typography sx={{ fontSize: 14 }}>{edital.nome}</Typography>
                     {edital.inscrito && (
                       <Typography sx={{ fontSize: 10, color: "primary.main" }}>
@@ -106,9 +110,9 @@ export default function Home({ user, setUser }: Props) {
                       </Typography>
                     )}
                   </Grid>
-                    <Typography sx={{ fontSize: 10, mr: 2 }}>
-                      {edital.etapa.nome} - Até {edital.etapa.data_fim}
-                    </Typography>
+                  <Typography sx={{ fontSize: 10, mr: 2 }}>
+                    {edital.etapa.nome} - Até {edital.etapa.data_fim}
+                  </Typography>
                 </ListItemText>
               </ListItemButton>
             ))}
