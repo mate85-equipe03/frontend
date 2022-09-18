@@ -8,6 +8,8 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import theme from "./Theme";
 import Home from "./Components/Home";
+import Cadastro from "./Components/Cadastro";
+import Recover from "./Components/Recover";
 
 function App() {
   // TODO: Usar React Context futuramente
@@ -46,6 +48,8 @@ function App() {
                 element={<Home user={user} setUser={setUser} />}
               />
               <Route path="/login" element={<Login setUser={setUser} />} />
+              <Route path="/cadastro" element={<Cadastro />} />
+              <Route path="/recover" element={<Recover setUser={setUser} />} />
             </Routes>
           </BrowserRouter>
         </Grid>

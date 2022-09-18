@@ -154,11 +154,11 @@ export default function Login({ setUser }: Props) {
         >
           <Typography fontSize="12px" color="primary.contrastText">
             Não tem conta?&nbsp;
-            <Link color="primary.light" href="#login">
+            <Link color="primary.light" href="/cadastro">
               Cadastre-se
             </Link>
           </Typography>
-          <Link color="primary.light" href="#senha" fontSize="12px">
+          <Link color="primary.light" href="/recover" fontSize="12px">
             Esqueci minha senha
           </Link>
         </Grid>
