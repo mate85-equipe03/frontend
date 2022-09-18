@@ -22,9 +22,8 @@ import { useNavigate } from "react-router-dom";
 import api from "../api";
 
 interface FormLogin {
-  login: string;
+  username: string;
   password: string;
-  showPassword: boolean;
 }
 
 interface Props {
@@ -34,38 +33,33 @@ interface Props {
 export default function Login({ setUser }: Props) {
   const navigate = useNavigate();
 
-  const [values, setValues] = React.useState<FormLogin>({
-    login: "",
+  const [loginData, setLoginData] = React.useState<FormLogin>({
+    username: "",
     password: "",
-    showPassword: false,
   });
+
+  const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
   const [loginError, setLoginError] = React.useState<boolean>(false);
 
-  const handleChange = (prop: keyof FormLogin) => {
+  const handleChange = () => {
     return (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({
-        ...values,
-        [prop]: event.target.value,
+      setLoginData({
+        ...loginData,
+        [event.target.name]: event.target.value,
       });
     };
   };
 
   const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    });
+    setShowPassword(!showPassword);
   };
 
   const sendForm = () => {
     api
-      .post("/autenticacao/login", {
-        username: values.login,
-        password: values.password,
-      })
+      .post("/autenticacao/login", loginData)
       .then(() => {
-        setUser(values.login);
+        setUser(loginData.username);
         navigate("/");
       })
       .catch(() => {
@@ -103,11 +97,12 @@ export default function Login({ setUser }: Props) {
             <InputLabel htmlFor="login">Login</InputLabel>
             <OutlinedInput
               id="login"
+              name="username"
               label="Login"
               placeholder="Digite seu login"
               type="text"
-              value={values.login}
-              onChange={handleChange("login")}
+              value={loginData.username}
+              onChange={handleChange()}
               endAdornment={
                 <InputAdornment position="end">
                   <Tooltip title="Discentes devem informar a matrícula. Docentes devem informar o SIAPE.">
@@ -123,20 +118,19 @@ export default function Login({ setUser }: Props) {
             <InputLabel htmlFor="senha">Senha</InputLabel>
             <OutlinedInput
               id="senha"
+              name="password"
               label="Senha"
               placeholder="Digite sua senha"
-              type={values.showPassword ? "text" : "password"}
-              value={values.password}
-              onChange={handleChange("password")}
+              type={showPassword ? "text" : "password"}
+              value={loginData.password}
+              onChange={handleChange()}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
-                    aria-label={`${
-                      values.showPassword ? "Ocultar" : "Mostrar"
-                    } senha`}
+                    aria-label={`${showPassword ? "Ocultar" : "Mostrar"} senha`}
                     onClick={handleClickShowPassword}
                   >
-                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               }
@@ -159,7 +153,7 @@ export default function Login({ setUser }: Props) {
           sx={{ mt: 3, p: 2, backgroundColor: "primary.main" }}
         >
           <Typography fontSize="12px" color="primary.contrastText">
-            Não tem conta?{" "}
+            Não tem conta?
             <Link color="primary.light" href="#login">
               Cadastre-se
             </Link>
