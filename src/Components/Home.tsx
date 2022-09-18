@@ -34,11 +34,13 @@ export default function Home({ user, setUser }: Props) {
   const editais = {
     em_andamento: [
       {
+        id: 1,
         nome: "Edital PGCOMP-09/2022",
         etapa: { nome: "Inscrições Abertas", data_fim: "dd/mm/aaaa" },
         inscrito: true,
       },
       {
+        id: 2,
         nome: "Edital PGCOMP-07/2022",
         etapa: {
           nome: "Divulgação dos Resultados Parciais",
@@ -49,6 +51,7 @@ export default function Home({ user, setUser }: Props) {
     ],
     encerrados: [
       {
+        id: 1,
         nome: "Edital PGCOMP-03/2022",
       },
     ],
@@ -93,19 +96,19 @@ export default function Home({ user, setUser }: Props) {
             }
           >
             {editais.em_andamento.map((edital) => (
-              <ListItemButton key={edital.nome} sx={{ mx: 2 }} divider>
+              <ListItemButton key={edital.id} sx={{ mx: 2 }} divider>
                 <ListItemText>
-                  <Grid>
+                  <Grid container direction="row" justifyContent="space-between">
                     <Typography sx={{ fontSize: 14 }}>{edital.nome}</Typography>
-                    <Typography sx={{ fontSize: 10, mr: 2 }}>
-                      {edital.etapa.nome} - Até {edital.etapa.data_fim}
-                    </Typography>
                     {edital.inscrito && (
-                      <Typography sx={{ fontSize: 10, color: "success.main" }}>
+                      <Typography sx={{ fontSize: 10, color: "primary.main" }}>
                         Você está inscrito
                       </Typography>
                     )}
                   </Grid>
+                    <Typography sx={{ fontSize: 10, mr: 2 }}>
+                      {edital.etapa.nome} - Até {edital.etapa.data_fim}
+                    </Typography>
                 </ListItemText>
               </ListItemButton>
             ))}
@@ -125,7 +128,7 @@ export default function Home({ user, setUser }: Props) {
             }
           >
             {editais.encerrados.map((edital) => (
-              <ListItemButton key={edital.nome} sx={{ mx: 2 }} divider>
+              <ListItemButton key={edital.id} sx={{ mx: 2 }} divider>
                 <ListItemText>
                   <Typography sx={{ fontSize: 14 }}>{edital.nome}</Typography>
                   <Grid
