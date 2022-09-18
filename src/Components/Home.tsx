@@ -97,24 +97,14 @@ export default function Home({ user, setUser }: Props) {
                 <ListItemText>
                   <Grid>
                     <Typography sx={{ fontSize: 14 }}>{edital.nome}</Typography>
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="space-between"
-                      alignItems="flex-end"
-                      flex-wrap="wrap"
-                    >
-                      <Typography sx={{ fontSize: 10, mr: 2 }}>
-                        {edital.etapa.nome} - Até {edital.etapa.data_fim}
+                    <Typography sx={{ fontSize: 10, mr: 2 }}>
+                      {edital.etapa.nome} - Até {edital.etapa.data_fim}
+                    </Typography>
+                    {edital.inscrito && (
+                      <Typography sx={{ fontSize: 10, color: "success.main" }}>
+                        Você está inscrito
                       </Typography>
-                      {edital.inscrito && (
-                        <Typography
-                          sx={{ fontSize: 10, color: "success.main" }}
-                        >
-                          Você está inscrito.
-                        </Typography>
-                      )}
-                    </Grid>
+                    )}
                   </Grid>
                 </ListItemText>
               </ListItemButton>
