@@ -11,6 +11,7 @@ import {
   ListSubheader,
   ListItemText,
   ListItemButton,
+  Alert,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -38,7 +39,7 @@ export default function Home({ user, setUser }: Props) {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      <Card sx={{ minWidth: {md:500 }, maxWidth: 800 }}>
+      <Card sx={{ minWidth: { md: 500 }, maxWidth: 800 }}>
         <CardHeader
           title="Processos Seletivos"
           titleTypographyProps={{
@@ -76,19 +77,25 @@ export default function Home({ user, setUser }: Props) {
                   <Typography sx={{ fontSize: 14 }}>
                     Edital PGCOMP-mm/aaaaa
                   </Typography>
-                  <Grid container direction="row" justifyContent="space-between" flex-wrap="wrap">
-                    <Typography sx={{ fontSize: 10, mr:2}}>
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="flex-end"
+                    flex-wrap="wrap"
+                  >
+                    <Typography sx={{ fontSize: 10, mr: 2 }}>
                       Inscrições abertas - Até dd/mm/aaaa
                     </Typography>
-                    <Typography sx={{ fontSize: 10, color:"primary.main" }}>
-                      Você está inscrito
+                    <Typography sx={{ fontSize: 10, color: "success.main" }}>
+                      Você está inscrito.
                     </Typography>
                   </Grid>
                 </Grid>
               </ListItemText>
             </ListItemButton>
 
-            <ListItemButton sx={{ mx:2}} divider>
+            <ListItemButton sx={{ mx: 2 }} divider>
               <ListItemText>
                 <Typography sx={{ fontSize: 14 }}>
                   Edital PGCOMP-mm/aaaaa
