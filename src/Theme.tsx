@@ -42,7 +42,7 @@ const theme = createTheme(paletteTheme, {
       styleOverrides: {
         root: {
           border: "1px solid",
-          borderColor: "paletteTheme.palette.primary.main",
+          borderColor: paletteTheme.palette.primary.main,
         },
       },
     },
