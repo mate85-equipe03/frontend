@@ -15,6 +15,29 @@ import {
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 
+interface IEtapa {
+  nome: string;
+  data_fim: string;
+}
+
+interface IEditalAberto {
+  id: number;
+  nome: string;
+  etapa: IEtapa;
+  inscrito?: boolean;
+}
+
+interface IEditalEncerrado {
+  id: number;
+  nome: string;
+  inscrito?: boolean;
+}
+
+interface IEditais {
+  em_andamento: IEditalAberto[];
+  encerrados: IEditalEncerrado[];
+}
+
 export default function Home() {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
@@ -29,13 +52,12 @@ export default function Home() {
   };
 
   // Mockup *Temporário*
-  const editais = {
+  const editais: IEditais = {
     em_andamento: [
       {
         id: 1,
         nome: "Edital PGCOMP-09/2022",
-        etapa: { nome: "Inscrições Abertas", data_fim: "dd/mm/aaaa" },
-        inscrito: true,
+        etapa: { nome: "Inscrições abertas", data_fim: "dd/mm/aaaa" },
       },
       {
         id: 2,
@@ -44,7 +66,6 @@ export default function Home() {
           nome: "Análise de inscrições",
           data_fim: "dd/mm/aaaa",
         },
-        inscrito: false,
       },
     ],
     encerrados: [
@@ -55,6 +76,14 @@ export default function Home() {
     ],
   };
 
+  if (user) {
+    editais.em_andamento = editais.em_andamento.map((edital) => {
+      return { ...edital, inscrito: true };
+    });
+    editais.encerrados = editais.encerrados.map((edital) => {
+      return { ...edital, inscrito: true };
+    });
+  }
 
   return (
     <Grid
@@ -64,7 +93,25 @@ export default function Home() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      <Card sx={{ minWidth: { md: 500 }, maxWidth: 800 }}>
+      {user ? (
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          sx={{ width: "100%" }}
+        >
+          <Button type="button" onClick={logout} size="large">
+            Sair
+          </Button>
+        </Grid>
+      ) : (
+        <Button type="button" onClick={redirectToLogin} size="large">
+          Login
+        </Button>
+      )}
+
+      <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
         <CardHeader
           title="Processos Seletivos"
           titleTypographyProps={{
@@ -94,23 +141,25 @@ export default function Home() {
               </ListSubheader>
             }
           >
-            {editais.em_andamento.map((edital) => (
-              <ListItemButton key={edital.id} sx={{ mx: 2 }} divider>
+            {editais?.em_andamento?.map((edital) => (
+              <ListItemButton key={edital?.id} sx={{ mx: 2 }} divider>
                 <ListItemText>
                   <Grid
                     container
                     direction="row"
                     justifyContent="space-between"
                   >
-                    <Typography sx={{ fontSize: 14 }}>{edital.nome}</Typography>
-                    {edital.inscrito && (
+                    <Typography sx={{ fontSize: 14 }}>
+                      {edital?.nome}
+                    </Typography>
+                    {edital?.inscrito && user && (
                       <Typography sx={{ fontSize: 10, color: "primary.main" }}>
                         Você está inscrito
                       </Typography>
                     )}
                   </Grid>
                   <Typography sx={{ fontSize: 10, mr: 2 }}>
-                    {edital.etapa.nome} - Até {edital.etapa.data_fim}
+                    {edital?.etapa?.nome} - Até {edital?.etapa?.data_fim}
                   </Typography>
                 </ListItemText>
               </ListItemButton>
@@ -130,10 +179,10 @@ export default function Home() {
               </ListSubheader>
             }
           >
-            {editais.encerrados.map((edital) => (
-              <ListItemButton key={edital.id} sx={{ mx: 2 }} divider>
+            {editais?.encerrados?.map((edital) => (
+              <ListItemButton key={edital?.id} sx={{ mx: 2 }} divider>
                 <ListItemText>
-                  <Typography sx={{ fontSize: 14 }}>{edital.nome}</Typography>
+                  <Typography sx={{ fontSize: 14 }}>{edital?.nome}</Typography>
                   <Grid
                     container
                     direction="row"
@@ -149,27 +198,6 @@ export default function Home() {
           </List>
         </CardContent>
       </Card>
-      &nbsp;
-      {user ? (
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          sx={{ width: "100%" }}
-        >
-          <Typography variant="h3" align="center">
-            Hello, {user?.username}!
-          </Typography>
-          <Button type="button" onClick={logout} size="large">
-            Sair
-          </Button>
-        </Grid>
-      ) : (
-        <Button type="button" onClick={redirectToLogin} size="large">
-          Login
-        </Button>
-      )}
     </Grid>
   );
 }
