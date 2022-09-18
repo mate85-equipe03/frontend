@@ -1,6 +1,6 @@
 import React from "react";
 import { CardMedia, Grid, Link } from "@mui/material";
-import PosgressLogo from "../assets/posgress-horizontal.png";
+import PosgressLogo from "../assets/posgress-horizontal-azul.png";
 
 function Header() {
   return (

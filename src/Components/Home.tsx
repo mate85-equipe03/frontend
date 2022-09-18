@@ -142,22 +142,12 @@ export default function Home({ user, setUser }: Props) {
           <Typography variant="h3" align="center">
             Hello, {user}!
           </Typography>
-          <Button
-            type="button"
-            onClick={logout}
-            variant="contained"
-            size="large"
-          >
+          <Button type="button" onClick={logout} size="large">
             Sair
           </Button>
         </Grid>
       ) : (
-        <Button
-          type="button"
-          onClick={redirectToLogin}
-          variant="contained"
-          size="large"
-        >
+        <Button type="button" onClick={redirectToLogin} size="large">
           Login
         </Button>
       )}

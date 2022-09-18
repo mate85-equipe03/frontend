@@ -1,7 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ThemeProvider } from "@emotion/react";
+import { ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Login from "./Components/Login";
 import Header from "./Components/Header";
@@ -18,7 +18,7 @@ function App() {
       <Grid
         container
         sx={{
-          bgcolor: "primary.light",
+          bgcolor: "primary.main",
           height: 80,
           minWidth: 300,
           px: 4,
@@ -53,11 +53,12 @@ function App() {
       <Grid
         container
         sx={{
-          bgcolor: "primary.light",
+          bgcolor: "primary.main",
           minHeight: 80,
           minWidth: 300,
           px: 4,
           py: 2,
+          alignContent: "center",
         }}
       >
         <Grid item sx={{ width: "100%" }}>
