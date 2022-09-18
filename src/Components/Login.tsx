@@ -155,7 +155,8 @@ export default function Login({ setUser }: Props) {
           <Typography fontSize="12px" color="primary.contrastText">
             Não tem conta?
             <Link color="primary.light" href="#login">
-              Cadastre-se
+              {" "}
+              Cadastre-se{" "}
             </Link>
           </Typography>
           <Link color="primary.light" href="#senha" fontSize="12px">
