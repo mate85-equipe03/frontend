@@ -5,4 +5,4 @@ const getAllProcessosSeletivos = () => {
   return api.get<IEditaisReq>("/processos-seletivos");
 };
 
-export { getAllProcessosSeletivos };
+export default getAllProcessosSeletivos ;

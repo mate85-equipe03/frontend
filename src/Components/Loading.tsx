@@ -5,4 +5,5 @@ import { Typography } from "@mui/material";
 function Loading() {
   return <Typography align="center">Loading...</Typography>;
 }
+
 export default Loading;
