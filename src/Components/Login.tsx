@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { InfoOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import api from "../api";
+import api from "../services/Api";
 import UserContext from "../context/UserContext";
 
 interface ILoginData {
