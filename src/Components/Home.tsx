@@ -2,15 +2,12 @@ import React, { useContext } from "react";
 import {
   Button,
   Grid,
-  Typography,
   Card,
   CardHeader,
   CardContent,
   Divider,
   List,
   ListSubheader,
-  ListItemText,
-  ListItemButton,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
@@ -57,22 +54,14 @@ export default function Home() {
     em_andamento: [
       {
         id: 1,
-        nome: "Edital PGCOMP-09/2022",
-        etapa: { nome: "Inscrições abertas", data_fim: "dd/mm/aaaa" },
-      },
-      {
-        id: 2,
-        nome: "Edital PGCOMP-07/2022",
-        etapa: {
-          nome: "Análise de inscrições",
-          data_fim: "dd/mm/aaaa",
-        },
+        nome: "Edital PGCOMP-03/2022",
+        etapa: { nome: "Inscrições abertas", data_fim: "15/10/2021" },
       },
     ],
     encerrados: [
       {
         id: 1,
-        nome: "Edital PGCOMP-03/2022",
+        nome: "Edital PGCOMP-09/2022",
       },
     ],
   };
