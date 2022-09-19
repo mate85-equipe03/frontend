@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Button,
   Grid,
@@ -10,35 +10,17 @@ import {
   ListSubheader,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import UserContext from "../context/UserContext";
-import EditalItem from "../Components/EditalItem";
-
-interface IEtapa {
-  nome: string;
-  data_fim: string;
-}
-
-interface IEditalAberto {
-  id: number;
-  nome: string;
-  etapa: IEtapa;
-  inscrito?: boolean;
-}
-
-interface IEditalEncerrado {
-  id: number;
-  nome: string;
-  inscrito?: boolean;
-}
-
-interface IEditais {
-  em_andamento: IEditalAberto[];
-  encerrados: IEditalEncerrado[];
-}
+import UserContext from "../../context/UserContext";
+import EditalItem from "./Components/EditalItem";
+import { IEditais } from "./Types";
+import getAllProcessosSeletivos from "./Service";
+import Loading from "../../Components/Loading";
 
 export default function Home() {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
+  const [editais, setEditais] = useState<IEditais | undefined>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   const logout = () => {
     setUser(null);
@@ -50,31 +32,19 @@ export default function Home() {
     navigate("/login");
   };
 
-  // Mockup *Temporário*
-  const editais: IEditais = {
-    em_andamento: [
-      {
-        id: 1,
-        nome: "Edital PGCOMP-03/2022",
-        etapa: { nome: "Inscrições abertas", data_fim: "15/10/2022" },
-      },
-    ],
-    encerrados: [
-      {
-        id: 1,
-        nome: "Edital PGCOMP-09/2021",
-      },
-    ],
-  };
-
-  if (user) {
-    editais.em_andamento = editais.em_andamento.map((edital) => {
-      return { ...edital, inscrito: true };
-    });
-    editais.encerrados = editais.encerrados.map((edital) => {
-      return { ...edital, inscrito: true };
-    });
-  }
+  useEffect(() => {
+    setLoading(true);
+    getAllProcessosSeletivos()
+      .then(({ data }) => {
+        setEditais(data?.editais);
+      })
+      .catch(() => {
+        // TODO: Ver como exibir erros va View
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <Grid
@@ -110,6 +80,7 @@ export default function Home() {
             variant: "h4",
             p: 1,
           }}
+          sx={{ px: 3 }}
           subheader="Concessão de Bolsas de Mestrado e Doutorado"
           subheaderTypographyProps={{
             align: "center",
@@ -132,9 +103,16 @@ export default function Home() {
               </ListSubheader>
             }
           >
-            {editais?.em_andamento?.map((edital) => (
-              <EditalItem key={edital?.id} edital={edital} />
-            ))}
+            {/* 
+            TODO: Exibir componente padrão em caso de array vazio
+            */}
+            {loading ? (
+              <Loading />
+            ) : (
+              editais?.em_andamento?.map((edital) => (
+                <EditalItem key={edital?.id} edital={edital} />
+              ))
+            )}
           </List>
 
           <List
@@ -150,14 +128,19 @@ export default function Home() {
               </ListSubheader>
             }
           >
-            {editais?.encerrados?.map((edital) => (
-              <EditalItem key={edital?.id} edital={edital} />
-            ))}
+            {/* 
+            TODO: Exibir componente padrão em caso de array vazio
+            */}
+            {loading ? (
+              <Loading />
+            ) : (
+              editais?.arquivados?.map((edital) => (
+                <EditalItem key={edital?.id} edital={edital} />
+              ))
+            )}
           </List>
         </CardContent>
       </Card>
     </Grid>
   );
 }
-
-export type { IEditalAberto, IEditalEncerrado };
