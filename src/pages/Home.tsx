@@ -56,13 +56,13 @@ export default function Home() {
       {
         id: 1,
         nome: "Edital PGCOMP-03/2022",
-        etapa: { nome: "Inscrições abertas", data_fim: "15/10/2021" },
+        etapa: { nome: "Inscrições abertas", data_fim: "15/10/2022" },
       },
     ],
     encerrados: [
       {
         id: 1,
-        nome: "Edital PGCOMP-09/2022",
+        nome: "Edital PGCOMP-09/2021",
       },
     ],
   };
