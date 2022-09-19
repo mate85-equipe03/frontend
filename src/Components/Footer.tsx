@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, Typography, Grid, CardMedia } from "@mui/material";
 
-import PGCOMPLogo from "../assets/pgcomp.png";
+import PGCOMPLogo from "../assets/logos/pgcomp/sem-texto.png";
 
 function Footer() {
   return (
