@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
+import EditalItem from "./EditalItem";
 
 interface IEtapa {
   nome: string;
@@ -142,27 +143,7 @@ export default function Home() {
             }
           >
             {editais?.em_andamento?.map((edital) => (
-              <ListItemButton key={edital?.id} sx={{ mx: 2 }} divider>
-                <ListItemText>
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-between"
-                  >
-                    <Typography sx={{ fontSize: 14 }}>
-                      {edital?.nome}
-                    </Typography>
-                    {edital?.inscrito && user && (
-                      <Typography sx={{ fontSize: 10, color: "primary.main" }}>
-                        Você está inscrito
-                      </Typography>
-                    )}
-                  </Grid>
-                  <Typography sx={{ fontSize: 10, mr: 2 }}>
-                    {edital?.etapa?.nome} - Até {edital?.etapa?.data_fim}
-                  </Typography>
-                </ListItemText>
-              </ListItemButton>
+              <EditalItem key={edital?.id} edital={edital} />
             ))}
           </List>
 
@@ -180,20 +161,7 @@ export default function Home() {
             }
           >
             {editais?.encerrados?.map((edital) => (
-              <ListItemButton key={edital?.id} sx={{ mx: 2 }} divider>
-                <ListItemText>
-                  <Typography sx={{ fontSize: 14 }}>{edital?.nome}</Typography>
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-between"
-                  >
-                    <Typography sx={{ fontSize: 10 }}>
-                      Resultados disponíves
-                    </Typography>
-                  </Grid>
-                </ListItemText>
-              </ListItemButton>
+              <EditalItem key={edital?.id} edital={edital} />
             ))}
           </List>
         </CardContent>
@@ -201,3 +169,5 @@ export default function Home() {
     </Grid>
   );
 }
+
+export type { IEditalAberto, IEditalEncerrado };
