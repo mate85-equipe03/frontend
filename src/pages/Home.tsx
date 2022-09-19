@@ -84,24 +84,6 @@ export default function Home() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      {user ? (
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          sx={{ width: "100%" }}
-        >
-          <Button type="button" onClick={logout} size="large">
-            Sair
-          </Button>
-        </Grid>
-      ) : (
-        <Button type="button" onClick={redirectToLogin} size="large">
-          Login
-        </Button>
-      )}
-
       <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
         <CardHeader
           title="Processos Seletivos"
@@ -110,6 +92,7 @@ export default function Home() {
             variant: "h4",
             p: 1,
           }}
+          sx={{px:3}}
           subheader="Concessão de Bolsas de Mestrado e Doutorado"
           subheaderTypographyProps={{
             align: "center",

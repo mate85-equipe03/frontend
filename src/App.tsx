@@ -7,53 +7,57 @@ import Footer from "./Components/Footer";
 import theme from "./themes/DefaultTheme";
 import { UserContextProvider } from "./context/UserContext";
 import AppRoutes from "./routes/Routes";
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
   return (
     <UserContextProvider>
       <ThemeProvider theme={theme}>
-        <Grid
-          container
-          sx={{
-            bgcolor: "primary.main",
-            height: 80,
-            minWidth: 300,
-            px: 4,
-            py: 0.5,
-          }}
-        >
-          <Grid item sx={{ width: "100%" }}>
-            <Header />
+        <BrowserRouter>
+          <Grid
+            container
+            sx={{
+              bgcolor: "primary.main",
+              height: 80,
+              minWidth: 300,
+              px: 4,
+              py: 0.5,
+            }}
+          >
+            <Grid item sx={{ width: "100%" }}>
+              <Header />
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid
-          container
-          sx={{
-            minHeight: "calc(100vh - 160px)",
-            minWidth: 300,
-            px: 4,
-            py: 5,
-          }}
-        >
-          <Grid item sx={{ width: "100%" }}>
-            <AppRoutes />
+
+          <Grid
+            container
+            sx={{
+              minHeight: "calc(100vh - 160px)",
+              minWidth: 300,
+              px: 4,
+              py: 5,
+            }}
+          >
+            <Grid item sx={{ width: "100%" }}>
+              <AppRoutes />
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid
-          container
-          sx={{
-            bgcolor: "primary.main",
-            minHeight: 80,
-            minWidth: 300,
-            px: 4,
-            py: 2,
-            alignContent: "center",
-          }}
-        >
-          <Grid item sx={{ width: "100%" }}>
-            <Footer />
+          <Grid
+            container
+            sx={{
+              bgcolor: "primary.main",
+              minHeight: 80,
+              minWidth: 300,
+              px: 4,
+              py: 2,
+              alignContent: "center",
+            }}
+          >
+            <Grid item sx={{ width: "100%" }}>
+              <Footer />
+            </Grid>
           </Grid>
-        </Grid>
+        </BrowserRouter>
       </ThemeProvider>
     </UserContextProvider>
   );

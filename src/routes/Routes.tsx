@@ -10,13 +10,11 @@ import ProtectedRoutes from "./ProtectedRoutes";
 
 function AppRoutes() {
   return (
-    <BrowserRouter>
       <Routes>
         {GeneralRoutes}
         {AuthRoutes}
         {ProtectedRoutes}
       </Routes>
-    </BrowserRouter>
   );
 }
 

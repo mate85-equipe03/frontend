@@ -1,6 +1,6 @@
 import React from "react";
 import { RouteProps } from "react-router-dom";
-import Login from "../Components/Login";
+import Login from "../pages/Login";
 import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
 
