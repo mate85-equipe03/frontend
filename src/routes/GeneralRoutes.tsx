@@ -1,6 +1,6 @@
 import React from "react";
 import { RouteProps } from "react-router-dom";
-import Home from "../Components/Home";
+import Home from "../pages/Home";
 import PageNotFound from "../pages/PageNotFound";
 import { routeWithKey } from "./RoutesHelper";
 

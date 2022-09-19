@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, Typography, ListItemText, ListItemButton } from "@mui/material";
-import { IEditalAberto, IEditalEncerrado } from "./Home";
+import { IEditalAberto, IEditalEncerrado } from "../pages/Home";
 
 interface IProps {
   edital: IEditalAberto | IEditalEncerrado;
