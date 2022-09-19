@@ -30,9 +30,9 @@ export default function EditalItem({ edital }: IProps) {
         </Grid>
         <Typography sx={{ fontSize: 10, mr: 2 }}>
           {isEditalAberto
-            ? `${edital?.etapas[0]?.name} - Até ${dateToStr(
-                edital?.etapas[0]?.data_fim
-              )}`
+            ? `${edital?.etapas[0]?.name}
+            - Até 
+            ${dateToStr(edital?.etapas[0]?.data_fim)}`
             : "Resultados disponíveis"}
         </Typography>
       </ListItemText>
