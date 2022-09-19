@@ -10,6 +10,7 @@ export default function Home() {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
+    navigate("/");
   };
 
   const redirectToLogin = () => {
