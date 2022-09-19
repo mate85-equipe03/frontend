@@ -37,18 +37,7 @@ interface IEditais {
 }
 
 export default function Home() {
-  const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
-
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
-    navigate("/");
-  };
-
-  const redirectToLogin = () => {
-    navigate("/login");
-  };
 
   // Mockup *Temporário*
   const editais: IEditais = {
@@ -84,7 +73,7 @@ export default function Home() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
+      <Card sx={{ minWidth: { md: 500 }, maxWidth: 800 }}>
         <CardHeader
           title="Processos Seletivos"
           titleTypographyProps={{

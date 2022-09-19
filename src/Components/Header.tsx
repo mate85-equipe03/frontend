@@ -7,7 +7,6 @@ import UserContext from "../context/UserContext";
 function Header() {
   const navigate = useNavigate();
   const isLogin = useLocation().pathname === "/login";
-  console.log(location);
   const { user, setUser } = useContext(UserContext);
 
   const logout = () => {
@@ -40,7 +39,7 @@ function Header() {
 
         {!isLogin && (
           <Grid alignItems="center">
-            <Button type="button" onClick={user ? logout : redirectToLogin}>
+            <Button variant="outlined" color="secondary" type="button" onClick={user ? logout : redirectToLogin}>
               {user ? "Sair" : "Login"}
             </Button>            
           </Grid>
