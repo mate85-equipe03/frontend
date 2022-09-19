@@ -6,7 +6,7 @@ import { routesWithRedirect } from "./RoutesHelper";
 
 const authRoutes: RouteProps[] = [
   { path: "/login", element: <Login /> },
-  // { path: "/login-teste", element: <Login /> },
+  // exemplo: { path: "/login-teste", element: <Login /> },
 ];
 
 /*
