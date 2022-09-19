@@ -1,6 +1,4 @@
-import React from "react";
 import { RouteProps } from "react-router-dom";
-import Home from "../Components/Home";
 import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
 
@@ -13,10 +11,9 @@ TODO: Futuramente, desmembrar entre:
 */
 
 const protectedRoutes: RouteProps[] = [
-  // Exemplos:  
+  // Exemplos:
   // { path: "/estudante", element: <Home /> },
   // { path: "/estudante-teste", element: <Home /> },
-
 ];
 
 /*
