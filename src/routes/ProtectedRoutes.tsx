@@ -13,8 +13,10 @@ TODO: Futuramente, desmembrar entre:
 */
 
 const protectedRoutes: RouteProps[] = [
-  { path: "/estudante", element: <Home /> },
-  { path: "/estudante-teste", element: <Home /> },
+  // Exemplos:  
+  // { path: "/estudante", element: <Home /> },
+  // { path: "/estudante-teste", element: <Home /> },
+
 ];
 
 /*
