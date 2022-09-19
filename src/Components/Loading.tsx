@@ -2,7 +2,7 @@ import React from "react";
 import { Typography } from "@mui/material";
 
 // TODO: Ver um loading bonitinho
-function Footer() {
+function Loading() {
   return <Typography align="center">Loading...</Typography>;
 }
-export default Footer;
+export default Loading;
