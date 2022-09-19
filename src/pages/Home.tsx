@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import {
-  Button,
   Grid,
   Card,
   CardHeader,
@@ -9,7 +8,6 @@ import {
   List,
   ListSubheader,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import EditalItem from "../Components/EditalItem";
 
@@ -37,7 +35,7 @@ interface IEditais {
 }
 
 export default function Home() {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   // Mockup *Temporário*
   const editais: IEditais = {
@@ -81,7 +79,7 @@ export default function Home() {
             variant: "h4",
             p: 1,
           }}
-          sx={{px:3}}
+          sx={{ px: 3 }}
           subheader="Concessão de Bolsas de Mestrado e Doutorado"
           subheaderTypographyProps={{
             align: "center",

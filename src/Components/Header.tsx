@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Button, CardMedia, Grid, Link } from "@mui/material";
-import PosgressLogo from "../assets/logos/posgress/horizontal-fundo-escuro.png";
 import { useNavigate, useLocation } from "react-router-dom";
+import PosgressLogo from "../assets/logos/posgress/horizontal-fundo-escuro.png";
 import UserContext from "../context/UserContext";
 
 function Header() {
@@ -39,9 +39,14 @@ function Header() {
 
         {!isLogin && (
           <Grid alignItems="center">
-            <Button variant="outlined" color="secondary" type="button" onClick={user ? logout : redirectToLogin}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              type="button"
+              onClick={user ? logout : redirectToLogin}
+            >
               {user ? "Sair" : "Login"}
-            </Button>            
+            </Button>
           </Grid>
         )}
       </Grid>

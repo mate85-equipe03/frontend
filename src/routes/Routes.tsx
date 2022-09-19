@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes } from "react-router-dom";
+import { Routes } from "react-router-dom";
 import AuthRoutes from "./AuthRoutes";
 import GeneralRoutes from "./GeneralRoutes";
 import ProtectedRoutes from "./ProtectedRoutes";
@@ -10,11 +10,11 @@ import ProtectedRoutes from "./ProtectedRoutes";
 
 function AppRoutes() {
   return (
-      <Routes>
-        {GeneralRoutes}
-        {AuthRoutes}
-        {ProtectedRoutes}
-      </Routes>
+    <Routes>
+      {GeneralRoutes}
+      {AuthRoutes}
+      {ProtectedRoutes}
+    </Routes>
   );
 }
 

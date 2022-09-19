@@ -2,12 +2,12 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
+import { BrowserRouter } from "react-router-dom";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import theme from "./themes/DefaultTheme";
 import { UserContextProvider } from "./context/UserContext";
 import AppRoutes from "./routes/Routes";
-import { BrowserRouter } from "react-router-dom";
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 
-const hoverColor = "#538dff"
+const hoverColor = "#538dff";
 
 const paletteTheme = createTheme({
   palette: {
@@ -74,17 +74,17 @@ const theme = createTheme(paletteTheme, {
       },
       variants: [
         {
-          props: { variant: 'outlined', color: 'secondary' },
+          props: { variant: "outlined", color: "secondary" },
           style: {
             borderColor: paletteTheme.palette.primary.light,
             color: paletteTheme.palette.primary.light,
             ":hover": {
               borderColor: hoverColor,
               color: hoverColor,
-            }
+            },
           },
         },
-      ]
+      ],
     },
   },
 });
