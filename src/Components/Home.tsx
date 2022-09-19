@@ -61,7 +61,7 @@ export default function Home() {
     encerrados: [
       {
         id: 1,
-        nome: "Edital PGCOMP-09/2022",
+        nome: "Edital PGCOMP-09/2021",
       },
     ],
   };
