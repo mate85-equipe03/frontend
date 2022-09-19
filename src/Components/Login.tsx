@@ -14,10 +14,9 @@ import {
   InputLabel,
   Link,
   OutlinedInput,
-  Tooltip,
   Typography,
 } from "@mui/material";
-import { InfoOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import api from "../services/Api";
 import UserContext from "../context/UserContext";
@@ -101,24 +100,15 @@ export default function Login() {
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
           <form id="login-form" onSubmit={sendForm}>
             <FormControl required fullWidth margin="normal">
-              <InputLabel htmlFor="login">Login</InputLabel>
+              <InputLabel htmlFor="login">Matrícula/SIAPE</InputLabel>
               <OutlinedInput
                 id="login"
                 name="username"
-                label="Login"
-                placeholder="Digite seu login"
+                label="Matrícula/SIAPE"
+                placeholder="Digite sua Matrícula/SIAPE"
                 type="text"
                 value={loginData.username}
                 onChange={handleChange()}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <Tooltip title="Discentes devem informar a matrícula. Docentes devem informar o SIAPE.">
-                      <IconButton>
-                        <InfoOutlined />
-                      </IconButton>
-                    </Tooltip>
-                  </InputAdornment>
-                }
               />
             </FormControl>
             <FormControl required fullWidth margin="normal">
