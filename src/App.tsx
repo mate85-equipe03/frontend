@@ -1,14 +1,12 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
-import Login from "./Components/Login";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
-import theme from "./Theme";
-import Home from "./Components/Home";
+import theme from "./themes/DefaultTheme";
 import { UserContextProvider } from "./context/UserContext";
+import AppRoutes from "./routes/Routes";
 
 function App() {
   return (
@@ -38,12 +36,7 @@ function App() {
           }}
         >
           <Grid item sx={{ width: "100%" }}>
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-              </Routes>
-            </BrowserRouter>
+            <AppRoutes />
           </Grid>
         </Grid>
         <Grid
