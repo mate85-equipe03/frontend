@@ -16,7 +16,7 @@ import {
   OutlinedInput,
   Typography,
 } from "@mui/material";
-import { InfoOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import api from "../services/Api";
 import UserContext from "../context/UserContext";
