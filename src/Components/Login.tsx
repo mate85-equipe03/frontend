@@ -14,7 +14,6 @@ import {
   InputLabel,
   Link,
   OutlinedInput,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import { InfoOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
@@ -110,15 +109,6 @@ export default function Login() {
                 type="text"
                 value={loginData.username}
                 onChange={handleChange()}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <Tooltip title="Discentes devem informar a matrícula. Docentes devem informar o SIAPE.">
-                      <IconButton>
-                        <InfoOutlined />
-                      </IconButton>
-                    </Tooltip>
-                  </InputAdornment>
-                }
               />
             </FormControl>
             <FormControl required fullWidth margin="normal">
