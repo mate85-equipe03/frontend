@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
+import moment from "moment";
 import { Grid, Typography, ListItemText, ListItemButton } from "@mui/material";
 import { IEdital } from "../Types";
 import UserContext from "../../../context/UserContext";
-import moment from "moment";
 
 interface IProps {
   edital: IEdital;
@@ -10,7 +10,7 @@ interface IProps {
 
 export default function EditalItem({ edital }: IProps) {
   const isEditalAberto = edital.etapas.length > 0;
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const dateToStr = (rawDate: string) => {
     const date = moment(rawDate);

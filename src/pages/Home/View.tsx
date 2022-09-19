@@ -38,9 +38,8 @@ export default function Home() {
       .then(({ data }) => {
         setEditais(data?.editais);
       })
-      .catch((e) => {
+      .catch(() => {
         // TODO: Ver como exibir erros va View
-        console.error(e);
       })
       .finally(() => {
         setLoading(false);

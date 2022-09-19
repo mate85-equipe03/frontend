@@ -7,7 +7,7 @@ export interface IEdital {
   id: number;
   titulo: string;
   etapas: IEtapa[];
-  //inscrito?: boolean;
+  // inscrito?: boolean;
 }
 
 // export interface IEditalAberto {
