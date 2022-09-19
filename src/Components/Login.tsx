@@ -100,12 +100,12 @@ export default function Login() {
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
           <form id="login-form" onSubmit={sendForm}>
             <FormControl required fullWidth margin="normal">
-              <InputLabel htmlFor="login">Login</InputLabel>
+              <InputLabel htmlFor="login">Matrícula/SIAPE</InputLabel>
               <OutlinedInput
                 id="login"
                 name="username"
-                label="Login"
-                placeholder="Digite seu login"
+                label="Matrícula/SIAPE"
+                placeholder="Digite sua Matrícula/SIAPE"
                 type="text"
                 value={loginData.username}
                 onChange={handleChange()}
