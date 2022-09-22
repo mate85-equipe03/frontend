@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   Card,
@@ -8,34 +8,28 @@ import {
   List,
   ListSubheader,
 } from "@mui/material";
-import UserContext from "../context/UserContext";
-import EditalItem from "../Components/EditalItem";
-
-interface IEtapa {
-  nome: string;
-  data_fim: string;
-}
-
-interface IEditalAberto {
-  id: number;
-  nome: string;
-  etapa: IEtapa;
-  inscrito?: boolean;
-}
-
-interface IEditalEncerrado {
-  id: number;
-  nome: string;
-  inscrito?: boolean;
-}
-
-interface IEditais {
-  em_andamento: IEditalAberto[];
-  encerrados: IEditalEncerrado[];
-}
+import { useNavigate } from "react-router-dom";
+import UserContext from "../../context/UserContext";
+import EditalItem from "./Components/EditalItem";
+import { IEditais } from "./Types";
+import getAllProcessosSeletivos from "./Service";
+import Loading from "../../Components/Loading";
 
 export default function Home() {
-  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
+  const [editais, setEditais] = useState<IEditais | undefined>();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+    navigate("/");
+  };
+
+  const redirectToLogin = () => {
+    navigate("/login");
+  };
 
   // Mockup *Temporário*
   const editais: IEditais = {
@@ -61,7 +55,7 @@ export default function Home() {
     editais.encerrados = editais.encerrados.map((edital) => {
       return { ...edital, inscrito: true };
     });
-  }
+  }, []);
 
   return (
     <Grid
@@ -102,9 +96,16 @@ export default function Home() {
               </ListSubheader>
             }
           >
-            {editais?.em_andamento?.map((edital) => (
-              <EditalItem key={edital?.id} edital={edital} />
-            ))}
+            {/* 
+            TODO: Exibir componente padrão em caso de array vazio
+            */}
+            {loading ? (
+              <Loading />
+            ) : (
+              editais?.em_andamento?.map((edital) => (
+                <EditalItem key={edital?.id} edital={edital} />
+              ))
+            )}
           </List>
 
           <List
@@ -120,14 +121,19 @@ export default function Home() {
               </ListSubheader>
             }
           >
-            {editais?.encerrados?.map((edital) => (
-              <EditalItem key={edital?.id} edital={edital} />
-            ))}
+            {/* 
+            TODO: Exibir componente padrão em caso de array vazio
+            */}
+            {loading ? (
+              <Loading />
+            ) : (
+              editais?.arquivados?.map((edital) => (
+                <EditalItem key={edital?.id} edital={edital} />
+              ))
+            )}
           </List>
         </CardContent>
       </Card>
     </Grid>
   );
 }
-
-export type { IEditalAberto, IEditalEncerrado };
