@@ -31,6 +31,9 @@ export default function Home() {
   const redirectToLogin = () => {
     navigate("/login");
   };
+  const redirectToDetails = () => {
+    navigate("/detalhes-edital");
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -110,7 +113,7 @@ export default function Home() {
               <Loading />
             ) : (
               editais?.em_andamento?.map((edital) => (
-                <EditalItem key={edital?.id} edital={edital} />
+                <EditalItem key={edital?.id} edital={edital} onClick={redirectToDetails}/>
               ))
             )}
           </List>
@@ -135,7 +138,7 @@ export default function Home() {
               <Loading />
             ) : (
               editais?.arquivados?.map((edital) => (
-                <EditalItem key={edital?.id} edital={edital} />
+                <EditalItem key={edital?.id} edital={edital} onClick={redirectToDetails}/>
               ))
             )}
           </List>
