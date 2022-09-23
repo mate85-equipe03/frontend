@@ -113,7 +113,11 @@ export default function Home() {
               <Loading />
             ) : (
               editais?.em_andamento?.map((edital) => (
-                <EditalItem key={edital?.id} edital={edital} onClick={redirectToDetails}/>
+                <EditalItem
+                  key={edital?.id}
+                  edital={edital}
+                  onClick={redirectToDetails}
+                />
               ))
             )}
           </List>
@@ -138,7 +142,11 @@ export default function Home() {
               <Loading />
             ) : (
               editais?.arquivados?.map((edital) => (
-                <EditalItem key={edital?.id} edital={edital} onClick={redirectToDetails}/>
+                <EditalItem
+                  key={edital?.id}
+                  edital={edital}
+                  onClick={redirectToDetails}
+                />
               ))
             )}
           </List>

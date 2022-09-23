@@ -8,7 +8,7 @@ import EditalDetails from "../pages/EditalDetails/View";
 const generalRoutes: RouteProps[] = [
   { path: "/", element: <Home /> },
   { path: "*", element: <PageNotFound /> },
-  {path: "/detalhes-edital", element: <EditalDetails />},
+  { path: "/detalhes-edital", element: <EditalDetails /> },
 ];
 
 const GeneralRoutes = generalRoutes.map((route) => {
