@@ -21,7 +21,7 @@ export default function Home() {
   const { user, setUser } = useContext(UserContext);
   const [editais, setEditais] = useState<IEditais | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
-
+  
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
@@ -31,8 +31,9 @@ export default function Home() {
   const redirectToLogin = () => {
     navigate("/login");
   };
-  const redirectToDetails = () => {
-    navigate("/detalhes-edital");
+  const redirectToDetails = (edital_id:number) => {
+    navigate("/detalhes-edital/"+ edital_id);
+    //navigate("/detalhes-edital/1");
   };
 
   useEffect(() => {
@@ -116,7 +117,7 @@ export default function Home() {
                 <EditalItem
                   key={edital?.id}
                   edital={edital}
-                  onClick={redirectToDetails}
+                  onClick={()=>redirectToDetails(edital.id)}
                 />
               ))
             )}
@@ -145,7 +146,7 @@ export default function Home() {
                 <EditalItem
                   key={edital?.id}
                   edital={edital}
-                  onClick={redirectToDetails}
+                  onClick={() => redirectToDetails(edital.id)}
                 />
               ))
             )}
