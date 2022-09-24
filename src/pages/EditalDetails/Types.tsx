@@ -9,5 +9,6 @@ export interface IDetails {
   semestre: string;
   descricao: string;
   edital_url: string;
+  arquivado: boolean;
   etapas: IEtapa[];
 }
