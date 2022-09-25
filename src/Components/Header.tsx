@@ -45,7 +45,6 @@ function Header() {
                 Login
               </Button>
             )}
-          </Grid>
         )}
       </Grid>
     </header>
