@@ -33,7 +33,7 @@ function Header() {
           />
         </Link>
         {!isLogin && (
-          <Grid alignItems="center">
+          <Grid>
             {user ? (
               <AccountMenu />
             ) : (

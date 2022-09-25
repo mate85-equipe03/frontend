@@ -15,7 +15,7 @@ import UserContext from "../context/UserContext";
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const isMenuOpen = Boolean(anchorEl);
   const navigate = useNavigate();
   const { user, setUser } = React.useContext(UserContext);
 
@@ -45,9 +45,9 @@ export default function AccountMenu() {
             onClick={handleClick}
             size="small"
             sx={{ ml: 2 }}
-            aria-controls={open ? "account-menu" : undefined}
+            aria-controls={isMenuOpen ? "account-menu" : undefined}
             aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
+            aria-expanded={isMenuOpen ? "true" : undefined}
           >
             <Avatar>{user && stringAvatar(user?.username)} </Avatar>
           </IconButton>
@@ -56,9 +56,10 @@ export default function AccountMenu() {
       <Menu
         anchorEl={anchorEl}
         id="account-menu"
-        open={open}
+        open={isMenuOpen}
         onClose={handleClose}
         PaperProps={{
+          // TODO: Colocar essas estilizações em outro arquivo para não poluir o .tsx
           elevation: 0,
           sx: {
             overflow: "visible",
