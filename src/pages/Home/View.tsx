@@ -31,32 +31,6 @@ export default function Home() {
     navigate("/login");
   };
 
-  // Mockup *Temporário*
-  const editais: IEditais = {
-    em_andamento: [
-      {
-        id: 1,
-        nome: "Edital PGCOMP-03/2022",
-        etapa: { nome: "Inscrições abertas", data_fim: "15/10/2022" },
-      },
-    ],
-    encerrados: [
-      {
-        id: 1,
-        nome: "Edital PGCOMP-09/2021",
-      },
-    ],
-  };
-
-  if (user) {
-    editais.em_andamento = editais.em_andamento.map((edital) => {
-      return { ...edital, inscrito: true };
-    });
-    editais.encerrados = editais.encerrados.map((edital) => {
-      return { ...edital, inscrito: true };
-    });
-  }, []);
-
   return (
     <Grid
       container
