@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Button,
   Grid,
@@ -10,25 +10,16 @@ import {
   ListSubheader,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import UserContext from "../../context/UserContext";
 import EditalItem from "./Components/EditalItem";
 import { IEditais } from "./Types";
 import getAllProcessosSeletivos from "./Service";
 import Loading from "../../Components/Loading";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [editais, setEditais] = useState<IEditais | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
-    navigate("/");
-  };
-
-  const redirectToLogin = () => {
-    navigate("/login");
-  };
   const redirectToDetails = (edital_id: number) => {
     navigate(`/detalhes-edital/${edital_id}`);
   };
