@@ -33,7 +33,6 @@ function Header() {
           />
         </Link>
         {!isLogin && (
-          <Grid>
             {user ? (
               <AccountMenu />
             ) : (
