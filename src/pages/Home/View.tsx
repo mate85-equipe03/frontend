@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Grid,
@@ -17,8 +17,6 @@ import getAllProcessosSeletivos from "./Service";
 import Loading from "../../Components/Loading";
 
 export default function Home() {
-  const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
   const [editais, setEditais] = useState<IEditais | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -57,25 +55,7 @@ export default function Home() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      {user ? (
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          sx={{ width: "100%" }}
-        >
-          <Button type="button" onClick={logout} size="large">
-            Sair
-          </Button>
-        </Grid>
-      ) : (
-        <Button type="button" onClick={redirectToLogin} size="large">
-          Login
-        </Button>
-      )}
-
-      <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
+      <Card sx={{ minWidth: { md: 500 }, maxWidth: 800 }}>
         <CardHeader
           title="Processos Seletivos"
           titleTypographyProps={{
