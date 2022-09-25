@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   Card,
@@ -8,28 +8,28 @@ import {
   List,
   ListSubheader,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import UserContext from "../../context/UserContext";
 import EditalItem from "./Components/EditalItem";
 import { IEditais } from "./Types";
 import getAllProcessosSeletivos from "./Service";
 import Loading from "../../Components/Loading";
 
 export default function Home() {
-  const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
   const [editais, setEditais] = useState<IEditais | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
-    navigate("/");
-  };
-
-  const redirectToLogin = () => {
-    navigate("/login");
-  };
+  useEffect(() => {
+    setLoading(true);
+    getAllProcessosSeletivos()
+      .then(({ data }) => {
+        setEditais(data?.editais);
+      })
+      .catch(() => {
+        // TODO: Ver como exibir erros va View
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <Grid
