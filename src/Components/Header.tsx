@@ -32,20 +32,19 @@ function Header() {
             sx={{ height: "100%" }}
           />
         </Link>
-        {!isLogin && (
-            {user ? (
-              <AccountMenu />
-            ) : (
-              <Button
-                variant="outlined"
-                color="secondary"
-                type="button"
-                onClick={redirectToLogin}
-              >
-                Login
-              </Button>
-            )}
-        )}
+        {!isLogin &&
+          (user ? (
+            <AccountMenu />
+          ) : (
+            <Button
+              variant="outlined"
+              color="secondary"
+              type="button"
+              onClick={redirectToLogin}
+            >
+              Login
+            </Button>
+          ))}
       </Grid>
     </header>
   );
