@@ -1,25 +1,34 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  Button,
+  Grid,
+  Link,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import moment from "moment";
 import UserContext from "../../context/UserContext";
 import { IDetails } from "./Types";
 import getDetailsProcessoSeletivo from "./Service";
-import { Button, Grid, Typography } from "@mui/material";
-import { useParams } from 'react-router-dom';
 
 export default function EditalDetails() {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();
-  //const [loading, setLoading] = useState<boolean>(true); Definir se faz sentido usar
+  // const [loading, setLoading] = useState<boolean>(true); Definir se faz sentido usar
   const [isInscrito, setIsInscrito] = useState<boolean>(true);
-  const {edital_id} = useParams();
+  const { edital_id } = useParams();
 
-  const redirectToSubscribe  = () => {
-    navigate("/definir"); //Definir rota de inscrição
+  const redirectToSubscribe = () => {
+    navigate("/definir"); // Definir rota de inscrição
   };
 
   useEffect(() => {
-    //setLoading(true);
+    // setLoading(true);
     getDetailsProcessoSeletivo(edital_id)
       .then(({ data }) => {
         setEdital(data);
@@ -28,50 +37,66 @@ export default function EditalDetails() {
         // TODO: Ver como exibir erros va View
       })
       .finally(() => {
-        //setLoading(false);
+        // setLoading(false);
       });
   }, []);
+
+  const dateToStr = (rawDate: string) => {
+    const date = moment(rawDate);
+    return date.format("DD/MM/YYYY");
+  };
+
   return (
-    <div>
-      <h2>{edital?.titulo}</h2>
-      <h2>{edital?.descricao}</h2>
-      <h2>{edital?.semestre}</h2>
-      <h2>{edital?.edital_url}</h2>
-      {edital?.arquivado ?(
-        <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        sx={{ width: "100%" }}
-      >
+    <Grid
+      container
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      sx={{ width: "100%" }}
+    >
+      <Typography sx={{ fontSize: 40, color: "primary.main" }}>
+        {edital?.titulo}
+      </Typography>
+      <Typography sx={{ fontSize: 30, color: "primary.main" }}>
+        {edital?.descricao}
+      </Typography>
+      <List>
+        {edital?.etapas.map((etapa) => (
+          <ListItem disablePadding>
+            <ListItemText
+              primary={`${etapa.name} : ${dateToStr(etapa.data_inicio)} a 
+                ${dateToStr(etapa.data_fim)}`}
+            />
+          </ListItem>
+        ))}
+      </List>
+      <Link href={edital?.edital_url} underline="none" target="_blank">
+        <PictureAsPdfIcon />
+        {`${edital?.titulo}.pdf`}
+      </Link>
+      {edital?.arquivado ? (
         <Typography sx={{ fontSize: 20, color: "primary.main" }}>
-        Resultados disponíveis
+          Resultados disponíveis
         </Typography>
-      </Grid>
-        
       ) : (
-        
-          <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            sx={{ width: "100%" }}
-          >
-            {(user && isInscrito) ?(
-              <Typography sx={{ fontSize: 20, color: "primary.main" }}>
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          sx={{ width: "100%" }}
+        >
+          {user && isInscrito ? (
+            <Typography sx={{ fontSize: 20, color: "primary.main" }}>
               Inscrito(a)
-              </Typography>
-            ) : (
-              <Button type="button" onClick={redirectToSubscribe} size="large">
+            </Typography>
+          ) : (
+            <Button type="button" onClick={redirectToSubscribe} size="large">
               Inscreva-se
-              </Button>
-            )}
-            
-          </Grid>    
+            </Button>
+          )}
+        </Grid>
       )}
-      
-    </div>
+    </Grid>
   );
 }
