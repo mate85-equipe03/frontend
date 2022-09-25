@@ -6,8 +6,7 @@ import UserContext from "../../../context/UserContext";
 
 interface IProps {
   edital: IEdital;
-  // onClick: React.MouseEventHandler<HTMLDivElement>;
-  onClick: any;
+   onClick: React.MouseEventHandler<HTMLDivElement>;
 }
 
 export default function EditalItem({ edital, onClick }: IProps) {

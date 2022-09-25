@@ -33,7 +33,6 @@ export default function Home() {
   };
   const redirectToDetails = (edital_id: number) => {
     navigate(`/detalhes-edital/${edital_id}`);
-    // navigate("/detalhes-edital/1");
   };
 
   useEffect(() => {
