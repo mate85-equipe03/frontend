@@ -34,14 +34,12 @@ export default function Recuperar() {
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    api
-      .post("/????", recoverData)
-      .then(() => {
-        navigate("/");
-      })
-      //.then(() => {
-      //  console.log(recoverData);
-      //});
+    api.post("/????", recoverData).then(() => {
+      navigate("/");
+    });
+    // .then(() => {
+    //  console.log(recoverData);
+    // });
     // .catch(() => {});
   };
 

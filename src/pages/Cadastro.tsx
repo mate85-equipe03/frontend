@@ -75,9 +75,9 @@ export default function Cadastro() {
       // .then(() => {
       //  console.log(signUpData);
       // })
-      //.catch(() => {
-      //  setSignUpError(true);
-      //});
+      .catch(() => {
+        setSignUpError(true);
+      });
   };
 
   return (
