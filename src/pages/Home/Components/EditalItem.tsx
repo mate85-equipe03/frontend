@@ -6,9 +6,10 @@ import UserContext from "../../../context/UserContext";
 
 interface IProps {
   edital: IEdital;
+  onClick: React.MouseEventHandler<HTMLDivElement>;
 }
 
-export default function EditalItem({ edital }: IProps) {
+export default function EditalItem({ edital, onClick }: IProps) {
   const isEditalAberto = edital.etapas.length > 0;
   const { user } = useContext(UserContext);
 
@@ -18,7 +19,7 @@ export default function EditalItem({ edital }: IProps) {
   };
 
   return (
-    <ListItemButton sx={{ mx: 2 }} divider>
+    <ListItemButton sx={{ mx: 2 }} divider onClick={onClick}>
       <ListItemText>
         <Grid container direction="row" justifyContent="space-between">
           <Typography sx={{ fontSize: 14 }}>{edital?.titulo}</Typography>
