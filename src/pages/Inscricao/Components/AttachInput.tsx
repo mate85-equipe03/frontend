@@ -9,12 +9,13 @@ import {
 } from "@mui/material";
 import { Add, Delete } from "@mui/icons-material";
 import AttachedFile from "./AttachedFile";
+import { IFile } from "../Interfaces";
 
 interface IProps {
   inputName: string;
   label: string;
-  files: FileList | null;
-  setFiles: (files: FileList | null) => void;
+  files: IFile[];
+  setFiles: (files: IFile[]) => void;
 }
 
 export default function AttachInput({
@@ -26,14 +27,12 @@ export default function AttachInput({
   const hasFiles = files && files.length !== 0;
 
   const deleteFile = (indexToDelete: number) => {
-    const filteredArray = files
-      ? Array.from(files)?.filter((_, index) => index !== indexToDelete)
-      : null;
-    // setFiles(filteredArray);
+    const filteredArray = files.filter((file) => file.id !== indexToDelete);
+    setFiles(filteredArray);
   };
 
   const deleteAllFiles = () => {
-    setFiles(null);
+    setFiles([]);
   };
 
   return (
@@ -90,11 +89,11 @@ export default function AttachInput({
       ) : (
         <>
           <List aria-labelledby={label} sx={{ pb: 0 }}>
-            {Array.from(files)?.map((file, index) => (
+            {Array.from(files)?.map((file) => (
               <AttachedFile
-                key={index}
-                fileKey={index}
-                fileName={file?.name}
+                key={file.id}
+                fileKey={file.id}
+                fileName={file.fileData.name}
                 deleteFile={deleteFile}
               />
             ))}

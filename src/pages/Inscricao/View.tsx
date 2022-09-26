@@ -15,8 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import AttachInput from "./Components/AttachInput";
-import { IInscricaoData } from "./Interfaces";
-import Attach from "./Components/Attach";
+import { IInscricaoData, IFile } from "./Interfaces";
 
 const requiredCheckboxes = [
   "Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na Resolução 01/2022 - PGCOMP.",
@@ -24,35 +23,32 @@ const requiredCheckboxes = [
   "Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso.",
 ];
 
-
 export default function Inscricao() {
   const [countFiles, setCountFiles] = React.useState<number>(0);
 
   const [inscricaoData, setInscricaoData] = React.useState<IInscricaoData>({
-    historicosGraduacao: null,
-    historicosPosGraduacao: null,
-    producoesCientificas: null,
+    historicosGraduacao: [],
+    historicosPosGraduacao: [],
+    producoesCientificas: [],
     enade: "",
     checkboxes: [false, false, false], // TODO: Ver como deixar a quantidade variável (não sempre 3)
   });
 
-  const setHistoricosGraduacao = (historicosGraduacao: FileList | null) => {
+  const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
     setInscricaoData({
       ...inscricaoData,
       historicosGraduacao,
     });
   };
 
-  const setHistoricosPosGraduacao = (
-    historicosPosGraduacao: FileList | null
-  ) => {
+  const setHistoricosPosGraduacao = (historicosPosGraduacao: IFile[]) => {
     setInscricaoData({
       ...inscricaoData,
       historicosPosGraduacao,
     });
   };
 
-  const setProducoesCientificas = (producoesCientificas: FileList | null) => {
+  const setProducoesCientificas = (producoesCientificas: IFile[]) => {
     setInscricaoData({
       ...inscricaoData,
       producoesCientificas,
@@ -70,16 +66,17 @@ export default function Inscricao() {
   };
 
   const handleFileInputChange = (event: React.ChangeEvent<HTMLFormElement>) => {
-    const newFiles = event.target.files;
+    // const newFiles = event.target.files;
     const previousFiles =
       inscricaoData[event.target.name as keyof IInscricaoData];
 
-    if (!previousFiles) {
-      setInscricaoData({
-        ...inscricaoData,
-        [event.target.name]: newFiles,
+    const eventFiles = event.target.files;
+    let currentCount = countFiles;
+    if (eventFiles) {
+      const newFiles = Array.from(eventFiles)?.map((file) => {
+        return { id: ++currentCount, fileData: file };
       });
-    } else {
+      setCountFiles(currentCount);
       setInscricaoData({
         ...inscricaoData,
         [event.target.name]: [...previousFiles, ...newFiles],
@@ -102,7 +99,7 @@ export default function Inscricao() {
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // console.log(inscricaoData);
+    console.log(inscricaoData);
   };
 
   return (
@@ -135,16 +132,6 @@ export default function Inscricao() {
             onChange={handleFormChange}
             onSubmit={sendForm}
           >
-            <FormControl required fullWidth margin="normal">
-              <Attach
-                inputName="inputFile"
-                label="input file"
-                countFiles={countFiles}
-                setCountFiles={setCountFiles}
-                // files={}
-                // setFiles={}
-              />
-            </FormControl>
 
             <FormControl required fullWidth margin="normal">
               {/* Visível apenas para mestrandos calouros  */}
