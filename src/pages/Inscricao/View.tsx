@@ -1,5 +1,6 @@
 import {
   Grid,
+  Button,
   Card,
   CardHeader,
   CardContent,
@@ -37,11 +38,33 @@ export default function Inscricao() {
 
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
           <form id="inscricao-form">
-
-            <AttachInput name={"Histórico acadêmico de curso(s) de graduação"} />
-
             <FormControl required fullWidth margin="normal">
               {/* Visível apenas para mestrandos calouros  */}
+              <AttachInput
+                name={"Histórico acadêmico de curso(s) de graduação"}
+              />
+            </FormControl>
+
+            <FormControl required fullWidth margin="normal">
+              <AttachInput
+                name={
+                  "Histórico acadêmico de curso(s) de Pós-Graduação Strictu Sensu ou comprovação de disciplinas cursadas"
+                }
+              />
+            </FormControl>
+
+            <FormControl required fullWidth margin="normal">
+              {/* Será gerado pelo sistema - abrir popup */}
+              <AttachInput name={"Produções Científicas"} />
+            </FormControl>
+
+            <FormControl required fullWidth margin="normal">
+              <AttachInput
+                name={"Publicações em PDF listadas no currículo lattes"}
+              />
+            </FormControl>
+
+            <FormControl required fullWidth margin="normal">
               <InputLabel htmlFor="enade">
                 Link para o ENADE do seu curso de graduação
               </InputLabel>
@@ -55,6 +78,16 @@ export default function Inscricao() {
                 //onChange={}
               />
             </FormControl>
+            <Grid
+              container
+              direction="row"
+              justifyContent="flex-end"
+              sx={{ mt: 1 }}
+            >
+              <Button type="submit" form="inscricao-form" size="large">
+                Enviar
+              </Button>
+            </Grid>
           </form>
         </CardContent>
       </Card>

@@ -6,7 +6,7 @@ interface IProps {
 
 export default function AttachedFile({ fileName }: IProps) {
   return (
-    <ListItem sx={{border:1, my:1, borderRadius:1 }}>
+    <ListItem sx={{border:1, my:1, py:2, borderRadius:1 }}>
         <Typography variant="body2"> {fileName} </Typography>
     </ListItem>
 

@@ -38,9 +38,9 @@ export default function AttachInput({ name }: IProps) {
           <Button
             variant="outlined"
             component="label"
-            sx={{ textTransform: "initial"}}
+            sx={{ textTransform: "initial", py:1}}
           >
-            Adicionar arquivo(s)
+            Alterar arquivo(s)
             <input type="file" multiple hidden onChange={handleChange} />
           </Button>
         </Grid>
@@ -49,7 +49,7 @@ export default function AttachInput({ name }: IProps) {
           variant="outlined"
           component="label"
           fullWidth
-          sx={{ textTransform: "initial" }}
+          sx={{ textTransform: "initial", py:2 }}
         >
           Anexar arquivo(s)
           <input type="file" multiple hidden onChange={handleChange} />
