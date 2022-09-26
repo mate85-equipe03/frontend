@@ -8,14 +8,20 @@ import {
   List,
   ListSubheader,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import EditalItem from "./Components/EditalItem";
 import { IEditais } from "./Types";
 import getAllProcessosSeletivos from "./Service";
 import Loading from "../../Components/Loading";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [editais, setEditais] = useState<IEditais | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
+
+  const redirectToDetails = (editalId: number) => {
+    navigate(`/detalhes-edital/${editalId}`);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -77,7 +83,11 @@ export default function Home() {
               <Loading />
             ) : (
               editais?.em_andamento?.map((edital) => (
-                <EditalItem key={edital?.id} edital={edital} />
+                <EditalItem
+                  key={edital?.id}
+                  edital={edital}
+                  onClick={() => redirectToDetails(edital.id)}
+                />
               ))
             )}
           </List>
@@ -102,7 +112,11 @@ export default function Home() {
               <Loading />
             ) : (
               editais?.arquivados?.map((edital) => (
-                <EditalItem key={edital?.id} edital={edital} />
+                <EditalItem
+                  key={edital?.id}
+                  edital={edital}
+                  onClick={() => redirectToDetails(edital.id)}
+                />
               ))
             )}
           </List>
