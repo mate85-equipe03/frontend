@@ -9,7 +9,7 @@ interface IProps {
 
 export default function AttachInput({ name }: IProps) {
   const [filesNames, setFilesNames] = useState<string[]>([]);
-  const [isFileAttached, setIsFileAttached] = useState(false);
+  const [isFileAttached, setIsFileAttached] = useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -20,11 +20,10 @@ export default function AttachInput({ name }: IProps) {
       });      
     }
   };
-  console.log(filesNames);
 
   return (
     <>
-      <Typography variant="body1">{name}</Typography>
+      <Typography variant="body1" sx={{color:"primary.main"}}>{name}</Typography>
 
       {isFileAttached && (
         <List component="nav" aria-labelledby={name} sx={{pb:0}}>
@@ -40,7 +39,7 @@ export default function AttachInput({ name }: IProps) {
             component="label"
             sx={{ textTransform: "initial", py:1}}
           >
-            Alterar arquivo(s)
+            Adicionar arquivo(s)
             <input type="file" multiple hidden onChange={handleChange} />
           </Button>
         </Grid>

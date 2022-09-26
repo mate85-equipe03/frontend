@@ -6,10 +6,29 @@ import {
   CardContent,
   Divider,
   FormControl,
+  FormControlLabel,
   InputLabel,
   OutlinedInput,
+  Checkbox,
+  FormGroup,
+  Typography,
 } from "@mui/material";
 import AttachInput from "./Components/AttachInput";
+
+const requiredCheckboxes = [
+  {
+    id: "1",
+    text: "Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na Resolução 01/2022 - PGCOMP.",
+  },
+  {
+    id: "2",
+    text: "Meu (minha) orientador(a) tem ciência da minha participação nesse Edital de Concessão de Bolsas.",
+  },
+  {
+    id: "3",
+    text: "Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso.",
+  },
+];
 
 export default function Inscricao() {
   return (
@@ -63,7 +82,6 @@ export default function Inscricao() {
                 name={"Publicações em PDF listadas no currículo lattes"}
               />
             </FormControl>
-
             <FormControl required fullWidth margin="normal">
               <InputLabel htmlFor="enade">
                 Link para o ENADE do seu curso de graduação
@@ -72,12 +90,35 @@ export default function Inscricao() {
                 id="enade"
                 name="enade"
                 label="Link para o ENADE do seu curso de graduação"
-                placeholder="emec.mec.gob.br"
+                placeholder="emec.mec.gov.br"
                 type="text"
                 //value={}
                 //onChange={}
               />
             </FormControl>
+            <FormControl required fullWidth margin="normal">
+              <Typography variant="body1">
+                Marque as opções que se aplicam:
+              </Typography>
+
+              <FormGroup>
+                {requiredCheckboxes.map((box) => {
+                  return (
+                    <FormControlLabel key={box.id}
+                      control={
+                        <Checkbox
+                          // checked={box}
+                          // onChange={handleChange}
+                          name={box.id}
+                        />
+                      }
+                      label={box.text}
+                    />
+                  );
+                })}
+              </FormGroup>
+            </FormControl>
+
             <Grid
               container
               direction="row"
