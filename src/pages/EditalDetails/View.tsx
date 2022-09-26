@@ -24,7 +24,7 @@ export default function EditalDetails() {
   const { edital_id } = useParams();
 
   const redirectToSubscribe = () => {
-    navigate("/definir"); // Definir rota de inscrição
+    navigate("/inscricao");
   };
 
   useEffect(() => {
