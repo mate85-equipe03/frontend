@@ -20,7 +20,7 @@ export default function EditalDetails() {
   const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();
   // const [loading, setLoading] = useState<boolean>(true); Definir se faz sentido usar
-  const [isInscrito, setIsInscrito] = useState<boolean>(true);
+  const [isInscrito] = useState<boolean>(true); // Adicionar função para ficar dinâmico, quando tiver o retorno do backend
   const { editalId } = useParams();
 
   const redirectToSubscribe = () => {
@@ -39,7 +39,7 @@ export default function EditalDetails() {
       .finally(() => {
         // setLoading(false);
       });
-  }, []);
+  });
 
   const dateToStr = (rawDate: string) => {
     const date = moment(rawDate);
@@ -62,9 +62,8 @@ export default function EditalDetails() {
       </Typography>
       <List>
         {edital?.etapas.map((etapa) => (
-          <ListItem disablePadding>
+          <ListItem disablePadding key={etapa.id}>
             <ListItemText
-              key={etapa.id}
               primary={`${etapa.name} : ${dateToStr(etapa.data_inicio)} a 
                 ${dateToStr(etapa.data_fim)}`}
             />
