@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteProps } from "react-router-dom";
-import Home from "../pages/Home";
-import PageNotFound from "../pages/PageNotFound";
+import Home from "../pages/Home/View";
+import PageNotFound from "../pages/PageNotFound/View";
 import { routeWithKey } from "./RoutesHelper";
 
 const generalRoutes: RouteProps[] = [
