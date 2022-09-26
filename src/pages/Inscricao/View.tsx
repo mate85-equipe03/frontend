@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import AttachInput from "./Components/AttachInput";
 import { IInscricaoData } from "./Interfaces";
+import Attach from "./Components/Attach";
 
 const requiredCheckboxes = [
   "Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na Resolução 01/2022 - PGCOMP.",
@@ -23,7 +24,10 @@ const requiredCheckboxes = [
   "Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso.",
 ];
 
+
 export default function Inscricao() {
+  const [countFiles, setCountFiles] = React.useState<number>(0);
+
   const [inscricaoData, setInscricaoData] = React.useState<IInscricaoData>({
     historicosGraduacao: null,
     historicosPosGraduacao: null,
@@ -131,6 +135,17 @@ export default function Inscricao() {
             onChange={handleFormChange}
             onSubmit={sendForm}
           >
+            <FormControl required fullWidth margin="normal">
+              <Attach
+                inputName="inputFile"
+                label="input file"
+                countFiles={countFiles}
+                setCountFiles={setCountFiles}
+                // files={}
+                // setFiles={}
+              />
+            </FormControl>
+
             <FormControl required fullWidth margin="normal">
               {/* Visível apenas para mestrandos calouros  */}
               <AttachInput
