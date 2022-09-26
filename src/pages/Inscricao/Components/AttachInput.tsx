@@ -1,58 +1,127 @@
+import React, { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
-
-import { Typography, Button, Grid, List } from "@mui/material";
+import {
+  Typography,
+  Button,
+  Grid,
+  List,
+  Link,
+  IconButton,
+} from "@mui/material";
 import AttachedFile from "./AttachedFile";
+import { IInscricaoData } from "../Interfaces";
+import { Add, Delete, NoLuggageOutlined } from "@mui/icons-material";
 
 interface IProps {
-  name: string;
+  inputName: string;
+  label: string;
+  files: FileList | null;
+  setFiles: (files: FileList | null) => void;
 }
 
-export default function AttachInput({ name }: IProps) {
-  const [filesNames, setFilesNames] = useState<string[]>([]);
-  const [isFileAttached, setIsFileAttached] = useState<boolean>(false);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files) {
-      Array.from(files).map((f) => {
-        setFilesNames( prev => [...prev, f.name] );
-        setIsFileAttached(true);
-      });      
-    }
+export default function AttachInput({
+  inputName,
+  label,
+  files,
+  setFiles,
+}: IProps) {
+  const deleteFile = (indexToDelete: number) => {
+    // const filteredArray = files ? Array.from(files)?.filter((_, index) => index !== indexToDelete) : null;
+    // setFiles(filteredArray);
   };
+
+  const deleteAllFiles = () => {
+    setFiles(null);
+  };
+
+  const hasFiles = files && files.length !== 0;
 
   return (
     <>
-      <Typography variant="body1" sx={{color:"primary.main"}}>{name}</Typography>
+      <Grid
+        container
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        wrap="nowrap"
+      >
+        <Typography
+          component="label"
+          htmlFor={inputName}
+          sx={{
+            cursor: "pointer",
+            color: "#00000099",
+            "&:hover": {
+              color: "primary.main",
+            },
+          }}
+        >
+          {label} *
+        </Typography>
 
-      {isFileAttached && (
-        <List component="nav" aria-labelledby={name} sx={{pb:0}}>
-          {filesNames?.map((file, index) => (
-          <AttachedFile key={index} fileName={file} />))}
-        </List>
-      )}
-
-      {isFileAttached ? (
-        <Grid container direction="row" justifyContent="flex-end">
-          <Button
-            variant="outlined"
-            component="label"
-            sx={{ textTransform: "initial", py:1}}
+        {hasFiles && (
+          <IconButton
+            aria-label="Excluir todos os arquivo."
+            onClick={deleteAllFiles}
           >
-            Adicionar arquivo(s)
-            <input type="file" multiple hidden onChange={handleChange} />
-          </Button>
-        </Grid>
-      ) : (
+            <Delete color="error" />
+          </IconButton>
+        )}
+      </Grid>
+
+      {!hasFiles ? (
         <Button
           variant="outlined"
           component="label"
           fullWidth
-          sx={{ textTransform: "initial", py:2 }}
+          sx={{ textTransform: "initial", py: 2 }}
         >
           Anexar arquivo(s)
-          <input type="file" multiple hidden onChange={handleChange} />
+          <input
+            id={inputName}
+            name={inputName}
+            type="file"
+            accept=".pdf"
+            multiple
+            hidden
+            //required
+          />
         </Button>
+      ) : (
+        <>
+          <List aria-labelledby={label} sx={{ pb: 0 }}>
+            {Array.from(files)?.map((file, index) => (
+              <AttachedFile
+                key={index}
+                fileKey={index}
+                fileName={file?.name}
+                deleteFile={deleteFile}
+              />
+            ))}
+          </List>
+          <Grid container direction="row" justifyContent="flex-end">
+            <Link fontSize="14px" component="label" sx={{ cursor: "pointer" }}>
+              <Grid container alignItems="center">
+                <Add fontSize="small" />
+                <Typography
+                  sx={{ fontWeight: "bold", pl: 0.3 }}
+                  variant="body2"
+                >
+                  Adicionar arquivo(s)
+                </Typography>
+              </Grid>
+              <input
+                id={inputName}
+                name={inputName}
+                type="file"
+                accept=".pdf"
+                multiple
+                hidden
+                //required
+              />
+            </Link>
+          </Grid>
+        </>
       )}
     </>
   );
