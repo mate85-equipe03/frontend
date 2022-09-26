@@ -35,6 +35,14 @@ export default function Login() {
     password: "",
   });
 
+  // const redirecionaCadastro = () => {
+  //  navigate("/cadastro");
+  // };
+
+  // const redirecionaRecuperar = () => {
+  //  navigate("/recuperar");
+  // };
+
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
   const [loginError, setLoginError] = React.useState<boolean>(false);
@@ -154,11 +162,11 @@ export default function Login() {
         >
           <Typography fontSize="12px" color="primary.contrastText">
             Não tem conta?&nbsp;
-            <Link color="primary.light" href="#login">
+            <Link color="primary.light" href="/cadastro">
               Cadastre-se
             </Link>
           </Typography>
-          <Link color="primary.light" href="#senha" fontSize="12px">
+          <Link color="primary.light" fontSize="12px" href="/recuperar-senha">
             Esqueci minha senha
           </Link>
         </Grid>
