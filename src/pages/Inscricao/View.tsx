@@ -18,9 +18,21 @@ import AttachInput from "./Components/AttachInput";
 import { IInscricaoData, IFile } from "./Interfaces";
 
 const requiredCheckboxes = [
-  "Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na Resolução 01/2022 - PGCOMP.",
-  "Meu (minha) orientador(a) tem ciência da minha participação nesse Edital de Concessão de Bolsas.",
-  "Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso.",
+  {
+    id: 0,
+    value: false,
+    desc: "Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na Resolução 03/2022 - PGCOMP.",
+  },
+  {
+    id: 1,
+    value: false,
+    desc: "Meu (minha) orientador(a) tem ciência da minha participação nesse Edital de Concessão de Bolsas.",
+  },
+  {
+    id: 2,
+    value: false,
+    desc: "Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso.",
+  },
 ];
 
 export default function Inscricao() {
@@ -31,7 +43,7 @@ export default function Inscricao() {
     historicosPosGraduacao: [],
     producoesCientificas: [],
     enade: "",
-    checkboxes: [false, false, false], // TODO: Ver como deixar a quantidade variável (não sempre 3)
+    checkboxes: requiredCheckboxes, // TODO: Ver como deixar a quantidade variável (não sempre 3)
   });
 
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
@@ -56,17 +68,15 @@ export default function Inscricao() {
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLFormElement>) => {
-    const { checkboxes } = inscricaoData;
-    checkboxes[Number(event.target.name)] = event.target.checked;
+    inscricaoData.checkboxes[Number(event.target.name)].value =
+      event.target.checked;
 
     setInscricaoData({
       ...inscricaoData,
-      checkboxes,
     });
   };
 
   const handleFileInputChange = (event: React.ChangeEvent<HTMLFormElement>) => {
-    // const newFiles = event.target.files;
     const previousFiles =
       inscricaoData[event.target.name as keyof IInscricaoData];
 
@@ -74,8 +84,10 @@ export default function Inscricao() {
     let currentCount = countFiles;
     if (eventFiles) {
       const newFiles = Array.from(eventFiles)?.map((file) => {
-        return { id: ++currentCount, fileData: file };
+        currentCount += 1;
+        return { id: currentCount, fileData: file };
       });
+
       setCountFiles(currentCount);
       setInscricaoData({
         ...inscricaoData,
@@ -99,7 +111,7 @@ export default function Inscricao() {
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(inscricaoData);
+    // console.log(inscricaoData);
   };
 
   return (
@@ -132,7 +144,6 @@ export default function Inscricao() {
             onChange={handleFormChange}
             onSubmit={sendForm}
           >
-
             <FormControl required fullWidth margin="normal">
               {/* Visível apenas para mestrandos calouros  */}
               <AttachInput
@@ -140,9 +151,6 @@ export default function Inscricao() {
                 label="Histórico acadêmico de curso(s) de graduação"
                 files={inscricaoData.historicosGraduacao}
                 setFiles={setHistoricosGraduacao}
-                // value={inscricaoData.historicosGraduacao}
-                // formValues={inscricaoData}
-                // setFormValues={setInscricaoData}
               />
             </FormControl>
 
@@ -152,9 +160,6 @@ export default function Inscricao() {
                 label="Histórico acadêmico de curso(s) de Pós-Graduação Strictu Sensu ou comprovação de disciplinas cursadas"
                 files={inscricaoData.historicosPosGraduacao}
                 setFiles={setHistoricosPosGraduacao}
-                // value={inscricaoData.historicosPosGraduacao}
-                // formValues={inscricaoData}
-                // setFormValues={setInscricaoData}
               />
             </FormControl>
 
@@ -165,17 +170,8 @@ export default function Inscricao() {
                 label="Produções Científicas"
                 files={inscricaoData.producoesCientificas}
                 setFiles={setProducoesCientificas}
-                // value={inscricaoData.producoesCientificas}
-                // formValues={inscricaoData}
-                // setFormValues={setInscricaoData}
               />
             </FormControl>
-
-            {/* <FormControl required fullWidth margin="normal">
-              <AttachInput
-                name={"Publicações em PDF listadas no currículo lattes"}
-              />
-            </FormControl> */}
 
             <FormControl required fullWidth margin="normal" sx={{ mt: 3 }}>
               <InputLabel htmlFor="enade">
@@ -205,22 +201,22 @@ export default function Inscricao() {
               </Typography>
 
               <FormGroup>
-                {requiredCheckboxes.map((checkbox, index) => {
+                {requiredCheckboxes.map((checkbox) => {
                   return (
                     <FormControlLabel
                       sx={{
                         py: 1,
                       }}
-                      key={index}
+                      key={checkbox.id}
                       control={
                         <Checkbox
                           required
-                          id={`checkbox-${index}`}
-                          name={`${index}`}
-                          checked={inscricaoData.checkboxes[index]}
+                          id={`checkbox-${checkbox.id}`}
+                          name={`${checkbox.id}`}
+                          checked={checkbox.value}
                         />
                       }
-                      label={checkbox}
+                      label={checkbox.desc}
                     />
                   );
                 })}

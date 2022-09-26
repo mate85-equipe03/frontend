@@ -1,13 +1,6 @@
 import React from "react";
-import {
-  Typography,
-  Button,
-  Grid,
-  List,
-  Link,
-  IconButton,
-} from "@mui/material";
-import { Add, Delete } from "@mui/icons-material";
+import { Typography, Button, Grid, List } from "@mui/material";
+import { Add } from "@mui/icons-material";
 import AttachedFile from "./AttachedFile";
 import { IFile } from "../Interfaces";
 
@@ -29,10 +22,6 @@ export default function AttachInput({
   const deleteFile = (indexToDelete: number) => {
     const filteredArray = files.filter((file) => file.id !== indexToDelete);
     setFiles(filteredArray);
-  };
-
-  const deleteAllFiles = () => {
-    setFiles([]);
   };
 
   return (
@@ -57,15 +46,6 @@ export default function AttachInput({
         >
           {label} *
         </Typography>
-
-        {hasFiles && (
-          <IconButton
-            aria-label="Excluir todos os arquivo."
-            onClick={deleteAllFiles}
-          >
-            <Delete color="error" />
-          </IconButton>
-        )}
       </Grid>
 
       {!hasFiles ? (
@@ -99,16 +79,13 @@ export default function AttachInput({
             ))}
           </List>
           <Grid container direction="row" justifyContent="flex-end">
-            <Link fontSize="14px" component="label" sx={{ cursor: "pointer" }}>
-              <Grid container alignItems="center">
-                <Add fontSize="small" />
-                <Typography
-                  sx={{ fontWeight: "bold", pl: 0.3 }}
-                  variant="body2"
-                >
-                  Adicionar arquivo(s)
-                </Typography>
-              </Grid>
+            <Button
+              variant="outlined"
+              component="label"
+              sx={{ textTransform: "initial", py: 1 }}
+            >
+              <Add fontSize="small" />
+              Anexar arquivo(s)
               <input
                 id={inputName}
                 name={inputName}
@@ -118,7 +95,7 @@ export default function AttachInput({
                 hidden
                 // required
               />
-            </Link>
+            </Button>
           </Grid>
         </>
       )}
