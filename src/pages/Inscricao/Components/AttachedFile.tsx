@@ -1,7 +1,6 @@
 import React from "react";
 import { Delete } from "@mui/icons-material";
 import { Grid, IconButton, ListItem, Typography } from "@mui/material";
-import { Dispatch, SetStateAction } from "react";
 
 interface IProps {
   fileKey: number;
@@ -14,7 +13,6 @@ export default function AttachedFile({
   fileName,
   deleteFile,
 }: IProps) {
-
   const handleDeleteFile = () => {
     deleteFile(fileKey);
   };

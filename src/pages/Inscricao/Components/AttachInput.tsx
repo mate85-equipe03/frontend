@@ -1,5 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
-import { useState } from "react";
+import React from "react";
 import {
   Typography,
   Button,
@@ -8,9 +7,8 @@ import {
   Link,
   IconButton,
 } from "@mui/material";
+import { Add, Delete } from "@mui/icons-material";
 import AttachedFile from "./AttachedFile";
-import { IInscricaoData } from "../Interfaces";
-import { Add, Delete, NoLuggageOutlined } from "@mui/icons-material";
 
 interface IProps {
   inputName: string;
@@ -25,16 +23,18 @@ export default function AttachInput({
   files,
   setFiles,
 }: IProps) {
+  const hasFiles = files && files.length !== 0;
+
   const deleteFile = (indexToDelete: number) => {
-    // const filteredArray = files ? Array.from(files)?.filter((_, index) => index !== indexToDelete) : null;
+    const filteredArray = files
+      ? Array.from(files)?.filter((_, index) => index !== indexToDelete)
+      : null;
     // setFiles(filteredArray);
   };
 
   const deleteAllFiles = () => {
     setFiles(null);
   };
-
-  const hasFiles = files && files.length !== 0;
 
   return (
     <>
@@ -84,7 +84,7 @@ export default function AttachInput({
             accept=".pdf"
             multiple
             hidden
-            //required
+            // required
           />
         </Button>
       ) : (
@@ -117,7 +117,7 @@ export default function AttachInput({
                 accept=".pdf"
                 multiple
                 hidden
-                //required
+                // required
               />
             </Link>
           </Grid>

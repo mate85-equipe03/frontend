@@ -39,7 +39,9 @@ export default function Inscricao() {
     });
   };
 
-  const setHistoricosPosGraduacao = (historicosPosGraduacao: FileList | null) => {
+  const setHistoricosPosGraduacao = (
+    historicosPosGraduacao: FileList | null
+  ) => {
     setInscricaoData({
       ...inscricaoData,
       historicosPosGraduacao,
@@ -54,7 +56,7 @@ export default function Inscricao() {
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLFormElement>) => {
-    const checkboxes = inscricaoData.checkboxes;
+    const { checkboxes } = inscricaoData;
     checkboxes[Number(event.target.name)] = event.target.checked;
 
     setInscricaoData({
@@ -96,7 +98,7 @@ export default function Inscricao() {
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(inscricaoData);
+    // console.log(inscricaoData);
   };
 
   return (
