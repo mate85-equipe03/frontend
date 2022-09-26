@@ -1,4 +1,5 @@
 export interface IEtapa {
+  id: number;
   name: string;
   data_inicio: string;
   data_fim: string;

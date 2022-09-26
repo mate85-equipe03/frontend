@@ -21,7 +21,7 @@ export default function EditalDetails() {
   const [edital, setEdital] = useState<IDetails | undefined>();
   // const [loading, setLoading] = useState<boolean>(true); Definir se faz sentido usar
   const [isInscrito, setIsInscrito] = useState<boolean>(true);
-  const { edital_id } = useParams();
+  const { editalId } = useParams();
 
   const redirectToSubscribe = () => {
     navigate("/inscricao");
@@ -29,7 +29,7 @@ export default function EditalDetails() {
 
   useEffect(() => {
     // setLoading(true);
-    getDetailsProcessoSeletivo(edital_id)
+    getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setEdital(data);
       })
@@ -64,6 +64,7 @@ export default function EditalDetails() {
         {edital?.etapas.map((etapa) => (
           <ListItem disablePadding>
             <ListItemText
+              key={etapa.id}
               primary={`${etapa.name} : ${dateToStr(etapa.data_inicio)} a 
                 ${dateToStr(etapa.data_fim)}`}
             />

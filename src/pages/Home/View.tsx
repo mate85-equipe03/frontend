@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Button,
   Grid,
   Card,
   CardHeader,
@@ -20,8 +19,8 @@ export default function Home() {
   const [editais, setEditais] = useState<IEditais | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
 
-  const redirectToDetails = (edital_id: number) => {
-    navigate(`/detalhes-edital/${edital_id}`);
+  const redirectToDetails = (editalId: number) => {
+    navigate(`/detalhes-edital/${editalId}`);
   };
 
   useEffect(() => {
