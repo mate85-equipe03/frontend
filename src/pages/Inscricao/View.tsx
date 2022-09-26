@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Button,
@@ -14,36 +14,55 @@ import {
   FormGroup,
   Typography,
 } from "@mui/material";
+// import { useParams } from "react-router-dom";
 import AttachInput from "./Components/AttachInput";
 import { IInscricaoData, IFile } from "./Interfaces";
+// import getDetailsProcessoSeletivo from "../EditalDetails/Service";
 
-const requiredCheckboxes = [
+const requiredCheckboxesInitialValues = [
   {
     id: 0,
     value: false,
-    desc: "Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na Resolução 03/2022 - PGCOMP.",
+    label:
+      "Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na Resolução 03/2022 - PGCOMP.",
   },
   {
     id: 1,
     value: false,
-    desc: "Meu (minha) orientador(a) tem ciência da minha participação nesse Edital de Concessão de Bolsas.",
+    label:
+      "Meu (minha) orientador(a) tem ciência da minha participação nesse Edital de Concessão de Bolsas.",
   },
   {
     id: 2,
     value: false,
-    desc: "Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso.",
+    label:
+      "Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso.",
   },
 ];
 
 export default function Inscricao() {
+  // const { editalId } = useParams();
   const [countFiles, setCountFiles] = React.useState<number>(0);
-
   const [inscricaoData, setInscricaoData] = React.useState<IInscricaoData>({
     historicosGraduacao: [],
     historicosPosGraduacao: [],
     producoesCientificas: [],
     enade: "",
-    checkboxes: requiredCheckboxes, // TODO: Ver como deixar a quantidade variável (não sempre 3)
+    checkboxes: requiredCheckboxesInitialValues,
+  });
+
+  useEffect(() => {
+    // setLoading(true);
+    // getDetailsProcessoSeletivo(editalId)
+    //   .then(({ data }) => {
+    //     setEdital(data);
+    //   })
+    //   .catch(() => {
+    //     // TODO: Ver como exibir erros va View
+    //   })
+    //   .finally(() => {
+    //     // setLoading(false);
+    //   });
   });
 
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
@@ -68,11 +87,12 @@ export default function Inscricao() {
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLFormElement>) => {
-    inscricaoData.checkboxes[Number(event.target.name)].value =
-      event.target.checked;
+    const checkboxes = [...inscricaoData.checkboxes];
+    checkboxes[Number(event.target.name)].value = event.target.checked;
 
     setInscricaoData({
       ...inscricaoData,
+      checkboxes,
     });
   };
 
@@ -84,8 +104,7 @@ export default function Inscricao() {
     let currentCount = countFiles;
     if (eventFiles) {
       const newFiles = Array.from(eventFiles)?.map((file) => {
-        currentCount += 1;
-        return { id: currentCount, fileData: file };
+        return { id: ++currentCount, fileData: file };
       });
 
       setCountFiles(currentCount);
@@ -201,13 +220,11 @@ export default function Inscricao() {
               </Typography>
 
               <FormGroup>
-                {requiredCheckboxes.map((checkbox) => {
+                {inscricaoData.checkboxes.map((checkbox) => {
                   return (
                     <FormControlLabel
-                      sx={{
-                        py: 1,
-                      }}
                       key={checkbox.id}
+                      label={checkbox.label}
                       control={
                         <Checkbox
                           required
@@ -216,7 +233,9 @@ export default function Inscricao() {
                           checked={checkbox.value}
                         />
                       }
-                      label={checkbox.desc}
+                      sx={{
+                        py: 1,
+                      }}
                     />
                   );
                 })}

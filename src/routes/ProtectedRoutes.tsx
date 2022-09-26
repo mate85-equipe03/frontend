@@ -12,7 +12,7 @@ TODO: Futuramente, desmembrar entre:
 */
 
 const protectedRoutes: RouteProps[] = [
-  { path: "/inscricao", element: <Inscricao /> },
+  { path: "/inscricao-edital/:editalId", element: <Inscricao /> },
 
   // Exemplos:
   // { path: "/estudante", element: <Home /> },
