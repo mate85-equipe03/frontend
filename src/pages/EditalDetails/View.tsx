@@ -20,11 +20,11 @@ export default function EditalDetails() {
   const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();
   // const [loading, setLoading] = useState<boolean>(true); Definir se faz sentido usar
-  const [isInscrito] = useState<boolean>(true); // Adicionar função para ficar dinâmico, quando tiver o retorno do backend
+  const [isInscrito] = useState<boolean>(false); // Adicionar função para ficar dinâmico, quando tiver o retorno do backend
   const { editalId } = useParams();
 
   const redirectToSubscribe = () => {
-    navigate("/inscricao");
+    navigate(`/inscricao-edital/${editalId}`);
   };
 
   useEffect(() => {
