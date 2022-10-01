@@ -4,7 +4,6 @@ import { Add } from "@mui/icons-material";
 import AttachedFile from "./AttachedFile";
 import { IPropsAttachInput } from "../Interfaces";
 
-
 export default function AttachInput({
   inputName,
   label,
