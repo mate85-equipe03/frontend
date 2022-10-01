@@ -78,7 +78,7 @@ export default function AttachInput({
               sx={{ textTransform: "initial", py: 1 }}
             >
               <Add fontSize="small" />
-              Anexar arquivo(s)
+              Adicionar arquivo(s)
               <input
                 id={inputName}
                 name={inputName}

@@ -25,7 +25,7 @@ const requiredCheckboxesInitialValues = [
     id: 0,
     value: false,
     label:
-      "Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na Resolução 03/2022 - PGCOMP.",
+      "Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na resolução vigente.",
   },
   {
     id: 1,
