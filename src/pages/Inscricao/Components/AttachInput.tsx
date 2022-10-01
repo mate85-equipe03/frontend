@@ -2,21 +2,15 @@ import React from "react";
 import { Typography, Button, Grid, List } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import AttachedFile from "./AttachedFile";
-import { IFile } from "../Interfaces";
+import { IPropsAttachInput } from "../Interfaces";
 
-interface IProps {
-  inputName: string;
-  label: string;
-  files: IFile[];
-  setFiles: (files: IFile[]) => void;
-}
 
 export default function AttachInput({
   inputName,
   label,
   files,
   setFiles,
-}: IProps) {
+}: IPropsAttachInput) {
   const hasFiles = files && files.length !== 0;
 
   const deleteFile = (indexToDelete: number) => {

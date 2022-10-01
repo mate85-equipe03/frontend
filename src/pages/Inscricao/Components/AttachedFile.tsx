@@ -1,22 +1,17 @@
 import React from "react";
 import { Delete } from "@mui/icons-material";
 import { Grid, IconButton, ListItem, Typography } from "@mui/material";
-
-interface IProps {
-  fileKey: number;
-  fileName: string;
-  deleteFile: (index: number) => void;
-}
+import {IPropsAttachFile} from "../Interfaces";
 
 export default function AttachedFile({
   fileKey,
   fileName,
   deleteFile,
-}: IProps) {
+}: IPropsAttachFile) {
   const handleDeleteFile = () => {
     deleteFile(fileKey);
   };
-
+  
   return (
     <ListItem sx={{ border: 1, my: 1, py: 1, borderRadius: 1 }}>
       <Grid
