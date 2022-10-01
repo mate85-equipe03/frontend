@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   Button,
@@ -14,10 +14,11 @@ import {
   FormGroup,
   Typography,
 } from "@mui/material";
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import AttachInput from "./Components/AttachInput";
 import { IInscricaoData, IFile } from "./Interfaces";
-// import getDetailsProcessoSeletivo from "../EditalDetails/Service";
+import { IDetails } from "../EditalDetails/Types";
+import getDetailsProcessoSeletivo from "../EditalDetails/Service";
 
 const requiredCheckboxesInitialValues = [
   {
@@ -41,7 +42,9 @@ const requiredCheckboxesInitialValues = [
 ];
 
 export default function Inscricao() {
-  // const { editalId } = useParams();
+  const [edital, setEdital] = useState<IDetails | undefined>();
+  const { editalId } = useParams();
+
   const [countFiles, setCountFiles] = React.useState<number>(0);
   const [inscricaoData, setInscricaoData] = React.useState<IInscricaoData>({
     historicosGraduacao: [],
@@ -53,17 +56,17 @@ export default function Inscricao() {
 
   useEffect(() => {
     // setLoading(true);
-    // getDetailsProcessoSeletivo(editalId)
-    //   .then(({ data }) => {
-    //     setEdital(data);
-    //   })
-    //   .catch(() => {
-    //     // TODO: Ver como exibir erros va View
-    //   })
-    //   .finally(() => {
-    //     // setLoading(false);
-    //   });
-  });
+    getDetailsProcessoSeletivo(editalId)
+      .then(({ data }) => {
+        setEdital(data);
+      })
+      .catch(() => {
+        // TODO: Ver como exibir erros va View
+      })
+      .finally(() => {
+        // setLoading(false);
+      });
+  }, []);
 
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
     setInscricaoData({
@@ -150,7 +153,7 @@ export default function Inscricao() {
             p: 1,
           }}
           sx={{ px: 3 }}
-          subheader="Edital 03/2022 de Concessão de Bolsas de Mestrado e Doutorado - PGCOMP"
+          subheader= {edital?.titulo + " de Concessão de Bolsas de Mestrado e Doutorado"}
           subheaderTypographyProps={{
             align: "center",
           }}
