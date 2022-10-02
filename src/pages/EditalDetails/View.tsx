@@ -110,7 +110,7 @@ export default function EditalDetails() {
             >
               {edital?.arquivado ? (
                 <Typography sx={{ fontSize: 20, color: "primary.main" }}>
-                  Resultados disponíveis {/*link para resultado*/}
+                  Resultados disponíveis {/* link para resultado */}
                 </Typography>
               ) : (
                 <Grid>
