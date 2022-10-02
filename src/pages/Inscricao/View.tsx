@@ -47,10 +47,11 @@ export default function Inscricao() {
 
   const [countFiles, setCountFiles] = React.useState<number>(0);
   const [inscricaoData, setInscricaoData] = React.useState<IInscricaoData>({
-    historicosGraduacao: [],
-    historicosPosGraduacao: [],
-    producoesCientificas: [],
-    enade: "",
+    historico_graduacao: [],
+    historico_posgraduacao: [],
+    producoes_cientificas: [],
+    url_enade: "",
+    // url_lattes: "",
     checkboxes: requiredCheckboxesInitialValues,
   });
 
@@ -73,24 +74,24 @@ export default function Inscricao() {
       });
   }, [navigate, editalId]);
 
-  const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
+  const setHistoricosGraduacao = (files: IFile[]) => {
     setInscricaoData({
       ...inscricaoData,
-      historicosGraduacao,
+      historico_graduacao: files,
     });
   };
 
-  const setHistoricosPosGraduacao = (historicosPosGraduacao: IFile[]) => {
+  const setHistoricosPosGraduacao = (files: IFile[]) => {
     setInscricaoData({
       ...inscricaoData,
-      historicosPosGraduacao,
+      historico_posgraduacao: files,
     });
   };
 
-  const setProducoesCientificas = (producoesCientificas: IFile[]) => {
+  const setProducoesCientificas = (files: IFile[]) => {
     setInscricaoData({
       ...inscricaoData,
-      producoesCientificas,
+      producoes_cientificas: files,
     });
   };
 
@@ -174,18 +175,18 @@ export default function Inscricao() {
             <FormControl required fullWidth margin="normal">
               {/* Visível apenas para mestrandos calouros  */}
               <AttachInput
-                inputName="historicosGraduacao"
+                inputName="historico_graduacao"
                 label="Histórico acadêmico de curso(s) de graduação"
-                files={inscricaoData.historicosGraduacao}
+                files={inscricaoData.historico_graduacao}
                 setFiles={setHistoricosGraduacao}
               />
             </FormControl>
 
             <FormControl required fullWidth margin="normal">
               <AttachInput
-                inputName="historicosPosGraduacao"
+                inputName="historico_posgraduacao"
                 label="Histórico acadêmico de curso(s) de Pós-Graduação Strictu Sensu ou comprovação de disciplinas cursadas"
-                files={inscricaoData.historicosPosGraduacao}
+                files={inscricaoData.historico_posgraduacao}
                 setFiles={setHistoricosPosGraduacao}
               />
             </FormControl>
@@ -193,9 +194,9 @@ export default function Inscricao() {
             <FormControl required fullWidth margin="normal">
               {/* Será gerado pelo sistema - abrir popup */}
               <AttachInput
-                inputName="producoesCientificas"
+                inputName="producoes_cientificas"
                 label="Produções Científicas"
-                files={inscricaoData.producoesCientificas}
+                files={inscricaoData.producoes_cientificas}
                 setFiles={setProducoesCientificas}
               />
             </FormControl>
@@ -206,13 +207,27 @@ export default function Inscricao() {
               </InputLabel>
               <OutlinedInput
                 id="enade"
-                name="enade"
+                name="url_enade"
                 label="Link para o ENADE do seu curso de graduação"
                 placeholder="emec.mec.gov.br"
                 type="text"
-                value={inscricaoData.enade}
+                value={inscricaoData.url_enade}
               />
             </FormControl>
+
+            {/* <FormControl required fullWidth margin="normal" sx={{ mt: 3 }}>
+              <InputLabel htmlFor="lattes">
+                Link para o currículo Lattes
+              </InputLabel>
+              <OutlinedInput
+                id="lattes"
+                name="url_lattes"
+                label="Link para o currículo Lattes"
+                placeholder="Link para o currículo Lattes"
+                type="text"
+                value={inscricaoData.url_lattes}
+              />
+            </FormControl> */}
 
             <FormControl
               required
