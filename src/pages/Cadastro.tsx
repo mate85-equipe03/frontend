@@ -41,15 +41,15 @@ export default function Cadastro() {
   const [signUpError, setSignUpError] = React.useState<boolean>(false);
 
   const [signUpData, setSignUpData] = React.useState<ISignUpData>({
-    name: "", //login
-    matricula: undefined,   //matricula
-    senha: "",  //senha
+    name: "", // login
+    matricula: undefined, // matricula
+    senha: "", // senha
     confirmacaoSenha: "",
-    semestre: "",   //semestre_pgcomp
-    grau: "", //curso
-    link: "", //latters_link
-    email: "",  //email
-    tel: "",  //telefone
+    semestre: "", // semestre_pgcomp
+    grau: "", // curso
+    link: "", // latters_link
+    email: "", // email
+    tel: "", // telefone
   });
 
   const [showPassword, setShowPassword] = React.useState<boolean>(false);

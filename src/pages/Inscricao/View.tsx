@@ -61,10 +61,9 @@ export default function Inscricao() {
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setEdital(data);
-        if(data.arquivado){
-          navigate(`/#`);
+        if (data.arquivado) {
+          navigate("/#");
         }
-
       })
       .catch(() => {
         // TODO: Ver como exibir erros va View
@@ -72,7 +71,7 @@ export default function Inscricao() {
       .finally(() => {
         // setLoading(false);
       });
-  }, []);
+  });
 
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
     setInscricaoData({
@@ -159,7 +158,7 @@ export default function Inscricao() {
             p: 1,
           }}
           sx={{ px: 3 }}
-          subheader= {edital?.titulo + " de Concessão de Bolsas de Mestrado e Doutorado"}
+          subheader={`${edital?.titulo} de Concessão de Bolsas de Mestrado e Doutorado`}
           subheaderTypographyProps={{
             align: "center",
           }}
