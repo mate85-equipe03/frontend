@@ -24,15 +24,16 @@ import FormLabel from "@mui/material/FormLabel";
 import api from "../services/Api";
 
 interface ISignUpData {
-  name: string;
-  matricula: number | undefined;
+  // falta incluir "nome", e "matricula" será substituida por "login"
+  login: string;
+  matricula: string;
   senha: string;
   confirmacaoSenha: string;
-  semestre: string;
-  grau: string;
-  link: string;
+  semestre_pgcomp: number | undefined;
+  curso: string;
+  lattes_link: string;
   email: string;
-  tel: string;
+  telefone: string;
 }
 
 export default function Cadastro() {
@@ -40,24 +41,33 @@ export default function Cadastro() {
 
   const [signUpError, setSignUpError] = React.useState<boolean>(false);
 
+  const [nome, setNome] = React.useState<string>(""); //A ser implementado no back
+
   const [signUpData, setSignUpData] = React.useState<ISignUpData>({
-    name: "", // login
-    matricula: undefined, // matricula
-    senha: "", // senha
+    login: "",
+    matricula: "0",
+    senha: "",
     confirmacaoSenha: "",
-    semestre: "", // semestre_pgcomp
-    grau: "", // curso
-    link: "", // latters_link
-    email: "", // email
-    tel: "", // telefone
+    semestre_pgcomp: undefined,
+    curso: "",
+    lattes_link: "",
+    email: "",
+    telefone: "", 
   });
 
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // console.log(event.target.type);
+    let value = undefined;
+    if (event.target.type === "number") {
+      value = Number(event.target.value);
+    } else {
+      value = event.target.value;
+    }
     setSignUpData({
       ...signUpData,
-      [event.target.name]: event.target.value,
+      [event.target.name]: value,
     });
   };
 
@@ -67,16 +77,19 @@ export default function Cadastro() {
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log(nome);
+    console.log(signUpData);
     api
       .post("/alunos", signUpData)
       .then(() => {
         navigate("/");
       })
-      // .then(() => {
-      //  console.log(signUpData);
-      // })
+      .then(() => {
+        console.log("Sucess");
+      })
       .catch(() => {
         setSignUpError(true);
+        console.log("Ocorreu um erro");
       });
   };
 
@@ -106,28 +119,32 @@ export default function Cadastro() {
         <Divider sx={{ mx: 3 }} />
 
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
-          <form id="sign-up-form" onSubmit={sendForm}>
+          <form
+            id="sign-up-form"
+            // onChange={handleChange}
+            onSubmit={sendForm}
+          >
             <FormControl required fullWidth margin="normal">
-              <InputLabel htmlFor="name">Nome</InputLabel>
+              <InputLabel htmlFor="nome">Nome</InputLabel>
               <OutlinedInput
-                id="name"
-                name="name"
-                label="name"
+                id="nome"
+                name="nome"
+                label="nome"
                 placeholder="Digite seu nome completo"
                 type="text"
-                value={signUpData.name}
-                onChange={handleChange}
+                value={nome}
+                onChange={event => setNome(event.target.value)}
               />
             </FormControl>
             <FormControl required fullWidth margin="normal">
-              <InputLabel htmlFor="matricula">Matrícula</InputLabel>
+              <InputLabel htmlFor="login">Matrícula</InputLabel>
               <OutlinedInput
-                id="matricula"
-                name="matricula"
-                label="Matrícula"
+                id="login"
+                name="login"
+                label="matricula"
                 placeholder="Digite sua matrícula"
                 type="text"
-                value={signUpData.matricula}
+                value={signUpData.login}
                 onChange={handleChange}
               />
             </FormControl>
@@ -182,28 +199,28 @@ export default function Cadastro() {
               />
             </FormControl>
             <FormControl required fullWidth margin="normal">
-              <InputLabel htmlFor="semestre">
+              <InputLabel htmlFor="semestre_pgcomp">
                 Semestre de ingresso no PGCOMP
               </InputLabel>
               <OutlinedInput
-                id="semestre"
-                name="semestre"
+                id="semestre_pgcomp"
+                name="semestre_pgcomp"
                 label="Semestre de ingresso no PGCOMP"
                 placeholder="Digite seu semestre de ingresso no PGCOMP"
-                type="text"
-                value={signUpData.semestre}
+                type="number"
+                value={signUpData.semestre_pgcomp}
                 onChange={handleChange}
               />
             </FormControl>
             <FormControl required fullWidth margin="normal">
-              <FormLabel id="botãoSelecaoGrau">
-                Grau do(a) candidado(a)
+              <FormLabel id="botãoSelecaoCurso">
+                Curso do(a) candidado(a)
               </FormLabel>
               <RadioGroup
                 row
-                aria-labelledby="botãoSelecaoGrau"
-                name="grau"
-                value={signUpData.grau}
+                aria-labelledby="botãoSelecaoCurso"
+                name="curso"
+                value={signUpData.curso}
                 onChange={handleChange}
               >
                 <FormControlLabel
@@ -219,14 +236,16 @@ export default function Cadastro() {
               </RadioGroup>
             </FormControl>
             <FormControl required fullWidth margin="normal">
-              <InputLabel htmlFor="link">Link para o CV Lattes</InputLabel>
+              <InputLabel htmlFor="lattes_link">
+                Link para o CV Lattes
+              </InputLabel>
               <OutlinedInput
-                id="link"
-                name="link"
+                id="lattes_link"
+                name="lattes_link"
                 label="link para o CV Lattes"
                 placeholder="www.example.com.br"
                 type="text"
-                value={signUpData.link}
+                value={signUpData.lattes_link}
                 onChange={handleChange}
               />
             </FormControl>
@@ -243,14 +262,14 @@ export default function Cadastro() {
               />
             </FormControl>
             <FormControl required fullWidth margin="normal">
-              <InputLabel htmlFor="tel">Telefone / Celular</InputLabel>
+              <InputLabel htmlFor="telefone">Telefone / Celular</InputLabel>
               <OutlinedInput
-                id="tel"
-                name="tel"
+                id="telefone"
+                name="telefone"
                 label="Telefone / Celular"
                 placeholder="(00) 00000-0000"
                 type="text"
-                value={signUpData.tel}
+                value={signUpData.telefone}
                 onChange={handleChange}
               />
             </FormControl>
