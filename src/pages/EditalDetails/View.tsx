@@ -92,33 +92,44 @@ export default function EditalDetails() {
                 </ListItem>
               ))}
             </List>
-            <Link href={edital?.edital_url} underline="none" target="_blank">
+            <Link
+              href={edital?.edital_url}
+              underline="none"
+              target="_blank"
+              sx={{ my: 1 }}
+            >
               <PictureAsPdfIcon />
               {`${edital?.titulo}.pdf`}
             </Link>
-            {edital?.arquivado ? (
-              <Typography sx={{ fontSize: 20, color: "primary.main" }}>
-                Resultados disponíveis
-              </Typography>
-            ) : (
-              <Grid
-                container
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                sx={{ width: "100%" }}
-              >
-                {user && isInscrito ? (
-                  <Typography sx={{ fontSize: 20, color: "primary.main" }}>
-                    Inscrito(a)
-                  </Typography>
-                ) : (
-                  <Button type="button" onClick={redirectToSubscribe} size="large">
-                    Inscreva-se
-                  </Button>
-                )}
-              </Grid>
-            )}
+            <Grid
+              container
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              sx={{ width: "100%", my: 2 }}
+            >
+              {edital?.arquivado ? (
+                <Typography sx={{ fontSize: 20, color: "primary.main" }}>
+                  Resultados disponíveis {/*link para resultado*/}
+                </Typography>
+              ) : (
+                <Grid>
+                  {user && isInscrito ? (
+                    <Typography sx={{ fontSize: 20, color: "primary.main" }}>
+                      Inscrito(a)
+                    </Typography>
+                  ) : (
+                    <Button
+                      type="button"
+                      onClick={redirectToSubscribe}
+                      size="large"
+                    >
+                      Inscreva-se
+                    </Button>
+                  )}
+                </Grid>
+              )}
+            </Grid>
           </Grid>
         </CardContent>
       </Card>
