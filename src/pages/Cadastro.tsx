@@ -41,15 +41,15 @@ export default function Cadastro() {
   const [signUpError, setSignUpError] = React.useState<boolean>(false);
 
   const [signUpData, setSignUpData] = React.useState<ISignUpData>({
-    name: "",
-    matricula: undefined,
-    senha: "",
+    name: "", //login
+    matricula: undefined,   //matricula
+    senha: "",  //senha
     confirmacaoSenha: "",
-    semestre: "",
-    grau: "",
-    link: "",
-    email: "",
-    tel: "",
+    semestre: "",   //semestre_pgcomp
+    grau: "", //curso
+    link: "", //latters_link
+    email: "",  //email
+    tel: "",  //telefone
   });
 
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
@@ -68,7 +68,7 @@ export default function Cadastro() {
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     api
-      .post("/????", signUpData)
+      .post("/alunos", signUpData)
       .then(() => {
         navigate("/");
       })

@@ -14,7 +14,7 @@ import {
   FormGroup,
   Typography,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AttachInput from "./Components/AttachInput";
 import { IInscricaoData, IFile } from "./Interfaces";
 import { IDetails } from "../EditalDetails/Types";
@@ -54,11 +54,17 @@ export default function Inscricao() {
     checkboxes: requiredCheckboxesInitialValues,
   });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     // setLoading(true);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setEdital(data);
+        if(data.arquivado){
+          navigate(`/#`);
+        }
+
       })
       .catch(() => {
         // TODO: Ver como exibir erros va View
