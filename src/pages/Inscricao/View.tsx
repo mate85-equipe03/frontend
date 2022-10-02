@@ -16,7 +16,8 @@ import {
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import AttachInput from "./Components/AttachInput";
-import { IInscricaoData, IFile } from "./Interfaces";
+import ProducoesInput from "./Components/ProducoesInput";
+import { IInscricaoData, IFile, IProducaoCientifica } from "./Interfaces";
 import { IDetails } from "../EditalDetails/Types";
 import getDetailsProcessoSeletivo from "../EditalDetails/Service";
 
@@ -61,6 +62,7 @@ export default function Inscricao() {
     // setLoading(true);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
+        // console.log(data);
         setEdital(data);
         if (data.arquivado) {
           navigate("/#");
@@ -88,11 +90,13 @@ export default function Inscricao() {
     });
   };
 
-  const setProducoesCientificas = (files: IFile[]) => {
+  const setProducoesCientificas = (producoes: IProducaoCientifica[]) => {
+  // categoria_producao_id;  
     setInscricaoData({
       ...inscricaoData,
-      producoes_cientificas: files,
+      producoes_cientificas: producoes,
     });
+    console.log(inscricaoData);
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -139,7 +143,7 @@ export default function Inscricao() {
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // console.log(inscricaoData);
+    console.log(inscricaoData);
   };
 
   return (
@@ -193,11 +197,12 @@ export default function Inscricao() {
 
             <FormControl required fullWidth margin="normal">
               {/* Será gerado pelo sistema - abrir popup */}
-              <AttachInput
+              <ProducoesInput
                 inputName="producoes_cientificas"
                 label="Produções Científicas"
-                files={inscricaoData.producoes_cientificas}
-                setFiles={setProducoesCientificas}
+                // categorias = {id:1, nome:"Pub 1", pontuacao:'8'}
+                producoes={inscricaoData.producoes_cientificas}
+                setProducoes={setProducoesCientificas}
               />
             </FormControl>
 
@@ -214,20 +219,6 @@ export default function Inscricao() {
                 value={inscricaoData.url_enade}
               />
             </FormControl>
-
-            {/* <FormControl required fullWidth margin="normal" sx={{ mt: 3 }}>
-              <InputLabel htmlFor="lattes">
-                Link para o currículo Lattes
-              </InputLabel>
-              <OutlinedInput
-                id="lattes"
-                name="url_lattes"
-                label="Link para o currículo Lattes"
-                placeholder="Link para o currículo Lattes"
-                type="text"
-                value={inscricaoData.url_lattes}
-              />
-            </FormControl> */}
 
             <FormControl
               required

@@ -5,6 +5,12 @@ export interface IEtapa {
   data_fim: string;
 }
 
+interface ICategoriasProducao {
+  id: number;
+  nome: string;
+  pontuacao: string;
+}
+
 export interface IDetails {
   titulo: string;
   semestre: string;
@@ -12,4 +18,5 @@ export interface IDetails {
   edital_url: string;
   arquivado: boolean;
   etapas: IEtapa[];
+  categorias_producao: ICategoriasProducao[];
 }
