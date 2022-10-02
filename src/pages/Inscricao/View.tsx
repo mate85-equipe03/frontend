@@ -61,7 +61,6 @@ export default function Inscricao() {
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setEdital(data);
-        console.log(data);
         if (data.arquivado) {
           navigate("/#");
         }
