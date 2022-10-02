@@ -61,6 +61,7 @@ export default function Inscricao() {
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setEdital(data);
+        console.log(data);
         if (data.arquivado) {
           navigate("/#");
         }
@@ -71,7 +72,7 @@ export default function Inscricao() {
       .finally(() => {
         // setLoading(false);
       });
-  });
+  }, [navigate, editalId]);
 
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
     setInscricaoData({
