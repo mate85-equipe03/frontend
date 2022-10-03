@@ -44,7 +44,7 @@ export default function Cadastro() {
 
   const [signUpData, setSignUpData] = React.useState<ISignUpData>({
     login: "",
-    matricula: "", 
+    matricula: "",
     senha: "",
     confirmacaoSenha: "",
     semestre_pgcomp: "",
@@ -68,7 +68,6 @@ export default function Cadastro() {
       [event.target.name]: value,
       matricula: signUpData.login,
     });
-
   };
 
   const handleClickShowPassword = () => {
@@ -76,20 +75,21 @@ export default function Cadastro() {
   };
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
-    console.log(signUpData)
+    // console.log(signUpData);
     event.preventDefault();
     api
       .post("/alunos", signUpData)
       .then(() => {
         // navigate("/login");
-      })
-      .then(() => {
         setSignUpSuccess(true);
+        // window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       })
       .catch(() => {
         setSignUpSuccess(false);
       });
-    console.log(signUpSuccess);
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+
+    // console.log(signUpSuccess);
   };
 
   return (
