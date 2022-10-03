@@ -87,8 +87,7 @@ export default function Cadastro() {
       .catch(() => {
         setSignUpSuccess(false);
       });
-      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     // console.log(signUpSuccess);
   };
 
