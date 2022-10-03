@@ -18,8 +18,6 @@ export default function Producoes({
     setProducoes(filteredArray);
   };
 
-  console.log("prod");
-  console.log(producoes);
   return (
     <>
       <Grid
@@ -68,12 +66,12 @@ export default function Producoes({
             {Array.from(producoes)?.map((prod) => (
               <Grid key={prod.id}>
                 <ProducoesView
-                //   key={prod.id}
+                  //   key={prod.id}
                   fileKey={prod.id}
                   fileName={prod.fileData.name}
                   deleteFile={deleteFile}
                 />
-                <Typography>Categoria: {prod.categoria_producao_id}</Typography> 
+                <Typography>Categoria: {prod.categoria_producao_id}</Typography>
               </Grid>
             ))}
           </List>

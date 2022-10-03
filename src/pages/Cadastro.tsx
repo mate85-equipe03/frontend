@@ -15,7 +15,6 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
 
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -37,15 +36,15 @@ interface ISignUpData {
 }
 
 export default function Cadastro() {
-  const navigate = useNavigate();
+  const [signUpSuccess, setSignUpSuccess] = React.useState<boolean | null>(
+    null
+  );
 
-  const [signUpSuccess, setSignUpSuccess] = React.useState<boolean | null>(null);
-
-  const [nome, setNome] = React.useState<string>(""); //A ser implementado no back
+  const [nome, setNome] = React.useState<string>(""); // A ser implementado no back
 
   const [signUpData, setSignUpData] = React.useState<ISignUpData>({
     login: "",
-    matricula: "0", //unused
+    matricula: "0", // unused
     senha: "",
     confirmacaoSenha: "",
     semestre_pgcomp: "",
@@ -58,7 +57,7 @@ export default function Cadastro() {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = undefined;
+    let value;
     if (event.target.type === "number") {
       value = Number(event.target.value);
     } else {
@@ -82,7 +81,7 @@ export default function Cadastro() {
       .then(() => {
         // navigate("/login");
       })
-      .then(()=>{
+      .then(() => {
         setSignUpSuccess(true);
       })
       .catch(() => {
@@ -99,7 +98,7 @@ export default function Cadastro() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      {signUpSuccess!==null &&
+      {signUpSuccess !== null &&
         (signUpSuccess ? (
           <Alert severity="success" sx={{ mb: 2 }}>
             Cadastro realizado com sucesso.

@@ -42,7 +42,7 @@ export interface IPropsAttachFile {
   deleteFile: (index: number) => void;
 }
 
-export interface IPropsProducoesInput{
+export interface IPropsProducoesInput {
   inputName: string;
   label: string;
   categorias?: ICategorias;

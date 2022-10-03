@@ -91,12 +91,11 @@ export default function Inscricao() {
   };
 
   const setProducoesCientificas = (producoes: IProducaoCientifica[]) => {
-  // categoria_producao_id;  
+    // categoria_producao_id;
     setInscricaoData({
       ...inscricaoData,
       producoes_cientificas: producoes,
     });
-    console.log(inscricaoData);
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -143,7 +142,7 @@ export default function Inscricao() {
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(inscricaoData);
+    // console.log(inscricaoData);
   };
 
   return (
