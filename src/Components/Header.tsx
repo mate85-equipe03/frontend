@@ -40,11 +40,7 @@ function Header() {
               {/* <Link color="primary.light" href="/cadastro">
                 Cadastre-se
               </Link> */}
-              <Button
-                variant="text"
-                disableRipple
-                sx={{mr:1}}
-              >
+              <Button variant="text" disableRipple sx={{ mr: 1 }}>
                 Cadastre-se
               </Button>
               <Button
@@ -52,7 +48,7 @@ function Header() {
                 color="secondary"
                 type="button"
                 onClick={redirectToLogin}
-                sx={{ textTransform: "initial"}}
+                sx={{ textTransform: "initial" }}
               >
                 Login
               </Button>

@@ -92,8 +92,8 @@ const theme = createTheme(paletteTheme, {
             ":hover": {
               color: hoverColor,
             },
-          }
-        }
+          },
+        },
       ],
     },
   },
