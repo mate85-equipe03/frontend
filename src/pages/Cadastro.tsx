@@ -23,7 +23,8 @@ import FormLabel from "@mui/material/FormLabel";
 import api from "../services/Api";
 
 interface ISignUpData {
-  // falta incluir "nome", e "matricula" será substituida por "login"
+  // pendente incluir "nome" no back
+  // "matricula" e "login" duplicados, possuem mesmo valor.
   login: string;
   matricula: string;
   senha: string;
@@ -82,13 +83,11 @@ export default function Cadastro() {
       .then(() => {
         // navigate("/login");
         setSignUpSuccess(true);
-        // window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       })
       .catch(() => {
         setSignUpSuccess(false);
       });
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    // console.log(signUpSuccess);
   };
 
   return (
@@ -124,7 +123,6 @@ export default function Cadastro() {
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
           <form
             id="sign-up-form"
-            // onChange={handleChange}
             onSubmit={sendForm}
           >
             <FormControl required fullWidth margin="normal">
