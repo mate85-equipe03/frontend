@@ -29,7 +29,7 @@ interface ISignUpData {
   matricula: string;
   senha: string;
   confirmacaoSenha: string;
-  semestre_pgcomp: number | undefined;
+  semestre_pgcomp: number | string;
   curso: string;
   lattes_link: string;
   email: string;
@@ -39,26 +39,25 @@ interface ISignUpData {
 export default function Cadastro() {
   const navigate = useNavigate();
 
-  const [signUpError, setSignUpError] = React.useState<boolean>(false);
+  const [signUpSuccess, setSignUpSuccess] = React.useState<boolean | null>(null);
 
   const [nome, setNome] = React.useState<string>(""); //A ser implementado no back
 
   const [signUpData, setSignUpData] = React.useState<ISignUpData>({
     login: "",
-    matricula: "0",
+    matricula: "0", //unused
     senha: "",
     confirmacaoSenha: "",
-    semestre_pgcomp: undefined,
+    semestre_pgcomp: "",
     curso: "",
     lattes_link: "",
     email: "",
-    telefone: "", 
+    telefone: "",
   });
 
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(event.target.type);
     let value = undefined;
     if (event.target.type === "number") {
       value = Number(event.target.value);
@@ -76,21 +75,20 @@ export default function Cadastro() {
   };
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
+    // console.log(signUpData)
     event.preventDefault();
-    console.log(nome);
-    console.log(signUpData);
     api
       .post("/alunos", signUpData)
       .then(() => {
-        navigate("/");
+        // navigate("/login");
       })
-      .then(() => {
-        console.log("Sucess");
+      .then(()=>{
+        setSignUpSuccess(true);
       })
       .catch(() => {
-        setSignUpError(true);
-        console.log("Ocorreu um erro");
+        setSignUpSuccess(false);
       });
+    // console.log(signUpSuccess);
   };
 
   return (
@@ -101,11 +99,16 @@ export default function Cadastro() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      {signUpError && (
-        <Alert severity="error" sx={{ mb: 2 }}>
-          Credenciais inválidas. Tente novamente.
-        </Alert>
-      )}
+      {signUpSuccess!==null &&
+        (signUpSuccess ? (
+          <Alert severity="success" sx={{ mb: 2 }}>
+            Cadastro realizado com sucesso.
+          </Alert>
+        ) : (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            Ocorreu um erro. Tente novamente.
+          </Alert>
+        ))}
       <Card sx={{ minWidth: 275, maxWidth: 500 }}>
         <CardHeader
           title="Cadastro"
@@ -133,7 +136,7 @@ export default function Cadastro() {
                 placeholder="Digite seu nome completo"
                 type="text"
                 value={nome}
-                onChange={event => setNome(event.target.value)}
+                onChange={(event) => setNome(event.target.value)}
               />
             </FormControl>
             <FormControl required fullWidth margin="normal">
@@ -244,7 +247,7 @@ export default function Cadastro() {
                 name="lattes_link"
                 label="link para o CV Lattes"
                 placeholder="www.example.com.br"
-                type="text"
+                type="url"
                 value={signUpData.lattes_link}
                 onChange={handleChange}
               />
@@ -256,7 +259,7 @@ export default function Cadastro() {
                 name="email"
                 label="Email"
                 placeholder="exemplo@email.com.br"
-                type="text"
+                type="email"
                 value={signUpData.email}
                 onChange={handleChange}
               />
@@ -268,7 +271,7 @@ export default function Cadastro() {
                 name="telefone"
                 label="Telefone / Celular"
                 placeholder="(00) 00000-0000"
-                type="text"
+                type="tel"
                 value={signUpData.telefone}
                 onChange={handleChange}
               />
