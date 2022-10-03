@@ -121,10 +121,7 @@ export default function Cadastro() {
         <Divider sx={{ mx: 3 }} />
 
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
-          <form
-            id="sign-up-form"
-            onSubmit={sendForm}
-          >
+          <form id="sign-up-form" onSubmit={sendForm}>
             <FormControl required fullWidth margin="normal">
               <InputLabel htmlFor="nome">Nome</InputLabel>
               <OutlinedInput
