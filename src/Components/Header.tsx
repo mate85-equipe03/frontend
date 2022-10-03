@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Button, CardMedia, Grid, Link } from "@mui/material";
+import { Button, CardMedia, Grid, Link, Typography } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import PosgressLogo from "../assets/logos/posgress/horizontal-fundo-escuro.png";
 import UserContext from "../context/UserContext";
@@ -36,10 +36,7 @@ function Header() {
           (user ? (
             <AccountMenu />
           ) : (
-            <Grid direction="row">
-              {/* <Link color="primary.light" href="/cadastro">
-                Cadastre-se
-              </Link> */}
+            <Grid>
               <Button variant="text" disableRipple sx={{ mr: 1 }}>
                 Cadastre-se
               </Button>
