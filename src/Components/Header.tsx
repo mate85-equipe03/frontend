@@ -36,14 +36,27 @@ function Header() {
           (user ? (
             <AccountMenu />
           ) : (
-            <Button
-              variant="outlined"
-              color="secondary"
-              type="button"
-              onClick={redirectToLogin}
-            >
-              Login
-            </Button>
+            <Grid direction="row">
+              {/* <Link color="primary.light" href="/cadastro">
+                Cadastre-se
+              </Link> */}
+              <Button
+                variant="text"
+                disableRipple
+                sx={{mr:1}}
+              >
+                Cadastre-se
+              </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                type="button"
+                onClick={redirectToLogin}
+                sx={{ textTransform: "initial"}}
+              >
+                Login
+              </Button>
+            </Grid>
           ))}
       </Grid>
     </header>

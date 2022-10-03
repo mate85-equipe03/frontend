@@ -84,6 +84,16 @@ const theme = createTheme(paletteTheme, {
             },
           },
         },
+        {
+          props: { variant: "text" },
+          style: {
+            textTransform: "initial",
+            color: paletteTheme.palette.primary.light,
+            ":hover": {
+              color: hoverColor,
+            },
+          }
+        }
       ],
     },
   },
