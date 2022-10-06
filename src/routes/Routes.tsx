@@ -1,5 +1,6 @@
-import React from "react";
-import { Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Routes, useLocation } from "react-router-dom";
+import auth from "../services/Auth";
 import AuthRoutes from "./AuthRoutes";
 import GeneralRoutes from "./GeneralRoutes";
 import ProtectedRoutes from "./ProtectedRoutes";
@@ -9,13 +10,18 @@ import ProtectedRoutes from "./ProtectedRoutes";
 */
 
 function AppRoutes() {
-  return (
-    <Routes>
-      {GeneralRoutes}
-      {AuthRoutes}
-      {ProtectedRoutes}
-    </Routes>
-  );
+  const location = useLocation();
+  const [AllRoutes, setAllRoutes] = useState<JSX.Element[]>([
+    ...GeneralRoutes,
+    ...AuthRoutes,
+    ...ProtectedRoutes,
+  ]);
+
+  useEffect(() => {
+    setAllRoutes([...GeneralRoutes, ...AuthRoutes, ...ProtectedRoutes]);
+  }, [location]);
+
+  return <Routes>{AllRoutes}</Routes>;
 }
 
 export default AppRoutes;
