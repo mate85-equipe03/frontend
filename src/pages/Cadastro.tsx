@@ -206,7 +206,7 @@ export default function Cadastro() {
               />
             </FormControl>
             <FormControl required fullWidth margin="normal">
-              <FormLabel id="botãoSelecaoCurso">
+              <FormLabel id="selecionar-curso">
                 Curso do(a) candidado(a)
               </FormLabel>
               <RadioGroup
