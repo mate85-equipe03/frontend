@@ -10,12 +10,12 @@ import ProtectedRoutes from "./ProtectedRoutes";
 
 function AppRoutes() {
   const location = useLocation();
-  const InitalRoutes = [...GeneralRoutes, ...AuthRoutes, ...ProtectedRoutes];
+  const InitalRoutes = [...GeneralRoutes(), ...AuthRoutes(), ...ProtectedRoutes()];
 
   const [AllRoutes, setAllRoutes] = useState<JSX.Element[]>(InitalRoutes);
 
   useEffect(() => {
-    setAllRoutes([...GeneralRoutes, ...AuthRoutes, ...ProtectedRoutes]);
+    setAllRoutes([...GeneralRoutes(), ...AuthRoutes(), ...ProtectedRoutes()]);
   }, [location]);
 
   return <Routes>{AllRoutes}</Routes>;
