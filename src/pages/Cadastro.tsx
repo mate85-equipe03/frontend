@@ -211,7 +211,7 @@ export default function Cadastro() {
               </FormLabel>
               <RadioGroup
                 row
-                aria-labelledby="botãoSelecaoCurso"
+                aria-labelledby="selecionar-curso"
                 name="curso"
                 value={signUpData.curso}
                 onChange={handleChange}
