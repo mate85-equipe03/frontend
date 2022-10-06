@@ -58,12 +58,7 @@ export default function Cadastro() {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value;
-    if (event.target.type === "number") {
-      value = Number(event.target.value);
-    } else {
-      value = event.target.value;
-    }
+    const value = event.target.value;
     setSignUpData({
       ...signUpData,
       [event.target.name]: value,
