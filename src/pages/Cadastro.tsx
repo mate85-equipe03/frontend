@@ -61,7 +61,7 @@ export default function Cadastro() {
     const value = event.target.value;
     setSignUpData({
       ...signUpData,
-      [event.target.name]: value,
+      [event.target.name]: event.target.type === "number" ? Number(value) : value,
       matricula: signUpData.login,
     });
   };
