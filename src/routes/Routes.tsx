@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Routes, useLocation } from "react-router-dom";
-import auth from "../services/Auth";
 import AuthRoutes from "./AuthRoutes";
 import GeneralRoutes from "./GeneralRoutes";
 import ProtectedRoutes from "./ProtectedRoutes";
