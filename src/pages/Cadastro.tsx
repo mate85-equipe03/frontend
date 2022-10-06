@@ -134,7 +134,7 @@ export default function Cadastro() {
               <OutlinedInput
                 id="login"
                 name="login"
-                label="matricula"
+                label="Matrícula"
                 placeholder="Digite sua matrícula"
                 type="text"
                 value={signUpData.login}
