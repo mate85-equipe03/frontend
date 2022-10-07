@@ -10,9 +10,15 @@ export interface ICheckbox {
 }
 
 export interface IInscricaoData {
-  historicosGraduacao: IFile[];
-  historicosPosGraduacao: IFile[];
-  producoesCientificas: IFile[];
-  enade: string;
-  checkboxes: ICheckbox[];
+  historico_graduacao_file: IFile[];
+  historico_posgraduacao_file: IFile[];
+  url_enade: string;
+  processo_seletivo_id: number;
+}
+
+export interface IInscricaoDataReq {
+  historico_graduacao_file: File[];
+  historico_posgraduacao_file: File[];
+  url_enade: string;
+  processo_seletivo_id: number;
 }
