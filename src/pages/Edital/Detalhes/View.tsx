@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import moment from "moment";
-import UserContext from "../../context/UserContext";
+import UserContext from "../../../context/UserContext";
 import { IDetails } from "./Types";
 import getDetailsProcessoSeletivo from "./Service";
 
@@ -28,7 +28,7 @@ export default function EditalDetails() {
   const { editalId } = useParams();
 
   const redirectToSubscribe = () => {
-    navigate(`/inscricao-edital/${editalId}`);
+    navigate(`/edital/${editalId}/inscricao`);
   };
 
   useEffect(() => {
