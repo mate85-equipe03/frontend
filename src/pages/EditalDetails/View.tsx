@@ -27,7 +27,7 @@ export default function GeneralView() {
 
   const { editalId } = useParams();
 
-  const [isTeacher] = useState<boolean>(false);
+  const [isTeacher] = useState<boolean>(true);
   const [isInscrito] = useState<boolean>(true);
 
   const redirectToSubscribe = () => {
