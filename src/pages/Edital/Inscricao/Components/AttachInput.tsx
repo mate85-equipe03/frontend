@@ -19,9 +19,19 @@ export default function AttachInput({
 }: IProps) {
   const hasFiles = files && files.length !== 0;
 
-  const deleteFile = (indexToDelete: number) => {
-    const filteredArray = files.filter((file) => file.id !== indexToDelete);
+  const deleteFile = (idToDelete: number) => {
+    const filteredArray = files.filter((file) => file.id !== idToDelete);
     setFiles(filteredArray);
+  };
+
+  const editFile = (newFile: IFile) => {
+    const idToEdit = newFile.id;
+
+    const editedArray = files.map((file) => {
+      return file.id === idToEdit ? newFile : file;
+    });
+
+    setFiles(editedArray);
   };
 
   return (
@@ -71,10 +81,11 @@ export default function AttachInput({
           <List aria-labelledby={label} sx={{ pb: 0 }}>
             {Array.from(files)?.map((file) => (
               <AttachedFile
-                key={file.id}
-                fileKey={file.id}
-                fileName={file.fileData.name}
+                key={file?.id}
+                fileKey={file?.id}
+                fileData={file?.fileData}
                 deleteFile={deleteFile}
+                editFile={editFile}
               />
             ))}
           </List>
@@ -85,7 +96,7 @@ export default function AttachInput({
               sx={{ textTransform: "initial", py: 1 }}
             >
               <Add fontSize="small" />
-              Anexar arquivo(s)
+              Adicionar arquivo(s)
               <input
                 id={inputName}
                 name={inputName}

@@ -20,7 +20,7 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
 
   const redirectToDetails = (editalId: number) => {
-    navigate(`edital/${editalId}/detalhes`);
+    navigate(`/edital/${editalId}/detalhes`);
   };
 
   useEffect(() => {
