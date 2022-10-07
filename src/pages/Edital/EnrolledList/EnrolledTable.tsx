@@ -16,25 +16,17 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { visuallyHidden } from "@mui/utils";
-
-interface Data {
-  nome: string;
-  curso: string;
-  semestreIngresso: string;
-  // status: boolean;
-}
+import { Data, EnhancedTableProps, EnhancedTableToolbarProps, HeadCell, Order } from "../Detalhes/Interfaces";
 
 function createData(
   nome: string,
   curso: string,
   semestreIngresso: string
-  // status: boolean,
 ): Data {
   return {
     nome,
     curso,
     semestreIngresso,
-    // status,
   };
 }
 
@@ -58,8 +50,6 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-type Order = "asc" | "desc";
-
 function getComparator<Key extends keyof number | string>(
   order: Order,
   orderBy: Key
@@ -72,59 +62,23 @@ function getComparator<Key extends keyof number | string>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
-/* function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-} */
-
-interface HeadCell {
-  disablePadding: boolean;
-  id: keyof Data;
-  label: string;
-  numeric: boolean;
-}
-
 const headCells: readonly HeadCell[] = [
   {
     id: "nome",
     numeric: false,
-    disablePadding: true,
     label: "Nome",
   },
   {
     id: "curso",
-    numeric: true,
-    disablePadding: true,
+    numeric: false,
     label: "Curso",
   },
   {
     id: "semestreIngresso",
     numeric: true,
-    disablePadding: true,
     label: "Semestre de Ingresso",
   },
 ];
-
-interface EnhancedTableProps {
-  numSelected: number;
-  onRequestSort: (
-    event: React.MouseEvent<unknown>,
-    property: keyof Data
-  ) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: Order;
-  orderBy: string;
-  rowCount: number;
-}
 
 function EnhancedTableHead(props: EnhancedTableProps) {
   const {
@@ -136,7 +90,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     onRequestSort,
   } = props;
   const createSortHandler =
-    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof Data) => (event: React.MouseEvent<HTMLElement>) => {
       onRequestSort(event, property);
     };
 
@@ -158,7 +112,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
-            padding={headCell.disablePadding ? "none" : "normal"}
+            padding="none"
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
@@ -178,10 +132,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
       </TableRow>
     </TableHead>
   );
-}
-
-interface EnhancedTableToolbarProps {
-  numSelected: number;
 }
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
@@ -220,19 +170,6 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           Inscritos
         </Typography>
       )}
-      {/* {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )} */}
     </Toolbar>
   );
 }
@@ -300,7 +237,6 @@ export default function EnrolledTable() {
 
   const isSelected = (nome: string) => selected.indexOf(nome) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -323,8 +259,6 @@ export default function EnrolledTable() {
               rowCount={rows.length}
             />
             <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-              rows.slice().sort(getComparator(order, orderBy))  | stableSort(rows, getComparator(order, orderBy)) */}
               {rows
                 .slice()
                 .sort(getComparator(order, orderBy))
