@@ -18,22 +18,9 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
-import api from "../services/Api";
-import BtnSubmitLoading from "../Components/BtnSubmitLoading";
-
-interface ISignUpData {
-  // pendente incluir "nome" no back
-  // "matricula" e "login" duplicados, possuem mesmo valor.
-  login: string;
-  matricula: string;
-  senha: string;
-  confirmacaoSenha: string;
-  semestre_pgcomp: number | string;
-  curso: string;
-  lattes_link: string;
-  email: string;
-  telefone: string;
-}
+import api from "../../services/Api";
+import BtnSubmitLoading from "../../Components/BtnSubmitLoading";
+import { ISignUpData } from "./Types";
 
 export default function Cadastro() {
   const [signUpError, setSignUpError] = React.useState<boolean>(false);
@@ -57,10 +44,11 @@ export default function Cadastro() {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+    const { value } = event.target;
     setSignUpData({
       ...signUpData,
-      [event.target.name]: event.target.type === "number" ? Number(value) : value,
+      [event.target.name]:
+        event.target.type === "number" ? Number(value) : value,
       login: signUpData.matricula,
     });
   };
