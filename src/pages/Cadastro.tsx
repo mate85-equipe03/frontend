@@ -57,15 +57,10 @@ export default function Cadastro() {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value;
-    if (event.target.type === "number") {
-      value = Number(event.target.value);
-    } else {
-      value = event.target.value;
-    }
+    const value = event.target.value;
     setSignUpData({
       ...signUpData,
-      [event.target.name]: value,
+      [event.target.name]: event.target.type === "number" ? Number(value) : value,
       login: signUpData.matricula,
     });
   };
@@ -216,12 +211,12 @@ export default function Cadastro() {
               />
             </FormControl>
             <FormControl required fullWidth margin="normal">
-              <FormLabel id="botãoSelecaoCurso">
+              <FormLabel id="selecionar-curso">
                 Curso do(a) candidado(a)
               </FormLabel>
               <RadioGroup
                 row
-                aria-labelledby="botãoSelecaoCurso"
+                aria-labelledby="selecionar-curso"
                 name="curso"
                 value={signUpData.curso}
                 onChange={handleChange}
