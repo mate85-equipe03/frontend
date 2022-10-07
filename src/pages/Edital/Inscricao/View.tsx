@@ -60,10 +60,6 @@ export default function Inscricao() {
     processo_seletivo_id: Number(editalId),
   });
 
-  const redirectToDetails = () => {
-    navigate(`/edital/${editalId}/detalhes`);
-  };
-
   useEffect(() => {
     setLoadingEdital(true);
     getDetailsProcessoSeletivo(editalId)
@@ -79,7 +75,11 @@ export default function Inscricao() {
       .finally(() => {
         setLoadingEdital(false);
       });
-  }, [editalId]);
+  }, [editalId, redirectToDetails]);
+
+  const redirectToDetails = () => {
+    navigate(`/edital/${editalId}/detalhes`);
+  };
 
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
     setInscricaoData({
@@ -147,7 +147,7 @@ export default function Inscricao() {
       .then(() => {
         setInscricaoSuccess(true);
       })
-      .catch((e) => {
+      .catch(() => {
         setInscricaoError(true);
       })
       .finally(() => {
