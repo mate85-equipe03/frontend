@@ -50,7 +50,8 @@ export default function Inscricao() {
   const [loadingEdital, setLoadingEdital] = useState<boolean>(false);
   const [loadingInscricao, setLoadingInscricao] = useState<boolean>(false);
   const [inscricaoError, setInscricaoError] = React.useState<boolean>(false);
-  const [inscricaoSuccess, setInscricaoSuccess] = React.useState<boolean>(false);
+  const [inscricaoSuccess, setInscricaoSuccess] =
+    React.useState<boolean>(false);
   const [editalName, setEditalName] = useState<string>();
   const [inscricaoData, setInscricaoData] = React.useState<IInscricaoData>({
     historico_graduacao_file: [],
@@ -168,13 +169,13 @@ export default function Inscricao() {
       sx={{ height: "100%" }}
     >
       {inscricaoError && (
-        <Alert severity="error">
-          Ocorreu um erro. Tente novamente.
-        </Alert>
+        <Alert severity="error">Ocorreu um erro. Tente novamente.</Alert>
       )}
       {inscricaoSuccess && (
         <Alert severity="success">
           Inscrição realizada com sucesso.
+          <br /> [Melhorar esse texto] Lembrando que você deve preencher as
+          produções científicas para concluir sua inscrição.
         </Alert>
       )}
       <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
