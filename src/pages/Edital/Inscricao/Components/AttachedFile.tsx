@@ -63,7 +63,7 @@ export default function AttachedFile({
         </Typography>
         <Grid>
           {/* Ver como fazer o Icon disparar o click do input. O "component: label" quebrou o deploy aqui :/ */}
-          <IconButton aria-label="Editar arquivo." onClick={handleEditClick}>
+          <IconButton component="label" aria-label="Editar arquivo.">
             <Edit color="warning" />
             <input onChange={handleEditFile} type="file" accept=".pdf" hidden />
           </IconButton>
