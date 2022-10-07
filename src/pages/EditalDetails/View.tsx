@@ -43,7 +43,7 @@ export default function EditalDetails() {
       .finally(() => {
         // setLoading(false);
       });
-  });
+  }, []);
 
   const dateToStr = (rawDate: string) => {
     const date = moment(rawDate);
