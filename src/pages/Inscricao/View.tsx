@@ -63,7 +63,7 @@ export default function Inscricao() {
     //   .finally(() => {
     //     // setLoading(false);
     //   });
-  });
+  }, []);
 
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
     setInscricaoData({
