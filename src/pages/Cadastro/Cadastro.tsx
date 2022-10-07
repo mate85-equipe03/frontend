@@ -53,7 +53,6 @@ export default function Cadastro() {
     if (event.target.name === "matricula") {
       setSignUpData({
         ...signUpData,
-        matricula: value,
         login: value,
       });
     }
