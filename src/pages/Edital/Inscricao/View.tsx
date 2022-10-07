@@ -148,9 +148,11 @@ export default function Inscricao() {
     postInscricao(payload)
       .then(() => {
         setInscricaoSuccess(true);
+        setInscricaoError(false);
       })
       .catch(() => {
         setInscricaoError(true);
+        setInscricaoSuccess(false);
       })
       .finally(() => {
         setLoadingInscricao(false);
