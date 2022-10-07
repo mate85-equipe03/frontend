@@ -15,11 +15,10 @@ import {
 } from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import moment from "moment";
-import UserContext from "../../../context/UserContext";
 import { IDetails } from "./Interfaces";
 import getDetailsProcessoSeletivo from "./Service";
 
-export default function GeneralView() {
+export default function EditalDetails() {
   const navigate = useNavigate();
   // const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();
@@ -27,7 +26,7 @@ export default function GeneralView() {
 
   const { editalId } = useParams();
 
-  const [isTeacher] = useState<boolean>(false);
+  const [isTeacher] = useState<boolean>(true);
   const [isInscrito] = useState<boolean>(false);
 
   const redirectToSubscribe = () => {
