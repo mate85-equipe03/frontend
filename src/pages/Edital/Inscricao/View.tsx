@@ -68,10 +68,10 @@ export default function Inscricao() {
     setLoadingEdital(true);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
-        setEditalName(data?.titulo);
         if (data?.arquivado) {
           redirectToDetails();
         }
+        setEditalName(data?.titulo);
       })
       .catch(() => {
         // TODO: Ver como exibir erros va View
@@ -130,16 +130,16 @@ export default function Inscricao() {
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const handleFile = (filesWithId: IFile[]) => {
+    const removeFileId = (filesWithId: IFile[]) => {
       return filesWithId.map((historico) => historico.fileData);
     };
 
     const payload: IInscricaoDataReq = {
       ...inscricaoData,
-      historico_graduacao_file: handleFile(
+      historico_graduacao_file: removeFileId(
         inscricaoData.historico_graduacao_file
       ),
-      historico_posgraduacao_file: handleFile(
+      historico_posgraduacao_file: removeFileId(
         inscricaoData.historico_posgraduacao_file
       ),
     };

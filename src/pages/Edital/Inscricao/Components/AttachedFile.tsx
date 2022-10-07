@@ -62,7 +62,6 @@ export default function AttachedFile({
           {fileData?.name}
         </Typography>
         <Grid>
-          {/* Ver como fazer o Icon disparar o click do input. O "component: label" quebrou o deploy aqui :/ */}
           <IconButton
             component="label"
             aria-label="Editar arquivo."
