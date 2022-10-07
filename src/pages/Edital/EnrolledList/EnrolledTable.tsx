@@ -16,7 +16,13 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { visuallyHidden } from "@mui/utils";
-import { Data, EnhancedTableProps, EnhancedTableToolbarProps, HeadCell, Order } from "../Detalhes/Interfaces";
+import {
+  Data,
+  EnhancedTableProps,
+  EnhancedTableToolbarProps,
+  HeadCell,
+  Order,
+} from "../Detalhes/Interfaces";
 
 function createData(
   nome: string,

@@ -1,27 +1,19 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, CardHeader, Divider, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import EnrolledTable from "../../../Components/EnrolledTable";
 import { IDetails } from "../Detalhes/Interfaces";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
-// import UserContext from "../../context/UserContext";
+import EnrolledTable from "./EnrolledTable";
 
 export default function EnrolledsList() {
   // const navigate = useNavigate();
   // const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();
-  const [loading, setLoading] = useState<boolean>(true)
+  // const [loading, setLoading] = useState<boolean>(true);
   const { editalId } = useParams();
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setEdital(data);
@@ -30,7 +22,7 @@ export default function EnrolledsList() {
         // TODO: Ver como exibir erros va View
       })
       .finally(() => {
-        setLoading(false);
+        // setLoading(false);
       });
   });
 
@@ -50,7 +42,7 @@ export default function EnrolledsList() {
           }}
           subheader={edital?.titulo}
           subheaderTypographyProps={{
-            align: "center"
+            align: "center",
           }}
         />
 
