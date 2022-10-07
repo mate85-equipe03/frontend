@@ -11,8 +11,9 @@ const generalRoutes: RouteProps[] = [
   { path: "/detalhes-edital/:editalId", element: <EditalDetails /> },
 ];
 
-const GeneralRoutes = generalRoutes.map((route) => {
-  return routeWithKey(route);
-});
+const GeneralRoutes = () =>
+  generalRoutes.map((route) => {
+    return routeWithKey(route);
+  });
 
 export default GeneralRoutes;

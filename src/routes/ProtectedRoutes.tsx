@@ -22,10 +22,7 @@ const protectedRoutes: RouteProps[] = [
 /*
     Se o(a) usuário(a) NÃO estiver logado(a), redireciona-o(a) para o login caso tente acessar alguma das ProtectedRoutes
 */
-const ProtectedRoutes = routesWithRedirect(
-  !auth.isAuth(),
-  "/login",
-  protectedRoutes
-);
+const ProtectedRoutes = () =>
+  routesWithRedirect(!auth.isAuth(), "/login", protectedRoutes);
 
 export default ProtectedRoutes;
