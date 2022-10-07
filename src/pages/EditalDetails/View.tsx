@@ -2,6 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
   Grid,
   Link,
   List,
@@ -39,7 +43,7 @@ export default function EditalDetails() {
       .finally(() => {
         // setLoading(false);
       });
-  });
+  }, [editalId]);
 
   const dateToStr = (rawDate: string) => {
     const date = moment(rawDate);
@@ -54,49 +58,81 @@ export default function EditalDetails() {
       alignItems="center"
       sx={{ width: "100%" }}
     >
-      <Typography sx={{ fontSize: 40, color: "primary.main" }}>
-        {edital?.titulo}
-      </Typography>
-      <Typography sx={{ fontSize: 30, color: "primary.main" }}>
-        {edital?.descricao}
-      </Typography>
-      <List>
-        {edital?.etapas.map((etapa) => (
-          <ListItem disablePadding key={etapa.id}>
-            <ListItemText
-              primary={`${etapa.name} : ${dateToStr(etapa.data_inicio)} a 
-                ${dateToStr(etapa.data_fim)}`}
-            />
-          </ListItem>
-        ))}
-      </List>
-      <Link href={edital?.edital_url} underline="none" target="_blank">
-        <PictureAsPdfIcon />
-        {`${edital?.titulo}.pdf`}
-      </Link>
-      {edital?.arquivado ? (
-        <Typography sx={{ fontSize: 20, color: "primary.main" }}>
-          Resultados disponíveis
-        </Typography>
-      ) : (
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          sx={{ width: "100%" }}
-        >
-          {user && isInscrito ? (
-            <Typography sx={{ fontSize: 20, color: "primary.main" }}>
-              Inscrito(a)
-            </Typography>
-          ) : (
-            <Button type="button" onClick={redirectToSubscribe} size="large">
-              Inscreva-se
-            </Button>
-          )}
-        </Grid>
-      )}
+      <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
+        <CardHeader
+          title={edital?.titulo}
+          titleTypographyProps={{
+            align: "center",
+            variant: "h4",
+            p: 1,
+          }}
+          sx={{ px: 3 }}
+          subheader={edital?.descricao}
+          subheaderTypographyProps={{
+            align: "center",
+          }}
+        />
+        <Divider sx={{ mx: 3 }} />
+
+        <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
+          <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <List>
+              {edital?.etapas.map((etapa) => (
+                <ListItem disablePadding key={etapa.id}>
+                  <ListItemText
+                    primary={`${etapa.name} : ${dateToStr(etapa.data_inicio)} a 
+                          ${dateToStr(etapa.data_fim)}`}
+                  />
+                </ListItem>
+              ))}
+            </List>
+            <Link
+              href={edital?.edital_url}
+              underline="none"
+              target="_blank"
+              sx={{ my: 1 }}
+            >
+              <PictureAsPdfIcon />
+              {`${edital?.titulo}.pdf`}
+            </Link>
+            <Grid
+              container
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              sx={{ width: "100%", my: 2 }}
+            >
+              {edital?.arquivado ? (
+                <Typography sx={{ fontSize: 20, color: "primary.main" }}>
+                  Resultados disponíveis {/* link para resultado */}
+                </Typography>
+              ) : (
+                <Grid>
+                  {user && isInscrito ? (
+                    <Typography sx={{ fontSize: 20, color: "primary.main" }}>
+                      Inscrito(a)
+                    </Typography>
+                  ) : (
+                    <Button
+                      type="button"
+                      onClick={redirectToSubscribe}
+                      size="large"
+                    >
+                      Inscreva-se
+                    </Button>
+                  )}
+                </Grid>
+              )}
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
     </Grid>
   );
 }
