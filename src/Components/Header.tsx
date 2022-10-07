@@ -37,21 +37,21 @@ function Header() {
             sx={{ height: "100%" }}
           />
         </Link>
-        {!isLogin &&
-          (user ? (
-            <AccountMenu />
-          ) : (
-            <Grid>
-              {!isCadastro && (
-                <Button
-                  variant="text"
-                  disableRipple
-                  onClick={redirectToCadastro}
-                  sx={{ mr: 1 }}
-                >
-                  Cadastre-se
-                </Button>
-              )}
+        {user ? (
+          <AccountMenu />
+        ) : (
+          <Grid>
+            {!isCadastro && !isLogin && (
+              <Button
+                variant="text"
+                disableRipple
+                onClick={redirectToCadastro}
+                sx={{ mr: 1 }}
+              >
+                Cadastre-se
+              </Button>
+            )}
+            {!isLogin && (
               <Button
                 variant="outlined"
                 color="secondary"
@@ -61,8 +61,9 @@ function Header() {
               >
                 Login
               </Button>
-            </Grid>
-          ))}
+            )}
+          </Grid>
+        )}
       </Grid>
     </header>
   );
