@@ -61,6 +61,10 @@ export default function Inscricao() {
   });
 
   useEffect(() => {
+    const redirectToDetails = () => {
+      navigate(`/edital/${editalId}/detalhes`);
+    };
+
     setLoadingEdital(true);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
@@ -75,11 +79,7 @@ export default function Inscricao() {
       .finally(() => {
         setLoadingEdital(false);
       });
-  }, [editalId, redirectToDetails]);
-
-  const redirectToDetails = () => {
-    navigate(`/edital/${editalId}/detalhes`);
-  };
+  }, [editalId, navigate]);
 
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
     setInscricaoData({
