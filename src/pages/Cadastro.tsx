@@ -37,9 +37,8 @@ interface ISignUpData {
 }
 
 export default function Cadastro() {
-  const [signUpSuccess, setSignUpSuccess] = React.useState<boolean | null>(
-    null
-  );
+  const [signUpError, setSignUpError] = React.useState<boolean>(false);
+  const [signUpSuccess, setSignUpSuccess] = React.useState<boolean>(false);
 
   const [nome, setNome] = React.useState<string>(""); // A ser implementado no back
 
@@ -67,7 +66,7 @@ export default function Cadastro() {
     setSignUpData({
       ...signUpData,
       [event.target.name]: value,
-      matricula: signUpData.login,
+      login: signUpData.matricula,
     });
   };
 
@@ -82,12 +81,17 @@ export default function Cadastro() {
       .post("/alunos", signUpData)
       .then(() => {
         // navigate("/login");
-        setSignUpSuccess(true);
+        setSignUpSuccess(true);        
+        setSignUpError(false);
       })
       .catch(() => {
         setSignUpSuccess(false);
+        setSignUpError(true);
+      })
+      .finally(() => {
+        // setLoading(false);
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       });
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   };
 
   return (
@@ -98,16 +102,16 @@ export default function Cadastro() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      {signUpSuccess !== null &&
-        (signUpSuccess ? (
-          <Alert severity="success" sx={{ mb: 2 }}>
-            Cadastro realizado com sucesso.
-          </Alert>
-        ) : (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            Ocorreu um erro. Tente novamente.
-          </Alert>
-        ))}
+      {signUpSuccess && 
+        <Alert severity="success" sx={{ mb: 2 }}>
+          Cadastro realizado com sucesso.
+        </Alert>
+      }
+      {signUpError && 
+        <Alert severity="error" sx={{ mb: 2 }}>
+          Ocorreu um erro. Tente novamente.
+        </Alert>
+      }
       <Card sx={{ minWidth: 275, maxWidth: 500 }}>
         <CardHeader
           title="Cadastro"
@@ -135,14 +139,14 @@ export default function Cadastro() {
               />
             </FormControl>
             <FormControl required fullWidth margin="normal">
-              <InputLabel htmlFor="login">Matrícula</InputLabel>
+              <InputLabel htmlFor="matricula">Matrícula</InputLabel>
               <OutlinedInput
-                id="login"
-                name="login"
+                id="matricula"
+                name="matricula"
                 label="matricula"
                 placeholder="Digite sua matrícula"
                 type="text"
-                value={signUpData.login}
+                value={signUpData.matricula}
                 onChange={handleChange}
               />
             </FormControl>
