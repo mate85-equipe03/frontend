@@ -30,9 +30,8 @@ export default function AttachInput({
     const editedArray = files.map((file) => {
       if (file.id === idToEdit) {
         return newFile;
-      } else {
-        return file;
       }
+      return file;
     });
 
     setFiles(editedArray);

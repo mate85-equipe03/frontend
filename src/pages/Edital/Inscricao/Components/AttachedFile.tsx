@@ -1,6 +1,6 @@
 import React from "react";
 import { Delete, Edit } from "@mui/icons-material";
-import { Grid, IconButton, Link, ListItem, Typography } from "@mui/material";
+import { Grid, IconButton, ListItem, Typography } from "@mui/material";
 import { IFile } from "../Interfaces";
 
 interface IProps {
