@@ -8,18 +8,18 @@ interface IProps {
 }
 //   export default function EditalItem({ edital, onClick }: IProps) {
 
-export function BtnSubmitLoading(props: IProps) {
+export default function BtnSubmitLoading({ label, form, loading }: IProps) {
   return (
-    <CardActions sx={{px: { xs: 5, sm: 10 } }}>
+    <CardActions sx={{ px: { xs: 5, sm: 10 } }}>
       <Grid container justifyContent="space-between" alignItems="center">
         <Button
           fullWidth
           type="submit"
-          form={props.form}
+          form={form}
           size="large"
-          disabled={props.loading}
+          disabled={loading}
         >
-          {props.loading ? <Loading /> : props.label}
+          {loading ? <Loading /> : label}
         </Button>
       </Grid>
     </CardActions>

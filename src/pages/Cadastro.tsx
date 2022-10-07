@@ -1,9 +1,7 @@
 import React from "react";
 import {
   Alert,
-  Button,
   Card,
-  CardActions,
   CardContent,
   CardHeader,
   Divider,
@@ -21,7 +19,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import api from "../services/Api";
-import { BtnSubmitLoading } from "../Components/BtnSubmitLoading";
+import BtnSubmitLoading from "../Components/BtnSubmitLoading";
 
 interface ISignUpData {
   // pendente incluir "nome" no back
@@ -115,7 +113,7 @@ export default function Cadastro() {
           Ocorreu um erro. Tente novamente.
         </Alert>
       )}
-      <Card sx={{ minWidth: 275, maxWidth: 500, pb:4}}>
+      <Card sx={{ minWidth: 275, maxWidth: 500, pb: 4 }}>
         <CardHeader
           title="Cadastro"
           titleTypographyProps={{

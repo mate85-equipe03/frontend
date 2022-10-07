@@ -1,9 +1,7 @@
 import React, { useContext } from "react";
 import {
   Alert,
-  Button,
   Card,
-  CardActions,
   CardContent,
   CardHeader,
   Divider,
@@ -20,7 +18,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import api from "../services/Api";
 import UserContext from "../context/UserContext";
-import { BtnSubmitLoading } from "../Components/BtnSubmitLoading";
+import BtnSubmitLoading from "../Components/BtnSubmitLoading";
 
 interface ILoginData {
   username: string;
