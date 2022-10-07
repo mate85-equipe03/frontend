@@ -14,7 +14,7 @@ export default function BtnSubmitLoading({ label, formId, loading }: IProps) {
         <Button
           fullWidth
           type="submit"
-          form-id={formId}
+          form={formId}
           size="large"
           disabled={loading}
         >

@@ -49,8 +49,14 @@ export default function Cadastro() {
       ...signUpData,
       [event.target.name]:
         event.target.type === "number" ? Number(value) : value,
-      login: signUpData.matricula,
     });
+    if (event.target.name === "matricula") {
+      setSignUpData({
+        ...signUpData,
+        matricula: value,
+        login: value,
+      });
+    }
   };
 
   const handleClickShowPassword = () => {
@@ -58,7 +64,6 @@ export default function Cadastro() {
   };
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
-    // console.log(signUpData);
     event.preventDefault();
     setLoading(true);
     api
@@ -127,7 +132,7 @@ export default function Cadastro() {
               <OutlinedInput
                 id="matricula"
                 name="matricula"
-                label="matricula"
+                label="Matrícula"
                 placeholder="Digite sua matrícula"
                 type="text"
                 value={signUpData.matricula}
