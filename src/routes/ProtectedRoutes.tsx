@@ -1,5 +1,5 @@
 import { RouteProps } from "react-router-dom";
-import Inscricao from "../pages/Inscricao/View";
+import Inscricao from "../pages/Edital/Inscricao/View";
 import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
 
@@ -12,7 +12,7 @@ TODO: Futuramente, desmembrar entre:
 */
 
 const protectedRoutes: RouteProps[] = [
-  { path: "/inscricao-edital/:editalId", element: <Inscricao /> },
+  { path: "edital/:editalId/inscricao", element: <Inscricao /> },
 
   // Exemplos:
   // { path: "/estudante", element: <Home /> },
