@@ -24,17 +24,12 @@ export default function GeneralView() {
   const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();
   // const [loading, setLoading] = useState<boolean>(true); Definir se faz sentido usar
-  
+  const [isInscrito] = useState<boolean>(false); // Adicionar função para ficar dinâmico, quando tiver o retorno do backend
   const { editalId } = useParams();
 
   const [isTeacher] = useState<boolean>(false);
-  const [isInscrito] = useState<boolean>(true);
 
   const redirectToSubscribe = () => {
-    navigate(`/inscricao-edital/${editalId}`);
-  };
-
-  const redirectToEnrolledList = () => {
     navigate(`/inscricao-edital/${editalId}`);
   };
 
@@ -115,23 +110,13 @@ export default function GeneralView() {
               alignItems="center"
               sx={{ width: "100%", my: 2 }}
             >
-              { isTeacher ? (
-                <Button
-                type="button"
-                onClick={redirectToEnrolledList}
-                size="large"
-              >
-                Alunos Inscritos
-              </Button>
+              {edital?.arquivado ? (
+                <Typography sx={{ fontSize: 20, color: "primary.main" }}>
+                  Resultados disponíveis {/* link para resultado */}
+                </Typography>
               ) : (
                 <Grid>
-                  {edital?.arquivado ? (
-                    <Typography sx={{ fontSize: 20, color: "primary.main" }}>
-                    Resultados disponíveis {/* link para resultado */}
-                  </Typography>
-                  ) : (
-                    <Grid>
-                  { isInscrito ? (
+                  {user && isInscrito ? (
                     <Typography sx={{ fontSize: 20, color: "primary.main" }}>
                       Inscrito(a)
                     </Typography>
@@ -143,8 +128,6 @@ export default function GeneralView() {
                     >
                       Inscreva-se
                     </Button>
-                  )}
-                </Grid>
                   )}
                 </Grid>
               )}
