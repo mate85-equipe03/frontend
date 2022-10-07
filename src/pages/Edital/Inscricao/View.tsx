@@ -23,27 +23,6 @@ import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import Loading from "../../../Components/Loading";
 import postInscricao from "./Service";
 
-const checkboxes = [
-  {
-    id: 0,
-    value: false,
-    label:
-      "Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na resolução vigente.",
-  },
-  {
-    id: 1,
-    value: false,
-    label:
-      "Meu (minha) orientador(a) tem ciência da minha participação nesse Edital de Concessão de Bolsas.",
-  },
-  {
-    id: 2,
-    value: false,
-    label:
-      "Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso.",
-  },
-];
-
 export default function Inscricao() {
   const navigate = useNavigate();
   const { editalId } = useParams();
