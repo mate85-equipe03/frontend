@@ -20,6 +20,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import api from "../services/Api";
 import UserContext from "../context/UserContext";
+import { BtnSubmitLoading } from "../Components/BtnSubmitLoading";
 
 interface ILoginData {
   username: string;
@@ -29,6 +30,8 @@ interface ILoginData {
 export default function Login() {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
+
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   const [loginData, setLoginData] = React.useState<ILoginData>({
     username: "",
@@ -69,6 +72,7 @@ export default function Login() {
   };
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
+    setLoading(true);
     event.preventDefault();
     api
       .post("/autenticacao/login", loginData)
@@ -77,6 +81,9 @@ export default function Login() {
       })
       .catch(() => {
         setLoginError(true);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -146,13 +153,7 @@ export default function Login() {
           </form>
         </CardContent>
 
-        <CardActions sx={{ px: { xs: 5, sm: 10 } }}>
-          <Grid container justifyContent="center" alignItems="center">
-            <Button fullWidth type="submit" form="login-form" size="large">
-              Login
-            </Button>
-          </Grid>
-        </CardActions>
+        <BtnSubmitLoading label="Login" form="login-form" loading={loading} />
 
         <Grid
           container

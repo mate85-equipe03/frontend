@@ -21,7 +21,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import api from "../services/Api";
-import Loading from "../Components/Loading";
+import { BtnSubmitLoading } from "../Components/BtnSubmitLoading";
 
 interface ISignUpData {
   // pendente incluir "nome" no back
@@ -115,7 +115,7 @@ export default function Cadastro() {
           Ocorreu um erro. Tente novamente.
         </Alert>
       )}
-      <Card sx={{ minWidth: 275, maxWidth: 500 }}>
+      <Card sx={{ minWidth: 275, maxWidth: 500, pb:4}}>
         <CardHeader
           title="Cadastro"
           titleTypographyProps={{
@@ -281,13 +281,11 @@ export default function Cadastro() {
           </form>
         </CardContent>
 
-        <CardActions sx={{ pb: 4, px: { xs: 5, sm: 10 } }}>
-          <Grid container justifyContent="space-between" alignItems="center">
-              <Button fullWidth type="submit" form="sign-up-form" size="large" disabled={loading}>
-                {loading ? <Loading/> : "Enviar" } 
-              </Button>
-          </Grid>
-        </CardActions>
+        <BtnSubmitLoading
+          label="Enviar"
+          form="sign-up-form"
+          loading={loading}
+        />
       </Card>
     </Grid>
   );
