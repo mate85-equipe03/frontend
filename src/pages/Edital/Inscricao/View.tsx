@@ -96,11 +96,13 @@ export default function Inscricao() {
   };
 
   const handleFileInputChange = (event: React.ChangeEvent<HTMLFormElement>) => {
-    const previousFiles =
+    const previousValue =
       inscricaoData[event.target.name as keyof IInscricaoData];
+    const isPreviousValueAnArray = previousValue instanceof Array;
+    const previousFiles: IFile[] = isPreviousValueAnArray ? previousValue : [];
 
-    const eventFiles = event.target.files;
     let currentCount = countFiles;
+    const eventFiles = event.target.files;
     if (eventFiles) {
       const newFiles = Array.from(eventFiles)?.map((file) => {
         return { id: ++currentCount, fileData: file };
@@ -109,7 +111,7 @@ export default function Inscricao() {
       setCountFiles(currentCount);
       setInscricaoData({
         ...inscricaoData,
-        [event.target.name]: [...previousFiles, ...newFiles], // TODO: Resolver typescript
+        [event.target.name]: [...previousFiles, ...newFiles],
       });
     }
   };
@@ -225,7 +227,7 @@ export default function Inscricao() {
                 id="url_enade"
                 name="url_enade"
                 label="Link para o ENADE do seu curso de graduação"
-                placeholder="emec.mec.gov.br"
+                placeholder="https://emec.mec.gov.br"
                 type="url"
                 value={inscricaoData.url_enade}
               />
