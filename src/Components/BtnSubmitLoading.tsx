@@ -3,19 +3,18 @@ import Loading from "./Loading";
 
 interface IProps {
   label: string;
-  form: string;
+  formId: string;
   loading: boolean;
 }
-//   export default function EditalItem({ edital, onClick }: IProps) {
 
-export default function BtnSubmitLoading({ label, form, loading }: IProps) {
+export default function BtnSubmitLoading({ label, formId, loading }: IProps) {
   return (
     <CardActions sx={{ px: { xs: 5, sm: 10 } }}>
       <Grid container justifyContent="space-between" alignItems="center">
         <Button
           fullWidth
           type="submit"
-          form={form}
+          form-id={formId}
           size="large"
           disabled={loading}
         >

@@ -264,7 +264,7 @@ export default function Cadastro() {
 
         <BtnSubmitLoading
           label="Enviar"
-          form="sign-up-form"
+          formId="sign-up-form"
           loading={loading}
         />
       </Card>
