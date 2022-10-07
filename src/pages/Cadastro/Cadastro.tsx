@@ -45,15 +45,17 @@ export default function Cadastro() {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    setSignUpData({
-      ...signUpData,
-      [event.target.name]:
-        event.target.type === "number" ? Number(value) : value,
-    });
     if (event.target.name === "matricula") {
       setSignUpData({
         ...signUpData,
+        matricula: value,
         login: value,
+      });
+    } else {
+      setSignUpData({
+        ...signUpData,
+        [event.target.name]:
+          event.target.type === "number" ? Number(value) : value,
       });
     }
   };
