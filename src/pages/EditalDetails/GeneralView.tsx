@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Button,
@@ -15,16 +15,16 @@ import {
 } from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import moment from "moment";
-import UserContext from "../../context/UserContext";
+// import UserContext from "../../context/UserContext";
 import { IDetails } from "./Types";
 import getDetailsProcessoSeletivo from "./Service";
 
 export default function GeneralView() {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  // const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();
   // const [loading, setLoading] = useState<boolean>(true); Definir se faz sentido usar
-  
+
   const { editalId } = useParams();
 
   const [isTeacher] = useState<boolean>(false);
@@ -115,36 +115,38 @@ export default function GeneralView() {
               alignItems="center"
               sx={{ width: "100%", my: 2 }}
             >
-              { isTeacher ? (
+              {isTeacher ? (
                 <Button
-                type="button"
-                onClick={redirectToEnrolledList}
-                size="large"
-              >
-                Alunos Inscritos
-              </Button>
+                  type="button"
+                  onClick={redirectToEnrolledList}
+                  size="large"
+                >
+                  Alunos Inscritos
+                </Button>
               ) : (
                 <Grid>
                   {edital?.arquivado ? (
                     <Typography sx={{ fontSize: 20, color: "primary.main" }}>
-                    Resultados disponíveis {/* link para resultado */}
-                  </Typography>
-                  ) : (
-                    <Grid>
-                  { isInscrito ? (
-                    <Typography sx={{ fontSize: 20, color: "primary.main" }}>
-                      Inscrito(a)
+                      Resultados disponíveis {/* link para resultado */}
                     </Typography>
                   ) : (
-                    <Button
-                      type="button"
-                      onClick={redirectToSubscribe}
-                      size="large"
-                    >
-                      Inscreva-se
-                    </Button>
-                  )}
-                </Grid>
+                    <Grid>
+                      {isInscrito ? (
+                        <Typography
+                          sx={{ fontSize: 20, color: "primary.main" }}
+                        >
+                          Inscrito(a)
+                        </Typography>
+                      ) : (
+                        <Button
+                          type="button"
+                          onClick={redirectToSubscribe}
+                          size="large"
+                        >
+                          Inscreva-se
+                        </Button>
+                      )}
+                    </Grid>
                   )}
                 </Grid>
               )}

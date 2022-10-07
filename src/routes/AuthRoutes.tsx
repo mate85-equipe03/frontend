@@ -1,7 +1,6 @@
 import React from "react";
 import { RouteProps } from "react-router-dom";
 import Cadastro from "../pages/Cadastro";
-import EditalDetails from "../pages/EditalDetails/View";
 import Login from "../pages/Login";
 import Recuperar from "../pages/Recuperar";
 import auth from "../services/Auth";

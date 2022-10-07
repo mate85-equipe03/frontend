@@ -4,16 +4,10 @@ import {
   CardHeader,
   Divider,
   Grid,
-  List,
-  Link,
-  ListItem,
-  ListItemText,
   Typography,
 } from "@mui/material";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import moment from "moment";
 import EnrolledTable from "../../Components/EnrolledTable";
 import { IDetails } from "./Types";
 import getDetailsProcessoSeletivo from "./Service";
@@ -21,7 +15,7 @@ import getDetailsProcessoSeletivo from "./Service";
 
 export default function TeacherView() {
   // const navigate = useNavigate();
-  //const { user } = useContext(UserContext);
+  // const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();
   // const [loading, setLoading] = useState<boolean>(true); // Definir se faz sentido usar
   const { editalId } = useParams();
@@ -56,19 +50,18 @@ export default function TeacherView() {
             variant: "h4",
             p: 1,
           }}
-          subheader={edital?.arquivado ? (
-            <Typography sx={{ fontSize: 20, color: "primary.main" }}>
-            Resultados disponíveis
-            </Typography>
+          subheader={
+            edital?.arquivado ? (
+              <Typography sx={{ fontSize: 20, color: "primary.main" }}>
+                Resultados disponíveis
+              </Typography>
             ) : (
-            <Typography sx={{ fontSize: 20, color: "primary.main" }}>
-            Processo seletivo ainda aberto
-            </Typography>
-            )}
-            subheaderTypographyProps={{
-              align: "center",
-            }}
-            />
+              <Typography sx={{ fontSize: 20, color: "primary.main" }}>
+                Processo seletivo ainda aberto
+              </Typography>
+            )
+          }
+        />
 
         <Divider sx={{ mx: 3 }} />
 
@@ -86,8 +79,7 @@ export default function TeacherView() {
               justifyContent="center"
               alignItems="center"
               sx={{ width: "100%", my: 2 }}
-            >
-            </Grid>
+            />
           </Grid>
           <EnrolledTable />
         </CardContent>
