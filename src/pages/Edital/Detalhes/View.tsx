@@ -15,8 +15,8 @@ import {
 } from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import moment from "moment";
-// import UserContext from "../../context/UserContext";
-import { IDetails } from "./Types";
+import UserContext from "../../../context/UserContext";
+import { IDetails } from "./Interfaces";
 import getDetailsProcessoSeletivo from "./Service";
 
 export default function GeneralView() {
@@ -27,15 +27,15 @@ export default function GeneralView() {
 
   const { editalId } = useParams();
 
-  const [isTeacher] = useState<boolean>(true);
-  const [isInscrito] = useState<boolean>(true);
+  const [isTeacher] = useState<boolean>(false);
+  const [isInscrito] = useState<boolean>(false);
 
   const redirectToSubscribe = () => {
-    navigate(`/inscricao-edital/${editalId}`);
+    navigate(`/edital/${editalId}/inscricao`);
   };
 
   const redirectToEnrolledList = () => {
-    navigate(`/${editalId}/inscritos`);
+    navigate(`/edital/${editalId}/inscritos`);
   };
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function GeneralView() {
       .finally(() => {
         // setLoading(false);
       });
-  });
+  }, [editalId]);
 
   const dateToStr = (rawDate: string) => {
     const date = moment(rawDate);

@@ -8,10 +8,15 @@ import AccountMenu from "./AccountMenu";
 function Header() {
   const navigate = useNavigate();
   const isLogin = useLocation().pathname === "/login";
+  const isCadastro = useLocation().pathname === "/cadastro";
   const { user } = useContext(UserContext);
 
   const redirectToLogin = () => {
     navigate("/login");
+  };
+
+  const redirectToCadastro = () => {
+    navigate("/cadastro");
   };
 
   return (
@@ -32,19 +37,33 @@ function Header() {
             sx={{ height: "100%" }}
           />
         </Link>
-        {!isLogin &&
-          (user ? (
-            <AccountMenu />
-          ) : (
-            <Button
-              variant="outlined"
-              color="secondary"
-              type="button"
-              onClick={redirectToLogin}
-            >
-              Login
-            </Button>
-          ))}
+        {user ? (
+          <AccountMenu />
+        ) : (
+          <Grid>
+            {!isCadastro && !isLogin && (
+              <Button
+                variant="text"
+                disableRipple
+                onClick={redirectToCadastro}
+                sx={{ mr: 1 }}
+              >
+                Cadastre-se
+              </Button>
+            )}
+            {!isLogin && (
+              <Button
+                variant="outlined"
+                color="secondary"
+                type="button"
+                onClick={redirectToLogin}
+                sx={{ textTransform: "initial" }}
+              >
+                Login
+              </Button>
+            )}
+          </Grid>
+        )}
       </Grid>
     </header>
   );

@@ -8,12 +8,12 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import EnrolledTable from "../../Components/EnrolledTable";
-import { IDetails } from "./Types";
-import getDetailsProcessoSeletivo from "./Service";
+import EnrolledTable from "../../../Components/EnrolledTable";
+import { IDetails } from "../Detalhes/Interfaces";
+import getDetailsProcessoSeletivo from "../Detalhes/Service";
 // import UserContext from "../../context/UserContext";
 
-export default function TeacherView() {
+export default function EnrolledsList() {
   // const navigate = useNavigate();
   // const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();

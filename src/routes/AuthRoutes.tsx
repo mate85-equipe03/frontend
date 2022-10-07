@@ -1,6 +1,6 @@
 import React from "react";
 import { RouteProps } from "react-router-dom";
-import Cadastro from "../pages/Cadastro";
+import Cadastro from "../pages/Cadastro/Cadastro";
 import Login from "../pages/Login";
 import Recuperar from "../pages/Recuperar";
 import auth from "../services/Auth";
@@ -17,6 +17,6 @@ const authRoutes: RouteProps[] = [
 /*
   Se o(a) usuário(a) JÁ estiver logado(a), redireciona-o(a) para a home caso tente acessar alguma das AuthRoutes
 */
-const AuthRoutes = routesWithRedirect(auth.isAuth(), "/", authRoutes);
+const AuthRoutes = () => routesWithRedirect(auth.isAuth(), "/", authRoutes);
 
 export default AuthRoutes;

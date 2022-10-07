@@ -1,6 +1,6 @@
 import { RouteProps } from "react-router-dom";
-import TeacherView from "../pages/EditalDetails/TeacherView";
-import Inscricao from "../pages/Inscricao/View";
+import EnrolledsList from "../pages/Edital/EnrolledList/EnrolledsList";
+import Inscricao from "../pages/Edital/Inscricao/View";
 import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
 
@@ -13,21 +13,14 @@ TODO: Futuramente, desmembrar entre:
 */
 
 const protectedRoutes: RouteProps[] = [
-  { path: "/inscricao-edital/:editalId", element: <Inscricao /> },
-  { path: "/:editalId/inscritos", element: <TeacherView /> },
-
-  // Exemplos:
-  // { path: "/estudante", element: <Home /> },
-  // { path: "/estudante-teste", element: <Home /> },
+  { path: "/edital/:editalId/inscritos", element: <EnrolledsList /> },
+  { path: "/edital/:editalId/inscricao", element: <Inscricao /> },
 ];
 
 /*
     Se o(a) usuário(a) NÃO estiver logado(a), redireciona-o(a) para o login caso tente acessar alguma das ProtectedRoutes
 */
-const ProtectedRoutes = routesWithRedirect(
-  !auth.isAuth(),
-  "/login",
-  protectedRoutes
-);
+const ProtectedRoutes = () =>
+  routesWithRedirect(!auth.isAuth(), "/login", protectedRoutes);
 
 export default ProtectedRoutes;
