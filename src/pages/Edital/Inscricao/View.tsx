@@ -169,7 +169,7 @@ export default function Inscricao() {
     >
       {inscricaoError && (
         <Alert severity="error">
-          Algo deu errado. Tente novamente.
+          Ocorreu um erro. Tente novamente.
         </Alert>
       )}
       {inscricaoSuccess && (
@@ -227,7 +227,7 @@ export default function Inscricao() {
                 name="url_enade"
                 label="Link para o ENADE do seu curso de graduação"
                 placeholder="emec.mec.gov.br"
-                type="text"
+                type="url"
                 value={inscricaoData.url_enade}
               />
             </FormControl>
