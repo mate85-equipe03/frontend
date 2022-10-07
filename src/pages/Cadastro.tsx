@@ -21,6 +21,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import api from "../services/Api";
+import Loading from "../Components/Loading";
 
 interface ISignUpData {
   // pendente incluir "nome" no back
@@ -39,6 +40,7 @@ interface ISignUpData {
 export default function Cadastro() {
   const [signUpError, setSignUpError] = React.useState<boolean>(false);
   const [signUpSuccess, setSignUpSuccess] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   const [nome, setNome] = React.useState<string>(""); // A ser implementado no back
 
@@ -77,11 +79,12 @@ export default function Cadastro() {
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     // console.log(signUpData);
     event.preventDefault();
+    setLoading(true);
     api
       .post("/alunos", signUpData)
       .then(() => {
         // navigate("/login");
-        setSignUpSuccess(true);        
+        setSignUpSuccess(true);
         setSignUpError(false);
       })
       .catch(() => {
@@ -89,7 +92,7 @@ export default function Cadastro() {
         setSignUpError(true);
       })
       .finally(() => {
-        // setLoading(false);
+        setLoading(false);
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       });
   };
@@ -102,16 +105,16 @@ export default function Cadastro() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      {signUpSuccess && 
+      {signUpSuccess && (
         <Alert severity="success" sx={{ mb: 2 }}>
           Cadastro realizado com sucesso.
         </Alert>
-      }
-      {signUpError && 
+      )}
+      {signUpError && (
         <Alert severity="error" sx={{ mb: 2 }}>
           Ocorreu um erro. Tente novamente.
         </Alert>
-      }
+      )}
       <Card sx={{ minWidth: 275, maxWidth: 500 }}>
         <CardHeader
           title="Cadastro"
@@ -280,9 +283,9 @@ export default function Cadastro() {
 
         <CardActions sx={{ pb: 4, px: { xs: 5, sm: 10 } }}>
           <Grid container justifyContent="space-between" alignItems="center">
-            <Button fullWidth type="submit" form="sign-up-form" size="large">
-              Enviar
-            </Button>
+              <Button fullWidth type="submit" form="sign-up-form" size="large" disabled={loading}>
+                {loading ? <Loading/> : "Enviar" } 
+              </Button>
           </Grid>
         </CardActions>
       </Card>
