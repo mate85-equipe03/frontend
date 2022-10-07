@@ -14,6 +14,7 @@ import {
   FormGroup,
   Typography,
   Alert,
+  FormLabel,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import AttachInput from "./Components/AttachInput";
@@ -27,7 +28,7 @@ const checkboxes = [
     id: 0,
     value: false,
     label:
-      "Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na Resolução 03/2022 - PGCOMP.",
+      "Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na resolução vigente.",
   },
   {
     id: 1,
@@ -241,32 +242,31 @@ export default function Inscricao() {
               margin="normal"
               sx={{
                 color: "#00000099",
-                mt: 3,
+                m: 3,
               }}
             >
-              <Typography variant="body1" sx={{ pb: 1 }}>
-                Marque as opções que se aplicam *
-              </Typography>
-
+              <FormLabel component="legend">
+                Marque as opções que se aplicam
+              </FormLabel>
               <FormGroup>
-                {checkboxes.map((checkbox) => {
-                  return (
-                    <FormControlLabel
-                      key={checkbox.id}
-                      label={checkbox.label}
-                      control={
-                        <Checkbox
-                          required
-                          id={`checkbox-${checkbox.id}`}
-                          name={`${checkbox.id}`}
-                        />
-                      }
-                      sx={{
-                        py: 1,
-                      }}
-                    />
-                  );
-                })}
+                <FormControlLabel sx={{mb:1}}
+                  label="Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na resolução vigente."
+                  control={
+                    <Checkbox required id="checkbox-1" name="checkbox-1" />
+                  }
+                />
+                <FormControlLabel sx={{mb:1}}
+                  label="Meu (minha) orientador(a) tem ciência da minha participação nesse Edital de Concessão de Bolsas."
+                  control={
+                    <Checkbox required id="checkbox-2" name="checkbox-2" />
+                  }
+                />
+                <FormControlLabel sx={{mb:1}}
+                  label="Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso."
+                  control={
+                    <Checkbox required id="checkbox-3" name="checkbox-3" />
+                  }
+                />
               </FormGroup>
             </FormControl>
 
