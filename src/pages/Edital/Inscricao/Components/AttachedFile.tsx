@@ -1,6 +1,12 @@
 import React from "react";
 import { Delete, Edit } from "@mui/icons-material";
-import { Grid, IconButton, ListItem, Typography } from "@mui/material";
+import {
+  Grid,
+  IconButton,
+  ListItemButton,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import { IFile } from "../Interfaces";
 
 interface IProps {
@@ -43,10 +49,7 @@ export default function AttachedFile({
   };
 
   return (
-    <ListItem
-      sx={{ my: 1, py: 1, cursor: "pointer", border: 1, borderRadius: 1 }}
-      onClick={openInNewTab}
-    >
+    <ListItemButton sx={{ my: 1, py: 1 }} onClick={openInNewTab}>
       <Grid
         container
         direction="row"
@@ -54,20 +57,20 @@ export default function AttachedFile({
         justifyContent="space-between"
         wrap="nowrap"
       >
-        <Typography
+        <ListItemText
           sx={{
             color: "#00000099",
           }}
         >
           {fileData?.name}
-        </Typography>
+        </ListItemText>
         <Grid>
           <IconButton
             component="label"
             aria-label="Editar arquivo."
             onClick={handleEditClick}
           >
-            <Edit color="warning" />
+            <Edit color="primary"/>
             <input onChange={handleEditFile} type="file" accept=".pdf" hidden />
           </IconButton>
           <IconButton aria-label="Excluir arquivo." onClick={handleDeleteClick}>
@@ -75,6 +78,6 @@ export default function AttachedFile({
           </IconButton>
         </Grid>
       </Grid>
-    </ListItem>
+    </ListItemButton>
   );
 }
