@@ -49,7 +49,16 @@ export default function AttachedFile({
   };
 
   return (
-    <ListItemButton sx={{ my: 1, py: 1 }} onClick={openInNewTab}>
+    <ListItemButton
+      sx={{
+        my: 1,
+        py: 1,
+        border: 1,
+        borderRadius: 1,
+        borderColor: "#00000044",
+      }}
+      onClick={openInNewTab}
+    >
       <Grid
         container
         direction="row"
@@ -70,7 +79,7 @@ export default function AttachedFile({
             aria-label="Editar arquivo."
             onClick={handleEditClick}
           >
-            <Edit color="primary"/>
+            <Edit sx={{color:"#000000C0"}} /> 
             <input onChange={handleEditFile} type="file" accept=".pdf" hidden />
           </IconButton>
           <IconButton aria-label="Excluir arquivo." onClick={handleDeleteClick}>

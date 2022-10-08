@@ -96,15 +96,6 @@ const theme = createTheme(paletteTheme, {
         },
       ],
     },
-    MuiListItemButton: {
-      styleOverrides: {
-        root: {
-          border: "1px solid",
-          borderRadius: 4,
-          borderColor: "#00000044",
-        },
-      },
-    },
   },
 });
 
