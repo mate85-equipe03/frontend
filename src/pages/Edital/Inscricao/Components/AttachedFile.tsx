@@ -61,30 +61,54 @@ export default function AttachedFile({
     >
       <Grid
         container
+        spacing={2}
         direction="row"
         alignItems="center"
         justifyContent="space-between"
         wrap="nowrap"
       >
-        <ListItemText
-          sx={{
-            color: "#00000099",
-          }}
-        >
-          {fileData?.name}
-        </ListItemText>
-        <Grid>
-          <IconButton
-            component="label"
-            aria-label="Editar arquivo."
-            onClick={handleEditClick}
+        <Grid item>
+          <ListItemText
+            sx={{
+              color: "#00000099",
+            }}
           >
-            <Edit sx={{color:"#000000C0"}} /> 
-            <input onChange={handleEditFile} type="file" accept=".pdf" hidden />
-          </IconButton>
-          <IconButton aria-label="Excluir arquivo." onClick={handleDeleteClick}>
-            <Delete color="error" />
-          </IconButton>
+            {fileData?.name}
+          </ListItemText>
+        </Grid>
+
+        <Grid item>
+          <Grid
+            container
+            spacing={.5}
+            direction="row"
+            justifyContent="flex-end"
+            wrap="nowrap"
+          >
+            <Grid item>
+              <IconButton
+                component="label"
+                aria-label="Editar arquivo."
+                onClick={handleEditClick}
+              >
+                <Edit />
+                <input
+                  onChange={handleEditFile}
+                  type="file"
+                  accept=".pdf"
+                  hidden
+                />
+              </IconButton>
+            </Grid>
+            <Grid item>
+              <IconButton
+                aria-label="Excluir arquivo."
+                onClick={handleDeleteClick}
+              >
+                <Delete color="error" />
+              </IconButton>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </ListItemButton>
