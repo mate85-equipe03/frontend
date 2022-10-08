@@ -1,4 +1,4 @@
-import { Grid, Button, CardActions } from "@mui/material";
+import { Button } from "@mui/material";
 import Loading from "./Loading";
 
 interface IProps {
@@ -8,10 +8,15 @@ interface IProps {
   fullWidth?: boolean;
 }
 
-export default function BtnSubmitLoading({ label, formId, loading, fullWidth }: IProps) {
+export default function BtnSubmitLoading({
+  label,
+  formId,
+  loading,
+  fullWidth,
+}: IProps) {
   return (
     <Button
-      fullWidth = {fullWidth}
+      fullWidth={fullWidth}
       type="submit"
       form={formId}
       size="large"
@@ -21,3 +26,7 @@ export default function BtnSubmitLoading({ label, formId, loading, fullWidth }: 
     </Button>
   );
 }
+
+BtnSubmitLoading.defaultProps = {
+  fullWidth: false,
+};

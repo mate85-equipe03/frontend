@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Grid,
-  Button,
   Card,
   CardHeader,
   CardContent,
@@ -12,7 +11,6 @@ import {
   OutlinedInput,
   Checkbox,
   FormGroup,
-  Typography,
   Alert,
   FormLabel,
 } from "@mui/material";
@@ -265,7 +263,6 @@ export default function Inscricao() {
                 loading={loadingInscricao}
               />
             </Grid>
-            
           </form>
         </CardContent>
       </Card>

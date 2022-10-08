@@ -1,12 +1,6 @@
 import React from "react";
 import { Delete, Edit } from "@mui/icons-material";
-import {
-  Grid,
-  IconButton,
-  ListItemButton,
-  ListItemText,
-  Typography,
-} from "@mui/material";
+import { Grid, IconButton, ListItemButton, ListItemText } from "@mui/material";
 import { IFile } from "../Interfaces";
 
 interface IProps {
@@ -80,7 +74,7 @@ export default function AttachedFile({
         <Grid item>
           <Grid
             container
-            spacing={.5}
+            spacing={0.5}
             direction="row"
             justifyContent="flex-end"
             wrap="nowrap"
