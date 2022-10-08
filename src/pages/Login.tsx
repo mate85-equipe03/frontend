@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import {
   Alert,
   Card,
+  CardActions,
   CardContent,
   CardHeader,
   Divider,
@@ -150,8 +151,16 @@ export default function Login() {
             </FormControl>
           </form>
         </CardContent>
-
-        <BtnSubmitLoading label="Login" formId="login-form" loading={loading} />
+        <CardActions sx={{ px: { xs: 5, sm: 10 } }}>
+          <Grid container justifyContent="space-between" alignItems="center">
+            <BtnSubmitLoading
+              label="Login"
+              formId="login-form"
+              loading={loading}
+              fullWidth
+            />
+          </Grid>
+        </CardActions>
 
         <Grid
           container

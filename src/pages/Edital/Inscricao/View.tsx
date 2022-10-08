@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Grid,
-  Button,
   Card,
   CardHeader,
   CardContent,
@@ -12,8 +11,8 @@ import {
   OutlinedInput,
   Checkbox,
   FormGroup,
-  Typography,
   Alert,
+  FormLabel,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import AttachInput from "./Components/AttachInput";
@@ -21,27 +20,7 @@ import { IInscricaoData, IFile, IInscricaoDataReq } from "./Interfaces";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import Loading from "../../../Components/Loading";
 import postInscricao from "./Service";
-
-const checkboxes = [
-  {
-    id: 0,
-    value: false,
-    label:
-      "Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na Resolução 03/2022 - PGCOMP.",
-  },
-  {
-    id: 1,
-    value: false,
-    label:
-      "Meu (minha) orientador(a) tem ciência da minha participação nesse Edital de Concessão de Bolsas.",
-  },
-  {
-    id: 2,
-    value: false,
-    label:
-      "Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso.",
-  },
-];
+import BtnSubmitLoading from "../../../Components/BtnSubmitLoading";
 
 export default function Inscricao() {
   const navigate = useNavigate();
@@ -241,32 +220,34 @@ export default function Inscricao() {
               margin="normal"
               sx={{
                 color: "#00000099",
-                mt: 3,
+                m: 3,
               }}
             >
-              <Typography variant="body1" sx={{ pb: 1 }}>
-                Marque as opções que se aplicam *
-              </Typography>
-
+              <FormLabel component="legend">
+                Marque as opções que se aplicam
+              </FormLabel>
               <FormGroup>
-                {checkboxes.map((checkbox) => {
-                  return (
-                    <FormControlLabel
-                      key={checkbox.id}
-                      label={checkbox.label}
-                      control={
-                        <Checkbox
-                          required
-                          id={`checkbox-${checkbox.id}`}
-                          name={`${checkbox.id}`}
-                        />
-                      }
-                      sx={{
-                        py: 1,
-                      }}
-                    />
-                  );
-                })}
+                <FormControlLabel
+                  sx={{ mb: 1 }}
+                  label="Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na resolução vigente."
+                  control={
+                    <Checkbox required id="checkbox-1" name="checkbox-1" />
+                  }
+                />
+                <FormControlLabel
+                  sx={{ mb: 1 }}
+                  label="Meu (minha) orientador(a) tem ciência da minha participação nesse Edital de Concessão de Bolsas."
+                  control={
+                    <Checkbox required id="checkbox-2" name="checkbox-2" />
+                  }
+                />
+                <FormControlLabel
+                  sx={{ mb: 1 }}
+                  label="Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso."
+                  control={
+                    <Checkbox required id="checkbox-3" name="checkbox-3" />
+                  }
+                />
               </FormGroup>
             </FormControl>
 
@@ -276,12 +257,11 @@ export default function Inscricao() {
               justifyContent="flex-end"
               sx={{ mt: 1 }}
             >
-              {/* TODO: Usar novo botão de loaging */}
-              {!loadingInscricao && (
-                <Button type="submit" form="inscricao-form" size="large">
-                  Enviar
-                </Button>
-              )}
+              <BtnSubmitLoading
+                label="Enviar"
+                formId="inscricao-form"
+                loading={loadingInscricao}
+              />
             </Grid>
           </form>
         </CardContent>
