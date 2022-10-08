@@ -22,6 +22,7 @@ import { IInscricaoData, IFile, IInscricaoDataReq } from "./Interfaces";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import Loading from "../../../Components/Loading";
 import postInscricao from "./Service";
+import BtnSubmitLoading from "../../../Components/BtnSubmitLoading";
 
 export default function Inscricao() {
   const navigate = useNavigate();
@@ -228,19 +229,22 @@ export default function Inscricao() {
                 Marque as opções que se aplicam
               </FormLabel>
               <FormGroup>
-                <FormControlLabel sx={{mb:1}}
+                <FormControlLabel
+                  sx={{ mb: 1 }}
                   label="Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na resolução vigente."
                   control={
                     <Checkbox required id="checkbox-1" name="checkbox-1" />
                   }
                 />
-                <FormControlLabel sx={{mb:1}}
+                <FormControlLabel
+                  sx={{ mb: 1 }}
                   label="Meu (minha) orientador(a) tem ciência da minha participação nesse Edital de Concessão de Bolsas."
                   control={
                     <Checkbox required id="checkbox-2" name="checkbox-2" />
                   }
                 />
-                <FormControlLabel sx={{mb:1}}
+                <FormControlLabel
+                  sx={{ mb: 1 }}
                   label="Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso."
                   control={
                     <Checkbox required id="checkbox-3" name="checkbox-3" />
@@ -255,13 +259,13 @@ export default function Inscricao() {
               justifyContent="flex-end"
               sx={{ mt: 1 }}
             >
-              {/* TODO: Usar novo botão de loaging */}
-              {!loadingInscricao && (
-                <Button type="submit" form="inscricao-form" size="large">
-                  Enviar
-                </Button>
-              )}
+              <BtnSubmitLoading
+                label="Enviar"
+                formId="inscricao-form"
+                loading={loadingInscricao}
+              />
             </Grid>
+            
           </form>
         </CardContent>
       </Card>
