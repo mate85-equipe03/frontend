@@ -2,6 +2,7 @@ import React from "react";
 import {
   Alert,
   Card,
+  CardActions,
   CardContent,
   CardHeader,
   Divider,
@@ -267,12 +268,16 @@ export default function Cadastro() {
             </FormControl>
           </form>
         </CardContent>
-
-        <BtnSubmitLoading
-          label="Enviar"
-          formId="sign-up-form"
-          loading={loading}
-        />
+        <CardActions sx={{ px: { xs: 5, sm: 10 } }}>
+          <Grid container justifyContent="space-between" alignItems="center">
+            <BtnSubmitLoading
+              label="Enviar"
+              formId="sign-up-form"
+              loading={loading}
+              fullWidth
+            />
+          </Grid>
+        </CardActions>
       </Card>
     </Grid>
   );
