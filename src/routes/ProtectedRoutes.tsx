@@ -2,6 +2,7 @@ import { RouteProps } from "react-router-dom";
 import Inscricao from "../pages/Edital/Inscricao/View";
 import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
+import RevisarInscricao from "../pages/RevisarInscricao/View";
 
 /*
 TODO: Futuramente, desmembrar entre:
@@ -13,6 +14,7 @@ TODO: Futuramente, desmembrar entre:
 
 const protectedRoutes: RouteProps[] = [
   { path: "edital/:editalId/inscricao", element: <Inscricao /> },
+  { path: "edital/:editalId/inscritos/:inscricaoId", element: <RevisarInscricao /> },
 
   // Exemplos:
   // { path: "/estudante", element: <Home /> },
