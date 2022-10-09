@@ -22,7 +22,7 @@ export default function EditalDetails() {
   const navigate = useNavigate();
   // const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();
-  // const [loading, setLoading] = useState<boolean>(true);
+  // const [loading, setLoading] = useState<boolean>(false);
 
   const { editalId } = useParams();
 
@@ -38,16 +38,12 @@ export default function EditalDetails() {
   };
 
   useEffect(() => {
-    // setLoading(true);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setEdital(data);
       })
       .catch(() => {
         // TODO: Ver como exibir erros va View
-      })
-      .finally(() => {
-        // setLoading(false);
       });
   }, [editalId]);
 

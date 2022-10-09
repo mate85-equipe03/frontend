@@ -23,6 +23,7 @@
     "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.4",
     "@mui/utils": "^5.10.6",
+    "@mui/x-data-grid": "^5.17.6",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.1",
     "moment": "^2.29.4",

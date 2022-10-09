@@ -14,30 +14,18 @@ export interface IDetails {
   etapas: IEtapa[];
 }
 
-export interface EnhancedTableToolbarProps {
-  numSelected: number;
-}
-
-export interface Data {
-  nome: string;
-  curso: string;
-  semestreIngresso: string;
-}
-
-export interface HeadCell {
-  id: keyof Data;
-  label: string;
-  numeric: boolean;
-}
-
-export interface EnhancedTableProps {
-  numSelected: number;
-  onRequestSort: (
-    event: React.MouseEvent<HTMLElement>,
-    property: keyof Data
-  ) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: Order;
-  orderBy: string;
-  rowCount: number;
+export interface IInscritos {
+  id: string;
+  status: string;
+  processo_seletivo_id: number;
+  aluno_id: number;
+  url_lattes: string;
+  url_enade: string;
+  revisor_id: number;
+  auditor_id: number;
+  nota_final: number;
+  classificacao: number;
+  createdAt: string;
+  editedAt: string;
+  historico: undefined[];
 }

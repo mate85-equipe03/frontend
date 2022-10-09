@@ -1,30 +1,37 @@
 import { Card, CardContent, CardHeader, Divider, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { IDetails } from "../Detalhes/Interfaces";
+import { IDetails, IInscritos } from "../Detalhes/Interfaces";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
+import getEnrolledList from "../Detalhes/ServiceEnrolledList";
 import EnrolledTable from "./EnrolledTable";
 
 export default function EnrolledsList() {
   // const navigate = useNavigate();
-  // const { user } = useContext(UserContext);
+  // const [listaInscritos, setListInscritos] = useState<IInscritos | undefined>();
   const [edital, setEdital] = useState<IDetails | undefined>();
   // const [loading, setLoading] = useState<boolean>(true);
   const { editalId } = useParams();
 
   useEffect(() => {
-    // setLoading(true);
+    getEnrolledList(editalId)
+      .then(({ data }) => {
+        // setListInscritos(data);
+      })
+      .catch(() => {
+        // TODO: Ver como exibir erros va View
+      });
+  }, [editalId]);
+
+  useEffect(() => {
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setEdital(data);
       })
       .catch(() => {
         // TODO: Ver como exibir erros va View
-      })
-      .finally(() => {
-        // setLoading(false);
       });
-  });
+  }, [editalId]);
 
   return (
     <Grid
