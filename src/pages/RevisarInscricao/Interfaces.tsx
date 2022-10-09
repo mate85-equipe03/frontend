@@ -27,5 +27,5 @@ export interface ADetalhes {
     nota_final: number;
     classificacao: number;
     Historico: AHistorico[];
-    aluno: Aluno[];
+    aluno: Aluno;
   }
