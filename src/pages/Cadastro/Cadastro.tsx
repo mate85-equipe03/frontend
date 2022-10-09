@@ -29,7 +29,7 @@ export default function Cadastro() {
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const [signUpData, setSignUpData] = React.useState<ISignUpData>({
-    nome:"",
+    nome: "",
     login: "",
     matricula: "",
     senha: "",
