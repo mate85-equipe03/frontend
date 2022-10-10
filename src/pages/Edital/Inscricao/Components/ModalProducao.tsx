@@ -21,7 +21,6 @@ import getDetailsProcessoSeletivo from "../../Detalhes/Service";
 import AttachInput from "./AttachInput";
 import { IDetails } from "../../Detalhes/Interfaces";
 import { IFile, IProducao } from "../Interfaces";
-import { ICategoria } from "../../Detalhes/Interfaces";
 import { postProducao } from "../Service";
 
 export default function ModalProducao() {
@@ -34,13 +33,15 @@ export default function ModalProducao() {
 
   const [idCategoria, setIdCategoria] = React.useState(-1);
   const [notaCategoria, setNotaCategoria] = React.useState("0");
-  
+
   const handleChange = (event: SelectChangeEvent) => {
     const value = +event.target.value;
     setIdCategoria(value);
 
-    const selectedCategoria = edital?.categorias_producao.find(categoria => categoria.id == value );
-    if (selectedCategoria){
+    const selectedCategoria = edital?.categorias_producao.find(
+      (categoria) => categoria.id === value
+    );
+    if (selectedCategoria) {
       setNotaCategoria(selectedCategoria.pontuacao);
     }
   };
@@ -51,7 +52,10 @@ export default function ModalProducao() {
   });
 
   const setProducaoFile = (producaoFile: IFile[]) => {
-
+    setProducaoData({
+      ...producaoData,
+      files: producaoFile,
+    });
   };
 
   useEffect(() => {
@@ -117,7 +121,7 @@ export default function ModalProducao() {
       >
         <Box
           sx={{
-            position: "absolute" as const,
+            position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
@@ -128,6 +132,7 @@ export default function ModalProducao() {
             direction="column"
             justifyContent="center"
             alignItems="center"
+            sx={{ maxHeight: "500px" }}
           >
             <Card sx={{ minWidth: 500, maxWidth: 600, mt: 5 }}>
               <CardHeader
@@ -177,10 +182,7 @@ export default function ModalProducao() {
                               Selecione uma categoria
                             </MenuItem>
                             {edital?.categorias_producao.map((categoria) => (
-                              <MenuItem
-                                key={categoria.id}
-                                value={categoria.id}
-                              >
+                              <MenuItem key={categoria.id} value={categoria.id}>
                                 {categoria.nome}
                               </MenuItem>
                             ))}
@@ -211,7 +213,7 @@ export default function ModalProducao() {
                       />
                     </FormControl>
 
-                    <FormControl fullWidth margin="normal" sx={{ mt: 3 }}>
+                    {/* <FormControl fullWidth margin="normal" sx={{ mt: 3 }}>
                       <InputLabel htmlFor="url_publicacao">
                         Link para a publicação
                       </InputLabel>
@@ -222,7 +224,8 @@ export default function ModalProducao() {
                         placeholder="Link para a publicação"
                         type="url"
                       />
-                    </FormControl>
+                    </FormControl> */}
+
                     <Grid
                       container
                       direction="row"
