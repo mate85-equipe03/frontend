@@ -119,10 +119,10 @@ export default function ModalProducao() {
         aria-labelledby="modal-producoes-cientificas"
         scroll="paper"
         PaperProps={{
-          sx: { borderRadius: 5 }
+          sx: { borderRadius: 5 },
         }}
       >
-        <Card sx={{ maxWidth: 600, p: 4, borderRadius: 5  }}>
+        <Card sx={{ maxWidth: 600, p: 4, borderRadius: 5 }}>
           <CardHeader
             title="Adicionar Produção Científica"
             titleTypographyProps={{
