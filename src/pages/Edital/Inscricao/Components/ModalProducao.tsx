@@ -226,8 +226,7 @@ export default function ModalProducao() {
                     >
                       <Button onClick={handleClose}> Fechar </Button>
                       <Button type="submit" form="add-producao-form">
-                        {" "}
-                        Enviar{" "}
+                        Enviar
                       </Button>
                     </Grid>
                   </Grid>
