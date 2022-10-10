@@ -5,6 +5,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import api from "../services/Api";
 import auth from "../services/Auth";
 
 interface IUserContext {
@@ -43,6 +44,7 @@ function UserContextProvider({ children }: IPropsContextProvider) {
     const storagedUser = auth.getStoragedUser();
     if (storagedUser) {
       setUser(storagedUser);
+      api.defaults.headers.common.Authorization = `Bearer ${storagedUser.token}`;
     }
   }, []);
 

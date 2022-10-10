@@ -20,11 +20,6 @@ export default function EnrolledsList() {
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
 
   useEffect(() => {
-    // TODO: Mudar isso aqui pra rotas protegidas de professor
-    if (user?.role !== "PROFESSOR") {
-      navigate("/");
-    }
-
     if (user && editalId)
       getEnrolledList(editalId).then(({ data }) => setEnrolledList(data));
   }, [editalId, user, navigate]);
@@ -139,7 +134,7 @@ export default function EnrolledsList() {
               rows={enrolledList}
               columns={colunas}
               pageSize={10}
-              rowsPerPageOptions={[5]}
+              rowsPerPageOptions={[5, 10, 15, 20]}
               localeText={localizedTextsMap}
             />
           </div>
