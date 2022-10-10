@@ -70,6 +70,15 @@ export default function EnrolledsList() {
     },
   ];
 
+  const localizedTextsMap = {
+    columnMenuUnsort: "Não classificado",
+    columnMenuSortAsc: "Classificar por ordem crescente",
+    columnMenuSortDesc: "Classificar por ordem decrescente",
+    columnMenuFilter: "Filtro",
+    columnMenuHideColumn: "Ocultar",
+    columnMenuShowColumns: "Mostrar colunas",
+  };
+
   return (
     <Grid
       container
@@ -101,6 +110,7 @@ export default function EnrolledsList() {
               columns={colunas}
               pageSize={10}
               rowsPerPageOptions={[5]}
+              localeText={localizedTextsMap}
             />
           </div>
         </CardContent>
