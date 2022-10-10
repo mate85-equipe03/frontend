@@ -17,9 +17,9 @@ import {
 import UserContext from "../../context/UserContext";
 import { ADetalhes } from "./Interfaces";
 import Loading from "../../Components/Loading";
-import getDetalhesInscricaoProfessor from "./Service";
+import getDetalhesInscricaoAluno from "./Service";
 
-export default function RevisarInscricao() {
+export default function RevisarInscricaoAluno() {
   const { user } = useContext(UserContext);
   const [inscricao, setInscricao] = useState<ADetalhes | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -28,7 +28,7 @@ export default function RevisarInscricao() {
   useEffect(() => {
     setLoading(true);
     if(user){
-      getDetalhesInscricaoProfessor(inscricaoId, editalId, user?.token)
+      getDetalhesInscricaoAluno( editalId, user?.token)
       .then(({ data }) => {
         setInscricao(data);
       })
@@ -51,7 +51,7 @@ export default function RevisarInscricao() {
       >
         <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
           <CardHeader
-            title={inscricao?.aluno.nome}
+            title="Revisar Inscrição"
             titleTypographyProps={{
               align: "center",
               variant: "h4",
@@ -76,26 +76,7 @@ export default function RevisarInscricao() {
                 alignItems="center"
                 sx={{ width: "100%" }}
               >
-                <Typography color="primary" fontWeight="bold">
-                  {`Matrícula: ${inscricao?.aluno.matricula}`}
-                </Typography>
-                <Typography color="primary" fontWeight="bold">
-                  {`Curso: ${inscricao?.aluno.curso}`}
-                </Typography>
-                <Typography color="primary" fontWeight="bold">
-                  {`Semestre de Ingresso: ${inscricao?.aluno.semestre_pgcomp}`}
-                </Typography>
-                <Typography>
-                  <Link
-                    href={inscricao?.aluno.lattes_link}
-                    underline="none"
-                    target="_blank"
-                    sx={{ my: 1 }}
-                  >
-                    Currículo Lattes
-                  </Link>
-                </Typography>
-                <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 3, border: "none" }}>
+                <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 3, border: "none", marginBottom: 5 }}>
                   <CardHeader
                     title="Históricos"
                     titleTypographyProps={{
@@ -104,20 +85,19 @@ export default function RevisarInscricao() {
                       p: 1,
                     }}
                   />
-                <Divider sx={{ mx: 3 }} />
-
-                <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
-                    <List>
-                      {inscricao?.Historico.map((historico) => (
-                        <ListItem disablePadding key={historico.id}>
-                          <ListItemButton href={historico.url}>
-                            <ListItemText
-                              primary={`${historico.tipo}`}
-                            />
-                          </ListItemButton>
-                        </ListItem>
-                      ))}
-                    </List>
+                  <Divider sx={{ mx: 3 }} />
+                  <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
+                      <List>
+                        {inscricao?.Historico.map((historico) => (
+                          <ListItem disablePadding key={historico.id}>
+                            <ListItemButton href={historico.url}>
+                              <ListItemText
+                                primary={`${historico.tipo}`}
+                              />
+                            </ListItemButton>
+                          </ListItem>
+                        ))}
+                      </List>
                   </CardContent>
                 </Card>
                 <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 3, border: "none", marginBottom: 5 }}>
@@ -144,6 +124,13 @@ export default function RevisarInscricao() {
                       </List>
                   </CardContent>
                 </Card>
+                <Button
+                      type="button"
+                      size="large"
+                      
+                >
+                  Adicionar Produção Científica
+                </Button>
               </Grid>
             )}
           </CardContent>
