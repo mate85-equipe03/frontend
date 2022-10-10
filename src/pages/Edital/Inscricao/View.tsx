@@ -264,8 +264,8 @@ export default function Inscricao() {
                 loading={loadingInscricao}
               />
             </Grid>
-            <ModalProducao />
           </form>
+          <ModalProducao />
         </CardContent>
       </Card>
     </Grid>

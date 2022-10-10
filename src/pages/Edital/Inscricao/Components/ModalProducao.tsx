@@ -21,6 +21,7 @@ import getDetailsProcessoSeletivo from "../../Detalhes/Service";
 import AttachInput from "./AttachInput";
 import { IDetails } from "../../Detalhes/Interfaces";
 import { IFile, IProducao } from "../Interfaces";
+import api from "../../../../services/Api";
 
 export default function ModalProducao() {
   const { editalId } = useParams();
@@ -78,7 +79,6 @@ export default function ModalProducao() {
       setCountFiles(currentCount);
       setProducaoData({
         ...producaoData,
-        categortias_producao_id: currentCount,
         files: [...previousFiles, ...newFiles],
       });
     }
@@ -88,6 +88,29 @@ export default function ModalProducao() {
     if (event.target.type === "file") {
       handleFileInputChange(event);
     }
+  };
+
+  const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(producaoData);
+
+    api
+      .post(`/inscricoes/${1}/producoes`, producaoData) // /inscricoes/:idInscricao/producoes
+      .then(() => {
+        console.log("ok");
+        // setSignUpSuccess(true);
+        // setSignUpError(false);
+      })
+      .catch(() => {
+        console.log("erro");
+        // setSignUpSuccess(false);
+        // setSignUpError(true);
+      })
+      .finally(() => {
+        console.log("end");
+        // setLoading(false);
+        // window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      });
   };
 
   return (
@@ -133,7 +156,7 @@ export default function ModalProducao() {
               <form
                 id="add-producao-form"
                 onChange={handleFormChange}
-                // onSubmit={sendForm}
+                onSubmit={sendForm}
               >
                 <CardContent sx={{ px: 5 }}>
                   <Grid
@@ -198,12 +221,7 @@ export default function ModalProducao() {
                       />
                     </FormControl>
 
-                    <FormControl
-                      required
-                      fullWidth
-                      margin="normal"
-                      sx={{ mt: 3 }}
-                    >
+                    <FormControl fullWidth margin="normal" sx={{ mt: 3 }}>
                       <InputLabel htmlFor="url_publicacao">
                         Link para a publicação
                       </InputLabel>
@@ -222,7 +240,10 @@ export default function ModalProducao() {
                       sx={{ mt: 2 }}
                     >
                       <Button onClick={handleClose}> Fechar </Button>
-                      <Button> Enviar </Button>
+                      <Button type="submit" form="add-producao-form">
+                        {" "}
+                        Enviar{" "}
+                      </Button>
                     </Grid>
                   </Grid>
                 </CardContent>
