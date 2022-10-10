@@ -12,8 +12,6 @@ import {
   ListItemButton,
   ListItemText,
   ListSubheader,
-  Tooltip,
-  Typography,
 } from "@mui/material";
 import UserContext from "../../context/UserContext";
 import { ADetalhes } from "./Interfaces";
@@ -80,20 +78,26 @@ export default function RevisarInscricaoAluno() {
         <Divider sx={{ mx: 3 }} />
 
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
-          <Tooltip title="Status da Inscrição" arrow placement="top">
-            <Typography
-              color="primary"
-              sx={{
-                paddingLeft: 0.4,
-                width: 80,
-                border: "solid",
-                borderRadius: 1,
-                fontWeight: "bold",
-              }}
-            >
-              {inscricao?.status}
-            </Typography>
-          </Tooltip>
+          <List
+            component="nav"
+            aria-labelledby="status-inscricao"
+            subheader={
+              <ListSubheader
+                id="status-inscricao"
+                color="primary"
+                sx={{
+                  fontSize: 20,
+                  paddingLeft: 0,
+                }}
+              >
+                Status da Inscrição
+              </ListSubheader>
+            }
+          >
+            <ListItem>
+              <ListItemText primary={inscricao?.status} />
+            </ListItem>
+          </List>
           <List
             component="nav"
             aria-labelledby="historico"
@@ -115,8 +119,14 @@ export default function RevisarInscricaoAluno() {
             ) : (
               inscricao?.Historico?.map((historico) => (
                 <ListItem disablePadding key={historico.id}>
-                  <ListItemButton href={historico.url}>
-                    <ListItemText primary={`${historico.tipo}`} />
+                  <ListItemButton href={historico.url} divider>
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="space-between"
+                    >
+                      <ListItemText primary={`${historico.tipo}`} />
+                    </Grid>
                   </ListItemButton>
                 </ListItem>
               ))
@@ -142,11 +152,17 @@ export default function RevisarInscricaoAluno() {
               <Loading />
             ) : (
               inscricao?.producoes.map((producao) => (
-                <ListItem disablePadding key={producao.id}>
+                <ListItem disablePadding key={producao.id} divider>
                   <ListItemButton href={producao.url}>
-                    <ListItemText
-                      primary={`${producao.categorias_producao_id}`}
-                    />
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="space-between"
+                    >
+                      <ListItemText
+                        primary={`${producao.categorias_producao_id}`}
+                      />
+                    </Grid>
                   </ListItemButton>
                 </ListItem>
               ))

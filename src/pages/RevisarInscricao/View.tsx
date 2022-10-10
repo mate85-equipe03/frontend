@@ -144,8 +144,14 @@ export default function RevisarInscricao() {
             ) : (
               inscricao?.Historico?.map((historico) => (
                 <ListItem disablePadding key={historico.id}>
-                  <ListItemButton href={historico.url}>
-                    <ListItemText primary={`${historico.tipo}`} />
+                  <ListItemButton href={historico.url} divider>
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="space-between"
+                    >
+                      <ListItemText primary={`${historico.tipo}`} />
+                    </Grid>
                   </ListItemButton>
                 </ListItem>
               ))
@@ -171,11 +177,17 @@ export default function RevisarInscricao() {
               <Loading />
             ) : (
               inscricao?.producoes.map((producao) => (
-                <ListItem disablePadding key={producao.id}>
+                <ListItem disablePadding key={producao.id} divider>
                   <ListItemButton href={producao.url}>
-                    <ListItemText
-                      primary={`${producao.categorias_producao_id}`}
-                    />
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="space-between"
+                    >
+                      <ListItemText
+                        primary={`${producao.categorias_producao_id}`}
+                      />
+                    </Grid>
                   </ListItemButton>
                 </ListItem>
               ))
