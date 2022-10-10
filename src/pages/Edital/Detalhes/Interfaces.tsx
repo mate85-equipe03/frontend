@@ -33,7 +33,7 @@ export interface IInscritos {
 
 // interface dos dados da requisicao da lista de inscritos
 
-export interface Aluno {
+export interface IAluno {
   id: number;
   userId: number;
   matricula: string;
@@ -43,7 +43,7 @@ export interface Aluno {
   lattes_link: string;
 }
 
-export interface AHistorico {
+export interface IAHistorico {
   createdAt: string;
   id: number;
   url: string;
@@ -51,7 +51,7 @@ export interface AHistorico {
   inscricao_id: number;
 }
 
-export interface ADetalhes {
+export interface IADetalhes {
   id: number;
   status: string;
   processo_seletivo_id: number;
@@ -62,15 +62,15 @@ export interface ADetalhes {
   auditor_id: number;
   nota_final: number;
   classificacao: number;
-  Historico: AHistorico[];
-  aluno: Aluno;
+  Historico: IAHistorico[];
+  aluno: IAluno;
   createdAt: string;
   editedAt: string;
 }
 
-export interface ShowEnrolled {
+/* export interface ShowEnrolled {
   id: number;
   nome: string;
   semestre_pgcomp: number;
   curso: string;
-}
+} */

@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, Divider, Grid } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
-import { ADetalhes, IDetails } from "../Detalhes/Interfaces";
+import { IADetalhes, IDetails } from "../Detalhes/Interfaces";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import getEnrolledList from "../Detalhes/ServiceEnrolledList";
 import UserContext from "../../../context/UserContext";
@@ -17,7 +17,7 @@ export default function EnrolledsList() {
 
   const { user } = useContext(UserContext);
 
-  const [enrolledList, setEnrolledList] = useState<ADetalhes[]>([]);
+  const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
 
   useEffect(() => {
     if (user)
