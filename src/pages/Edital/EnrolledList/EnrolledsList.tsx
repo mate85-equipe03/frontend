@@ -134,7 +134,6 @@ export default function EnrolledsList() {
               rows={enrolledList}
               columns={colunas}
               pageSize={10}
-              rowsPerPageOptions={[5, 10, 15, 20]}
               localeText={localizedTextsMap}
             />
           </div>
