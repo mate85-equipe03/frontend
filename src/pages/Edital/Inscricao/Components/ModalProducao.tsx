@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Box,
@@ -19,9 +19,30 @@ import { Add } from "@mui/icons-material";
 import getDetailsProcessoSeletivo from "../../Detalhes/Service";
 import { useParams } from "react-router-dom";
 import AttachInput from "./AttachInput";
+import { IDetails } from "../../Detalhes/Interfaces";
 
 export default function ModalProducao() {
+  const options = [
+    {
+      label: "Apple",
+      value: "apple",
+    },
+    {
+      label: "Mango",
+      value: "mango",
+    },
+    {
+      label: "Banana",
+      value: "banana",
+    },
+    {
+      label: "Pineapple",
+      value: "pineapple",
+    },
+  ];
+
   const { editalId } = useParams();
+  const [edital, setEdital] = useState<IDetails | undefined>();
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -30,14 +51,15 @@ export default function ModalProducao() {
   const [notaCategoria, setNotaCategoria] = React.useState("0");
   const handleChange = (event: SelectChangeEvent) => {
     setNotaCategoria(event.target.value as string);
-    console.log(notaCategoria);
   };
+
+  const categorias = [];
 
   useEffect(() => {
     // setLoadingEdital(true);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
-        console.log(data);
+        setEdital(data);
       })
       .catch(() => {
         // TODO: Ver como exibir erros va View
@@ -112,9 +134,11 @@ export default function ModalProducao() {
                           <MenuItem value="0" disabled>
                             Selecione uma categoria
                           </MenuItem>
-                          <MenuItem value="10">A1</MenuItem>
-                          <MenuItem value="20">A2</MenuItem>
-                          <MenuItem value="30">A3</MenuItem>
+                          {edital?.categorias_producao.map((categoria) => (
+                            <MenuItem key={categoria.id} value={categoria.pontuacao}>
+                              {categoria.nome}
+                            </MenuItem>
+                          ))}
                         </Select>
                       </FormControl>
                     </Grid>
