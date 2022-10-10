@@ -69,7 +69,7 @@ export default function ModalProducao() {
     const previousFiles: IFile[] = isPreviousValueAnArray ? previousValue : [];
 
     let currentCount = countFiles;
-    const eventFiles = event.target.files;
+    const eventFiles:File[] = event.target.files;
     if (eventFiles) {
       const newFiles = Array.from(eventFiles)?.map((file) => {
         return { id: ++currentCount, fileData: file };
