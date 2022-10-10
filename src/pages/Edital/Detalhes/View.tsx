@@ -31,6 +31,10 @@ export default function EditalDetails() {
     navigate(`/edital/${editalId}/inscricao`);
   };
 
+  const redirectToMySubscription = () => {
+    navigate(`/edital/${editalId}/dados-inscricao`);
+  };
+
   const redirectToEnrolledList = () => {
     navigate(`/edital/${editalId}/inscritos`);
   };
@@ -125,11 +129,13 @@ export default function EditalDetails() {
                   ) : (
                     <Grid>
                       {edital?.isInscrito ? (
-                        <Typography
-                          sx={{ fontSize: 20, color: "primary.main" }}
+                        <Button
+                          type="button"
+                          onClick={redirectToMySubscription}
+                          size="large"
                         >
-                          Inscrito(a)
-                        </Typography>
+                          Visualizar Inscrição
+                        </Button>
                       ) : (
                         <Button
                           type="button"

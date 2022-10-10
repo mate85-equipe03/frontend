@@ -3,6 +3,8 @@ import EnrolledsList from "../pages/Edital/EnrolledList/EnrolledsList";
 import Inscricao from "../pages/Edital/Inscricao/View";
 import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
+import RevisarInscricao from "../pages/RevisarInscricao/View";
+import RevisarInscricaoAluno from "../pages/RevisarInscricaoAluno/View";
 
 /*
 TODO: Futuramente, desmembrar entre:
@@ -13,8 +15,16 @@ TODO: Futuramente, desmembrar entre:
 */
 
 const protectedRoutes: RouteProps[] = [
-  { path: "/edital/:editalId/inscritos", element: <EnrolledsList /> },
   { path: "/edital/:editalId/inscricao", element: <Inscricao /> },
+  {
+    path: "/edital/:editalId/inscritos/:inscricaoId",
+    element: <RevisarInscricao />,
+  },
+  {
+    path: "/edital/:editalId/dados-inscricao",
+    element: <RevisarInscricaoAluno />,
+  },
+  { path: "/edital/:editalId/inscritos", element: <EnrolledsList /> },
 ];
 
 /*
