@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
   Button,
-  Box,
-  Modal,
+  Dialog,
+  DialogContent,
+  DialogTitle,
   Grid,
   Card,
   CardContent,
@@ -14,6 +15,7 @@ import {
   MenuItem,
   OutlinedInput,
   SelectChangeEvent,
+  DialogActions,
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
@@ -113,107 +115,79 @@ export default function ModalProducao() {
         <Add fontSize="small" />
         Adicionar Produção Cientifica
       </Button>
-      <Modal
+      <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-producoes-cientificas"
-        // aria-describedby="modal-modal-description"
+        scroll="paper"
       >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            sx={{ maxHeight: "500px" }}
-          >
-            <Card sx={{ minWidth: 500, maxWidth: 600, mt: 5 }}>
-              <CardHeader
-                title="Adicionar Produção Científica"
-                titleTypographyProps={{
-                  align: "center",
-                  variant: "h4",
-                  p: 1,
-                }}
-                sx={{ px: 3 }}
-                // subheader="O qualis das publicações será o mais atual aprovado pela CAPES."
-                // subheaderTypographyProps={{ align: "center" }}
-              />
-              <Divider sx={{ mx: 3 }} />
-
-              <form
-                id="add-producao-form"
-                onChange={handleFormChange}
-                onSubmit={sendForm}
-              >
-                <CardContent sx={{ px: 5 }}>
-                  <Grid
-                    container
-                    direction="column"
-                    justifyContent="center"
-                    alignItems="center"
-                    sx={{ width: "100%" }}
-                  >
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="space-between"
-                    >
-                      <Grid item xs={10}>
-                        <FormControl fullWidth>
-                          <InputLabel id="select-categoria">
-                            Categoria
-                          </InputLabel>
-                          <Select
-                            labelId="select-categoria"
-                            label="Categoria"
-                            id="demo-simple-select"
-                            value={idCategoria.toString()}
-                            onChange={handleChange}
-                          >
-                            <MenuItem value="-1" disabled>
-                              Selecione uma categoria
-                            </MenuItem>
-                            {edital?.categorias_producao.map((categoria) => (
-                              <MenuItem key={categoria.id} value={categoria.id}>
-                                {categoria.nome}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </Grid>
-                      <Grid item xs={1.7}>
-                        <FormControl>
-                          <InputLabel htmlFor="Nota">Nota</InputLabel>
-                          <OutlinedInput
-                            id="nota_categoria"
-                            name="nota_categoria"
-                            label="Nota"
-                            type="text"
-                            value={notaCategoria}
-                            inputProps={{ readOnly: true }}
-                          />
-                        </FormControl>
-                      </Grid>
-                    </Grid>
-
-                    <FormControl required fullWidth margin="normal">
-                      <AttachInput
-                        inputName="producao_cientifica_file"
-                        label="Anexo"
-                        files={producaoData.files}
-                        setFiles={setProducaoFile}
+        <Card sx={{ maxWidth: 600, p: 4 }}>
+          <CardHeader
+            title="Adicionar Produção Científica"
+            titleTypographyProps={{
+              align: "center",
+              variant: "h4",
+              p: 1,
+            }}
+            sx={{ px: 3 }}
+            // subheader="O qualis das publicações será o mais atual aprovado pela CAPES."
+            // subheaderTypographyProps={{ align: "center" }}
+          />
+          <Divider sx={{ mx: 3 }} />
+          <CardContent sx={{ py: 5 }}>
+            <form
+              id="add-producao-form"
+              onChange={handleFormChange}
+              onSubmit={sendForm}
+            >
+              <DialogContent sx={{ p: 2, maxHeight: "300px" }}>
+                <Grid container direction="row" justifyContent="space-between">
+                  <Grid item xs={10}>
+                    <FormControl fullWidth>
+                      <InputLabel id="select-categoria">Categoria</InputLabel>
+                      <Select
+                        labelId="select-categoria"
+                        label="Categoria"
+                        id="demo-simple-select"
+                        value={idCategoria.toString()}
+                        onChange={handleChange}
+                      >
+                        <MenuItem value="-1" disabled>
+                          Selecione uma categoria
+                        </MenuItem>
+                        {edital?.categorias_producao.map((categoria) => (
+                          <MenuItem key={categoria.id} value={categoria.id}>
+                            {categoria.nome}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={1.7}>
+                    <FormControl>
+                      <InputLabel htmlFor="Nota">Nota</InputLabel>
+                      <OutlinedInput
+                        id="nota_categoria"
+                        name="nota_categoria"
+                        label="Nota"
+                        type="text"
+                        value={notaCategoria}
+                        inputProps={{ readOnly: true }}
                       />
                     </FormControl>
+                  </Grid>
+                </Grid>
 
-                    {/* <FormControl fullWidth margin="normal" sx={{ mt: 3 }}>
+                <FormControl required fullWidth margin="normal">
+                  <AttachInput
+                    inputName="producao_cientifica_file"
+                    label="Anexo"
+                    files={producaoData.files}
+                    setFiles={setProducaoFile}
+                  />
+                </FormControl>
+
+                {/* <FormControl fullWidth margin="normal" sx={{ mt: 3 }}>
                       <InputLabel htmlFor="url_publicacao">
                         Link para a publicação
                       </InputLabel>
@@ -225,25 +199,23 @@ export default function ModalProducao() {
                         type="url"
                       />
                     </FormControl> */}
+              </DialogContent>
 
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="space-between"
-                      sx={{ mt: 2 }}
-                    >
-                      <Button onClick={handleClose}> Fechar </Button>
-                      <Button type="submit" form="add-producao-form">
-                        Enviar
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </form>
-            </Card>
-          </Grid>
-        </Box>
-      </Modal>
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                sx={{ mt: 2 }}
+              >
+                <Button onClick={handleClose}> Fechar </Button>
+                <Button type="submit" form="add-producao-form">
+                  Enviar
+                </Button>
+              </Grid>
+            </form>
+          </CardContent>
+        </Card>
+      </Dialog>
     </div>
   );
 }
