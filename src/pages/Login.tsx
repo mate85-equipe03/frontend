@@ -62,8 +62,12 @@ export default function Login() {
     setShowPassword(!showPassword);
   };
 
-  const login = (accessToken: string) => {
-    const modifiedUser = { username: loginData.username, token: accessToken };
+  const login = (accessToken: string, role: string) => {
+    const modifiedUser = {
+      username: loginData.username,
+      token: accessToken,
+      role,
+    };
     setUser(modifiedUser);
     api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     localStorage.setItem("user", JSON.stringify(modifiedUser));
@@ -76,7 +80,7 @@ export default function Login() {
     api
       .post("/autenticacao/login", loginData)
       .then(({ data }) => {
-        login(data?.access_token);
+        login(data?.access_token, data?.user.role);
       })
       .catch(() => {
         setLoginError(true);
