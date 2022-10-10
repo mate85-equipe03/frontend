@@ -1,5 +1,5 @@
 import api from "../../../services/Api";
-import { IInscricaoDataReq, IProducao } from "./Interfaces";
+import { IInscricaoDataReq } from "./Interfaces";
 
 export const postInscricao = (payload: IInscricaoDataReq) => {
   const formData = new FormData();
@@ -21,18 +21,3 @@ export const postInscricao = (payload: IInscricaoDataReq) => {
   });
 };
 
-export const postProducao = (payload: IProducao) => {
-  const formData = new FormData();
-  payload.files.forEach((file) => {
-    formData.append("files", file.fileData);
-  });
-  formData.append(
-    "categorias_producao_id",
-    payload.categorias_producao_id.toString()
-  );
-  return api.post(`/inscricoes/${1}/producoes`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-};

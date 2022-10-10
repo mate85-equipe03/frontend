@@ -21,15 +21,23 @@ import getDetailsProcessoSeletivo from "../../Detalhes/Service";
 import AttachInput from "./AttachInput";
 import { IDetails } from "../../Detalhes/Interfaces";
 import { IFile, IProducao } from "../Interfaces";
-import { postProducao } from "../Service";
+// import { postProducao } from "../Service";
+import api from "../../../../services/Api";
 
-export default function ModalProducao() {
+// import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
+type PropsModal = {onSuccess:()=>void}
+
+export default function ModalProducao( {onSuccess}:PropsModal ) {
+
+
   const { editalId } = useParams();
   const [edital, setEdital] = useState<IDetails | undefined>();
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const [idCategoria, setIdCategoria] = React.useState(-1);
   const [notaCategoria, setNotaCategoria] = React.useState("0");
@@ -101,9 +109,29 @@ export default function ModalProducao() {
     }
   };
 
+  const postProducao = (payload: IProducao) => {
+    if (editalId) {
+      const formData = new FormData();
+      payload.files.forEach((file) => {
+        formData.append("files", file.fileData);
+      });
+      formData.append(
+        "categorias_producao_id",
+        payload.categorias_producao_id.toString()
+      );
+      formData.append("edital_id", editalId);
+      return api.post(`/inscricoes/producoes`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    }
+  };
+
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     postProducao(producaoData);
+    onSuccess();
     // console.log(producaoData);
   };
 
@@ -173,7 +201,8 @@ export default function ModalProducao() {
                         label="Nota"
                         type="text"
                         value={notaCategoria}
-                        inputProps={{ readOnly: true }}
+                        // inputProps={{ readOnly: true }}
+                        disabled
                       />
                     </FormControl>
                   </Grid>
@@ -209,9 +238,19 @@ export default function ModalProducao() {
                 sx={{ mt: 2 }}
               >
                 <Button onClick={handleClose}> Fechar </Button>
-                <Button type="submit" form="add-producao-form">
+                <Button
+                  type="submit"
+                  form="add-producao-form"
+                  onClick={handleClose}
+                >
                   Enviar
                 </Button>
+                {/* <BtnSubmitLoading
+                  label = "Enviar"
+                  formId = "add-producao-form"
+                  loading = 
+                  fullWidth,
+                /> */}
               </Grid>
             </form>
           </CardContent>
