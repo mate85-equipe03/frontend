@@ -1,16 +1,16 @@
-export interface AHistorico {
+export interface IHistorico {
   id: number;
   url: string;
   tipo: string;
   inscricao_id: number;
 }
-export interface AProducoes {
+export interface IProducoes {
   id: number;
   inscricao_id: number;
   categorias_producao_id: number;
   url: string;
 }
-export interface ADetalhes {
+export interface IDetalhes {
   id: number;
   status: string;
   processo_seletivo_id: number;
@@ -21,6 +21,6 @@ export interface ADetalhes {
   auditor_id: number;
   nota_final: number;
   classificacao: number;
-  Historico: AHistorico[];
-  producoes: AProducoes[];
+  Historico: IHistorico[];
+  producoes: IProducoes[];
 }

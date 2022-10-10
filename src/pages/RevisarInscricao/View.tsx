@@ -14,7 +14,7 @@ import {
   ListSubheader,
 } from "@mui/material";
 import UserContext from "../../context/UserContext";
-import { ADetalhes } from "./Interfaces";
+import { IDetalhes } from "./Interfaces";
 import Loading from "../../Components/Loading";
 import getDetalhesInscricaoProfessor from "./Service";
 import getDetailsProcessoSeletivo from "../Edital/Detalhes/Service";
@@ -22,7 +22,7 @@ import { IDetails } from "../Edital/Detalhes/Interfaces";
 
 export default function RevisarInscricao() {
   const { user } = useContext(UserContext);
-  const [inscricao, setInscricao] = useState<ADetalhes | undefined>();
+  const [inscricao, setInscricao] = useState<IDetalhes | undefined>();
   const [edital, setEdital] = useState<IDetails | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
   const { editalId, inscricaoId } = useParams();
@@ -46,9 +46,6 @@ export default function RevisarInscricao() {
         })
         .catch(() => {
           // TODO: Ver como exibir erros va View
-        })
-        .finally(() => {
-          // setLoading(false);
         });
     }
   }, [inscricaoId, editalId, user]);
@@ -116,7 +113,6 @@ export default function RevisarInscricao() {
                 </ListItem>
                 <ListItem sx={{ paddingBottom: 0 }}>
                   <Link href={inscricao?.aluno.lattes_link} target="blank">
-                    {" "}
                     Currículo Lattes
                   </Link>
                 </ListItem>

@@ -14,7 +14,7 @@ import {
   ListSubheader,
 } from "@mui/material";
 import UserContext from "../../context/UserContext";
-import { ADetalhes } from "./Interfaces";
+import { IDetalhes } from "./Interfaces";
 import Loading from "../../Components/Loading";
 import getDetalhesInscricaoAluno from "./Service";
 import getDetailsProcessoSeletivo from "../Edital/Detalhes/Service";
@@ -22,7 +22,7 @@ import { IDetails } from "../Edital/Detalhes/Interfaces";
 
 export default function RevisarInscricaoAluno() {
   const { user } = useContext(UserContext);
-  const [inscricao, setInscricao] = useState<ADetalhes | undefined>();
+  const [inscricao, setInscricao] = useState<IDetalhes | undefined>();
   const [edital, setEdital] = useState<IDetails | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
   const { editalId, inscricaoId } = useParams();
