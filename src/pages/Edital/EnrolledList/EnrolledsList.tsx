@@ -71,7 +71,7 @@ export default function EnrolledsList() {
   ];
 
   const localizedTextsMap = {
-    noRowsLabel: 'Sem inscrições',
+    noRowsLabel: "Sem inscrições",
     columnMenuUnsort: "Não classificado",
     columnMenuSortAsc: "Classificar por ordem crescente",
     columnMenuSortDesc: "Classificar por ordem decrescente",
