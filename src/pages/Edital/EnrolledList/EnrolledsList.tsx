@@ -12,7 +12,7 @@ import UserContext from "../../../context/UserContext";
 
 export default function EnrolledsList() {
   const navigate = useNavigate();
-  const [edital, setEdital] = useState<IDetails | undefined>();
+  const [editalName, setEditalName] = useState<string>();
 
   const { editalId } = useParams();
 
@@ -36,7 +36,7 @@ export default function EnrolledsList() {
   useEffect(() => {
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
-        setEdital(data);
+        setEditalName(data?.titulo);
       })
       .catch(() => {
         // TODO: Ver como exibir erros va View
@@ -121,7 +121,7 @@ export default function EnrolledsList() {
           titleTypographyProps={{
             align: "center",
           }}
-          subheader={edital?.titulo}
+          subheader={editalName}
           subheaderTypographyProps={{
             align: "center",
           }}
