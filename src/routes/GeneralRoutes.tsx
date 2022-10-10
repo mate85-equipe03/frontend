@@ -8,7 +8,7 @@ import EditalDetails from "../pages/Edital/Detalhes/View";
 const generalRoutes: RouteProps[] = [
   { path: "/", element: <Home /> },
   { path: "*", element: <PageNotFound /> },
-  { path: "edital/:editalId/detalhes", element: <EditalDetails /> },
+  { path: "/edital/:editalId/detalhes", element: <EditalDetails /> },
 ];
 
 const GeneralRoutes = () =>
