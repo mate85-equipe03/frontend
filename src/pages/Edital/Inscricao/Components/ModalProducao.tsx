@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Button,
   Box,
@@ -21,23 +21,26 @@ import getDetailsProcessoSeletivo from "../../Detalhes/Service";
 import AttachInput from "./AttachInput";
 import { IDetails } from "../../Detalhes/Interfaces";
 import { IFile, IProducao } from "../Interfaces";
-import api from "../../../../services/Api";
+import UserContext from "../../../../context/UserContext";
+import {postProducao} from "../Service";
 
 export default function ModalProducao() {
   const { editalId } = useParams();
   const [edital, setEdital] = useState<IDetails | undefined>();
 
+  const { user } = useContext(UserContext);
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [notaCategoria, setNotaCategoria] = React.useState("0");
+  const [notaCategoria, setNotaCategoria] = React.useState("-1");
   const handleChange = (event: SelectChangeEvent) => {
     setNotaCategoria(event.target.value as string);
   };
 
   const [producaoData, setProducaoData] = React.useState<IProducao>({
-    categortias_producao_id: 0,
+    categorias_producao_id: 0,
     files: [],
   });
 
@@ -53,6 +56,7 @@ export default function ModalProducao() {
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setEdital(data);
+        console.log(data);
       })
       .catch(() => {
         // TODO: Ver como exibir erros va View
@@ -79,6 +83,7 @@ export default function ModalProducao() {
       setCountFiles(currentCount);
       setProducaoData({
         ...producaoData,
+        categorias_producao_id: +notaCategoria,
         files: [...previousFiles, ...newFiles],
       });
     }
@@ -93,24 +98,7 @@ export default function ModalProducao() {
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(producaoData);
-
-    api
-      .post(`/inscricoes/${1}/producoes`, producaoData) // /inscricoes/:idInscricao/producoes
-      .then(() => {
-        console.log("ok");
-        // setSignUpSuccess(true);
-        // setSignUpError(false);
-      })
-      .catch(() => {
-        console.log("erro");
-        // setSignUpSuccess(false);
-        // setSignUpError(true);
-      })
-      .finally(() => {
-        console.log("end");
-        // setLoading(false);
-        // window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-      });
+    postProducao(producaoData);
   };
 
   return (
@@ -183,13 +171,14 @@ export default function ModalProducao() {
                             value={notaCategoria}
                             onChange={handleChange}
                           >
-                            <MenuItem value="0" disabled>
+                            <MenuItem value="-1" disabled>
                               Selecione uma categoria
                             </MenuItem>
                             {edital?.categorias_producao.map((categoria) => (
                               <MenuItem
                                 key={categoria.id}
-                                value={categoria.pontuacao}
+                                // value={categoria.pontuacao}
+                                value={categoria.id}
                               >
                                 {categoria.nome}
                               </MenuItem>

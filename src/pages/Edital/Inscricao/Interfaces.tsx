@@ -24,6 +24,6 @@ export interface IInscricaoDataReq {
 }
 
 export interface IProducao {
-  categortias_producao_id: number;
+  categorias_producao_id: number;
   files: IFile[];
 }
