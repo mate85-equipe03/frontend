@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Box,
@@ -21,14 +21,11 @@ import getDetailsProcessoSeletivo from "../../Detalhes/Service";
 import AttachInput from "./AttachInput";
 import { IDetails } from "../../Detalhes/Interfaces";
 import { IFile, IProducao } from "../Interfaces";
-import UserContext from "../../../../context/UserContext";
-import {postProducao} from "../Service";
+import { postProducao } from "../Service";
 
 export default function ModalProducao() {
   const { editalId } = useParams();
   const [edital, setEdital] = useState<IDetails | undefined>();
-
-  const { user } = useContext(UserContext);
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -56,7 +53,6 @@ export default function ModalProducao() {
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setEdital(data);
-        console.log(data);
       })
       .catch(() => {
         // TODO: Ver como exibir erros va View
@@ -97,8 +93,8 @@ export default function ModalProducao() {
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(producaoData);
     postProducao(producaoData);
+    // console.log(producaoData);
   };
 
   return (

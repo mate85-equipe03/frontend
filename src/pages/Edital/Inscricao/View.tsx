@@ -19,7 +19,7 @@ import AttachInput from "./Components/AttachInput";
 import { IInscricaoData, IFile, IInscricaoDataReq } from "./Interfaces";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import Loading from "../../../Components/Loading";
-import {postInscricao} from "./Service";
+import { postInscricao } from "./Service";
 import BtnSubmitLoading from "../../../Components/BtnSubmitLoading";
 import ModalProducao from "./Components/ModalProducao";
 
