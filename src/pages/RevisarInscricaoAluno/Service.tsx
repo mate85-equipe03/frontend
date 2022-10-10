@@ -9,6 +9,7 @@ const getDetalhesInscricaoAluno = (
     headers: {
       Authorization: `Bearer ${token}`,
     },
+  }
   );
 };
 

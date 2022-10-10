@@ -12,6 +12,7 @@ const getDetalhesInscricaoProfessor = (
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    }
   );
 };
 
