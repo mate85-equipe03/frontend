@@ -21,6 +21,10 @@ export default function EnrolledsList() {
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
 
   useEffect(() => {
+    if (user?.role !== "PROFESSOR") {
+      navigate("/")
+    }
+
     if (user && editalId)
       getEnrolledList(editalId).then(({ data }) =>
         setEnrolledList(data)
