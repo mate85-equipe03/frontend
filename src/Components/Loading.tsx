@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unknown-property */
+
 import React from "react";
 import SvgIcon from "@mui/material/SvgIcon";
 import Grid from "@mui/material/Grid";
@@ -24,7 +26,13 @@ function Loading({ color }: IProps) {
   const fillColor = getFillColor(color);
 
   return (
-    <Grid container direction="row" alignItems="center" justifyContent="center" height="100%">
+    <Grid
+      container
+      direction="row"
+      alignItems="center"
+      justifyContent="center"
+      height="100%"
+    >
       <SvgIcon viewBox="0 0 100 100">
         <g transform="translate(80,50)">
           <g transform="rotate(0)">
@@ -37,7 +45,7 @@ function Loading({ color }: IProps) {
                 keyTimes="0;1"
                 dur="1s"
                 repeatCount="indefinite"
-              ></animateTransform>
+              />
               <animate
                 attributeName="fill-opacity"
                 keyTimes="0;1"
@@ -45,7 +53,7 @@ function Loading({ color }: IProps) {
                 repeatCount="indefinite"
                 values="1;0"
                 begin="-0.875s"
-              ></animate>
+              />
             </circle>
           </g>
         </g>
@@ -60,7 +68,7 @@ function Loading({ color }: IProps) {
                 keyTimes="0;1"
                 dur="1s"
                 repeatCount="indefinite"
-              ></animateTransform>
+              />
               <animate
                 attributeName="fill-opacity"
                 keyTimes="0;1"
@@ -68,7 +76,7 @@ function Loading({ color }: IProps) {
                 repeatCount="indefinite"
                 values="1;0"
                 begin="-0.75s"
-              ></animate>
+              />
             </circle>
           </g>
         </g>
@@ -83,7 +91,7 @@ function Loading({ color }: IProps) {
                 keyTimes="0;1"
                 dur="1s"
                 repeatCount="indefinite"
-              ></animateTransform>
+              />
               <animate
                 attributeName="fill-opacity"
                 keyTimes="0;1"
@@ -91,7 +99,7 @@ function Loading({ color }: IProps) {
                 repeatCount="indefinite"
                 values="1;0"
                 begin="-0.625s"
-              ></animate>
+              />
             </circle>
           </g>
         </g>
@@ -106,7 +114,7 @@ function Loading({ color }: IProps) {
                 keyTimes="0;1"
                 dur="1s"
                 repeatCount="indefinite"
-              ></animateTransform>
+              />
               <animate
                 attributeName="fill-opacity"
                 keyTimes="0;1"
@@ -114,7 +122,7 @@ function Loading({ color }: IProps) {
                 repeatCount="indefinite"
                 values="1;0"
                 begin="-0.5s"
-              ></animate>
+              />
             </circle>
           </g>
         </g>
@@ -129,7 +137,7 @@ function Loading({ color }: IProps) {
                 keyTimes="0;1"
                 dur="1s"
                 repeatCount="indefinite"
-              ></animateTransform>
+              />
               <animate
                 attributeName="fill-opacity"
                 keyTimes="0;1"
@@ -137,7 +145,7 @@ function Loading({ color }: IProps) {
                 repeatCount="indefinite"
                 values="1;0"
                 begin="-0.375s"
-              ></animate>
+              />
             </circle>
           </g>
         </g>
@@ -152,7 +160,7 @@ function Loading({ color }: IProps) {
                 keyTimes="0;1"
                 dur="1s"
                 repeatCount="indefinite"
-              ></animateTransform>
+              />
               <animate
                 attributeName="fill-opacity"
                 keyTimes="0;1"
@@ -160,7 +168,7 @@ function Loading({ color }: IProps) {
                 repeatCount="indefinite"
                 values="1;0"
                 begin="-0.25s"
-              ></animate>
+              />
             </circle>
           </g>
         </g>
@@ -175,7 +183,7 @@ function Loading({ color }: IProps) {
                 keyTimes="0;1"
                 dur="1s"
                 repeatCount="indefinite"
-              ></animateTransform>
+              />
               <animate
                 attributeName="fill-opacity"
                 keyTimes="0;1"
@@ -183,7 +191,7 @@ function Loading({ color }: IProps) {
                 repeatCount="indefinite"
                 values="1;0"
                 begin="-0.125s"
-              ></animate>
+              />
             </circle>
           </g>
         </g>
@@ -198,7 +206,7 @@ function Loading({ color }: IProps) {
                 keyTimes="0;1"
                 dur="1s"
                 repeatCount="indefinite"
-              ></animateTransform>
+              />
               <animate
                 attributeName="fill-opacity"
                 keyTimes="0;1"
@@ -206,7 +214,7 @@ function Loading({ color }: IProps) {
                 repeatCount="indefinite"
                 values="1;0"
                 begin="0s"
-              ></animate>
+              />
             </circle>
           </g>
         </g>
@@ -214,5 +222,9 @@ function Loading({ color }: IProps) {
     </Grid>
   );
 }
+
+Loading.defaultProps = {
+  color: "primary",
+};
 
 export default Loading;
