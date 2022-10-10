@@ -5,7 +5,7 @@ const getEnrolledList = (editalId: string) => {
   return api.get<IADetalhes[]>(`/processos-seletivos/${editalId}/inscricoes`);
 };
 
-const getEnrolledDetails = (editalId: string | undefined) => {
+const getEnrolledDetails = (editalId: string) => {
   return api.get<IInscritos>(`/processos-seletivos/${editalId}`);
 };
 
