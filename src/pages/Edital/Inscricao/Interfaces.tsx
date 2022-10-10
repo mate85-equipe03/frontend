@@ -22,3 +22,8 @@ export interface IInscricaoDataReq {
   url_enade: string;
   processo_seletivo_id: number;
 }
+
+export interface IProducao {
+  categortias_producao_id: number;
+  files: IFile[] ;
+}

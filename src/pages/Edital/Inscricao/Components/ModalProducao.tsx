@@ -20,9 +20,9 @@ import getDetailsProcessoSeletivo from "../../Detalhes/Service";
 import { useParams } from "react-router-dom";
 import AttachInput from "./AttachInput";
 import { IDetails } from "../../Detalhes/Interfaces";
+import { IFile, IProducao } from "../Interfaces";
 
 export default function ModalProducao() {
-  
   const { editalId } = useParams();
   const [edital, setEdital] = useState<IDetails | undefined>();
 
@@ -35,7 +35,17 @@ export default function ModalProducao() {
     setNotaCategoria(event.target.value as string);
   };
 
-  const categorias = [];
+  const [producaoData, setProducaoData] = React.useState<IProducao>({
+    categortias_producao_id: 0,
+    files: [],
+  });
+
+  const setProducaoFile = (producaoFile: IFile[]) => {
+    setProducaoData({
+      ...producaoData,
+      files: producaoFile,
+    });
+  };
 
   useEffect(() => {
     // setLoadingEdital(true);
@@ -50,6 +60,43 @@ export default function ModalProducao() {
         // setLoadingEdital(false);
       });
   }, []);
+
+  const [countFiles, setCountFiles] = useState<number>(0);
+
+  const handleFileInputChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+    const previousValue = producaoData["files" as keyof IProducao];
+    const isPreviousValueAnArray = previousValue instanceof Array;
+    const previousFiles: IFile[] = isPreviousValueAnArray ? previousValue : [];
+
+    let currentCount = countFiles;
+    const eventFiles = event.target.files;
+
+    if (eventFiles) {
+      const newFiles = Array.from(eventFiles)?.map((file) => {
+        return { id: ++currentCount, fileData: file };
+      });
+      console.log(newFiles);
+      setCountFiles(currentCount);
+
+      setProducaoData({
+        ...producaoData,
+        files: [...previousFiles, eventFiles],
+      });
+    }
+
+    //   setInscricaoData({
+    //     ...inscricaoData,
+    //     [event.target.name]: [...previousFiles, ...newFiles],
+    //   });
+    // }
+  };
+
+  const handleFormChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+    if (event.target.type === "file") {
+      handleFileInputChange(event);
+    }
+  };
+
   return (
     <div>
       <Button onClick={handleOpen}>
@@ -90,92 +137,103 @@ export default function ModalProducao() {
               />
               <Divider sx={{ mx: 3 }} />
 
-              <CardContent sx={{ px: 5 }}>
-                <Grid
-                  container
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
-                  sx={{ width: "100%" }}
-                >
+              <form
+                id="add-producao-form"
+                onChange={handleFormChange}
+                // onSubmit={sendForm}
+              >
+                <CardContent sx={{ px: 5 }}>
                   <Grid
                     container
-                    direction="row"
-                    justifyContent="space-between"
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    sx={{ width: "100%" }}
                   >
-                    <Grid item xs={10}>
-                      <FormControl fullWidth>
-                        <InputLabel id="select-categoria">Categoria</InputLabel>
-                        <Select
-                          labelId="select-categoria"
-                          label="Categoria"
-                          id="demo-simple-select"
-                          value={notaCategoria}
-                          onChange={handleChange}
-                        >
-                          <MenuItem value="0" disabled>
-                            Selecione uma categoria
-                          </MenuItem>
-                          {edital?.categorias_producao.map((categoria) => (
-                            <MenuItem key={categoria.id} value={categoria.pontuacao}>
-                              {categoria.nome}
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="space-between"
+                    >
+                      <Grid item xs={10}>
+                        <FormControl fullWidth>
+                          <InputLabel id="select-categoria">
+                            Categoria
+                          </InputLabel>
+                          <Select
+                            labelId="select-categoria"
+                            label="Categoria"
+                            id="demo-simple-select"
+                            value={notaCategoria}
+                            onChange={handleChange}
+                          >
+                            <MenuItem value="0" disabled>
+                              Selecione uma categoria
                             </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
+                            {edital?.categorias_producao.map((categoria) => (
+                              <MenuItem
+                                key={categoria.id}
+                                value={categoria.pontuacao}
+                              >
+                                {categoria.nome}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={1.7}>
+                        <FormControl>
+                          <InputLabel htmlFor="Nota">Nota</InputLabel>
+                          <OutlinedInput
+                            id="nota_categoria"
+                            name="nota_categoria"
+                            label="Nota"
+                            type="text"
+                            value={notaCategoria}
+                            inputProps={{ readOnly: true }}
+                          />
+                        </FormControl>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={1.5}>
-                      <FormControl>
-                        <InputLabel htmlFor="Nota">Nota</InputLabel>
-                        <OutlinedInput
-                          id="nota_categoria"
-                          name="nota_categoria"
-                          label="Nota"
-                          type="text"
-                          value={notaCategoria}
-                          inputProps={{ readOnly: true }}
-                        />
-                      </FormControl>
+
+                    <FormControl required fullWidth margin="normal">
+                      <AttachInput
+                        inputName="producao_cientifica_file"
+                        label="Anexo"
+                        files={producaoData.files}
+                        setFiles={setProducaoFile}
+                      />
+                    </FormControl>
+
+                    <FormControl
+                      required
+                      fullWidth
+                      margin="normal"
+                      sx={{ mt: 3 }}
+                    >
+                      <InputLabel htmlFor="url_publicacao">
+                        Link para a publicação
+                      </InputLabel>
+                      <OutlinedInput
+                        id="url_publicacao"
+                        name="url_publicacao"
+                        label="Link para a publicação"
+                        placeholder="Link para a publicação"
+                        type="url"
+                      />
+                    </FormControl>
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="space-between"
+                      sx={{ mt: 2 }}
+                    >
+                      <Button onClick={handleClose}> Fechar </Button>
+                      <Button> Enviar </Button>
                     </Grid>
                   </Grid>
-
-                  <FormControl required fullWidth margin="normal">
-                    <AttachInput
-                      inputName="producao_cientifica_file"
-                      label="Anexo"
-                      // files={inscricaoData.historico_posgraduacao_file}
-                      // setFiles={setHistoricosPosGraduacao}
-                    />
-                  </FormControl>
-
-                  <FormControl
-                    required
-                    fullWidth
-                    margin="normal"
-                    sx={{ mt: 3 }}
-                  >
-                    <InputLabel htmlFor="url_publicacao">
-                      Link para a publicação
-                    </InputLabel>
-                    <OutlinedInput
-                      id="url_publicacao"
-                      name="url_publicacao"
-                      label="Link para a publicação"
-                      placeholder="Link para a publicação"
-                      type="url"
-                    />
-                  </FormControl>
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-between"
-                    sx={{ mt: 2 }}
-                  >
-                    <Button onClick={handleClose}> Fechar </Button>
-                    <Button> Enviar </Button>
-                  </Grid>
-                </Grid>
-              </CardContent>
+                </CardContent>
+              </form>
             </Card>
           </Grid>
         </Box>
