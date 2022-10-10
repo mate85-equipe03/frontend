@@ -15,8 +15,14 @@ TODO: Futuramente, desmembrar entre:
 
 const protectedRoutes: RouteProps[] = [
   { path: "edital/:editalId/inscricao", element: <Inscricao /> },
-  { path: "edital/:editalId/inscritos/:inscricaoId", element: <RevisarInscricao /> },
-  { path: "edital/:editalId/dados-inscricao", element: <RevisarInscricaoAluno /> },
+  {
+    path: "edital/:editalId/inscritos/:inscricaoId",
+    element: <RevisarInscricao />,
+  },
+  {
+    path: "edital/:editalId/dados-inscricao",
+    element: <RevisarInscricaoAluno />,
+  },
 
   // Exemplos:
   // { path: "/estudante", element: <Home /> },
