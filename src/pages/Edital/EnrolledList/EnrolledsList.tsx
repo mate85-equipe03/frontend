@@ -6,7 +6,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import { getEnrolledList } from "./Service";
 import { IADetalhes } from "./Interfaces";
-import { IDetails } from "../Detalhes/Interfaces";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import UserContext from "../../../context/UserContext";
 
@@ -21,15 +20,14 @@ export default function EnrolledsList() {
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
 
   useEffect(() => {
+    // TODO: Mudar isso aqui pra rotas protegidas de professor
     if (user?.role !== "PROFESSOR") {
-      navigate("/")
+      navigate("/");
     }
 
     if (user && editalId)
-      getEnrolledList(editalId).then(({ data }) =>
-        setEnrolledList(data)
-      );
-  }, [editalId, user]);
+      getEnrolledList(editalId).then(({ data }) => setEnrolledList(data));
+  }, [editalId, user, navigate]);
 
   // const [loading, setLoading] = useState<boolean>(true);
 
