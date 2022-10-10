@@ -10,6 +10,7 @@ const authRoutes: RouteProps[] = [
   { path: "/login", element: <Login /> },
   { path: "/cadastro", element: <Cadastro /> },
   { path: "/recuperar-senha", element: <Recuperar /> },
+
   // exemplo: { path: "/login-teste", element: <Login /> },
 ];
 

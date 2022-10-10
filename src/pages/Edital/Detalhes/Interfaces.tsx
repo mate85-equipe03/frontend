@@ -17,5 +17,6 @@ export interface IDetails {
   edital_url: string;
   arquivado: boolean;
   etapas: IEtapa[];
+  isInscrito: boolean;
   categorias_producao: ICategoria[];
 }
