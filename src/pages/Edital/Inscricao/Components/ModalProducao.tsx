@@ -3,7 +3,6 @@ import {
   Button,
   Dialog,
   DialogContent,
-  DialogTitle,
   Grid,
   Card,
   CardContent,
@@ -15,7 +14,6 @@ import {
   MenuItem,
   OutlinedInput,
   SelectChangeEvent,
-  DialogActions,
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
@@ -120,8 +118,11 @@ export default function ModalProducao() {
         onClose={handleClose}
         aria-labelledby="modal-producoes-cientificas"
         scroll="paper"
+        PaperProps={{
+          sx: { borderRadius: 5 }
+        }}
       >
-        <Card sx={{ maxWidth: 600, p: 4 }}>
+        <Card sx={{ maxWidth: 600, p: 4, borderRadius: 5  }}>
           <CardHeader
             title="Adicionar Produção Científica"
             titleTypographyProps={{
