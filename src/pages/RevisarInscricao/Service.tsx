@@ -2,17 +2,11 @@ import api from "../../services/Api";
 import { IDetalhes } from "./Interfaces";
 
 const getDetalhesInscricaoProfessor = (
-  inscricaoId: string | undefined,
-  editalId: string | undefined,
-  token: string | undefined
+  inscricaoId: string,
+  editalId: string,
 ) => {
   return api.get<IDetalhes>(
-    `/processos-seletivos/${editalId}/inscricoes/${inscricaoId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+    `/processos-seletivos/${editalId}/inscricoes/${inscricaoId}`
   );
 };
 

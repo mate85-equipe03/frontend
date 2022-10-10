@@ -29,8 +29,8 @@ export default function RevisarInscricao() {
 
   useEffect(() => {
     setLoading(true);
-    if (user) {
-      getDetalhesInscricaoProfessor(inscricaoId, editalId, user?.token)
+    if (user && inscricaoId && editalId) {
+      getDetalhesInscricaoProfessor(inscricaoId, editalId)
         .then(({ data }) => {
           setInscricao(data);
         })
