@@ -1,6 +1,6 @@
 export interface ISignUpData {
-  // pendente incluir "nome" no back
   // "matricula" e "login" duplicados, possuem mesmo valor.
+  nome: string;
   login: string;
   matricula: string;
   senha: string;
