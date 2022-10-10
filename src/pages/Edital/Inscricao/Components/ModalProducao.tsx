@@ -21,6 +21,7 @@ import getDetailsProcessoSeletivo from "../../Detalhes/Service";
 import AttachInput from "./AttachInput";
 import { IDetails } from "../../Detalhes/Interfaces";
 import { IFile, IProducao } from "../Interfaces";
+import { ICategoria } from "../../Detalhes/Interfaces";
 import { postProducao } from "../Service";
 
 export default function ModalProducao() {
@@ -31,9 +32,17 @@ export default function ModalProducao() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [notaCategoria, setNotaCategoria] = React.useState("-1");
+  const [idCategoria, setIdCategoria] = React.useState(-1);
+  const [notaCategoria, setNotaCategoria] = React.useState("0");
+  
   const handleChange = (event: SelectChangeEvent) => {
-    setNotaCategoria(event.target.value as string);
+    const value = +event.target.value;
+    setIdCategoria(value);
+    
+    const selectedCategoria = edital?.categorias_producao.find(categoria => categoria.id == value );
+    if (selectedCategoria){
+      setNotaCategoria(selectedCategoria.pontuacao);
+    }
   };
 
   const [producaoData, setProducaoData] = React.useState<IProducao>({
@@ -42,10 +51,7 @@ export default function ModalProducao() {
   });
 
   const setProducaoFile = (producaoFile: IFile[]) => {
-    setProducaoData({
-      ...producaoData,
-      files: producaoFile,
-    });
+
   };
 
   useEffect(() => {
@@ -79,7 +85,7 @@ export default function ModalProducao() {
       setCountFiles(currentCount);
       setProducaoData({
         ...producaoData,
-        categorias_producao_id: +notaCategoria,
+        categorias_producao_id: +idCategoria,
         files: [...previousFiles, ...newFiles],
       });
     }
@@ -164,7 +170,7 @@ export default function ModalProducao() {
                             labelId="select-categoria"
                             label="Categoria"
                             id="demo-simple-select"
-                            value={notaCategoria}
+                            value={idCategoria.toString()}
                             onChange={handleChange}
                           >
                             <MenuItem value="-1" disabled>
