@@ -9,8 +9,7 @@ const getDetalhesInscricaoAluno = (
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  }
-  );
+  });
 };
 
 export default getDetalhesInscricaoAluno;

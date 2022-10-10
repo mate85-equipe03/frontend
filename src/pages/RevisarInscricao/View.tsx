@@ -31,25 +31,25 @@ export default function RevisarInscricao() {
     setLoading(true);
     if (user) {
       getDetalhesInscricaoProfessor(inscricaoId, editalId, user?.token)
-      .then(({ data }) => {
-        setInscricao(data);
-      })
-      .catch(() => {
-        // TODO: Ver como exibir erros va View
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+        .then(({ data }) => {
+          setInscricao(data);
+        })
+        .catch(() => {
+          // TODO: Ver como exibir erros va View
+        })
+        .finally(() => {
+          setLoading(false);
+        });
       getDetailsProcessoSeletivo(editalId)
-      .then(({ data }) => {
-        setEdital(data);
-      })
-      .catch(() => {
-        // TODO: Ver como exibir erros va View
-      })
-      .finally(() => {
-        // setLoading(false);
-      });
+        .then(({ data }) => {
+          setEdital(data);
+        })
+        .catch(() => {
+          // TODO: Ver como exibir erros va View
+        })
+        .finally(() => {
+          // setLoading(false);
+        });
     }
   }, [inscricaoId, editalId, user]);
 
