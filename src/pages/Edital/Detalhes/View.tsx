@@ -27,8 +27,6 @@ export default function EditalDetails() {
 
   const { editalId } = useParams();
 
-  const [isInscrito] = useState<boolean>(false);
-
   const redirectToSubscribe = () => {
     navigate(`/edital/${editalId}/inscricao`);
   };
@@ -126,7 +124,7 @@ export default function EditalDetails() {
                     </Typography>
                   ) : (
                     <Grid>
-                      {isInscrito ? (
+                      {edital?.isInscrito ? (
                         <Typography
                           sx={{ fontSize: 20, color: "primary.main" }}
                         >

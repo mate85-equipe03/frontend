@@ -1,10 +1,13 @@
-import { Alert, Card, CardContent, CardHeader, Divider, Grid } from "@mui/material";
-import { useEffect, useState } from "react";
+/* eslint-disable react/jsx-props-no-spreading */
+
+import { Card, CardContent, CardHeader, Divider, Grid } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
-import { IDetails, IInscritos } from "../Detalhes/Interfaces";
+import { ADetalhes, IDetails } from "../Detalhes/Interfaces";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import getEnrolledList from "../Detalhes/ServiceEnrolledList";
+import UserContext from "../../../context/UserContext";
 
 export default function EnrolledsList() {
   const navigate = useNavigate();
@@ -12,21 +15,21 @@ export default function EnrolledsList() {
 
   const { editalId } = useParams();
 
-  const [enrolledList, setEnrolledList] = useState([])
+  const { user } = useContext(UserContext);
+
+  const [enrolledList, setEnrolledList] = useState<ADetalhes[]>([]);
 
   useEffect(() => {
-    //getEnrolledList(editalId)
-      fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((data) => data.json()) 
-      .then((data) =>  setEnrolledList(data))
-  })
+    if (user)
+      getEnrolledList(editalId, user?.token).then(({ data }) =>
+        setEnrolledList(data)
+      );
+  }, [editalId, user]);
 
   // const [loading, setLoading] = useState<boolean>(true);
-  
-  const [message, setMessage] = useState('');
 
-  const handleRowClick: GridEventListener<'rowClick'> = (params) => {
-    navigate(`/edital/${editalId}/inscritos/${params.row.id}`)
+  const handleRowClick: GridEventListener<"rowClick"> = (params) => {
+    navigate(`/edital/${editalId}/inscritos/${params.row.id}`);
   };
 
   useEffect(() => {
@@ -41,8 +44,30 @@ export default function EnrolledsList() {
 
   const colunas: GridColDef[] = [
     { field: "id", headerName: "ID", width: 50 },
-    { field: "title", headerName: "Title", width: 250 },
-    { field: "body", headerName: "Body", width: 130 },
+    {
+      field: "nome",
+      headerName: "Nome",
+      width: 300,
+      valueGetter: (params) => {
+        return params.getValue(params.id, "aluno").nome;
+      },
+    },
+    {
+      field: "curso",
+      headerName: "Curso",
+      width: 100,
+      valueGetter: (params) => {
+        return params.getValue(params.id, "aluno").curso;
+      },
+    },
+    {
+      field: "semestre",
+      headerName: "Semestre de Ingresso",
+      width: 200,
+      valueGetter: (params) => {
+        return params.getValue(params.id, "aluno").semestre_pgcomp;
+      },
+    },
   ];
 
   return (
@@ -68,12 +93,13 @@ export default function EnrolledsList() {
         <Divider sx={{ mx: 3 }} />
 
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
-          <div style={{ height: 370, width: 800 }}>
+          <div style={{ height: 400, width: 700 }}>
             <DataGrid
-              onRowClick={handleRowClick} {...enrolledList}
+              onRowClick={handleRowClick}
+              {...enrolledList}
               rows={enrolledList}
               columns={colunas}
-              pageSize={5}
+              pageSize={10}
               rowsPerPageOptions={[5]}
             />
           </div>
