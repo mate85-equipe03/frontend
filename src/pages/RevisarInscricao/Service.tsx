@@ -3,7 +3,7 @@ import { IDetalhes } from "./Interfaces";
 
 const getDetalhesInscricaoProfessor = (
   inscricaoId: string,
-  editalId: string,
+  editalId: string
 ) => {
   return api.get<IDetalhes>(
     `/processos-seletivos/${editalId}/inscricoes/${inscricaoId}`

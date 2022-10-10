@@ -130,12 +130,12 @@ export default function EditalDetails() {
                     <Grid>
                       {edital?.isInscrito ? (
                         <Button
-                            type="button"
-                            onClick={redirectToMySubscription}
-                            size="large"
-                          >
-                            Visualizar Inscrição
-                          </Button>
+                          type="button"
+                          onClick={redirectToMySubscription}
+                          size="large"
+                        >
+                          Visualizar Inscrição
+                        </Button>
                       ) : (
                         <Button
                           type="button"
