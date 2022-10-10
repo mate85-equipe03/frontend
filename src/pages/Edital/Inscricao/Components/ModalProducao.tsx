@@ -16,8 +16,8 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import getDetailsProcessoSeletivo from "../../Detalhes/Service";
 import { useParams } from "react-router-dom";
+import getDetailsProcessoSeletivo from "../../Detalhes/Service";
 import AttachInput from "./AttachInput";
 import { IDetails } from "../../Detalhes/Interfaces";
 import { IFile, IProducao } from "../Interfaces";
@@ -59,36 +59,29 @@ export default function ModalProducao() {
       .finally(() => {
         // setLoadingEdital(false);
       });
-  }, []);
+  }, [editalId]);
 
   const [countFiles, setCountFiles] = useState<number>(0);
 
   const handleFileInputChange = (event: React.ChangeEvent<HTMLFormElement>) => {
-    const previousValue = producaoData["files" as keyof IProducao];
+    const previousValue = producaoData.files;
     const isPreviousValueAnArray = previousValue instanceof Array;
     const previousFiles: IFile[] = isPreviousValueAnArray ? previousValue : [];
 
     let currentCount = countFiles;
     const eventFiles = event.target.files;
-
     if (eventFiles) {
       const newFiles = Array.from(eventFiles)?.map((file) => {
         return { id: ++currentCount, fileData: file };
       });
-      console.log(newFiles);
-      setCountFiles(currentCount);
 
+      setCountFiles(currentCount);
       setProducaoData({
         ...producaoData,
-        files: [...previousFiles, eventFiles],
+        categortias_producao_id: currentCount,
+        files: [...previousFiles, ...newFiles],
       });
     }
-
-    //   setInscricaoData({
-    //     ...inscricaoData,
-    //     [event.target.name]: [...previousFiles, ...newFiles],
-    //   });
-    // }
   };
 
   const handleFormChange = (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -111,7 +104,7 @@ export default function ModalProducao() {
       >
         <Box
           sx={{
-            position: "absolute" as "absolute",
+            position: "absolute" as const,
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",

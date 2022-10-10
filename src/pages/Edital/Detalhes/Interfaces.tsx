@@ -5,10 +5,10 @@ export interface IEtapa {
   data_fim: string;
 }
 
-export interface ICategoria{
+export interface ICategoria {
   id: number;
   nome: string;
-  pontuacao:string;
+  pontuacao: string;
 }
 export interface IDetails {
   titulo: string;
@@ -17,5 +17,5 @@ export interface IDetails {
   edital_url: string;
   arquivado: boolean;
   etapas: IEtapa[];
-  categorias_producao: ICategoria[]
+  categorias_producao: ICategoria[];
 }
