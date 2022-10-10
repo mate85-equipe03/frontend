@@ -38,7 +38,7 @@ export default function ModalProducao() {
   const handleChange = (event: SelectChangeEvent) => {
     const value = +event.target.value;
     setIdCategoria(value);
-    
+
     const selectedCategoria = edital?.categorias_producao.find(categoria => categoria.id == value );
     if (selectedCategoria){
       setNotaCategoria(selectedCategoria.pontuacao);
@@ -179,7 +179,6 @@ export default function ModalProducao() {
                             {edital?.categorias_producao.map((categoria) => (
                               <MenuItem
                                 key={categoria.id}
-                                // value={categoria.pontuacao}
                                 value={categoria.id}
                               >
                                 {categoria.nome}
