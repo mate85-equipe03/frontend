@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
-  Button,
   Card,
   CardContent,
   CardHeader,
@@ -13,7 +12,6 @@ import {
   ListItemButton,
   ListItemText,
   ListSubheader,
-  Typography,
 } from "@mui/material";
 import UserContext from "../../context/UserContext";
 import { ADetalhes } from "./Interfaces";
@@ -29,21 +27,10 @@ export default function RevisarInscricao() {
   const [loading, setLoading] = useState<boolean>(true);
   const { editalId, inscricaoId } = useParams();
 
-  function requestEdital() {
-    getDetailsProcessoSeletivo(editalId)
-      .then(({ data }) => {
-        setEdital(data);
-      })
-      .catch(() => {
-        // TODO: Ver como exibir erros va View
-      })
-      .finally(() => {
-        // setLoading(false);
-      });
-  }
-
-  function requestInscricoes() {
-    getDetalhesInscricaoProfessor(inscricaoId, editalId, user?.token)
+  useEffect(() => {
+    setLoading(true);
+    if (user) {
+      getDetalhesInscricaoProfessor(inscricaoId, editalId, user?.token)
       .then(({ data }) => {
         setInscricao(data);
       })
@@ -53,13 +40,16 @@ export default function RevisarInscricao() {
       .finally(() => {
         setLoading(false);
       });
-  }
-
-  useEffect(() => {
-    setLoading(true);
-    if (user) {
-      requestEdital();
-      requestInscricoes();
+      getDetailsProcessoSeletivo(editalId)
+      .then(({ data }) => {
+        setEdital(data);
+      })
+      .catch(() => {
+        // TODO: Ver como exibir erros va View
+      })
+      .finally(() => {
+        // setLoading(false);
+      });
     }
   }, [inscricaoId, editalId, user]);
 

@@ -29,21 +29,10 @@ export default function RevisarInscricaoAluno() {
   const [loading, setLoading] = useState<boolean>(true);
   const { editalId, inscricaoId } = useParams();
 
-  function requestEdital() {
-    getDetailsProcessoSeletivo(editalId)
-      .then(({ data }) => {
-        setEdital(data);
-      })
-      .catch(() => {
-        // TODO: Ver como exibir erros va View
-      })
-      .finally(() => {
-        // setLoading(false);
-      });
-  }
-
-  function requestInscricoes() {
-    getDetalhesInscricaoAluno(editalId, user?.token)
+  useEffect(() => {
+    setLoading(true);
+    if (user) {
+      getDetalhesInscricaoAluno(editalId, user?.token)
       .then(({ data }) => {
         setInscricao(data);
       })
@@ -53,13 +42,16 @@ export default function RevisarInscricaoAluno() {
       .finally(() => {
         setLoading(false);
       });
-  }
-
-  useEffect(() => {
-    setLoading(true);
-    if (user) {
-      requestEdital();
-      requestInscricoes();
+      getDetailsProcessoSeletivo(editalId)
+      .then(({ data }) => {
+        setEdital(data);
+      })
+      .catch(() => {
+        // TODO: Ver como exibir erros va View
+      })
+      .finally(() => {
+        // setLoading(false);
+      });
     }
   }, [inscricaoId, editalId, user]);
 
