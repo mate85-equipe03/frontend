@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Button, CardMedia, Grid, Link } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
-import BolsisLogo from "../assets/logos/bolsis/bolsis-horizontal-branco.png";
+import PosgressLogo from "../assets/logos/posgress/sem-texto-fundo-claro.png";
 import UserContext from "../context/UserContext";
 import AccountMenu from "./AccountMenu";
 
@@ -32,7 +32,7 @@ function Header() {
         <Link href="/" sx={{ height: "100%" }}>
           <CardMedia
             component="img"
-            image={BolsisLogo}
+            image={PosgressLogo}
             alt="Logo Posgress"
             sx={{ height: "100%" }}
           />
