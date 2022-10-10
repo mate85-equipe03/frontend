@@ -37,7 +37,9 @@ export default function Home() {
       });
   }, []);
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <Grid
       container
       direction="column"
@@ -79,17 +81,13 @@ export default function Home() {
             {/* 
             TODO: Exibir componente padrão em caso de array vazio
             */}
-            {loading ? (
-              <Loading />
-            ) : (
-              editais?.em_andamento?.map((edital) => (
-                <EditalItem
-                  key={edital?.id}
-                  edital={edital}
-                  onClick={() => redirectToDetails(edital.id)}
-                />
-              ))
-            )}
+            {editais?.em_andamento?.map((edital) => (
+              <EditalItem
+                key={edital?.id}
+                edital={edital}
+                onClick={() => redirectToDetails(edital.id)}
+              />
+            ))}
           </List>
 
           <List
@@ -108,17 +106,13 @@ export default function Home() {
             {/* 
             TODO: Exibir componente padrão em caso de array vazio
             */}
-            {loading ? (
-              <Loading />
-            ) : (
-              editais?.arquivados?.map((edital) => (
-                <EditalItem
-                  key={edital?.id}
-                  edital={edital}
-                  onClick={() => redirectToDetails(edital.id)}
-                />
-              ))
-            )}
+            {editais?.arquivados?.map((edital) => (
+              <EditalItem
+                key={edital?.id}
+                edital={edital}
+                onClick={() => redirectToDetails(edital.id)}
+              />
+            ))}
           </List>
         </CardContent>
       </Card>
