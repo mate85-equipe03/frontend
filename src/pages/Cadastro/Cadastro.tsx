@@ -28,9 +28,8 @@ export default function Cadastro() {
   const [signUpSuccess, setSignUpSuccess] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
 
-  const [nome, setNome] = React.useState<string>(""); // A ser implementado no back
-
   const [signUpData, setSignUpData] = React.useState<ISignUpData>({
+    nome: "",
     login: "",
     matricula: "",
     senha: "",
@@ -125,8 +124,8 @@ export default function Cadastro() {
                 label="nome"
                 placeholder="Digite seu nome completo"
                 type="text"
-                value={nome}
-                onChange={(event) => setNome(event.target.value)}
+                value={signUpData.nome}
+                onChange={handleChange}
               />
             </FormControl>
             <FormControl required fullWidth margin="normal">
