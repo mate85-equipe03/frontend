@@ -43,7 +43,7 @@ export default function EnrolledsList() {
   }, [editalId]);
 
   const colunas: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 50 },
+    /* { field: "id", headerName: "ID", width: 50 }, */
     {
       field: "nome",
       headerName: "Nome",
