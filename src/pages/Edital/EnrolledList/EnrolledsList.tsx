@@ -4,9 +4,10 @@ import { Card, CardContent, CardHeader, Divider, Grid } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
-import { IADetalhes, IDetails } from "../Detalhes/Interfaces";
+import { getEnrolledList } from "./Service";
+import { IADetalhes } from "./Interfaces";
+import { IDetails } from "../Detalhes/Interfaces";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
-import getEnrolledList from "../Detalhes/ServiceEnrolledList";
 import UserContext from "../../../context/UserContext";
 
 export default function EnrolledsList() {
@@ -20,8 +21,8 @@ export default function EnrolledsList() {
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
 
   useEffect(() => {
-    if (user)
-      getEnrolledList(editalId, user?.token).then(({ data }) =>
+    if (user && editalId)
+      getEnrolledList(editalId).then(({ data }) =>
         setEnrolledList(data)
       );
   }, [editalId, user]);
@@ -43,7 +44,6 @@ export default function EnrolledsList() {
   }, [editalId]);
 
   const colunas: GridColDef[] = [
-    /* { field: "id", headerName: "ID", width: 50 }, */
     {
       field: "nome",
       headerName: "Nome",
@@ -117,7 +117,7 @@ export default function EnrolledsList() {
     >
       <Card sx={{ minWidth: { md: 500 }, maxWidth: 1920, mt: 5 }}>
         <CardHeader
-          title="Estudantes inscritos(as)"
+          title="Estudantes Inscritos(as)"
           titleTypographyProps={{
             align: "center",
           }}
