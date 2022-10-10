@@ -21,26 +21,6 @@ import { useParams } from "react-router-dom";
 import AttachInput from "./AttachInput";
 import { IDetails } from "../../Detalhes/Interfaces";
 
-export default function ModalProducao() {
-  const options = [
-    {
-      label: "Apple",
-      value: "apple",
-    },
-    {
-      label: "Mango",
-      value: "mango",
-    },
-    {
-      label: "Banana",
-      value: "banana",
-    },
-    {
-      label: "Pineapple",
-      value: "pineapple",
-    },
-  ];
-
   const { editalId } = useParams();
   const [edital, setEdital] = useState<IDetails | undefined>();
 
@@ -52,8 +32,6 @@ export default function ModalProducao() {
   const handleChange = (event: SelectChangeEvent) => {
     setNotaCategoria(event.target.value as string);
   };
-
-  const categorias = [];
 
   useEffect(() => {
     // setLoadingEdital(true);
