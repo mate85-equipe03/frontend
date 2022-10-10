@@ -21,7 +21,6 @@ import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import Loading from "../../../Components/Loading";
 import { postInscricao } from "./Service";
 import BtnSubmitLoading from "../../../Components/BtnSubmitLoading";
-import ModalProducao from "./Components/ModalProducao";
 
 export default function Inscricao() {
   const navigate = useNavigate();
@@ -265,7 +264,6 @@ export default function Inscricao() {
               />
             </Grid>
           </form>
-          <ModalProducao />
         </CardContent>
       </Card>
     </Grid>
