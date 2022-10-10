@@ -77,6 +77,12 @@ export default function EnrolledsList() {
     columnMenuFilter: "Filtro",
     columnMenuHideColumn: "Ocultar",
     columnMenuShowColumns: "Mostrar colunas",
+    columnsPanelTextFieldLabel: 'Encontrar Colunas',
+    columnsPanelTextFieldPlaceholder: 'Titulo das Colunas',
+    columnsPanelDragIconLabel: 'Reordenar Colunas',
+    columnsPanelShowAllButton: 'Mostrar todas',
+    columnsPanelHideAllButton: 'Esconder todas',
+    
   };
 
   return (
