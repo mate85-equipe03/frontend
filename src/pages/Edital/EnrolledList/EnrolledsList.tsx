@@ -1,27 +1,33 @@
-import { Card, CardContent, CardHeader, Divider, Grid } from "@mui/material";
+import { Alert, Card, CardContent, CardHeader, Divider, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import { IDetails, IInscritos } from "../Detalhes/Interfaces";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import getEnrolledList from "../Detalhes/ServiceEnrolledList";
-import EnrolledTable from "./EnrolledTable";
 
 export default function EnrolledsList() {
-  // const navigate = useNavigate();
-  // const [listaInscritos, setListInscritos] = useState<IInscritos | undefined>();
+  const navigate = useNavigate();
   const [edital, setEdital] = useState<IDetails | undefined>();
-  // const [loading, setLoading] = useState<boolean>(true);
+
   const { editalId } = useParams();
 
+  const [enrolledList, setEnrolledList] = useState([])
+
   useEffect(() => {
-    getEnrolledList(editalId)
-      .then(({ data }) => {
-        // setListInscritos(data);
-      })
-      .catch(() => {
-        // TODO: Ver como exibir erros va View
-      });
-  }, [editalId]);
+    //getEnrolledList(editalId)
+      fetch("https://jsonplaceholder.typicode.com/posts")
+      .then((data) => data.json()) 
+      .then((data) =>  setEnrolledList(data))
+  })
+
+  // const [loading, setLoading] = useState<boolean>(true);
+  
+  const [message, setMessage] = useState('');
+
+  const handleRowClick: GridEventListener<'rowClick'> = (params) => {
+    navigate(`/edital/${editalId}/inscritos/${params.row.id}`)
+  };
 
   useEffect(() => {
     getDetailsProcessoSeletivo(editalId)
@@ -32,6 +38,12 @@ export default function EnrolledsList() {
         // TODO: Ver como exibir erros va View
       });
   }, [editalId]);
+
+  const colunas: GridColDef[] = [
+    { field: "id", headerName: "ID", width: 50 },
+    { field: "title", headerName: "Title", width: 250 },
+    { field: "body", headerName: "Body", width: 130 },
+  ];
 
   return (
     <Grid
@@ -56,7 +68,15 @@ export default function EnrolledsList() {
         <Divider sx={{ mx: 3 }} />
 
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
-          <EnrolledTable />
+          <div style={{ height: 370, width: 800 }}>
+            <DataGrid
+              onRowClick={handleRowClick} {...enrolledList}
+              rows={enrolledList}
+              columns={colunas}
+              pageSize={5}
+              rowsPerPageOptions={[5]}
+            />
+          </div>
         </CardContent>
       </Card>
     </Grid>

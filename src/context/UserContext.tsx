@@ -10,6 +10,7 @@ import auth from "../services/Auth";
 interface IUserContext {
   username: string;
   token: string;
+  role: string;
 }
 
 interface IPropsUserContext {

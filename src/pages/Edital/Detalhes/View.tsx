@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Button,
@@ -17,16 +17,16 @@ import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import moment from "moment";
 import { IDetails } from "./Interfaces";
 import getDetailsProcessoSeletivo from "./Service";
+import UserContext from "../../../context/UserContext";
 
 export default function EditalDetails() {
   const navigate = useNavigate();
-  // const { user } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();
   // const [loading, setLoading] = useState<boolean>(false);
 
   const { editalId } = useParams();
 
-  const [isTeacher] = useState<boolean>(true);
   const [isInscrito] = useState<boolean>(false);
 
   const redirectToSubscribe = () => {
@@ -110,7 +110,7 @@ export default function EditalDetails() {
               alignItems="center"
               sx={{ width: "100%", my: 2 }}
             >
-              {isTeacher ? (
+              {user?.role === "PROFESSOR" ? (
                 <Button
                   type="button"
                   onClick={redirectToEnrolledList}

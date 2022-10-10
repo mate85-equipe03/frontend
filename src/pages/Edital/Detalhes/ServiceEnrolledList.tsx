@@ -1,8 +1,7 @@
 import api from "../../../services/Api";
-import { IInscritos } from "./Interfaces";
 
 const getEnrolledList = (editalId: string | undefined) => {
-  return api.get<IInscritos>(`/processos-seletivos/${editalId}/inscritos`);
+  return api.get<any>(`/processos-seletivos/${editalId}/inscricao`);
 };
 
 export default getEnrolledList;
