@@ -1,7 +1,7 @@
 import api from "../../../services/Api";
 import { IInscricaoDataReq } from "./Interfaces";
 
-export const postInscricao = (payload: IInscricaoDataReq) => {
+const postInscricao = (payload: IInscricaoDataReq) => {
   const formData = new FormData();
   payload.historico_graduacao_file.forEach((file) => {
     formData.append("historico_graduacao_file", file);
@@ -21,3 +21,4 @@ export const postInscricao = (payload: IInscricaoDataReq) => {
   });
 };
 
+export default postInscricao;

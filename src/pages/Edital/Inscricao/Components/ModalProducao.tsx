@@ -25,11 +25,9 @@ import { IFile, IProducao } from "../Interfaces";
 import api from "../../../../services/Api";
 
 // import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
-type PropsModal = {onSuccess:()=>void}
+type PropsModal = { onSuccess: () => void };
 
-export default function ModalProducao( {onSuccess}:PropsModal ) {
-
-
+export default function ModalProducao({ onSuccess }: PropsModal) {
   const { editalId } = useParams();
   const [edital, setEdital] = useState<IDetails | undefined>();
 
@@ -120,19 +118,19 @@ export default function ModalProducao( {onSuccess}:PropsModal ) {
         payload.categorias_producao_id.toString()
       );
       formData.append("edital_id", editalId);
-      return api.post(`/inscricoes/producoes`, formData, {
+      return api.post("/inscricoes/producoes", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
     }
+    return null;
   };
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     postProducao(producaoData);
     onSuccess();
-    // console.log(producaoData);
   };
 
   return (

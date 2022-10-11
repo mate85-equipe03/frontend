@@ -19,7 +19,7 @@ import AttachInput from "./Components/AttachInput";
 import { IInscricaoData, IFile, IInscricaoDataReq } from "./Interfaces";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import Loading from "../../../Components/Loading";
-import { postInscricao } from "./Service";
+import postInscricao from "./Service";
 import BtnSubmitLoading from "../../../Components/BtnSubmitLoading";
 
 export default function Inscricao() {
@@ -155,7 +155,7 @@ export default function Inscricao() {
       {inscricaoSuccess && (
         <Alert severity="success">
           Inscrição realizada com sucesso.
-          <br /> 
+          <br />
           Para finalizar a inscrição, inclua produções científicas.
         </Alert>
       )}

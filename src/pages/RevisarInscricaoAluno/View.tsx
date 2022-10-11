@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
-  Button,
   Card,
   CardContent,
   CardHeader,
@@ -28,8 +27,6 @@ export default function RevisarInscricaoAluno() {
   const [loading, setLoading] = useState<boolean>(true);
   const { editalId, inscricaoId } = useParams();
 
- 
-  
   const refreshData = () => {
     setLoading(true);
     if (user && editalId) {
@@ -54,10 +51,11 @@ export default function RevisarInscricaoAluno() {
           // setLoading(false);
         });
     }
-  }
+  };
 
   useEffect(() => {
     refreshData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inscricaoId, editalId, user]);
 
   return (
@@ -175,7 +173,7 @@ export default function RevisarInscricaoAluno() {
               ))
             )}
           </List>
-          <ModalProducao onSuccess={refreshData}/>
+          <ModalProducao onSuccess={refreshData} />
         </CardContent>
       </Card>
     </Grid>
