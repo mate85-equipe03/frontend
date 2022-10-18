@@ -5,6 +5,11 @@ export interface IEtapa {
   data_fim: string;
 }
 
+export interface ICategoria {
+  id: number;
+  nome: string;
+  pontuacao: string;
+}
 export interface IDetails {
   titulo: string;
   semestre: string;
@@ -13,4 +18,5 @@ export interface IDetails {
   arquivado: boolean;
   etapas: IEtapa[];
   isInscrito: boolean;
+  categorias_producao: ICategoria[];
 }

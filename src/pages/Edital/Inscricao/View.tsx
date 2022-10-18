@@ -155,8 +155,8 @@ export default function Inscricao() {
       {inscricaoSuccess && (
         <Alert severity="success">
           Inscrição realizada com sucesso.
-          <br /> [Melhorar esse texto] Lembrando que você deve preencher as
-          produções científicas para concluir sua inscrição.
+          <br />
+          Para finalizar a inscrição, inclua produções científicas.
         </Alert>
       )}
       <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
