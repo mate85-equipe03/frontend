@@ -72,7 +72,7 @@ export default function Cadastro() {
     api
       .post("/alunos", signUpData)
       .then(() => {
-        navigate("/login", { state: { success: true } });
+        navigate("/login", { state: { signUp: true } });
         setSignUpError(false);
       })
       .catch(() => {

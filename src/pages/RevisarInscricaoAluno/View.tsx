@@ -60,7 +60,7 @@ export default function RevisarInscricaoAluno() {
   }, [inscricaoId, editalId, user]);
 
   const location = useLocation();
-  const inscricaoSuccess = location.state ? "success" in location.state : false;
+  const inscricaoSuccess = location.state ? "inscricao" in location.state : false;
   window.history.replaceState(null, "");
   
   return (
