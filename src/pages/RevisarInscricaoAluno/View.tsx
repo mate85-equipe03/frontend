@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import {
+  Alert,
   Card,
   CardContent,
   CardHeader,
@@ -58,6 +59,10 @@ export default function RevisarInscricaoAluno() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inscricaoId, editalId, user]);
 
+  const location = useLocation();
+  const inscricaoSuccess = location.state ? "success" in location.state : false;
+  window.history.replaceState(null, "");
+  
   return (
     <Grid
       container
@@ -66,6 +71,14 @@ export default function RevisarInscricaoAluno() {
       alignItems="center"
       sx={{ width: "100%" }}
     >
+
+      {inscricaoSuccess && (
+        <Alert severity="success">
+          Inscrição realizada com sucesso.
+          <br />
+          Para finalizar a inscrição, inclua produções científicas.
+        </Alert>
+      )}
       <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
         <CardHeader
           title={edital?.titulo}
