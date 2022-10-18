@@ -19,16 +19,15 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
+import { useNavigate } from "react-router-dom";
 import api from "../../services/Api";
 import BtnSubmitLoading from "../../Components/BtnSubmitLoading";
 import { ISignUpData } from "./Types";
-import { useNavigate } from "react-router-dom";
 
 export default function Cadastro() {
   const navigate = useNavigate();
 
   const [signUpError, setSignUpError] = React.useState<boolean>(false);
-  const [signUpSuccess, setSignUpSuccess] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const [signUpData, setSignUpData] = React.useState<ISignUpData>({
@@ -74,11 +73,9 @@ export default function Cadastro() {
       .post("/alunos", signUpData)
       .then(() => {
         navigate("/login", { state: { success: true } });
-        setSignUpSuccess(true);
         setSignUpError(false);
       })
       .catch(() => {
-        setSignUpSuccess(false);
         setSignUpError(true);
       })
       .finally(() => {
@@ -95,11 +92,6 @@ export default function Cadastro() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      {signUpSuccess && (
-        <Alert severity="success" sx={{ mb: 2 }}>
-          Cadastro realizado com sucesso.
-        </Alert>
-      )}
       {signUpError && (
         <Alert severity="error" sx={{ mb: 2 }}>
           Ocorreu um erro. Tente novamente.

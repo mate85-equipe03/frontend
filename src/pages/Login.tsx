@@ -30,7 +30,7 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const signUpSuccess = location.state ? "success" in location.state : false;
-  window.history.replaceState(null, '')
+  window.history.replaceState(null, "");
 
   const { setUser } = useContext(UserContext);
 
