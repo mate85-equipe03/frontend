@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
-  Button,
   Card,
   CardContent,
   CardHeader,
@@ -19,6 +18,7 @@ import Loading from "../../Components/Loading";
 import getDetalhesInscricaoAluno from "./Service";
 import getDetailsProcessoSeletivo from "../Edital/Detalhes/Service";
 import { IDetails } from "../Edital/Detalhes/Interfaces";
+import ModalProducao from "../Edital/Inscricao/Components/ModalProducao";
 
 export default function RevisarInscricaoAluno() {
   const { user } = useContext(UserContext);
@@ -27,7 +27,7 @@ export default function RevisarInscricaoAluno() {
   const [loading, setLoading] = useState<boolean>(true);
   const { editalId, inscricaoId } = useParams();
 
-  useEffect(() => {
+  const refreshData = () => {
     setLoading(true);
     if (user && editalId) {
       getDetalhesInscricaoAluno(editalId)
@@ -51,6 +51,11 @@ export default function RevisarInscricaoAluno() {
           // setLoading(false);
         });
     }
+  };
+
+  useEffect(() => {
+    refreshData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inscricaoId, editalId, user]);
 
   return (
@@ -168,9 +173,7 @@ export default function RevisarInscricaoAluno() {
               ))
             )}
           </List>
-          <Button type="button" size="large">
-            Adicionar Produção Científica
-          </Button>
+          <ModalProducao onSuccess={refreshData} />
         </CardContent>
       </Card>
     </Grid>
