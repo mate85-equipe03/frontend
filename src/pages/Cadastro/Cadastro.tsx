@@ -22,8 +22,11 @@ import FormLabel from "@mui/material/FormLabel";
 import api from "../../services/Api";
 import BtnSubmitLoading from "../../Components/BtnSubmitLoading";
 import { ISignUpData } from "./Types";
+import { useNavigate } from "react-router-dom";
 
 export default function Cadastro() {
+  const navigate = useNavigate();
+
   const [signUpError, setSignUpError] = React.useState<boolean>(false);
   const [signUpSuccess, setSignUpSuccess] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -70,7 +73,7 @@ export default function Cadastro() {
     api
       .post("/alunos", signUpData)
       .then(() => {
-        // navigate("/login");
+        navigate("/login", { state: { success: true } });
         setSignUpSuccess(true);
         setSignUpError(false);
       })
