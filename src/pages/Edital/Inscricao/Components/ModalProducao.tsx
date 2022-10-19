@@ -14,6 +14,7 @@ import {
   MenuItem,
   OutlinedInput,
   SelectChangeEvent,
+  Alert,
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
@@ -67,17 +68,11 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
   };
 
   useEffect(() => {
-    // setLoadingEdital(true);
+    setAddProducaoErro(false);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setEdital(data);
       })
-      .catch(() => {
-        // TODO: Ver como exibir erros va View
-      })
-      .finally(() => {
-        // setLoadingEdital(false);
-      });
   }, [editalId]);
 
   const [countFiles, setCountFiles] = useState<number>(0);
@@ -109,6 +104,8 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
     }
   };
 
+  const [addProducaoErro, setAddProducaoErro] = React.useState<boolean>(false);
+
   const postProducao = (payload: IProducao) => {
     if (editalId) {
       const formData = new FormData();
@@ -129,16 +126,15 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
         .then(() => {
           console.log("ok");
           onSuccess();
-          setProducaoData({"categorias_producao_id": 0, "files": []});
+          setProducaoData({ categorias_producao_id: 0, files: [] });
           setIdCategoria(-1);
           setNotaCategoria("0");
+          handleClose();
         })
         .catch(() => {
           console.log("error");
+          setAddProducaoErro(true);
         })
-        .finally(() => {
-          handleClose();
-        });
     }
     return null;
   };
@@ -164,6 +160,9 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
         }}
       >
         <Card sx={{ maxWidth: 600, p: 4, borderRadius: 5 }}>
+          {addProducaoErro && (
+            <Alert severity="error">Ocorreu um erro. Tente novamente.</Alert>
+          )}
           <CardHeader
             title="Adicionar Produção Científica"
             titleTypographyProps={{
@@ -243,7 +242,6 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
                       />
                     </FormControl> */}
               </DialogContent>
-
               <Grid
                 container
                 direction="row"
