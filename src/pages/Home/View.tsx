@@ -22,7 +22,6 @@ export default function Home() {
   const signInSuccess = location.state ? "signIn" in location.state : false;
   window.history.replaceState(null, "");
 
-
   const [editais, setEditais] = useState<IEditais | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
 

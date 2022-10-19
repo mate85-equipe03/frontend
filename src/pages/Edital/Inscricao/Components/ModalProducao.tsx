@@ -104,7 +104,6 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
     }
   };
 
-
   const postProducao = (payload: IProducao) => {
     setLoading(true);
     if (editalId) {
@@ -133,9 +132,9 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
         .catch(() => {
           setAddProducaoErro(true);
         })
-        .finally(()=>{
+        .finally(() => {
           setLoading(false);
-        })
+        });
     }
     return null;
   };
@@ -251,9 +250,9 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
               >
                 <Button onClick={handleClose}> Fechar </Button>
                 <BtnSubmitLoading
-                  label = "Enviar"
-                  formId = "add-producao-form"
-                  loading = {loading}
+                  label="Enviar"
+                  formId="add-producao-form"
+                  loading={loading}
                 />
               </Grid>
             </form>
