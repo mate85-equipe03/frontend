@@ -16,7 +16,7 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import getDetailsProcessoSeletivo from "../../Detalhes/Service";
 import AttachInput from "./AttachInput";
 import { IDetails } from "../../Detalhes/Interfaces";
@@ -28,6 +28,8 @@ import api from "../../../../services/Api";
 type PropsModal = { onSuccess: () => void };
 
 export default function ModalProducao({ onSuccess }: PropsModal) {
+  const navigate = useNavigate();
+
   const { editalId } = useParams();
   const [edital, setEdital] = useState<IDetails | undefined>();
 
@@ -118,11 +120,25 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
         payload.categorias_producao_id.toString()
       );
       formData.append("edital_id", editalId);
-      return api.post("/inscricoes/producoes", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      return api
+        .post("/inscricoes/producoes", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(() => {
+          console.log("ok");
+          onSuccess();
+          setProducaoData({"categorias_producao_id": 0, "files": []});
+          setIdCategoria(-1);
+          setNotaCategoria("0");
+        })
+        .catch(() => {
+          console.log("error");
+        })
+        .finally(() => {
+          handleClose();
+        });
     }
     return null;
   };
@@ -130,7 +146,6 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     postProducao(producaoData);
-    onSuccess();
   };
 
   return (
@@ -233,13 +248,13 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
                 container
                 direction="row"
                 justifyContent="space-between"
-                sx={{ mt: 2 }}
+                sx={{ mt: 2, px: 2 }}
               >
                 <Button onClick={handleClose}> Fechar </Button>
                 <Button
                   type="submit"
                   form="add-producao-form"
-                  onClick={handleClose}
+                  // onClick={handleClose}
                 >
                   Enviar
                 </Button>

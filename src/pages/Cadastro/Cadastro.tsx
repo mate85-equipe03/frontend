@@ -29,7 +29,6 @@ export default function Cadastro() {
 
   const [signUpError, setSignUpError] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
-
   const [signUpData, setSignUpData] = React.useState<ISignUpData>({
     nome: "",
     login: "",
