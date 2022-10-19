@@ -17,7 +17,7 @@ import {
   Alert,
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import getDetailsProcessoSeletivo from "../../Detalhes/Service";
 import AttachInput from "./AttachInput";
 import { IDetails } from "../../Detalhes/Interfaces";
@@ -29,8 +29,6 @@ import api from "../../../../services/Api";
 type PropsModal = { onSuccess: () => void };
 
 export default function ModalProducao({ onSuccess }: PropsModal) {
-  const navigate = useNavigate();
-
   const { editalId } = useParams();
   const [edital, setEdital] = useState<IDetails | undefined>();
 
@@ -67,12 +65,13 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
     });
   };
 
+  const [addProducaoErro, setAddProducaoErro] = React.useState<boolean>(false);
+
   useEffect(() => {
     setAddProducaoErro(false);
-    getDetailsProcessoSeletivo(editalId)
-      .then(({ data }) => {
-        setEdital(data);
-      })
+    getDetailsProcessoSeletivo(editalId).then(({ data }) => {
+      setEdital(data);
+    });
   }, [editalId]);
 
   const [countFiles, setCountFiles] = useState<number>(0);
@@ -104,8 +103,6 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
     }
   };
 
-  const [addProducaoErro, setAddProducaoErro] = React.useState<boolean>(false);
-
   const postProducao = (payload: IProducao) => {
     if (editalId) {
       const formData = new FormData();
@@ -124,7 +121,6 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
           },
         })
         .then(() => {
-          console.log("ok");
           onSuccess();
           setProducaoData({ categorias_producao_id: 0, files: [] });
           setIdCategoria(-1);
@@ -132,9 +128,8 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
           handleClose();
         })
         .catch(() => {
-          console.log("error");
           setAddProducaoErro(true);
-        })
+        });
     }
     return null;
   };

@@ -124,7 +124,9 @@ export default function Inscricao() {
     setLoadingInscricao(true);
     postInscricao(payload)
       .then(() => {
-        navigate(`/edital/${editalId}/dados-inscricao`, { state: { inscricao: true } });
+        navigate(`/edital/${editalId}/dados-inscricao`, {
+          state: { inscricao: true },
+        });
         setInscricaoError(false);
       })
       .catch(() => {

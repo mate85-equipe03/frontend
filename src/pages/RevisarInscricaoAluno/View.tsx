@@ -60,7 +60,6 @@ export default function RevisarInscricaoAluno() {
   const addProducao = () => {
     refreshData();
     setaddedProducao(true);
-    
   };
 
   useEffect(() => {
