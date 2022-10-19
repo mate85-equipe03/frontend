@@ -67,7 +67,7 @@ export default function Login() {
     setUser(modifiedUser);
     api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     localStorage.setItem("user", JSON.stringify(modifiedUser));
-    navigate("/");
+    navigate("/", { state: { signIn: true } });
   };
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {

@@ -30,7 +30,9 @@ export default function AccountMenu() {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
-    navigate("/");
+    navigate("/", { state: { signOut: true } });
+    // navigate("/login", { state: { signUp: true } });
+
   };
 
   function stringAvatar(name: string) {
