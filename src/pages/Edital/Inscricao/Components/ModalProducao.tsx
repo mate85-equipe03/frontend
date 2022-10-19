@@ -22,8 +22,8 @@ import getDetailsProcessoSeletivo from "../../Detalhes/Service";
 import AttachInput from "./AttachInput";
 import { IDetails } from "../../Detalhes/Interfaces";
 import { IFile, IProducao } from "../Interfaces";
-// import { postProducao } from "../Service";
 import api from "../../../../services/Api";
+import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
 
 // import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
 type PropsModal = { onSuccess: () => void };
@@ -66,6 +66,7 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
   };
 
   const [addProducaoErro, setAddProducaoErro] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   useEffect(() => {
     setAddProducaoErro(false);
@@ -103,7 +104,9 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
     }
   };
 
+
   const postProducao = (payload: IProducao) => {
+    setLoading(true);
     if (editalId) {
       const formData = new FormData();
       payload.files.forEach((file) => {
@@ -129,7 +132,10 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
         })
         .catch(() => {
           setAddProducaoErro(true);
-        });
+        })
+        .finally(()=>{
+          setLoading(false);
+        })
     }
     return null;
   };
@@ -244,19 +250,11 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
                 sx={{ mt: 2, px: 2 }}
               >
                 <Button onClick={handleClose}> Fechar </Button>
-                <Button
-                  type="submit"
-                  form="add-producao-form"
-                  // onClick={handleClose}
-                >
-                  Enviar
-                </Button>
-                {/* <BtnSubmitLoading
+                <BtnSubmitLoading
                   label = "Enviar"
                   formId = "add-producao-form"
-                  loading = 
-                  fullWidth,
-                /> */}
+                  loading = {loading}
+                />
               </Grid>
             </form>
           </CardContent>
