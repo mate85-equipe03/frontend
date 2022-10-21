@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import api from "../services/Api";
 import UserContext from "../context/UserContext";
 import BtnSubmitLoading from "../Components/BtnSubmitLoading";
@@ -28,6 +28,10 @@ interface ILoginData {
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const signUpSuccess = location.state ? "signUp" in location.state : false;
+  window.history.replaceState(null, "");
+
   const { setUser } = useContext(UserContext);
 
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -36,14 +40,6 @@ export default function Login() {
     username: "",
     password: "",
   });
-
-  // const redirecionaCadastro = () => {
-  //  navigate("/cadastro");
-  // };
-
-  // const redirecionaRecuperar = () => {
-  //  navigate("/recuperar");
-  // };
 
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
@@ -71,7 +67,7 @@ export default function Login() {
     setUser(modifiedUser);
     api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     localStorage.setItem("user", JSON.stringify(modifiedUser));
-    navigate("/");
+    navigate("/", { state: { signIn: true } });
   };
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -101,6 +97,11 @@ export default function Login() {
       {loginError && (
         <Alert severity="error" sx={{ mb: 2 }}>
           Credenciais inválidas. Tente novamente.
+        </Alert>
+      )}
+      {signUpSuccess && (
+        <Alert severity="success" sx={{ mb: 2 }}>
+          Cadastro realizado com sucesso.
         </Alert>
       )}
       <Card sx={{ minWidth: 275, maxWidth: 500 }}>

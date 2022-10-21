@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import {
+  Alert,
   Card,
   CardContent,
   CardHeader,
@@ -49,14 +50,28 @@ export default function RevisarInscricaoAluno() {
         })
         .finally(() => {
           // setLoading(false);
+          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         });
     }
+  };
+
+  const [addedProducao, setaddedProducao] = React.useState<boolean>(false);
+
+  const addProducao = () => {
+    refreshData();
+    setaddedProducao(true);
   };
 
   useEffect(() => {
     refreshData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inscricaoId, editalId, user]);
+
+  const location = useLocation();
+  const inscricaoSuccess = location.state
+    ? "inscricao" in location.state
+    : false;
+  window.history.replaceState(null, "");
 
   return (
     <Grid
@@ -66,6 +81,19 @@ export default function RevisarInscricaoAluno() {
       alignItems="center"
       sx={{ width: "100%" }}
     >
+      {inscricaoSuccess && (
+        <Alert severity="success">
+          Inscrição realizada com sucesso.
+          <br />
+          Para finalizar a inscrição, inclua produções científicas.
+        </Alert>
+      )}
+      {addedProducao && (
+        <Alert severity="success">
+          Produção científica adicionada com sucesso.
+        </Alert>
+      )}
+
       <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
         <CardHeader
           title={edital?.titulo}
@@ -173,7 +201,7 @@ export default function RevisarInscricaoAluno() {
               ))
             )}
           </List>
-          <ModalProducao onSuccess={refreshData} />
+          <ModalProducao onSuccess={addProducao} />
         </CardContent>
       </Card>
     </Grid>
