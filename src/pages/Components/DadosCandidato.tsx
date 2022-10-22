@@ -4,6 +4,7 @@ import {
   ListItem,
   ListItemText,
   Link,
+  Typography,
 } from "@mui/material";
 import { IAluno } from "../RevisarInscricao/Interfaces";
 
@@ -11,7 +12,7 @@ interface IProps {
   dadosInscrito: IAluno | undefined;
 }
 
-function DadosAlunos({ dadosInscrito }: IProps) {
+function DadosCandidato({ dadosInscrito }: IProps) {
   return (
     <>
       {dadosInscrito && (
@@ -19,16 +20,7 @@ function DadosAlunos({ dadosInscrito }: IProps) {
           component="nav"
           aria-labelledby="dados-inscrito"
           subheader={
-            <ListSubheader
-              id="dados-inscrito"
-              color="primary"
-              sx={{
-                fontSize: 20,
-                paddingLeft: 0,
-              }}
-            >
-              Dados do Inscrito
-            </ListSubheader>
+            <Typography variant="h6" sx={{mt:3}}>Dados do Candidato</Typography>
           }
         >
           <ListItem>
@@ -51,4 +43,4 @@ function DadosAlunos({ dadosInscrito }: IProps) {
   );
 }
 
-export default DadosAlunos;
+export default DadosCandidato;

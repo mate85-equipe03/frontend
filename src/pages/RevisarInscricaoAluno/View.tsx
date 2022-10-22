@@ -20,7 +20,7 @@ import getDetalhesInscricaoAluno from "./Service";
 import getDetailsProcessoSeletivo from "../Edital/Detalhes/Service";
 import { IDetails } from "../Edital/Detalhes/Interfaces";
 import ModalProducao from "../Edital/Inscricao/Components/ModalProducao";
-import DadosAlunos from "../Components/DadosInscrito";
+import DadosCandidato from "../Components/DadosCandidato";
 
 export default function RevisarInscricaoAluno() {
   const { user } = useContext(UserContext);
@@ -134,7 +134,7 @@ export default function RevisarInscricaoAluno() {
             </ListItem>
           </List>
 
-          <DadosAlunos dadosInscrito={inscricao?.aluno} />
+          <DadosCandidato dadosInscrito={inscricao?.aluno} />
 
           <List
             component="nav"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   Card,
@@ -13,17 +13,23 @@ import {
   FormGroup,
   Alert,
   FormLabel,
+  Typography,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
+import UserContext from "../../../context/UserContext";
 import AttachInput from "./Components/AttachInput";
 import { IInscricaoData, IFile, IInscricaoDataReq } from "./Interfaces";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import Loading from "../../../Components/Loading";
 import postInscricao from "./Service";
 import BtnSubmitLoading from "../../../Components/BtnSubmitLoading";
+import getDetalhesInscricaoAluno from "../../RevisarInscricaoAluno/Service";
+import { IDetalhes } from "../../RevisarInscricaoAluno/Interfaces";
+import DadosCandidato from "../../Components/DadosCandidato";
 
 export default function Inscricao() {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
   const { editalId } = useParams();
   const [countFiles, setCountFiles] = useState<number>(0);
   const [loadingEdital, setLoadingEdital] = useState<boolean>(false);
@@ -36,6 +42,7 @@ export default function Inscricao() {
     url_enade: "",
     processo_seletivo_id: Number(editalId),
   });
+  const [dadosAluno, setDadosAluno] = useState<IDetalhes | undefined>();
 
   useEffect(() => {
     const redirectToDetails = () => {
@@ -43,20 +50,32 @@ export default function Inscricao() {
     };
 
     setLoadingEdital(true);
-    getDetailsProcessoSeletivo(editalId)
-      .then(({ data }) => {
-        if (data?.arquivado) {
-          redirectToDetails();
-        }
-        setEditalName(data?.titulo);
-      })
-      .catch(() => {
-        // TODO: Ver como exibir erros va View
-      })
-      .finally(() => {
-        setLoadingEdital(false);
-      });
-  }, [editalId, navigate]);
+    if (user && editalId) {
+      getDetalhesInscricaoAluno(editalId)
+        .then(({ data }) => {
+          setDadosAluno(data);
+        })
+        .catch(() => {
+          // TODO: Ver como exibir erros va View
+        })
+        .finally(() => {
+          // setLoading(false);
+        });
+      getDetailsProcessoSeletivo(editalId)
+        .then(({ data }) => {
+          if (data?.arquivado) {
+            redirectToDetails();
+          }
+          setEditalName(data?.titulo);
+        })
+        .catch(() => {
+          // TODO: Ver como exibir erros va View
+        })
+        .finally(() => {
+          setLoadingEdital(false);
+        });
+    }
+  }, [editalId, navigate, user]);
 
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
     setInscricaoData({
@@ -168,6 +187,9 @@ export default function Inscricao() {
         <Divider sx={{ mx: 3 }} />
 
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
+          <DadosCandidato dadosInscrito={dadosAluno?.aluno} />
+
+          <Typography variant="h6" sx={{mt:3}}>Formulário de Inscrição</Typography>
           <form
             id="inscricao-form"
             onChange={handleFormChange}
