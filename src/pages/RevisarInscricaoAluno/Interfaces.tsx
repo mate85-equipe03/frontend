@@ -1,3 +1,13 @@
+
+export interface IAluno {
+  id: number;
+  userId: number;
+  matricula: number;
+  nome: string;
+  semestre_pgcomp: number;
+  curso: string;
+  lattes_link: string;
+}
 export interface IHistorico {
   id: number;
   url: string;
@@ -22,5 +32,6 @@ export interface IDetalhes {
   nota_final: number;
   classificacao: number;
   Historico: IHistorico[];
+  aluno: IAluno;
   producoes: IProducoes[];
 }

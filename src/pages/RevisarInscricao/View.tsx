@@ -19,6 +19,7 @@ import Loading from "../../Components/Loading";
 import getDetalhesInscricaoProfessor from "./Service";
 import getDetailsProcessoSeletivo from "../Edital/Detalhes/Service";
 import { IDetails } from "../Edital/Detalhes/Interfaces";
+import DadosAlunos from "../Components/DadosInscrito";
 
 export default function RevisarInscricao() {
   const { user } = useContext(UserContext);
@@ -75,50 +76,11 @@ export default function RevisarInscricao() {
         <Divider sx={{ mx: 3 }} />
 
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
-          <List
-            component="nav"
-            aria-labelledby="dadosinscrito"
-            subheader={
-              <ListSubheader
-                id="dadosinscrito"
-                color="primary"
-                sx={{
-                  fontSize: 20,
-                  paddingLeft: 0,
-                }}
-              >
-                Dados do Inscrito
-              </ListSubheader>
-            }
-          >
-            {loading ? (
-              <Loading />
-            ) : (
-              <div>
-                <ListItem sx={{ paddingBottom: 0 }}>
-                  <ListItemText primary={`${inscricao?.aluno.nome}`} />
-                </ListItem>
-                <ListItem sx={{ paddingBottom: 0 }}>
-                  <ListItemText primary={`${inscricao?.aluno.curso}`} />
-                </ListItem>
-                <ListItem sx={{ paddingBottom: 0 }}>
-                  <ListItemText
-                    primary={`Matrícula: ${inscricao?.aluno.matricula}`}
-                  />
-                </ListItem>
-                <ListItem sx={{ paddingBottom: 0 }}>
-                  <ListItemText
-                    primary={`Ingresso: ${inscricao?.aluno.semestre_pgcomp}`}
-                  />
-                </ListItem>
-                <ListItem sx={{ paddingBottom: 0 }}>
-                  <Link href={inscricao?.aluno.lattes_link} target="blank">
-                    Currículo Lattes
-                  </Link>
-                </ListItem>
-              </div>
-            )}
-          </List>
+          {loading ? (
+            <Loading />
+          ) : (
+            <DadosAlunos dadosInscrito={inscricao?.aluno} />
+          )}
           <List
             component="nav"
             aria-labelledby="historico"

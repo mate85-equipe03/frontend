@@ -20,6 +20,7 @@ import getDetalhesInscricaoAluno from "./Service";
 import getDetailsProcessoSeletivo from "../Edital/Detalhes/Service";
 import { IDetails } from "../Edital/Detalhes/Interfaces";
 import ModalProducao from "../Edital/Inscricao/Components/ModalProducao";
+import DadosAlunos from "../Components/DadosInscrito";
 
 export default function RevisarInscricaoAluno() {
   const { user } = useContext(UserContext);
@@ -34,6 +35,7 @@ export default function RevisarInscricaoAluno() {
       getDetalhesInscricaoAluno(editalId)
         .then(({ data }) => {
           setInscricao(data);
+          console.log(data.aluno);
         })
         .catch(() => {
           // TODO: Ver como exibir erros va View
@@ -131,6 +133,9 @@ export default function RevisarInscricaoAluno() {
               <ListItemText primary={inscricao?.status} />
             </ListItem>
           </List>
+
+          <DadosAlunos dadosInscrito={inscricao?.aluno} />
+
           <List
             component="nav"
             aria-labelledby="historico"
