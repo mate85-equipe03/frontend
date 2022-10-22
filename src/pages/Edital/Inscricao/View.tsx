@@ -189,7 +189,9 @@ export default function Inscricao() {
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
           <DadosCandidato dadosInscrito={dadosAluno?.aluno} />
 
-          <Typography variant="h6" sx={{mt:3}}>Formulário de Inscrição</Typography>
+          <Typography variant="h6" sx={{ mt: 3 }}>
+            Formulário de Inscrição
+          </Typography>
           <form
             id="inscricao-form"
             onChange={handleFormChange}

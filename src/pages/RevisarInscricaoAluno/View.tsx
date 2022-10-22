@@ -35,7 +35,6 @@ export default function RevisarInscricaoAluno() {
       getDetalhesInscricaoAluno(editalId)
         .then(({ data }) => {
           setInscricao(data);
-          console.log(data.aluno);
         })
         .catch(() => {
           // TODO: Ver como exibir erros va View

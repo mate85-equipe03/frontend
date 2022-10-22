@@ -1,11 +1,4 @@
-import {
-  List,
-  ListSubheader,
-  ListItem,
-  ListItemText,
-  Link,
-  Typography,
-} from "@mui/material";
+import { List, ListItem, ListItemText, Link, Typography } from "@mui/material";
 import { IAluno } from "../RevisarInscricao/Interfaces";
 
 interface IProps {
@@ -14,15 +7,17 @@ interface IProps {
 
 function DadosCandidato({ dadosInscrito }: IProps) {
   return (
-    <>
+    <List
+      component="nav"
+      aria-labelledby="dados-inscrito"
+      subheader={
+        <Typography variant="h6" sx={{ mt: 3 }}>
+          Dados do Candidato
+        </Typography>
+      }
+    >
       {dadosInscrito && (
-        <List
-          component="nav"
-          aria-labelledby="dados-inscrito"
-          subheader={
-            <Typography variant="h6" sx={{mt:3}}>Dados do Candidato</Typography>
-          }
-        >
+        <>
           <ListItem>
             <ListItemText primary={dadosInscrito.nome} />
           </ListItem>
@@ -37,9 +32,9 @@ function DadosCandidato({ dadosInscrito }: IProps) {
               Currículo Lattes
             </Link>
           </ListItem>
-        </List>
+        </>
       )}
-    </>
+    </List>
   );
 }
 
