@@ -7,6 +7,7 @@ import { IFile } from "../Interfaces";
 interface IProps {
   inputName: string;
   label: string;
+  multipleFiles: boolean;
   files: IFile[];
   setFiles: (files: IFile[]) => void;
 }
@@ -16,6 +17,7 @@ export default function AttachInput({
   label,
   files,
   setFiles,
+  multipleFiles,
 }: IProps) {
   const hasFiles = files && files.length !== 0;
 
@@ -65,13 +67,13 @@ export default function AttachInput({
           fullWidth
           sx={{ textTransform: "initial", py: 2 }}
         >
-          Anexar arquivo(s)
+          Anexar arquivo{multipleFiles && "(s)"}
           <input
             id={inputName}
             name={inputName}
             type="file"
             accept=".pdf"
-            multiple
+            multiple={multipleFiles}
             hidden
             // required
           />
@@ -89,25 +91,27 @@ export default function AttachInput({
               />
             ))}
           </List>
-          <Grid container direction="row" justifyContent="flex-end">
-            <Button
-              variant="outlined"
-              component="label"
-              sx={{ textTransform: "initial", py: 1 }}
-            >
-              <Add fontSize="small" />
-              Adicionar arquivo(s)
-              <input
-                id={inputName}
-                name={inputName}
-                type="file"
-                accept=".pdf"
-                multiple
-                hidden
-                // required
-              />
-            </Button>
-          </Grid>
+          {multipleFiles && (
+            <Grid container direction="row" justifyContent="flex-end">
+              <Button
+                variant="outlined"
+                component="label"
+                sx={{ textTransform: "initial", py: 1 }}
+              >
+                <Add fontSize="small" />
+                Adicionar arquivo(s)
+                <input
+                  id={inputName}
+                  name={inputName}
+                  type="file"
+                  accept=".pdf"
+                  multiple={multipleFiles}
+                  hidden
+                  // required
+                />
+              </Button>
+            </Grid>
+          )}
         </>
       )}
     </>
