@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   Card,
@@ -14,6 +14,7 @@ import EditalItem from "./Components/EditalItem";
 import { IEditais } from "./Types";
 import getAllProcessosSeletivos from "./Service";
 import Loading from "../../Components/Loading";
+import UserContext from "../../context/UserContext";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export default function Home() {
   const signOutSuccess = location.state ? "signOut" in location.state : false;
   const signInSuccess = location.state ? "signIn" in location.state : false;
   window.history.replaceState(null, "");
-
+  const { user } = useContext(UserContext);
   const [editais, setEditais] = useState<IEditais | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -41,7 +42,7 @@ export default function Home() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [user]);
 
   return loading ? (
     <Loading />

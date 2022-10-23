@@ -105,8 +105,8 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
   };
 
   const postProducao = (payload: IProducao) => {
-    setLoading(true);
     if (editalId) {
+      setLoading(true);
       const formData = new FormData();
       payload.files.forEach((file) => {
         formData.append("files", file.fileData);
