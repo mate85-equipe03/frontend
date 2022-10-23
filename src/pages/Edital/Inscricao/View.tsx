@@ -177,7 +177,7 @@ export default function Inscricao() {
               {/* Visível apenas para mestrandos calouros  */}
               <AttachInput
                 inputName="historico_graduacao_file"
-                label="Histórico acadêmico de curso(s) de graduação"
+                label="Histórico acadêmico de curso de graduação"
                 multipleFiles={false}
                 files={inscricaoData.historico_graduacao_file}
                 setFiles={setHistoricosGraduacao}
@@ -187,7 +187,7 @@ export default function Inscricao() {
             <FormControl required fullWidth margin="normal">
               <AttachInput
                 inputName="historico_posgraduacao_file"
-                label="Histórico acadêmico de curso(s) de Pós-Graduação Strictu Sensu ou comprovação de disciplinas cursadas"
+                label="Histórico acadêmico de curso de Pós-Graduação Strictu Sensu ou comprovação de disciplinas cursadas"
                 multipleFiles={false}
                 files={inscricaoData.historico_posgraduacao_file}
                 setFiles={setHistoricosPosGraduacao}
