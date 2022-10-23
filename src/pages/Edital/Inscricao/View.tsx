@@ -13,6 +13,8 @@ import {
   FormGroup,
   Alert,
   FormLabel,
+  Typography,
+  Link,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import AttachInput from "./Components/AttachInput";
@@ -204,6 +206,16 @@ export default function Inscricao() {
                 type="url"
                 value={inscricaoData.url_enade}
               />
+              <Link
+                href="https://enade.inep.gov.br/enade/#!/relatorioCursos"
+                target="_blank"
+                align="right"
+                variant="caption"
+                display="block"
+                gutterBottom
+              >
+                Relatório de cursos Enade
+              </Link>
             </FormControl>
 
             <FormControl
