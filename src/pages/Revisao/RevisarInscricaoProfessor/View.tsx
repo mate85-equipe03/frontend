@@ -24,12 +24,14 @@ export default function RevisarInscricaoProfessor() {
   const { user } = useContext(UserContext);
   const [inscricao, setInscricao] = useState<IDetalhes>();
   const [edital, setEdital] = useState<IDetails>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loadingInscricao, setLoadingInscricao] = useState<boolean>(true);
+  const [loadingProcesso, setLoadingProcesso] = useState<boolean>(true);
   const { editalId, inscricaoId } = useParams();
 
   useEffect(() => {
-    setLoading(true);
     if (user && inscricaoId && editalId) {
+      setLoadingInscricao(true);
+      setLoadingProcesso(true);
       getDetalhesInscricaoProfessor(inscricaoId, editalId)
         .then(({ data }) => {
           setInscricao(data);
@@ -38,7 +40,7 @@ export default function RevisarInscricaoProfessor() {
           // TODO: Ver como exibir erros va View
         })
         .finally(() => {
-          setLoading(false);
+          setLoadingInscricao(false);
         });
       getDetailsProcessoSeletivo(editalId)
         .then(({ data }) => {
@@ -46,11 +48,14 @@ export default function RevisarInscricaoProfessor() {
         })
         .catch(() => {
           // TODO: Ver como exibir erros va View
+        })
+        .finally(() => {
+          setLoadingProcesso(true);
         });
     }
   }, [inscricaoId, editalId, user]);
 
-  return loading ? (
+  return loadingInscricao || loadingProcesso ? (
     <Loading />
   ) : (
     <Grid
@@ -124,25 +129,21 @@ export default function RevisarInscricaoProfessor() {
               </ListSubheader>
             }
           >
-            {loading ? (
-              <Loading />
-            ) : (
-              inscricao?.producoes.map((producao) => (
-                <ListItem disablePadding key={producao.id} divider>
-                  <ListItemButton href={producao.url}>
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="space-between"
-                    >
-                      <ListItemText
-                        primary={`${producao.categorias_producao_id}`}
-                      />
-                    </Grid>
-                  </ListItemButton>
-                </ListItem>
-              ))
-            )}
+            {inscricao?.producoes.map((producao) => (
+              <ListItem disablePadding key={producao.id} divider>
+                <ListItemButton href={producao.url}>
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                  >
+                    <ListItemText
+                      primary={`${producao.categorias_producao_id}`}
+                    />
+                  </Grid>
+                </ListItemButton>
+              </ListItem>
+            ))}
           </List>
         </CardContent>
       </Card>

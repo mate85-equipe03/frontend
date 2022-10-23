@@ -28,13 +28,13 @@ export default function RevisarInscricaoAluno() {
   const [inscricao, setInscricao] = useState<IDetalhes | undefined>();
   const [edital, setEdital] = useState<IDetails | undefined>();
   const [loadingAluno, setLoadingAluno] = useState<boolean>(true);
-  const [loadingProfessor, setLoadingProfessor] = useState<boolean>(true);
+  const [loadingProcesso, setLoadingProcesso] = useState<boolean>(true);
   const { editalId, inscricaoId } = useParams();
 
   const refreshData = () => {
-    setLoadingAluno(true);
-    setLoadingProfessor(true);
     if (user && editalId) {
+      setLoadingAluno(true);
+      setLoadingProcesso(true);
       getDetalhesInscricaoAluno(editalId)
         .then(({ data }) => {
           setInscricao(data);
@@ -53,7 +53,7 @@ export default function RevisarInscricaoAluno() {
           // TODO: Ver como exibir erros va View
         })
         .finally(() => {
-          setLoadingProfessor(false);
+          setLoadingProcesso(false);
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         });
     }
@@ -77,7 +77,7 @@ export default function RevisarInscricaoAluno() {
     : false;
   window.history.replaceState(null, "");
 
-  return loadingAluno && loadingProfessor ? (
+  return loadingAluno || loadingProcesso ? (
     <Loading />
   ) : (
     <Grid

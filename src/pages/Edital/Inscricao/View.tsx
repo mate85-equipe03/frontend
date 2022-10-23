@@ -33,6 +33,8 @@ export default function Inscricao() {
   const { editalId } = useParams();
   const [countFiles, setCountFiles] = useState<number>(0);
   const [loadingEdital, setLoadingEdital] = useState<boolean>(false);
+  const [loadingProcessoSeletivo, setLoadingProcessoSeletivo] =
+    useState<boolean>(false);
   const [loadingInscricao, setLoadingInscricao] = useState<boolean>(false);
   const [inscricaoError, setInscricaoError] = React.useState<boolean>(false);
   const [editalName, setEditalName] = useState<string>();
@@ -49,8 +51,9 @@ export default function Inscricao() {
       navigate(`/edital/${editalId}/detalhes`);
     };
 
-    setLoadingEdital(true);
     if (user && editalId) {
+      setLoadingEdital(true);
+      setLoadingProcessoSeletivo(true);
       getDetalhesInscricaoAluno(editalId)
         .then(({ data }) => {
           setDadosAluno(data);
@@ -72,7 +75,7 @@ export default function Inscricao() {
           // TODO: Ver como exibir erros va View
         })
         .finally(() => {
-          setLoadingEdital(false);
+          setLoadingProcessoSeletivo(false);
         });
     }
   }, [editalId, navigate, user]);
@@ -157,7 +160,7 @@ export default function Inscricao() {
       });
   };
 
-  return loadingEdital ? (
+  return loadingEdital || loadingProcessoSeletivo ? (
     <Loading />
   ) : (
     <Grid
