@@ -178,6 +178,7 @@ export default function Inscricao() {
               <AttachInput
                 inputName="historico_graduacao_file"
                 label="Histórico acadêmico de curso(s) de graduação"
+                multipleFiles={false}
                 files={inscricaoData.historico_graduacao_file}
                 setFiles={setHistoricosGraduacao}
               />
@@ -187,6 +188,7 @@ export default function Inscricao() {
               <AttachInput
                 inputName="historico_posgraduacao_file"
                 label="Histórico acadêmico de curso(s) de Pós-Graduação Strictu Sensu ou comprovação de disciplinas cursadas"
+                multipleFiles={false}
                 files={inscricaoData.historico_posgraduacao_file}
                 setFiles={setHistoricosPosGraduacao}
               />
