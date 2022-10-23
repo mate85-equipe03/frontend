@@ -105,8 +105,8 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
   };
 
   const postProducao = (payload: IProducao) => {
-    setLoading(true);
     if (editalId) {
+      setLoading(true);
       const formData = new FormData();
       payload.files.forEach((file) => {
         formData.append("files", file.fileData);
@@ -159,7 +159,7 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
           sx: { borderRadius: 5 },
         }}
       >
-        <Card sx={{ maxWidth: 600, p: 4, borderRadius: 5 }}>
+        <Card sx={{ overflow: "auto", maxWidth: 600, p: 4, borderRadius: 5 }}>
           {addProducaoErro && (
             <Alert severity="error">Ocorreu um erro. Tente novamente.</Alert>
           )}
@@ -181,7 +181,7 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
               onChange={handleFormChange}
               onSubmit={sendForm}
             >
-              <DialogContent sx={{ p: 2, maxHeight: "300px" }}>
+              <DialogContent sx={{ p: 2, maxHeight: "200px" }}>
                 <Grid container direction="row" justifyContent="space-between">
                   <Grid item xs={10}>
                     <FormControl fullWidth>
