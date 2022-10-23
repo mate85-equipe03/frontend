@@ -50,7 +50,7 @@ export default function RevisarInscricaoAluno() {
           // TODO: Ver como exibir erros va View
         })
         .finally(() => {
-          // setLoading(false);
+          setLoading(false);
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         });
     }
@@ -74,7 +74,9 @@ export default function RevisarInscricaoAluno() {
     : false;
   window.history.replaceState(null, "");
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <Grid
       container
       direction="column"
@@ -151,23 +153,19 @@ export default function RevisarInscricaoAluno() {
               </ListSubheader>
             }
           >
-            {loading ? (
-              <Loading />
-            ) : (
-              inscricao?.Historico?.map((historico) => (
-                <ListItem disablePadding key={historico.id}>
-                  <ListItemButton href={historico.url} divider>
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="space-between"
-                    >
-                      <ListItemText primary={`${historico.tipo}`} />
-                    </Grid>
-                  </ListItemButton>
-                </ListItem>
-              ))
-            )}
+            {inscricao?.Historico?.map((historico) => (
+              <ListItem disablePadding key={historico.id}>
+                <ListItemButton href={historico.url} divider>
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                  >
+                    <ListItemText primary={`${historico.tipo}`} />
+                  </Grid>
+                </ListItemButton>
+              </ListItem>
+            ))}
           </List>
           <List
             component="nav"
@@ -185,25 +183,21 @@ export default function RevisarInscricaoAluno() {
               </ListSubheader>
             }
           >
-            {loading ? (
-              <Loading />
-            ) : (
-              inscricao?.producoes.map((producao) => (
-                <ListItem disablePadding key={producao.id} divider>
-                  <ListItemButton href={producao.url}>
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="space-between"
-                    >
-                      <ListItemText
-                        primary={`${producao.categorias_producao_id}`}
-                      />
-                    </Grid>
-                  </ListItemButton>
-                </ListItem>
-              ))
-            )}
+            {inscricao?.producoes.map((producao) => (
+              <ListItem disablePadding key={producao.id} divider>
+                <ListItemButton href={producao.url}>
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                  >
+                    <ListItemText
+                      primary={`${producao.categorias_producao_id}`}
+                    />
+                  </Grid>
+                </ListItemButton>
+              </ListItem>
+            ))}
           </List>
           <ModalProducao onSuccess={addProducao} />
         </CardContent>

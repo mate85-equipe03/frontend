@@ -50,7 +50,9 @@ export default function RevisarInscricao() {
     }
   }, [inscricaoId, editalId, user]);
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <Grid
       container
       direction="column"
@@ -75,11 +77,7 @@ export default function RevisarInscricao() {
         <Divider sx={{ mx: 3 }} />
 
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
-          {loading ? (
-            <Loading />
-          ) : (
-            <DadosCandidato dadosInscrito={inscricao?.aluno} />
-          )}
+          <DadosCandidato dadosInscrito={inscricao?.aluno} />
           <List
             component="nav"
             aria-labelledby="historico"
@@ -96,23 +94,19 @@ export default function RevisarInscricao() {
               </ListSubheader>
             }
           >
-            {loading ? (
-              <Loading />
-            ) : (
-              inscricao?.Historico?.map((historico) => (
-                <ListItem disablePadding key={historico.id}>
-                  <ListItemButton href={historico.url} divider>
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="space-between"
-                    >
-                      <ListItemText primary={`${historico.tipo}`} />
-                    </Grid>
-                  </ListItemButton>
-                </ListItem>
-              ))
-            )}
+            {inscricao?.Historico?.map((historico) => (
+              <ListItem disablePadding key={historico.id}>
+                <ListItemButton href={historico.url} divider>
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                  >
+                    <ListItemText primary={`${historico.tipo}`} />
+                  </Grid>
+                </ListItemButton>
+              </ListItem>
+            ))}
           </List>
           <List
             component="nav"

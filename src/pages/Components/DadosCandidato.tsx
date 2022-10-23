@@ -11,7 +11,7 @@ function DadosCandidato({ dadosInscrito }: IProps) {
       component="nav"
       aria-labelledby="dados-inscrito"
       subheader={
-        <Typography variant="h6" sx={{ mt: 3 }}>
+        <Typography variant="h6" sx={{ mt: 1 }}>
           Dados do Candidato
         </Typography>
       }

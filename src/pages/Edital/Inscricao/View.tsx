@@ -59,7 +59,7 @@ export default function Inscricao() {
           // TODO: Ver como exibir erros va View
         })
         .finally(() => {
-          // setLoading(false);
+          setLoadingEdital(false);
         });
       getDetailsProcessoSeletivo(editalId)
         .then(({ data }) => {
