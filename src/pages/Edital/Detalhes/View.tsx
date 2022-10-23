@@ -52,7 +52,7 @@ export default function EditalDetails() {
       .finally(() => {
         setLoading(false);
       });
-  }, [editalId]);
+  }, [editalId, user]);
 
   const dateToStr = (rawDate: string) => {
     const date = moment(rawDate);

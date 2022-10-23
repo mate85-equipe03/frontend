@@ -51,6 +51,10 @@ export default function Inscricao() {
       navigate(`/edital/${editalId}/detalhes`);
     };
 
+    const redirectToMySubscription = () => {
+      navigate(`/edital/${editalId}/dados-inscricao`);
+    };
+
     if (user && editalId) {
       setLoadingEdital(true);
       setLoadingProcessoSeletivo(true);
@@ -68,6 +72,9 @@ export default function Inscricao() {
         .then(({ data }) => {
           if (data?.arquivado) {
             redirectToDetails();
+          }
+          if (data?.isInscrito) {
+            redirectToMySubscription();
           }
           setEditalName(data?.titulo);
         })

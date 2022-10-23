@@ -76,7 +76,7 @@ export default function Login() {
     api
       .post("/autenticacao/login", loginData)
       .then(({ data }) => {
-        login(data?.access_token, data?.user.role);
+        login(data?.access_token, data?.user?.role);
       })
       .catch(() => {
         setLoginError(true);

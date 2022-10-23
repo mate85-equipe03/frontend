@@ -50,7 +50,7 @@ export default function RevisarInscricaoProfessor() {
           // TODO: Ver como exibir erros va View
         })
         .finally(() => {
-          setLoadingProcesso(true);
+          setLoadingProcesso(false);
         });
     }
   }, [inscricaoId, editalId, user]);
@@ -101,7 +101,7 @@ export default function RevisarInscricaoProfessor() {
           >
             {inscricao?.Historico?.map((historico) => (
               <ListItem disablePadding key={historico.id}>
-                <ListItemButton href={historico.url} divider>
+                <ListItemButton href={historico.url} target="_blank" divider>
                   <Grid
                     container
                     direction="row"
@@ -131,7 +131,7 @@ export default function RevisarInscricaoProfessor() {
           >
             {inscricao?.producoes.map((producao) => (
               <ListItem disablePadding key={producao.id} divider>
-                <ListItemButton href={producao.url}>
+                <ListItemButton href={producao.url} target="_blank">
                   <Grid
                     container
                     direction="row"
