@@ -23,8 +23,8 @@ import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import Loading from "../../../Components/Loading";
 import postInscricao from "./Service";
 import BtnSubmitLoading from "../../../Components/BtnSubmitLoading";
-import getDetalhesInscricaoAluno from "../../RevisarInscricaoAluno/Service";
-import { IDetalhes } from "../../RevisarInscricaoAluno/Interfaces";
+import { getDetalhesInscricaoAluno } from "../../Revisao/Service";
+import { IDetalhes } from "../../Revisao/Interfaces";
 import DadosCandidato from "../../Components/DadosCandidato";
 
 export default function Inscricao() {

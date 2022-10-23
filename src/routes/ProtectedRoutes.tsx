@@ -3,8 +3,8 @@ import EnrolledsList from "../pages/Edital/EnrolledList/EnrolledsList";
 import Inscricao from "../pages/Edital/Inscricao/View";
 import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
-import RevisarInscricao from "../pages/RevisarInscricao/View";
-import RevisarInscricaoAluno from "../pages/RevisarInscricaoAluno/View";
+import RevisarInscricao from "../pages/Revisao/RevisarInscricao/View";
+import RevisarInscricaoAluno from "../pages/Revisao/RevisarInscricaoAluno/View";
 
 /*
 TODO: Futuramente, desmembrar entre:

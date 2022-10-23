@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
-  Alert,
   Card,
   CardContent,
   CardHeader,
@@ -13,26 +12,25 @@ import {
   ListItemText,
   ListSubheader,
 } from "@mui/material";
-import UserContext from "../../context/UserContext";
-import { IDetalhes } from "./Interfaces";
-import Loading from "../../Components/Loading";
-import getDetalhesInscricaoAluno from "./Service";
-import getDetailsProcessoSeletivo from "../Edital/Detalhes/Service";
-import { IDetails } from "../Edital/Detalhes/Interfaces";
-import ModalProducao from "../Edital/Inscricao/Components/ModalProducao";
-import DadosCandidato from "../Components/DadosCandidato";
+import UserContext from "../../../context/UserContext";
+import Loading from "../../../Components/Loading";
+import { IDetails } from "../../Edital/Detalhes/Interfaces";
+import getDetailsProcessoSeletivo from "../../Edital/Detalhes/Service";
+import { IDetalhes } from "../Interfaces";
+import {getDetalhesInscricaoProfessor} from "../Service";
+import DadosCandidato from "../../Components/DadosCandidato";
 
-export default function RevisarInscricaoAluno() {
+export default function RevisarInscricao() {
   const { user } = useContext(UserContext);
   const [inscricao, setInscricao] = useState<IDetalhes | undefined>();
   const [edital, setEdital] = useState<IDetails | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
   const { editalId, inscricaoId } = useParams();
 
-  const refreshData = () => {
+  useEffect(() => {
     setLoading(true);
-    if (user && editalId) {
-      getDetalhesInscricaoAluno(editalId)
+    if (user && inscricaoId && editalId) {
+      getDetalhesInscricaoProfessor(inscricaoId, editalId)
         .then(({ data }) => {
           setInscricao(data);
         })
@@ -48,31 +46,9 @@ export default function RevisarInscricaoAluno() {
         })
         .catch(() => {
           // TODO: Ver como exibir erros va View
-        })
-        .finally(() => {
-          setLoading(false);
-          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         });
     }
-  };
-
-  const [addedProducao, setaddedProducao] = React.useState<boolean>(false);
-
-  const addProducao = () => {
-    refreshData();
-    setaddedProducao(true);
-  };
-
-  useEffect(() => {
-    refreshData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inscricaoId, editalId, user]);
-
-  const location = useLocation();
-  const inscricaoSuccess = location.state
-    ? "inscricao" in location.state
-    : false;
-  window.history.replaceState(null, "");
 
   return loading ? (
     <Loading />
@@ -84,19 +60,6 @@ export default function RevisarInscricaoAluno() {
       alignItems="center"
       sx={{ width: "100%" }}
     >
-      {inscricaoSuccess && (
-        <Alert severity="success">
-          Inscrição realizada com sucesso.
-          <br />
-          Para finalizar a inscrição, inclua produções científicas.
-        </Alert>
-      )}
-      {addedProducao && (
-        <Alert severity="success">
-          Produção científica adicionada com sucesso.
-        </Alert>
-      )}
-
       <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
         <CardHeader
           title={edital?.titulo}
@@ -114,29 +77,7 @@ export default function RevisarInscricaoAluno() {
         <Divider sx={{ mx: 3 }} />
 
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
-          <List
-            component="nav"
-            aria-labelledby="status-inscricao"
-            subheader={
-              <ListSubheader
-                id="status-inscricao"
-                color="primary"
-                sx={{
-                  fontSize: 20,
-                  paddingLeft: 0,
-                }}
-              >
-                Status da Inscrição
-              </ListSubheader>
-            }
-          >
-            <ListItem>
-              <ListItemText primary={inscricao?.status} />
-            </ListItem>
-          </List>
-
           <DadosCandidato dadosInscrito={inscricao?.aluno} />
-
           <List
             component="nav"
             aria-labelledby="historico"
@@ -183,23 +124,26 @@ export default function RevisarInscricaoAluno() {
               </ListSubheader>
             }
           >
-            {inscricao?.producoes.map((producao) => (
-              <ListItem disablePadding key={producao.id} divider>
-                <ListItemButton href={producao.url}>
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-between"
-                  >
-                    <ListItemText
-                      primary={`${producao.categorias_producao_id}`}
-                    />
-                  </Grid>
-                </ListItemButton>
-              </ListItem>
-            ))}
+            {loading ? (
+              <Loading />
+            ) : (
+              inscricao?.producoes.map((producao) => (
+                <ListItem disablePadding key={producao.id} divider>
+                  <ListItemButton href={producao.url}>
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="space-between"
+                    >
+                      <ListItemText
+                        primary={`${producao.categorias_producao_id}`}
+                      />
+                    </Grid>
+                  </ListItemButton>
+                </ListItem>
+              ))
+            )}
           </List>
-          <ModalProducao onSuccess={addProducao} />
         </CardContent>
       </Card>
     </Grid>
