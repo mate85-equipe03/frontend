@@ -22,8 +22,8 @@ import DadosCandidato from "../../Components/DadosCandidato";
 
 export default function RevisarInscricaoProfessor() {
   const { user } = useContext(UserContext);
-  const [inscricao, setInscricao] = useState<IDetalhes | undefined>();
-  const [edital, setEdital] = useState<IDetails | undefined>();
+  const [inscricao, setInscricao] = useState<IDetalhes>();
+  const [edital, setEdital] = useState<IDetails>();
   const [loading, setLoading] = useState<boolean>(true);
   const { editalId, inscricaoId } = useParams();
 

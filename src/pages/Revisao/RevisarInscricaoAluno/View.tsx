@@ -27,11 +27,13 @@ export default function RevisarInscricaoAluno() {
   const { user } = useContext(UserContext);
   const [inscricao, setInscricao] = useState<IDetalhes | undefined>();
   const [edital, setEdital] = useState<IDetails | undefined>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loadingAluno, setLoadingAluno] = useState<boolean>(true);
+  const [loadingProfessor, setLoadingProfessor] = useState<boolean>(true);
   const { editalId, inscricaoId } = useParams();
 
   const refreshData = () => {
-    setLoading(true);
+    setLoadingAluno(true);
+    setLoadingProfessor(true);
     if (user && editalId) {
       getDetalhesInscricaoAluno(editalId)
         .then(({ data }) => {
@@ -41,7 +43,7 @@ export default function RevisarInscricaoAluno() {
           // TODO: Ver como exibir erros va View
         })
         .finally(() => {
-          setLoading(false);
+          setLoadingAluno(false);
         });
       getDetailsProcessoSeletivo(editalId)
         .then(({ data }) => {
@@ -51,7 +53,7 @@ export default function RevisarInscricaoAluno() {
           // TODO: Ver como exibir erros va View
         })
         .finally(() => {
-          setLoading(false);
+          setLoadingProfessor(false);
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         });
     }
@@ -75,7 +77,7 @@ export default function RevisarInscricaoAluno() {
     : false;
   window.history.replaceState(null, "");
 
-  return loading ? (
+  return loadingAluno && loadingProfessor ? (
     <Loading />
   ) : (
     <Grid
