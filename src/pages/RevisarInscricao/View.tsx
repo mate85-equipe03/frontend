@@ -174,7 +174,7 @@ export default function RevisarInscricao() {
             ) : (
               inscricao?.producoes.map((producao) => (
                 <ListItem disablePadding key={producao.id} divider>
-                  <ListItemButton href={producao.url}>
+                  <ListItemButton href={producao.url} target="_blank">
                     <Grid
                       container
                       direction="row"
