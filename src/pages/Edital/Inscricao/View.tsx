@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   Card,
@@ -21,6 +21,7 @@ import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import Loading from "../../../Components/Loading";
 import postInscricao from "./Service";
 import BtnSubmitLoading from "../../../Components/BtnSubmitLoading";
+import UserContext from "../../../context/UserContext";
 
 export default function Inscricao() {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ export default function Inscricao() {
     url_enade: "",
     processo_seletivo_id: Number(editalId),
   });
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const redirectToDetails = () => {
@@ -63,7 +65,7 @@ export default function Inscricao() {
       .finally(() => {
         setLoadingEdital(false);
       });
-  }, [editalId, navigate]);
+  }, [editalId, navigate, user]);
 
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
     setInscricaoData({
