@@ -3,7 +3,7 @@ import EnrolledsList from "../pages/Edital/EnrolledList/EnrolledsList";
 import Inscricao from "../pages/Edital/Inscricao/View";
 import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
-import RevisarInscricao from "../pages/Revisao/RevisarInscricao/View";
+import RevisarInscricaoProfessor from "../pages/Revisao/RevisarInscricaoProfessor/View";
 import RevisarInscricaoAluno from "../pages/Revisao/RevisarInscricaoAluno/View";
 
 /*
@@ -18,7 +18,7 @@ const protectedRoutes: RouteProps[] = [
   { path: "/edital/:editalId/inscricao", element: <Inscricao /> },
   {
     path: "/edital/:editalId/inscritos/:inscricaoId",
-    element: <RevisarInscricao />,
+    element: <RevisarInscricaoProfessor />,
   },
   {
     path: "/edital/:editalId/dados-inscricao",

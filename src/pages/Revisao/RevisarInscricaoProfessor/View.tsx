@@ -20,7 +20,7 @@ import { IDetalhes } from "../Interfaces";
 import {getDetalhesInscricaoProfessor} from "../Service";
 import DadosCandidato from "../../Components/DadosCandidato";
 
-export default function RevisarInscricao() {
+export default function RevisarInscricaoProfessor() {
   const { user } = useContext(UserContext);
   const [inscricao, setInscricao] = useState<IDetalhes | undefined>();
   const [edital, setEdital] = useState<IDetails | undefined>();
