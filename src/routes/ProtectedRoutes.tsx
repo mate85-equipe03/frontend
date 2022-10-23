@@ -6,31 +6,45 @@ import { routesWithRedirect } from "./RoutesHelper";
 import RevisarInscricao from "../pages/RevisarInscricao/View";
 import RevisarInscricaoAluno from "../pages/RevisarInscricaoAluno/View";
 
-/*
-TODO: Futuramente, desmembrar entre:
-        * rotas protegidas "gerais";
-        * rotas protegidas de "root";
-        * rotas protegidas de "professor";
-        * rotas protegidas de "estudante".
-*/
-
-const protectedRoutes: RouteProps[] = [
+const studentRoutes: RouteProps[] = [
   { path: "/edital/:editalId/inscricao", element: <Inscricao /> },
-  {
-    path: "/edital/:editalId/inscritos/:inscricaoId",
-    element: <RevisarInscricao />,
-  },
   {
     path: "/edital/:editalId/dados-inscricao",
     element: <RevisarInscricaoAluno />,
   },
+];
+
+const teacherRoutes: RouteProps[] = [
+  {
+    path: "/edital/:editalId/inscritos/:inscricaoId",
+    element: <RevisarInscricao />,
+  },
   { path: "/edital/:editalId/inscritos", element: <EnrolledsList /> },
 ];
 
-/*
-    Se o(a) usuário(a) NÃO estiver logado(a), redireciona-o(a) para o login caso tente acessar alguma das ProtectedRoutes
-*/
-const ProtectedRoutes = () =>
-  routesWithRedirect(!auth.isAuth(), "/login", protectedRoutes);
+const rootRoutes: RouteProps[] = [];
+
+const ProtectedRoutes = (): JSX.Element[] => {
+  /* 
+    Se NÃO estiver logado(a), redireciona para o login caso tente acessar alguma das ProtectedRoutes
+  */
+  if (!auth.isAuth()) {
+    return [
+      ...routesWithRedirect(!auth.isAuth(), "/login", studentRoutes),
+      ...routesWithRedirect(!auth.isAuth(), "/login", teacherRoutes),
+      ...routesWithRedirect(!auth.isAuth(), "/login", rootRoutes),
+    ];
+  }
+
+  /* 
+    Se estiver logado(a) mas não estiver com a role correta, redireciona para a home caso tente 
+    acessar alguma das Rotas Protegidas por Role
+  */
+  return [
+    ...routesWithRedirect(!auth.isStudent(), "/", studentRoutes),
+    ...routesWithRedirect(!auth.isTeacher(), "/", teacherRoutes),
+    ...routesWithRedirect(!auth.isRoot(), "/", rootRoutes),
+  ];
+};
 
 export default ProtectedRoutes;

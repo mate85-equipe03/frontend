@@ -42,11 +42,18 @@ export default function Inscricao() {
       navigate(`/edital/${editalId}/detalhes`);
     };
 
+    const redirectToMySubscription = () => {
+      navigate(`/edital/${editalId}/dados-inscricao`);
+    };
+
     setLoadingEdital(true);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         if (data?.arquivado) {
           redirectToDetails();
+        }
+        if (data?.isInscrito) {
+          redirectToMySubscription();
         }
         setEditalName(data?.titulo);
       })
