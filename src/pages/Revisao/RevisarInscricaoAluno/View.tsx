@@ -16,7 +16,7 @@ import {
 
 import UserContext from "../../../context/UserContext";
 import { IDetalhes } from "../Interfaces";
-import {getDetalhesInscricaoAluno} from "../Service";
+import { getDetalhesInscricaoAluno } from "../Service";
 import Loading from "../../../Components/Loading";
 import getDetailsProcessoSeletivo from "../../Edital/Detalhes/Service";
 import { IDetails } from "../../Edital/Detalhes/Interfaces";

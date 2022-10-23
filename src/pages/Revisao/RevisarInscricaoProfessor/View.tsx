@@ -17,7 +17,7 @@ import Loading from "../../../Components/Loading";
 import { IDetails } from "../../Edital/Detalhes/Interfaces";
 import getDetailsProcessoSeletivo from "../../Edital/Detalhes/Service";
 import { IDetalhes } from "../Interfaces";
-import {getDetalhesInscricaoProfessor} from "../Service";
+import { getDetalhesInscricaoProfessor } from "../Service";
 import DadosCandidato from "../../Components/DadosCandidato";
 
 export default function RevisarInscricaoProfessor() {
