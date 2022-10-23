@@ -47,7 +47,7 @@ export default function EditalDetails() {
       .catch(() => {
         // TODO: Ver como exibir erros va View
       });
-  }, [editalId]);
+  }, [editalId, user]);
 
   const dateToStr = (rawDate: string) => {
     const date = moment(rawDate);
