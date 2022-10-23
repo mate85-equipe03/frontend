@@ -8,6 +8,7 @@ import { getEnrolledList } from "./Service";
 import { IADetalhes } from "./Interfaces";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import UserContext from "../../../context/UserContext";
+import Loading from "../../../Components/Loading";
 
 export default function EnrolledsList() {
   const navigate = useNavigate();
@@ -18,25 +19,38 @@ export default function EnrolledsList() {
   const { user } = useContext(UserContext);
 
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
+  const [loadingInscritos, setLoadingInscritos] = useState<boolean>(false);
+  const [loadingProcesso, setLoadingProcesso] = useState<boolean>(false);
 
   useEffect(() => {
-    if (user && editalId)
-      getEnrolledList(editalId).then(({ data }) => setEnrolledList(data));
+    if (user && editalId) {
+      setLoadingInscritos(true);
+      getEnrolledList(editalId)
+        .then(({ data }) => setEnrolledList(data))
+        .catch(() => {
+          // TODO: Ver como exibir erros va View
+        })
+        .finally(() => {
+          setLoadingInscritos(false);
+        });
+    }
   }, [editalId, user, navigate]);
-
-  // const [loading, setLoading] = useState<boolean>(true);
 
   const handleRowClick: GridEventListener<"rowClick"> = (params) => {
     navigate(`/edital/${editalId}/inscritos/${params.row.id}`);
   };
 
   useEffect(() => {
+    setLoadingProcesso(true);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setEditalName(data?.titulo);
       })
       .catch(() => {
         // TODO: Ver como exibir erros va View
+      })
+      .finally(() => {
+        setLoadingProcesso(false);
       });
   }, [editalId]);
 
@@ -104,7 +118,9 @@ export default function EnrolledsList() {
     filterPanelInputPlaceholder: "Filtrar valor",
   };
 
-  return (
+  return loadingInscritos || loadingProcesso ? (
+    <Loading />
+  ) : (
     <Grid
       container
       direction="column"
