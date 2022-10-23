@@ -5,15 +5,15 @@ import PageNotFound from "../pages/PageNotFound/View";
 import { routeWithKey } from "./RoutesHelper";
 import EditalDetails from "../pages/Edital/Detalhes/View";
 
-const generalRoutes: RouteProps[] = [
+const publicRoutes: RouteProps[] = [
   { path: "/", element: <Home /> },
   { path: "*", element: <PageNotFound /> },
   { path: "/edital/:editalId/detalhes", element: <EditalDetails /> },
 ];
 
-const GeneralRoutes = () =>
-  generalRoutes.map((route) => {
+const PublicRoutes = (): JSX.Element[] =>
+  publicRoutes.map((route) => {
     return routeWithKey(route);
   });
 
-export default GeneralRoutes;
+export default PublicRoutes;

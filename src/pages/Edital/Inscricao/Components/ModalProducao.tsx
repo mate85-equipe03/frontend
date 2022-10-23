@@ -224,6 +224,7 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
                   <AttachInput
                     inputName="producao_cientifica_file"
                     label="Anexo"
+                    multipleFiles
                     files={producaoData.files}
                     setFiles={setProducaoFile}
                   />
