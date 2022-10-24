@@ -12,7 +12,7 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import api from "../services/Api";
+import api from "../../services/Api";
 
 interface IRecoverData {
   matricula: string;
@@ -20,6 +20,10 @@ interface IRecoverData {
 
 export default function Recuperar() {
   const navigate = useNavigate();
+
+  const redirectToConfirm = () => {
+    navigate("/recuperar-senha/confirmacao");
+  };
 
   const [recoverData, setrecoverData] = React.useState<IRecoverData>({
     matricula: "",
@@ -93,7 +97,12 @@ export default function Recuperar() {
 
         <CardActions sx={{ pb: 4, px: { xs: 5, sm: 10 } }}>
           <Grid container justifyContent="center" alignItems="center">
-            <Button fullWidth type="submit" size="large">
+            <Button
+              fullWidth
+              type="submit"
+              size="large"
+              onClick={redirectToConfirm}
+            >
               Recuperar senha
             </Button>
           </Grid>

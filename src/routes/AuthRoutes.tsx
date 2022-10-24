@@ -2,7 +2,8 @@ import React from "react";
 import { RouteProps } from "react-router-dom";
 import Cadastro from "../pages/Cadastro/Cadastro";
 import Login from "../pages/Login";
-import Recuperar from "../pages/Recuperar";
+import Confirm from "../pages/Recuperar/Confirm";
+import Recuperar from "../pages/Recuperar/Recuperar";
 import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
 
@@ -10,6 +11,7 @@ const authRoutes: RouteProps[] = [
   { path: "/login", element: <Login /> },
   { path: "/cadastro", element: <Cadastro /> },
   { path: "/recuperar-senha", element: <Recuperar /> },
+  { path: "/recuperar-senha/confirmacao", element: <Confirm /> },
 
   // exemplo: { path: "/login-teste", element: <Login /> },
 ];
