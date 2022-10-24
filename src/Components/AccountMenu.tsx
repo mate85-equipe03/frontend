@@ -11,6 +11,7 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import { Person } from "@mui/icons-material";
+import { Grid, ListItem, Typography } from "@mui/material";
 import UserContext from "../context/UserContext";
 
 export default function AccountMenu() {
@@ -49,7 +50,7 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={isMenuOpen ? "true" : undefined}
           >
-            <Avatar>{user && stringAvatar(user?.username)} </Avatar>
+            <Avatar>{user && stringAvatar(user?.nome)} </Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -64,7 +65,8 @@ export default function AccountMenu() {
           sx: {
             overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
+            mt: 0,
+            maxWidth: "200px",
             "& .MuiAvatar-root": {
               width: 32,
               height: 32,
@@ -87,13 +89,38 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
+        <ListItem sx={{ pt: 0 }}>
+          <Grid sx={{ width: "100%" }}>
+            <Typography
+              color="primary"
+              sx={{
+                fontSize: 16,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {user && user?.nome}
+            </Typography>
+            <Typography
+              sx={{
+                textTransform: "capitalize",
+                fontSize: 14,
+                fontStyle: "italic",
+                opacity: 0.7,
+              }}
+            >
+              {user && user?.role.toLowerCase()}
+            </Typography>
+          </Grid>
+        </ListItem>
+        <Divider />
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <Person fontSize="small" />
           </ListItemIcon>
           Meu Perfil
         </MenuItem>
-        <Divider />
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <Settings fontSize="small" />
