@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
+  Button,
   Card,
   CardContent,
   CardHeader,
@@ -18,7 +19,6 @@ import { IDetails } from "./Interfaces";
 import getDetailsProcessoSeletivo from "./Service";
 import UserContext from "../../../context/UserContext";
 import Loading from "../../../Components/Loading";
-import BtnLoading from "../../../Components/BtnLoading";
 
 export default function EditalDetails() {
   const navigate = useNavigate();
@@ -121,12 +121,13 @@ export default function EditalDetails() {
               sx={{ width: "100%", my: 2 }}
             >
               {user?.role === "PROFESSOR" ? (
-                <BtnLoading
-                  label="Alunos Inscritos"
-                  loading={loading}
-                  fullWidth
-                  handleClick={redirectToEnrolledList}
-                />
+                <Button
+                  type="button"
+                  onClick={redirectToEnrolledList}
+                  size="large"
+                >
+                  Alunos Inscritos
+                </Button>
               ) : (
                 <Grid>
                   {edital?.arquivado ? (
@@ -136,19 +137,21 @@ export default function EditalDetails() {
                   ) : (
                     <Grid>
                       {edital?.isInscrito ? (
-                        <BtnLoading
-                          label="Visualizar Inscrição"
-                          loading={loading}
-                          fullWidth
-                          handleClick={redirectToMySubscription}
-                        />
+                        <Button
+                          type="button"
+                          onClick={redirectToMySubscription}
+                          size="large"
+                        >
+                          Visualizar Inscrição
+                        </Button>
                       ) : (
-                        <BtnLoading
-                          label="Inscreva-se"
-                          loading={loading}
-                          fullWidth
-                          handleClick={redirectToSubscribe}
-                        />
+                        <Button
+                          type="button"
+                          onClick={redirectToSubscribe}
+                          size="large"
+                        >
+                          Inscreva-se
+                        </Button>
                       )}
                     </Grid>
                   )}
