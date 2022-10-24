@@ -46,7 +46,6 @@ export default function EditalDetails() {
       .then(({ data }) => {
         setEdital(data);
       })
-
       .catch(() => {
         // TODO: Ver como exibir erros va View
       })
