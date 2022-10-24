@@ -1,17 +1,23 @@
+/* eslint-disable react/jsx-props-no-spreading */
+
 import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   Card,
   CardHeader,
   CardContent,
-  Divider,
-  List,
-  ListSubheader,
   Alert,
+  Link,
+  Typography,
 } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
-import EditalItem from "./Components/EditalItem";
-import { IEditais } from "./Types";
+import {
+  DataGrid,
+  GridColDef,
+  GridEventListener,
+  ptBR,
+} from "@mui/x-data-grid";
+import { IEdital } from "./Types";
 import getAllProcessosSeletivos from "./Service";
 import Loading from "../../Components/Loading";
 import UserContext from "../../context/UserContext";
@@ -23,19 +29,23 @@ export default function Home() {
   const signInSuccess = location.state ? "signIn" in location.state : false;
   window.history.replaceState(null, "");
   const { user } = useContext(UserContext);
-  const [editais, setEditais] = useState<IEditais | undefined>();
+  const [editais, setEditais] = useState<IEdital[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const redirectToDetails = (editalId: number) => {
-    navigate(`/edital/${editalId}/detalhes`);
-  };
+  const [isAluno, setIsAluno] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (user?.role === "ALUNO") {
+      setIsAluno(true);
+    } else {
+      setIsAluno(false);
+    }
+  }, [user]);
 
   useEffect(() => {
     setLoading(true);
     getAllProcessosSeletivos()
-      .then(({ data }) => {
-        setEditais(data?.editais);
-      })
+      .then(({ data }) => setEditais(data.editais.processos))
       .catch(() => {
         // TODO: Ver como exibir erros va View
       })
@@ -43,6 +53,55 @@ export default function Home() {
         setLoading(false);
       });
   }, [user]);
+
+  const handleRowClick: GridEventListener<"rowClick"> = (params) => {
+    navigate(`/edital/${params.row.id}/detalhes`);
+  };
+
+  const colunas: GridColDef[] = [
+    {
+      field: "titulo",
+      headerName: "Edital",
+      width: 300,
+    },
+    {
+      field: "edital_url",
+      headerName: "Link do Edital",
+      width: 200,
+      renderCell: (cellValues) => {
+        return (
+          <Link href={`#${cellValues.row.url}`}>
+            {cellValues.row.edital_url}
+          </Link>
+        );
+      },
+    },
+    {
+      field: "arquivado",
+      headerName: "Status",
+      width: 200,
+      renderCell: (cellValues) => {
+        return cellValues.value === true ? (
+          <Typography>Fechado</Typography>
+        ) : (
+          <Typography>Aberto</Typography>
+        );
+      },
+    },
+    {
+      field: "etapa",
+      headerName: "Etapa Atual",
+      width: 200,
+      valueGetter: (params) => {
+        return params.row.etapas.name;
+      },
+    },
+    {
+      field: "inscrito",
+      headerName: "Inscrito",
+      width: 200,
+    },
+  ];
 
   return loading ? (
     <Loading />
@@ -64,73 +123,34 @@ export default function Home() {
           Você está logado.
         </Alert>
       )}
-      <Card sx={{ minWidth: { md: 500 }, maxWidth: 800 }}>
+      <Card>
         <CardHeader
-          title="Processos Seletivos"
+          title="Processos Abertos"
           titleTypographyProps={{
             align: "center",
             variant: "h4",
             p: 1,
           }}
-          sx={{ px: 3 }}
-          subheader="Concessão de Bolsas de Mestrado e Doutorado"
-          subheaderTypographyProps={{
-            align: "center",
-          }}
         />
-        <Divider sx={{ mx: 3 }} />
-        <CardContent sx={{ px: 4 }}>
-          <List
-            component="nav"
-            aria-labelledby="editais-em-andamento"
-            subheader={
-              <ListSubheader
-                id="editais-em-andamento"
-                color="primary"
-                sx={{
-                  fontSize: 20,
-                }}
-              >
-                Em andamento
-              </ListSubheader>
-            }
-          >
-            {/* 
-            TODO: Exibir componente padrão em caso de array vazio
-            */}
-            {editais?.em_andamento?.map((edital) => (
-              <EditalItem
-                key={edital?.id}
-                edital={edital}
-                onClick={() => redirectToDetails(edital.id)}
-              />
-            ))}
-          </List>
-
-          <List
-            component="nav"
-            aria-labelledby="editais-encerrados"
-            subheader={
-              <ListSubheader
-                id="editais-encerrados"
-                color="primary"
-                sx={{ fontSize: 20 }}
-              >
-                Encerrados
-              </ListSubheader>
-            }
-          >
-            {/* 
-            TODO: Exibir componente padrão em caso de array vazio
-            */}
-            {editais?.arquivados?.map((edital) => (
-              <EditalItem
-                key={edital?.id}
-                edital={edital}
-                onClick={() => redirectToDetails(edital.id)}
-              />
-            ))}
-          </List>
+        <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
+          <div style={{ height: 400, width: 1500 }}>
+            <DataGrid
+              onRowClick={handleRowClick}
+              {...editais}
+              rows={editais}
+              columns={colunas}
+              pageSize={5}
+              rowsPerPageOptions={[]}
+              localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
+              initialState={{
+                columns: {
+                  columnVisibilityModel: {
+                    inscrito: isAluno,
+                  },
+                },
+              }}
+            />
+          </div>
         </CardContent>
       </Card>
     </Grid>
