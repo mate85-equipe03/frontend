@@ -14,6 +14,7 @@ import {
   MenuItem,
   OutlinedInput,
   SelectChangeEvent,
+  Alert,
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
@@ -21,8 +22,8 @@ import getDetailsProcessoSeletivo from "../../Detalhes/Service";
 import AttachInput from "./AttachInput";
 import { IDetails } from "../../Detalhes/Interfaces";
 import { IFile, IProducao } from "../Interfaces";
-// import { postProducao } from "../Service";
 import api from "../../../../services/Api";
+import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
 
 // import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
 type PropsModal = { onSuccess: () => void };
@@ -64,18 +65,14 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
     });
   };
 
+  const [addProducaoErro, setAddProducaoErro] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
+
   useEffect(() => {
-    // setLoadingEdital(true);
-    getDetailsProcessoSeletivo(editalId)
-      .then(({ data }) => {
-        setEdital(data);
-      })
-      .catch(() => {
-        // TODO: Ver como exibir erros va View
-      })
-      .finally(() => {
-        // setLoadingEdital(false);
-      });
+    setAddProducaoErro(false);
+    getDetailsProcessoSeletivo(editalId).then(({ data }) => {
+      setEdital(data);
+    });
   }, [editalId]);
 
   const [countFiles, setCountFiles] = useState<number>(0);
@@ -109,6 +106,7 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
 
   const postProducao = (payload: IProducao) => {
     if (editalId) {
+      setLoading(true);
       const formData = new FormData();
       payload.files.forEach((file) => {
         formData.append("files", file.fileData);
@@ -118,11 +116,25 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
         payload.categorias_producao_id.toString()
       );
       formData.append("edital_id", editalId);
-      return api.post("/inscricoes/producoes", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      return api
+        .post("/inscricoes/producoes", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(() => {
+          onSuccess();
+          setProducaoData({ categorias_producao_id: 0, files: [] });
+          setIdCategoria(-1);
+          setNotaCategoria("0");
+          handleClose();
+        })
+        .catch(() => {
+          setAddProducaoErro(true);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }
     return null;
   };
@@ -130,7 +142,6 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     postProducao(producaoData);
-    onSuccess();
   };
 
   return (
@@ -148,7 +159,10 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
           sx: { borderRadius: 5 },
         }}
       >
-        <Card sx={{ maxWidth: 600, p: 4, borderRadius: 5 }}>
+        <Card sx={{ overflow: "auto", maxWidth: 600, p: 4, borderRadius: 5 }}>
+          {addProducaoErro && (
+            <Alert severity="error">Ocorreu um erro. Tente novamente.</Alert>
+          )}
           <CardHeader
             title="Adicionar Produção Científica"
             titleTypographyProps={{
@@ -167,7 +181,7 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
               onChange={handleFormChange}
               onSubmit={sendForm}
             >
-              <DialogContent sx={{ p: 2, maxHeight: "300px" }}>
+              <DialogContent sx={{ p: 2, maxHeight: "200px" }}>
                 <Grid container direction="row" justifyContent="space-between">
                   <Grid item xs={10}>
                     <FormControl fullWidth>
@@ -210,6 +224,7 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
                   <AttachInput
                     inputName="producao_cientifica_file"
                     label="Anexo"
+                    multipleFiles
                     files={producaoData.files}
                     setFiles={setProducaoFile}
                   />
@@ -228,27 +243,18 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
                       />
                     </FormControl> */}
               </DialogContent>
-
               <Grid
                 container
                 direction="row"
                 justifyContent="space-between"
-                sx={{ mt: 2 }}
+                sx={{ mt: 2, px: 2 }}
               >
                 <Button onClick={handleClose}> Fechar </Button>
-                <Button
-                  type="submit"
-                  form="add-producao-form"
-                  onClick={handleClose}
-                >
-                  Enviar
-                </Button>
-                {/* <BtnSubmitLoading
-                  label = "Enviar"
-                  formId = "add-producao-form"
-                  loading = 
-                  fullWidth,
-                /> */}
+                <BtnSubmitLoading
+                  label="Enviar"
+                  formId="add-producao-form"
+                  loading={loading}
+                />
               </Grid>
             </form>
           </CardContent>

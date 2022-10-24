@@ -5,7 +5,7 @@ export interface ISignUpData {
   matricula: string;
   senha: string;
   confirmacaoSenha: string;
-  semestre_pgcomp: number | string;
+  semestre_pgcomp: string;
   curso: string;
   lattes_link: string;
   email: string;

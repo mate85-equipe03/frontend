@@ -14,20 +14,21 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-
+import { PatternFormat } from "react-number-format";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
+import { useNavigate } from "react-router-dom";
 import api from "../../services/Api";
 import BtnSubmitLoading from "../../Components/BtnSubmitLoading";
 import { ISignUpData } from "./Types";
 
 export default function Cadastro() {
-  const [signUpError, setSignUpError] = React.useState<boolean>(false);
-  const [signUpSuccess, setSignUpSuccess] = React.useState<boolean>(false);
-  const [loading, setLoading] = React.useState<boolean>(false);
+  const navigate = useNavigate();
 
+  const [signUpError, setSignUpError] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [signUpData, setSignUpData] = React.useState<ISignUpData>({
     nome: "",
     login: "",
@@ -54,8 +55,7 @@ export default function Cadastro() {
     } else {
       setSignUpData({
         ...signUpData,
-        [event.target.name]:
-          event.target.type === "number" ? Number(value) : value,
+        [event.target.name]: value,
       });
     }
   };
@@ -70,12 +70,10 @@ export default function Cadastro() {
     api
       .post("/alunos", signUpData)
       .then(() => {
-        // navigate("/login");
-        setSignUpSuccess(true);
+        navigate("/login", { state: { signUp: true } });
         setSignUpError(false);
       })
       .catch(() => {
-        setSignUpSuccess(false);
         setSignUpError(true);
       })
       .finally(() => {
@@ -92,11 +90,6 @@ export default function Cadastro() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      {signUpSuccess && (
-        <Alert severity="success" sx={{ mb: 2 }}>
-          Cadastro realizado com sucesso.
-        </Alert>
-      )}
       {signUpError && (
         <Alert severity="error" sx={{ mb: 2 }}>
           Ocorreu um erro. Tente novamente.
@@ -121,7 +114,7 @@ export default function Cadastro() {
               <OutlinedInput
                 id="nome"
                 name="nome"
-                label="nome"
+                label="Nome"
                 placeholder="Digite seu nome completo"
                 type="text"
                 value={signUpData.nome}
@@ -145,7 +138,7 @@ export default function Cadastro() {
               <OutlinedInput
                 id="senha"
                 name="senha"
-                label="senha"
+                label="Senha"
                 placeholder="Digite sua senha"
                 type={showPassword ? "text" : "password"}
                 value={signUpData.senha}
@@ -194,19 +187,22 @@ export default function Cadastro() {
               <InputLabel htmlFor="semestre_pgcomp">
                 Semestre de ingresso no PGCOMP
               </InputLabel>
-              <OutlinedInput
+              <PatternFormat
                 id="semestre_pgcomp"
                 name="semestre_pgcomp"
                 label="Semestre de ingresso no PGCOMP"
                 placeholder="Digite seu semestre de ingresso no PGCOMP"
-                type="number"
+                type="text"
                 value={signUpData.semestre_pgcomp}
                 onChange={handleChange}
+                format="####.#"
+                mask="_"
+                customInput={OutlinedInput}
               />
             </FormControl>
             <FormControl required fullWidth margin="normal">
               <FormLabel id="selecionar-curso">
-                Curso do(a) candidado(a)
+                Curso do(a) candidato(a)
               </FormLabel>
               <RadioGroup
                 row
@@ -242,11 +238,11 @@ export default function Cadastro() {
               />
             </FormControl>
             <FormControl required fullWidth margin="normal">
-              <InputLabel htmlFor="email">Email</InputLabel>
+              <InputLabel htmlFor="email">E-mail</InputLabel>
               <OutlinedInput
                 id="email"
                 name="email"
-                label="Email"
+                label="E-mail"
                 placeholder="exemplo@email.com.br"
                 type="email"
                 value={signUpData.email}
@@ -255,7 +251,7 @@ export default function Cadastro() {
             </FormControl>
             <FormControl required fullWidth margin="normal">
               <InputLabel htmlFor="telefone">Telefone / Celular</InputLabel>
-              <OutlinedInput
+              <PatternFormat
                 id="telefone"
                 name="telefone"
                 label="Telefone / Celular"
@@ -263,6 +259,9 @@ export default function Cadastro() {
                 type="tel"
                 value={signUpData.telefone}
                 onChange={handleChange}
+                format="(##) #####-####"
+                mask="_"
+                customInput={OutlinedInput}
               />
             </FormControl>
           </form>

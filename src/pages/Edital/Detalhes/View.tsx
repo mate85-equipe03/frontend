@@ -24,7 +24,7 @@ export default function EditalDetails() {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { editalId } = useParams();
 
@@ -53,7 +53,7 @@ export default function EditalDetails() {
       .finally(() => {
         setLoading(false);
       });
-  }, [editalId]);
+  }, [editalId, user]);
 
   const dateToStr = (rawDate: string) => {
     const date = moment(rawDate);

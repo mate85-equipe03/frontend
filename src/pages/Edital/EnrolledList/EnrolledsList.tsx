@@ -24,19 +24,29 @@ export default function EnrolledsList() {
   const { user } = useContext(UserContext);
 
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
+  const [loadingInscritos, setLoadingInscritos] = useState<boolean>(false);
+  const [loadingProcesso, setLoadingProcesso] = useState<boolean>(false);
 
   useEffect(() => {
-    if (user && editalId)
-      getEnrolledList(editalId).then(({ data }) => setEnrolledList(data));
+    if (user && editalId) {
+      setLoadingInscritos(true);
+      getEnrolledList(editalId)
+        .then(({ data }) => setEnrolledList(data))
+        .catch(() => {
+          // TODO: Ver como exibir erros va View
+        })
+        .finally(() => {
+          setLoadingInscritos(false);
+        });
+    }
   }, [editalId, user, navigate]);
-
-  const [loading, setLoading] = useState<boolean>(true);
 
   const handleRowClick: GridEventListener<"rowClick"> = (params) => {
     navigate(`/edital/${editalId}/inscritos/${params.row.id}`);
   };
 
   useEffect(() => {
+    setLoadingProcesso(true);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setEditalName(data?.titulo);
@@ -45,7 +55,7 @@ export default function EnrolledsList() {
         // TODO: Ver como exibir erros va View
       })
       .finally(() => {
-        setLoading(false);
+        setLoadingProcesso(false);
       });
   }, [editalId]);
 
@@ -76,7 +86,7 @@ export default function EnrolledsList() {
     },
   ];
 
-  return loading ? (
+  return loadingInscritos || loadingProcesso ? (
     <Loading />
   ) : (
     <Grid

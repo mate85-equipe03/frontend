@@ -1,7 +1,7 @@
 import api from "../../services/Api";
 import { IDetalhes } from "./Interfaces";
 
-const getDetalhesInscricaoProfessor = (
+export const getDetalhesInscricaoProfessor = (
   inscricaoId: string,
   editalId: string
 ) => {
@@ -10,4 +10,6 @@ const getDetalhesInscricaoProfessor = (
   );
 };
 
-export default getDetalhesInscricaoProfessor;
+export const getDetalhesInscricaoAluno = (editalId: string) => {
+  return api.get<IDetalhes>(`/processos-seletivos/${editalId}/inscricao`);
+};
