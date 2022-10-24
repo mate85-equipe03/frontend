@@ -112,7 +112,7 @@ export default function Home() {
       headerName: "Status",
       width: 120,
       valueGetter: (params) => {
-        return params.row.arquivado ? "Fechado" : "Aberto";
+        return params.row.arquivado ? "Encerrado" : "Em Andamento";
       },
     },
     {
