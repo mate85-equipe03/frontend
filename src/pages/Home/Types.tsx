@@ -24,8 +24,7 @@ export interface IEdital {
 // }
 
 export interface IEditais {
-  em_andamento: IEdital[];
-  arquivados: IEdital[];
+  processos: IEdital[];
 }
 
 export interface IEditaisReq {
