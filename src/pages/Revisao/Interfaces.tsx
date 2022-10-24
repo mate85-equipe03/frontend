@@ -20,6 +20,13 @@ export interface IProducoes {
   inscricao_id: number;
   categorias_producao_id: number;
   url: string;
+  filename: string;
+  categorias_producao: {
+    id: number;
+    nome: string;
+    pontuacao: number;
+    processo_seletivo_id: number;
+  };
 }
 
 export interface IDetalhes {
