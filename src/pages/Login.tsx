@@ -25,6 +25,14 @@ interface ILoginData {
   username: string;
   password: string;
 }
+interface IUserBackend {
+  id: number;
+  role: string;
+  email: string;
+  telefone: string;
+  nome: string;
+  matricula: string;
+}
 
 export default function Login() {
   const navigate = useNavigate();
@@ -58,11 +66,11 @@ export default function Login() {
     setShowPassword(!showPassword);
   };
 
-  const login = (accessToken: string, role: string) => {
+  const login = (accessToken: string, user: IUserBackend) => {
     const modifiedUser = {
       username: loginData.username,
       token: accessToken,
-      role,
+      ...user,
     };
     setUser(modifiedUser);
     api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
@@ -76,7 +84,7 @@ export default function Login() {
     api
       .post("/autenticacao/login", loginData)
       .then(({ data }) => {
-        login(data?.access_token, data?.user?.role);
+        login(data?.access_token, data?.user);
       })
       .catch(() => {
         setLoginError(true);
