@@ -18,12 +18,13 @@ import moment from "moment";
 import { IDetails } from "./Interfaces";
 import getDetailsProcessoSeletivo from "./Service";
 import UserContext from "../../../context/UserContext";
+import Loading from "../../../Components/Loading";
 
 export default function EditalDetails() {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();
-  // const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { editalId } = useParams();
 
@@ -40,12 +41,16 @@ export default function EditalDetails() {
   };
 
   useEffect(() => {
+    setLoading(true);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setEdital(data);
       })
       .catch(() => {
         // TODO: Ver como exibir erros va View
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [editalId, user]);
 
@@ -54,7 +59,9 @@ export default function EditalDetails() {
     return date.format("DD/MM/YYYY");
   };
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <Grid
       container
       direction="column"
