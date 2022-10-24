@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
   Card,
@@ -14,20 +14,28 @@ import {
   Alert,
   FormLabel,
   Link,
+  Typography,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
+import UserContext from "../../../context/UserContext";
 import AttachInput from "./Components/AttachInput";
 import { IInscricaoData, IFile, IInscricaoDataReq } from "./Interfaces";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import Loading from "../../../Components/Loading";
 import postInscricao from "./Service";
 import BtnSubmitLoading from "../../../Components/BtnSubmitLoading";
+import { getDetalhesInscricaoAluno } from "../../Revisao/Service";
+import { IDetalhes } from "../../Revisao/Interfaces";
+import DadosCandidato from "../../Components/DadosCandidato";
 
 export default function Inscricao() {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
   const { editalId } = useParams();
   const [countFiles, setCountFiles] = useState<number>(0);
   const [loadingEdital, setLoadingEdital] = useState<boolean>(false);
+  const [loadingProcessoSeletivo, setLoadingProcessoSeletivo] =
+    useState<boolean>(false);
   const [loadingInscricao, setLoadingInscricao] = useState<boolean>(false);
   const [inscricaoError, setInscricaoError] = React.useState<boolean>(false);
   const [editalName, setEditalName] = useState<string>();
@@ -37,27 +45,48 @@ export default function Inscricao() {
     url_enade: "",
     processo_seletivo_id: Number(editalId),
   });
+  const [dadosAluno, setDadosAluno] = useState<IDetalhes | undefined>();
 
   useEffect(() => {
     const redirectToDetails = () => {
       navigate(`/edital/${editalId}/detalhes`);
     };
 
-    setLoadingEdital(true);
-    getDetailsProcessoSeletivo(editalId)
-      .then(({ data }) => {
-        if (data?.arquivado) {
-          redirectToDetails();
-        }
-        setEditalName(data?.titulo);
-      })
-      .catch(() => {
-        // TODO: Ver como exibir erros va View
-      })
-      .finally(() => {
-        setLoadingEdital(false);
-      });
-  }, [editalId, navigate]);
+    const redirectToMySubscription = () => {
+      navigate(`/edital/${editalId}/dados-inscricao`);
+    };
+
+    if (user && editalId) {
+      setLoadingEdital(true);
+      setLoadingProcessoSeletivo(true);
+      getDetalhesInscricaoAluno(editalId)
+        .then(({ data }) => {
+          setDadosAluno(data);
+        })
+        .catch(() => {
+          // TODO: Ver como exibir erros va View
+        })
+        .finally(() => {
+          setLoadingEdital(false);
+        });
+      getDetailsProcessoSeletivo(editalId)
+        .then(({ data }) => {
+          if (data?.arquivado) {
+            redirectToDetails();
+          }
+          if (data?.isInscrito) {
+            redirectToMySubscription();
+          }
+          setEditalName(data?.titulo);
+        })
+        .catch(() => {
+          // TODO: Ver como exibir erros va View
+        })
+        .finally(() => {
+          setLoadingProcessoSeletivo(false);
+        });
+    }
+  }, [editalId, navigate, user]);
 
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
     setInscricaoData({
@@ -139,7 +168,7 @@ export default function Inscricao() {
       });
   };
 
-  return loadingEdital ? (
+  return loadingEdital || loadingProcessoSeletivo ? (
     <Loading />
   ) : (
     <Grid
@@ -169,6 +198,11 @@ export default function Inscricao() {
         <Divider sx={{ mx: 3 }} />
 
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
+          <DadosCandidato dadosInscrito={dadosAluno?.aluno} />
+
+          <Typography variant="h6" sx={{ mt: 3 }}>
+            Formulário de Inscrição
+          </Typography>
           <form
             id="inscricao-form"
             onChange={handleFormChange}
@@ -178,7 +212,8 @@ export default function Inscricao() {
               {/* Visível apenas para mestrandos calouros  */}
               <AttachInput
                 inputName="historico_graduacao_file"
-                label="Histórico acadêmico de curso(s) de graduação"
+                label="Histórico acadêmico de curso de graduação"
+                multipleFiles={false}
                 files={inscricaoData.historico_graduacao_file}
                 setFiles={setHistoricosGraduacao}
               />
@@ -187,7 +222,8 @@ export default function Inscricao() {
             <FormControl required fullWidth margin="normal">
               <AttachInput
                 inputName="historico_posgraduacao_file"
-                label="Histórico acadêmico de curso(s) de Pós-Graduação Strictu Sensu ou comprovação de disciplinas cursadas"
+                label="Histórico acadêmico de curso de Pós-Graduação Strictu Sensu ou comprovação de disciplinas cursadas"
+                multipleFiles={false}
                 files={inscricaoData.historico_posgraduacao_file}
                 setFiles={setHistoricosPosGraduacao}
               />
