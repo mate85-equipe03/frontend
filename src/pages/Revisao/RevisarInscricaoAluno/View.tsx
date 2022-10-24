@@ -186,6 +186,13 @@ export default function RevisarInscricaoAluno() {
               </ListSubheader>
             }
           >
+            <ListItem disablePadding key="headerproducoes" divider>
+              <Grid container direction="row" justifyContent="space-between">
+                <ListItemText sx={{ paddingLeft: 2 }} primary="Arquivo" />
+                <ListItemText sx={{ paddingLeft: 2 }} primary="Categoria" />
+                <ListItemText sx={{ paddingLeft: 2 }} primary="Pontuação" />
+              </Grid>
+            </ListItem>
             {inscricao?.producoes.map((producao) => (
               <ListItem disablePadding key={producao.id} divider>
                 <ListItemButton href={producao.url} target="_blank">
@@ -194,8 +201,12 @@ export default function RevisarInscricaoAluno() {
                     direction="row"
                     justifyContent="space-between"
                   >
+                    <ListItemText primary={`${producao.filename}`} />
                     <ListItemText
-                      primary={`${producao.categorias_producao_id}`}
+                      primary={`${producao.categorias_producao.nome}`}
+                    />
+                    <ListItemText
+                      primary={`${producao.categorias_producao.pontuacao}`}
                     />
                   </Grid>
                 </ListItemButton>
