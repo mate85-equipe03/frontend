@@ -9,7 +9,6 @@ function Footer() {
     <footer>
       <Grid
         container
-        // direction="row"
         justifyContent="center"
         alignItems="center"
         sx={{
