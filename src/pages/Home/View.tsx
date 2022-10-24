@@ -125,7 +125,7 @@ export default function Home() {
       )}
       <Card>
         <CardHeader
-          title="Processos Abertos"
+          title="Processos Seletivos"
           titleTypographyProps={{
             align: "center",
             variant: "h4",
