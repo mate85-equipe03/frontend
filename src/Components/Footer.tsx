@@ -65,7 +65,6 @@ function Footer() {
                 alt="PGCOMP UFBA"
                 sx={{ height: "100%" }}
               />
-              {/* </Grid> */}
             </Link>
           </Grid>
         </Grid>
