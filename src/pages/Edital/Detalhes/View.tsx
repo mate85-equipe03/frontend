@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  Button,
   Card,
   CardContent,
   CardHeader,
@@ -18,12 +17,14 @@ import moment from "moment";
 import { IDetails } from "./Interfaces";
 import getDetailsProcessoSeletivo from "./Service";
 import UserContext from "../../../context/UserContext";
+import Loading from "../../../Components/Loading";
+import BtnLoading from "../../../Components/BtnLoading";
 
 export default function EditalDetails() {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();
-  // const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const { editalId } = useParams();
 
@@ -40,12 +41,17 @@ export default function EditalDetails() {
   };
 
   useEffect(() => {
+    setLoading(true);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setEdital(data);
       })
+
       .catch(() => {
         // TODO: Ver como exibir erros va View
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [editalId]);
 
@@ -54,7 +60,9 @@ export default function EditalDetails() {
     return date.format("DD/MM/YYYY");
   };
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <Grid
       container
       direction="column"
@@ -113,13 +121,12 @@ export default function EditalDetails() {
               sx={{ width: "100%", my: 2 }}
             >
               {user?.role === "PROFESSOR" ? (
-                <Button
-                  type="button"
-                  onClick={redirectToEnrolledList}
-                  size="large"
-                >
-                  Alunos Inscritos
-                </Button>
+                <BtnLoading
+                  label="Alunos Inscritos"
+                  loading={loading}
+                  fullWidth
+                  handleClick={redirectToEnrolledList}
+                />
               ) : (
                 <Grid>
                   {edital?.arquivado ? (
@@ -129,21 +136,19 @@ export default function EditalDetails() {
                   ) : (
                     <Grid>
                       {edital?.isInscrito ? (
-                        <Button
-                          type="button"
-                          onClick={redirectToMySubscription}
-                          size="large"
-                        >
-                          Visualizar Inscrição
-                        </Button>
+                        <BtnLoading
+                          label="Visualizar Inscrição"
+                          loading={loading}
+                          fullWidth
+                          handleClick={redirectToMySubscription}
+                        />
                       ) : (
-                        <Button
-                          type="button"
-                          onClick={redirectToSubscribe}
-                          size="large"
-                        >
-                          Inscreva-se
-                        </Button>
+                        <BtnLoading
+                          label="Inscreva-se"
+                          loading={loading}
+                          fullWidth
+                          handleClick={redirectToSubscribe}
+                        />
                       )}
                     </Grid>
                   )}

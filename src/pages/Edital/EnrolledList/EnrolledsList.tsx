@@ -3,11 +3,17 @@
 import { Card, CardContent, CardHeader, Divider, Grid } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridEventListener,
+  ptBR,
+} from "@mui/x-data-grid";
 import { getEnrolledList } from "./Service";
 import { IADetalhes } from "./Interfaces";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import UserContext from "../../../context/UserContext";
+import Loading from "../../../Components/Loading";
 
 export default function EnrolledsList() {
   const navigate = useNavigate();
@@ -24,7 +30,7 @@ export default function EnrolledsList() {
       getEnrolledList(editalId).then(({ data }) => setEnrolledList(data));
   }, [editalId, user, navigate]);
 
-  // const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const handleRowClick: GridEventListener<"rowClick"> = (params) => {
     navigate(`/edital/${editalId}/inscritos/${params.row.id}`);
@@ -37,6 +43,9 @@ export default function EnrolledsList() {
       })
       .catch(() => {
         // TODO: Ver como exibir erros va View
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [editalId]);
 
@@ -67,44 +76,9 @@ export default function EnrolledsList() {
     },
   ];
 
-  const localizedTextsMap = {
-    noRowsLabel: "Sem inscrições",
-    columnMenuUnsort: "Não classificado",
-    columnMenuSortAsc: "Classificar por ordem crescente",
-    columnMenuSortDesc: "Classificar por ordem decrescente",
-    columnMenuFilter: "Filtro",
-    columnMenuHideColumn: "Ocultar",
-    columnMenuShowColumns: "Mostrar colunas",
-    columnsPanelTextFieldLabel: "Encontrar Colunas",
-    columnsPanelTextFieldPlaceholder: "Titulo das Colunas",
-    columnsPanelDragIconLabel: "Reordenar Colunas",
-    columnsPanelShowAllButton: "Mostrar todas",
-    columnsPanelHideAllButton: "Esconder todas",
-    filterOperatorContains: "Contém",
-    filterOperatorEquals: "É igual",
-    filterOperatorStartsWith: "Começa com",
-    filterOperatorEndsWith: "Termina com",
-    filterOperatorIs: "É",
-    filterOperatorNot: "Não é",
-    filterOperatorAfter: "Está depois",
-    filterOperatorOnOrAfter: "Está em ou depois",
-    filterOperatorBefore: "Está antes",
-    filterOperatorOnOrBefore: "Está em ou antes",
-    filterOperatorIsEmpty: "É vazio",
-    filterOperatorIsNotEmpty: "Não é vazio",
-    filterOperatorIsAnyOf: "É qualquer um de",
-    filterPanelAddFilter: "Adiciona filtro",
-    filterPanelDeleteIconLabel: "Deletar",
-    filterPanelLinkOperator: "Operador lógico",
-    filterPanelOperators: "Operador",
-    filterPanelOperatorAnd: "E",
-    filterPanelOperatorOr: "Ou",
-    filterPanelColumns: "Colunas",
-    filterPanelInputLabel: "Valor",
-    filterPanelInputPlaceholder: "Filtrar valor",
-  };
-
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <Grid
       container
       direction="column"
@@ -133,9 +107,9 @@ export default function EnrolledsList() {
               {...enrolledList}
               rows={enrolledList}
               columns={colunas}
-              pageSize={10}
+              pageSize={5}
               rowsPerPageOptions={[5, 10, 15, 20]}
-              localeText={localizedTextsMap}
+              localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
             />
           </div>
         </CardContent>
