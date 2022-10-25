@@ -133,7 +133,7 @@ export default function Home() {
           }}
         />
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
-          <div style={{ height: 400, width: 1500 }}>
+          <div style={{ height: 400, width: 800 }}>
             <DataGrid
               onRowClick={handleRowClick}
               {...editais}
