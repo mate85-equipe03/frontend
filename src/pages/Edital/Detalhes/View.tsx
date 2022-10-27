@@ -97,7 +97,7 @@ export default function EditalDetails() {
               {edital?.etapas.map((etapa) => (
                 <ListItem disablePadding key={etapa.id}>
                   <ListItemText
-                    primary={`${etapa.name} : ${dateToStr(etapa.data_inicio)} a 
+                    primary={`${etapa.name}: ${dateToStr(etapa.data_inicio)} a 
                           ${dateToStr(etapa.data_fim)}`}
                   />
                 </ListItem>
@@ -109,7 +109,7 @@ export default function EditalDetails() {
               target="_blank"
               sx={{ my: 1 }}
             >
-              <PictureAsPdfIcon />
+              <PictureAsPdfIcon fontSize="small" sx={{ mr: 0.5 }} />
               {`${edital?.titulo}.pdf`}
             </Link>
             <Grid
