@@ -7,7 +7,7 @@ import {
   CardContent,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../../Components/Loading";
 import UserContext from "../../../context/UserContext";
 import DadosCandidato from "../../Components/DadosCandidato";
@@ -15,8 +15,6 @@ import { IDetalhes } from "../../Revisao/Interfaces";
 import { getDetalhesInscricaoAluno } from "../../Revisao/Service";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import EditarInscricao from "./Components/EditarInscricao";
-import Etapa1 from "./Components/Etapa1";
-import Etapa2 from "./Components/Etapa2";
 import NovaInscricao from "./Components/NovaInscricao";
 
 export default function Inscricao() {
@@ -34,21 +32,16 @@ export default function Inscricao() {
   const inscricaoId = Number(params.inscricaoId)
     ? Number(params.inscricaoId)
     : null;
-  
 
-   // Proteger rotas usando isInscrito e inscricaoId (useEffect)
-   // if isInscrito && !inscricaoId -> redirect to /inscricao/id
-   // if !isInscrito && inscricaoId -> redirect to /inscricao
+  // Proteger rotas usando isInscrito e inscricaoId (useEffect)
+  // if isInscrito && !inscricaoId -> redirect to /inscricao/id (e se o id for diferente do id da inscricao da pessoa)
+  // if !isInscrito && inscricaoId -> redirect to /inscricao
 
-   // Será q realmente precisa de outra rota?
+  // Será q realmente precisa de outra rota?
 
   useEffect(() => {
     const redirectToDetails = () => {
       navigate(`/edital/${editalId}/detalhes`);
-    };
-
-    const redirectToMySubscription = () => {
-      navigate(`/edital/${editalId}/dados-inscricao`);
     };
 
     if (user && editalId) {
@@ -68,9 +61,6 @@ export default function Inscricao() {
         .then(({ data }) => {
           if (data?.arquivado) {
             redirectToDetails();
-          }
-          if (data?.isInscrito) {
-            redirectToMySubscription();
           }
           setEditalName(data?.titulo);
         })
@@ -98,7 +88,9 @@ export default function Inscricao() {
       )}
       <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
         <CardHeader
-          title={`${inscricaoId ? "Editar" : ""} Inscrição em Processo Seletivo`}
+          title={`${
+            inscricaoId ? "Editar" : ""
+          } Inscrição em Processo Seletivo`}
           titleTypographyProps={{
             align: "center",
             variant: "h4",
@@ -114,11 +106,13 @@ export default function Inscricao() {
 
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
           <DadosCandidato dadosInscrito={dadosAluno?.aluno} />
-
           {inscricaoId === null ? (
-            <NovaInscricao setInscricaoError={setInscricaoError}></NovaInscricao>
+            <NovaInscricao setInscricaoError={setInscricaoError} />
           ) : (
-            <EditarInscricao inscricaoId={inscricaoId} setInscricaoError={setInscricaoError}></EditarInscricao>
+            <EditarInscricao
+              inscricaoId={inscricaoId}
+              setInscricaoError={setInscricaoError}
+            />
           )}
         </CardContent>
       </Card>

@@ -1,25 +1,24 @@
 import React from "react";
 import { Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import FormInscricao from "./FormInscricao";
 import ProducoesCientificas from "./ProducoesCientificasDjair";
-import { useNavigate } from "react-router-dom";
 
 interface IProps {
   inscricaoId: number;
-  // setCurrentEtapa: (etapa: 1 | 2) => void;
   setInscricaoError: (error: boolean) => void;
-  // setInscricaoId: (id: number | null) => void;
 }
 
-//export default function EditarInscricao({ setCurrentEtapa, setInscricaoError, setInscricaoId }: IProps) {
 export default function EditarInscricao({
   setInscricaoError,
   inscricaoId,
 }: IProps) {
   const navigate = useNavigate();
-  const actionAfterRequestSuccess = (_: number) => {
+  const actionAfterRequestSuccess = (
+    _: number // eslint-disable-line @typescript-eslint/no-unused-vars
+  ) => {
     navigate("/");
-    //Botar mensagem de sucesso
+    // Botar mensagem de sucesso
   };
   return (
     <>
@@ -28,10 +27,11 @@ export default function EditarInscricao({
       </Typography>
       <FormInscricao
         inscricaoId={inscricaoId}
+        btnText="Editar Dados Básicos"
         displayCheckboxes={false}
         actionAfterRequestSuccess={actionAfterRequestSuccess}
         setInscricaoError={setInscricaoError}
-      ></FormInscricao>
+      />
       <Typography variant="h6" sx={{ mt: 3 }}>
         Editar Produções Científicas
       </Typography>

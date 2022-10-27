@@ -1,20 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Grid,
-  Card,
-  CardHeader,
-  CardContent,
-  Divider,
   FormControl,
   FormControlLabel,
   InputLabel,
   OutlinedInput,
   Checkbox,
   FormGroup,
-  Alert,
   FormLabel,
   Link,
-  Typography,
   Button,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -24,14 +18,16 @@ import postInscricao from "../Service";
 import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
 
 interface IProps {
-  inscricaoId?: number;
+  inscricaoId: number | undefined;
   displayCheckboxes: boolean;
-  setInscricaoError: (error: boolean) => void;
+  btnText: string;
   actionAfterRequestSuccess: (isncricaoId: number) => void;
+  setInscricaoError: (error: boolean) => void;
 }
 
 export default function FormInscricao({
-  inscricaoId,
+  inscricaoId, // eslint-disable-line @typescript-eslint/no-unused-vars
+  btnText,
   displayCheckboxes,
   setInscricaoError,
   actionAfterRequestSuccess,
@@ -46,7 +42,7 @@ export default function FormInscricao({
     processo_seletivo_id: Number(editalId),
   });
 
-  // if inscricaoId => getDadosInscricao (botar loading)
+  // TODO: if inscricaoId => getDadosInscricao (botar loading)
 
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
     setInscricaoData({
@@ -113,9 +109,9 @@ export default function FormInscricao({
 
     setLoadingInscricao(true);
     postInscricao(payload)
-      .then(({ data }) => {
+      .then(() => {
         setInscricaoError(false);
-        // TODO: Pegar id da inscricao no post
+        // TODO: [Aguardando back] Pegar id da inscricao no post
         // actionAfterRequestSuccess();
       })
       .catch(() => {
@@ -128,105 +124,95 @@ export default function FormInscricao({
   };
 
   return (
-    <>
-      <form id="inscricao-form" onChange={handleFormChange} onSubmit={sendForm}>
-        <FormControl required fullWidth margin="normal">
-          {/* Visível apenas para mestrandos calouros  */}
-          <AttachInput
-            inputName="historico_graduacao_file"
-            label="Histórico acadêmico de curso de graduação"
-            multipleFiles={false}
-            files={inscricaoData.historico_graduacao_file}
-            setFiles={setHistoricosGraduacao}
-          />
-        </FormControl>
+    <form id="inscricao-form" onChange={handleFormChange} onSubmit={sendForm}>
+      <FormControl required fullWidth margin="normal">
+        {/* Visível apenas para mestrandos calouros  */}
+        <AttachInput
+          inputName="historico_graduacao_file"
+          label="Histórico acadêmico de curso de graduação"
+          multipleFiles={false}
+          files={inscricaoData.historico_graduacao_file}
+          setFiles={setHistoricosGraduacao}
+        />
+      </FormControl>
 
-        <FormControl required fullWidth margin="normal">
-          <AttachInput
-            inputName="historico_posgraduacao_file"
-            label="Histórico acadêmico de curso de Pós-Graduação Strictu Sensu ou comprovação de disciplinas cursadas"
-            multipleFiles={false}
-            files={inscricaoData.historico_posgraduacao_file}
-            setFiles={setHistoricosPosGraduacao}
-          />
-        </FormControl>
+      <FormControl required fullWidth margin="normal">
+        <AttachInput
+          inputName="historico_posgraduacao_file"
+          label="Histórico acadêmico de curso de Pós-Graduação Strictu Sensu ou comprovação de disciplinas cursadas"
+          multipleFiles={false}
+          files={inscricaoData.historico_posgraduacao_file}
+          setFiles={setHistoricosPosGraduacao}
+        />
+      </FormControl>
 
-        <FormControl required fullWidth margin="normal" sx={{ mt: 3 }}>
-          <InputLabel htmlFor="url_enade">
-            Link para o ENADE do seu curso de graduação
-          </InputLabel>
-          <OutlinedInput
-            id="url_enade"
-            name="url_enade"
-            label="Link para o ENADE do seu curso de graduação"
-            placeholder="https://emec.mec.gov.br"
-            type="url"
-            value={inscricaoData.url_enade}
-          />
-          <Link
-            href="https://enade.inep.gov.br/enade/#!/relatorioCursos"
-            target="_blank"
-            align="right"
-            variant="caption"
-            display="block"
-            gutterBottom
-          >
-            Relatório de cursos Enade
-          </Link>
-        </FormControl>
-
-        {displayCheckboxes && (
-          <FormControl
-            required
-            fullWidth
-            margin="normal"
-            sx={{
-              color: "#00000099",
-              m: 3,
-            }}
-          >
-            <FormLabel component="legend">
-              Marque as opções que se aplicam
-            </FormLabel>
-            <FormGroup>
-              <FormControlLabel
-                sx={{ mb: 1 }}
-                label="Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na resolução vigente."
-                control={
-                  <Checkbox required id="checkbox-1" name="checkbox-1" />
-                }
-              />
-              <FormControlLabel
-                sx={{ mb: 1 }}
-                label="Meu (minha) orientador(a) tem ciência da minha participação nesse Edital de Concessão de Bolsas."
-                control={
-                  <Checkbox required id="checkbox-2" name="checkbox-2" />
-                }
-              />
-              <FormControlLabel
-                sx={{ mb: 1 }}
-                label="Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso."
-                control={
-                  <Checkbox required id="checkbox-3" name="checkbox-3" />
-                }
-              />
-            </FormGroup>
-          </FormControl>
-        )}
-        <Grid
-          container
-          direction="row"
-          justifyContent="flex-end"
-          sx={{ mt: 1 }}
+      <FormControl required fullWidth margin="normal" sx={{ mt: 3 }}>
+        <InputLabel htmlFor="url_enade">
+          Link para o ENADE do seu curso de graduação
+        </InputLabel>
+        <OutlinedInput
+          id="url_enade"
+          name="url_enade"
+          label="Link para o ENADE do seu curso de graduação"
+          placeholder="https://emec.mec.gov.br"
+          type="url"
+          value={inscricaoData.url_enade}
+        />
+        <Link
+          href="https://enade.inep.gov.br/enade/#!/relatorioCursos"
+          target="_blank"
+          align="right"
+          variant="caption"
+          display="block"
+          gutterBottom
         >
-          <BtnSubmitLoading
-            label="Continuar"
-            formId="inscricao-form"
-            loading={loadingInscricao}
-          />
-          <Button onClick={() => actionAfterRequestSuccess(1)}>AAAAAAA</Button>
-        </Grid>
-      </form>
-    </>
+          Relatório de cursos Enade
+        </Link>
+      </FormControl>
+
+      {displayCheckboxes && (
+        <FormControl
+          required
+          fullWidth
+          margin="normal"
+          sx={{
+            color: "#00000099",
+            m: 3,
+          }}
+        >
+          <FormLabel component="legend">
+            Marque as opções que se aplicam
+          </FormLabel>
+          <FormGroup>
+            <FormControlLabel
+              sx={{ mb: 1 }}
+              label="Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na resolução vigente."
+              control={<Checkbox required id="checkbox-1" name="checkbox-1" />}
+            />
+            <FormControlLabel
+              sx={{ mb: 1 }}
+              label="Meu (minha) orientador(a) tem ciência da minha participação nesse Edital de Concessão de Bolsas."
+              control={<Checkbox required id="checkbox-2" name="checkbox-2" />}
+            />
+            <FormControlLabel
+              sx={{ mb: 1 }}
+              label="Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso."
+              control={<Checkbox required id="checkbox-3" name="checkbox-3" />}
+            />
+          </FormGroup>
+        </FormControl>
+      )}
+      <Grid container direction="row" justifyContent="flex-end" sx={{ mt: 1 }}>
+        <BtnSubmitLoading
+          label={btnText}
+          formId="inscricao-form"
+          loading={loadingInscricao}
+        />
+        {/* TODO: Apagar esse botão */}
+        <Button onClick={() => actionAfterRequestSuccess(1)}>
+          Simular um ok sem enviar pro back
+        </Button>
+      </Grid>
+    </form>
   );
 }
