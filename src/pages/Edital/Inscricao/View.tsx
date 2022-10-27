@@ -1,51 +1,46 @@
-import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
+  Alert,
   Card,
   CardHeader,
-  CardContent,
   Divider,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  OutlinedInput,
-  Checkbox,
-  FormGroup,
-  Alert,
-  FormLabel,
-  Link,
-  Typography,
+  CardContent,
 } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
-import UserContext from "../../../context/UserContext";
-import AttachInput from "./Components/AttachInput";
-import { IInscricaoData, IFile, IInscricaoDataReq } from "./Interfaces";
-import getDetailsProcessoSeletivo from "../Detalhes/Service";
+import React, { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../../Components/Loading";
-import postInscricao from "./Service";
-import BtnSubmitLoading from "../../../Components/BtnSubmitLoading";
-import { getDetalhesInscricaoAluno } from "../../Revisao/Service";
-import { IDetalhes } from "../../Revisao/Interfaces";
+import UserContext from "../../../context/UserContext";
 import DadosCandidato from "../../Components/DadosCandidato";
+import { IDetalhes } from "../../Revisao/Interfaces";
+import { getDetalhesInscricaoAluno } from "../../Revisao/Service";
+import getDetailsProcessoSeletivo from "../Detalhes/Service";
+import EditarInscricao from "./Components/EditarInscricao";
+import Etapa1 from "./Components/Etapa1";
+import Etapa2 from "./Components/Etapa2";
+import NovaInscricao from "./Components/NovaInscricao";
 
 export default function Inscricao() {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const { editalId } = useParams();
-  const [countFiles, setCountFiles] = useState<number>(0);
   const [loadingEdital, setLoadingEdital] = useState<boolean>(false);
   const [loadingProcessoSeletivo, setLoadingProcessoSeletivo] =
     useState<boolean>(false);
-  const [loadingInscricao, setLoadingInscricao] = useState<boolean>(false);
   const [inscricaoError, setInscricaoError] = React.useState<boolean>(false);
   const [editalName, setEditalName] = useState<string>();
-  const [inscricaoData, setInscricaoData] = React.useState<IInscricaoData>({
-    historico_graduacao_file: [],
-    historico_posgraduacao_file: [],
-    url_enade: "",
-    processo_seletivo_id: Number(editalId),
-  });
   const [dadosAluno, setDadosAluno] = useState<IDetalhes | undefined>();
+
+  const params = useParams();
+  const inscricaoId = Number(params.inscricaoId)
+    ? Number(params.inscricaoId)
+    : null;
+  
+
+   // Proteger rotas usando isInscrito e inscricaoId (useEffect)
+   // if isInscrito && !inscricaoId -> redirect to /inscricao/id
+   // if !isInscrito && inscricaoId -> redirect to /inscricao
+
+   // Será q realmente precisa de outra rota?
 
   useEffect(() => {
     const redirectToDetails = () => {
@@ -88,86 +83,6 @@ export default function Inscricao() {
     }
   }, [editalId, navigate, user]);
 
-  const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
-    setInscricaoData({
-      ...inscricaoData,
-      historico_graduacao_file: historicosGraduacao,
-    });
-  };
-
-  const setHistoricosPosGraduacao = (historicosPosGraduacao: IFile[]) => {
-    setInscricaoData({
-      ...inscricaoData,
-      historico_posgraduacao_file: historicosPosGraduacao,
-    });
-  };
-
-  const handleFileInputChange = (event: React.ChangeEvent<HTMLFormElement>) => {
-    const previousValue =
-      inscricaoData[event.target.name as keyof IInscricaoData];
-    const isPreviousValueAnArray = previousValue instanceof Array;
-    const previousFiles: IFile[] = isPreviousValueAnArray ? previousValue : [];
-
-    let currentCount = countFiles;
-    const eventFiles = event.target.files;
-    if (eventFiles) {
-      const newFiles = Array.from(eventFiles)?.map((file) => {
-        return { id: ++currentCount, fileData: file };
-      });
-
-      setCountFiles(currentCount);
-      setInscricaoData({
-        ...inscricaoData,
-        [event.target.name]: [...previousFiles, ...newFiles],
-      });
-    }
-  };
-
-  const handleFormChange = (event: React.ChangeEvent<HTMLFormElement>) => {
-    if (event.target.type === "file") {
-      handleFileInputChange(event);
-    } else if (event.target.type !== "checkbox") {
-      setInscricaoData({
-        ...inscricaoData,
-        [event.target.name]: event.target.value,
-      });
-    }
-  };
-
-  const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const removeFileId = (filesWithId: IFile[]) => {
-      return filesWithId.map((historico) => historico.fileData);
-    };
-
-    const payload: IInscricaoDataReq = {
-      ...inscricaoData,
-      historico_graduacao_file: removeFileId(
-        inscricaoData.historico_graduacao_file
-      ),
-      historico_posgraduacao_file: removeFileId(
-        inscricaoData.historico_posgraduacao_file
-      ),
-    };
-
-    setLoadingInscricao(true);
-    postInscricao(payload)
-      .then(() => {
-        navigate(`/edital/${editalId}/dados-inscricao`, {
-          state: { inscricao: true },
-        });
-        setInscricaoError(false);
-      })
-      .catch(() => {
-        setInscricaoError(true);
-      })
-      .finally(() => {
-        setLoadingInscricao(false);
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-      });
-  };
-
   return loadingEdital || loadingProcessoSeletivo ? (
     <Loading />
   ) : (
@@ -183,7 +98,7 @@ export default function Inscricao() {
       )}
       <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
         <CardHeader
-          title="Inscrição em Processo Seletivo"
+          title={`${inscricaoId ? "Editar" : ""} Inscrição em Processo Seletivo`}
           titleTypographyProps={{
             align: "center",
             variant: "h4",
@@ -200,109 +115,11 @@ export default function Inscricao() {
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
           <DadosCandidato dadosInscrito={dadosAluno?.aluno} />
 
-          <Typography variant="h6" sx={{ mt: 3 }}>
-            Formulário de Inscrição
-          </Typography>
-          <form
-            id="inscricao-form"
-            onChange={handleFormChange}
-            onSubmit={sendForm}
-          >
-            <FormControl required fullWidth margin="normal">
-              {/* Visível apenas para mestrandos calouros  */}
-              <AttachInput
-                inputName="historico_graduacao_file"
-                label="Histórico acadêmico de curso de graduação"
-                multipleFiles={false}
-                files={inscricaoData.historico_graduacao_file}
-                setFiles={setHistoricosGraduacao}
-              />
-            </FormControl>
-
-            <FormControl required fullWidth margin="normal">
-              <AttachInput
-                inputName="historico_posgraduacao_file"
-                label="Histórico acadêmico de curso de Pós-Graduação Strictu Sensu ou comprovação de disciplinas cursadas"
-                multipleFiles={false}
-                files={inscricaoData.historico_posgraduacao_file}
-                setFiles={setHistoricosPosGraduacao}
-              />
-            </FormControl>
-
-            <FormControl required fullWidth margin="normal" sx={{ mt: 3 }}>
-              <InputLabel htmlFor="url_enade">
-                Link para o ENADE do seu curso de graduação
-              </InputLabel>
-              <OutlinedInput
-                id="url_enade"
-                name="url_enade"
-                label="Link para o ENADE do seu curso de graduação"
-                placeholder="https://emec.mec.gov.br"
-                type="url"
-                value={inscricaoData.url_enade}
-              />
-              <Link
-                href="https://enade.inep.gov.br/enade/#!/relatorioCursos"
-                target="_blank"
-                align="right"
-                variant="caption"
-                display="block"
-                gutterBottom
-              >
-                Relatório de cursos Enade
-              </Link>
-            </FormControl>
-
-            <FormControl
-              required
-              fullWidth
-              margin="normal"
-              sx={{
-                color: "#00000099",
-                m: 3,
-              }}
-            >
-              <FormLabel component="legend">
-                Marque as opções que se aplicam
-              </FormLabel>
-              <FormGroup>
-                <FormControlLabel
-                  sx={{ mb: 1 }}
-                  label="Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na resolução vigente."
-                  control={
-                    <Checkbox required id="checkbox-1" name="checkbox-1" />
-                  }
-                />
-                <FormControlLabel
-                  sx={{ mb: 1 }}
-                  label="Meu (minha) orientador(a) tem ciência da minha participação nesse Edital de Concessão de Bolsas."
-                  control={
-                    <Checkbox required id="checkbox-2" name="checkbox-2" />
-                  }
-                />
-                <FormControlLabel
-                  sx={{ mb: 1 }}
-                  label="Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso."
-                  control={
-                    <Checkbox required id="checkbox-3" name="checkbox-3" />
-                  }
-                />
-              </FormGroup>
-            </FormControl>
-
-            <Grid
-              container
-              direction="row"
-              justifyContent="flex-end"
-              sx={{ mt: 1 }}
-            >
-              <BtnSubmitLoading
-                label="Enviar"
-                formId="inscricao-form"
-                loading={loadingInscricao}
-              />
-            </Grid>
-          </form>
+          {inscricaoId === null ? (
+            <NovaInscricao setInscricaoError={setInscricaoError}></NovaInscricao>
+          ) : (
+            <EditarInscricao inscricaoId={inscricaoId} setInscricaoError={setInscricaoError}></EditarInscricao>
+          )}
         </CardContent>
       </Card>
     </Grid>
