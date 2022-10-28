@@ -38,6 +38,11 @@ export default function AccountMenu() {
     return name.split(" ")[0][0];
   }
 
+  const redirectToEdit = () => {
+    navigate("/editar-dados");
+    setAnchorEl(null);
+  }
+
   return (
     <>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -66,7 +71,7 @@ export default function AccountMenu() {
             overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 0,
-            maxWidth: "200px",
+            maxWidth: "220px",
             "& .MuiAvatar-root": {
               width: 32,
               height: 32,
@@ -115,11 +120,11 @@ export default function AccountMenu() {
           </Grid>
         </ListItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={redirectToEdit}>
           <ListItemIcon>
             <Person fontSize="small" />
           </ListItemIcon>
-          Meu Perfil
+          Editar Dados Pessoais
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>

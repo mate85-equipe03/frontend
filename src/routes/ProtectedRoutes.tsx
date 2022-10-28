@@ -5,6 +5,7 @@ import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
 import RevisarInscricaoProfessor from "../pages/Revisao/RevisarInscricaoProfessor/View";
 import RevisarInscricaoAluno from "../pages/Revisao/RevisarInscricaoAluno/View";
+import Cadastro from "../pages/Cadastro/Cadastro";
 
 const studentRoutes: RouteProps[] = [
   { path: "/edital/:editalId/inscricao", element: <Inscricao /> },
@@ -13,6 +14,7 @@ const studentRoutes: RouteProps[] = [
     path: "/edital/:editalId/dados-inscricao",
     element: <RevisarInscricaoAluno />,
   },
+  { path: "/editar-dados", element: <Cadastro /> },
 ];
 
 const teacherRoutes: RouteProps[] = [
