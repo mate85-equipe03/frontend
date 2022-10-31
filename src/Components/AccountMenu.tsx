@@ -41,7 +41,7 @@ export default function AccountMenu() {
   const redirectToEdit = () => {
     navigate("/editar-dados");
     setAnchorEl(null);
-  }
+  };
 
   return (
     <>
