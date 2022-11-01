@@ -155,6 +155,11 @@ export default function Home() {
             align: "center",
             variant: "h4",
           }}
+          sx={{ px: 3 }}
+          subheader="Concessão de Bolsas de Mestrado e Doutorado"
+          subheaderTypographyProps={{
+            align: "center",
+          }}
         />
         <Divider sx={{ mx: 3 }} />
         <CardContent
