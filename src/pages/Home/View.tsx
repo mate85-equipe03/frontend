@@ -8,8 +8,11 @@ import {
   CardContent,
   Alert,
   Link,
-  Typography,
+  Divider,
 } from "@mui/material";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   DataGrid,
@@ -17,6 +20,7 @@ import {
   GridEventListener,
   ptBR,
 } from "@mui/x-data-grid";
+import moment from "moment";
 import { IEdital } from "./Types";
 import getAllProcessosSeletivos from "./Service";
 import Loading from "../../Components/Loading";
@@ -58,20 +62,47 @@ export default function Home() {
     navigate(`/edital/${params.row.id}/detalhes`);
   };
 
+  const handleLinkClick = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+  };
+
+  const dateToStr = (rawDate: string) => {
+    const date = moment(rawDate);
+    return date.format("DD/MM/YYYY");
+  };
+
   const colunas: GridColDef[] = [
     {
       field: "titulo",
       headerName: "Edital",
-      width: 300,
+      width: 200,
+    },
+    {
+      field: "inscrito",
+      headerName: "Inscrito?",
+      width: 100,
+      renderCell: (cellValues) => {
+        return cellValues.row.isInscrito ? (
+          <CheckCircleIcon color="success" fontSize="small" />
+        ) : (
+          <CancelIcon color="error" fontSize="small" />
+        );
+      },
     },
     {
       field: "edital_url",
-      headerName: "Link do Edital",
-      width: 200,
+      headerName: "Edital",
+      width: 260,
       renderCell: (cellValues) => {
         return (
-          <Link href={`#${cellValues.row.url}`}>
-            {cellValues.row.edital_url}
+          <Link
+            href={cellValues.row.edital_url}
+            target="_blank"
+            underline="none"
+            onClick={handleLinkClick}
+          >
+            <PictureAsPdfIcon fontSize="small" sx={{ mr: 0.5 }} />
+            {`${cellValues.row.titulo}.pdf`}
           </Link>
         );
       },
@@ -79,13 +110,9 @@ export default function Home() {
     {
       field: "arquivado",
       headerName: "Status",
-      width: 200,
-      renderCell: (cellValues) => {
-        return cellValues.value === true ? (
-          <Typography>Fechado</Typography>
-        ) : (
-          <Typography>Aberto</Typography>
-        );
+      width: 120,
+      valueGetter: (params) => {
+        return params.row.arquivado ? "Encerrado" : "Em Andamento";
       },
     },
     {
@@ -93,13 +120,11 @@ export default function Home() {
       headerName: "Etapa Atual",
       width: 200,
       valueGetter: (params) => {
-        return params.row.etapas.name;
+        const { etapas } = params.row;
+        return etapas.length > 0
+          ? `${etapas[0].name} (até ${dateToStr(etapas[0].data_fim)})`
+          : "Resultados disponíveis";
       },
-    },
-    {
-      field: "inscrito",
-      headerName: "Inscrito",
-      width: 200,
     },
   ];
 
@@ -123,34 +148,39 @@ export default function Home() {
           Você está logado.
         </Alert>
       )}
-      <Card>
+      <Card sx={{ py: 2 }}>
         <CardHeader
           title="Processos Seletivos"
           titleTypographyProps={{
             align: "center",
             variant: "h4",
-            p: 1,
           }}
         />
-        <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
-          <div style={{ height: 400, width: 800 }}>
-            <DataGrid
-              onRowClick={handleRowClick}
-              {...editais}
-              rows={editais}
-              columns={colunas}
-              pageSize={5}
-              rowsPerPageOptions={[]}
-              localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
-              initialState={{
-                columns: {
-                  columnVisibilityModel: {
-                    inscrito: isAluno,
-                  },
+        <Divider sx={{ mx: 3 }} />
+        <CardContent
+          sx={{
+            px: { xs: 5, sm: 5 },
+            width: "90vw",
+            minHeight: 260,
+            height: "45vh",
+          }}
+        >
+          <DataGrid
+            onRowClick={handleRowClick}
+            {...editais}
+            rows={editais}
+            columns={colunas}
+            pageSize={5}
+            rowsPerPageOptions={[5, 10, 15, 20]}
+            localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
+            initialState={{
+              columns: {
+                columnVisibilityModel: {
+                  inscrito: isAluno,
                 },
-              }}
-            />
-          </div>
+              },
+            }}
+          />
         </CardContent>
       </Card>
     </Grid>
