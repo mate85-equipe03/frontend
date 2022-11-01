@@ -86,7 +86,7 @@ export default function Inscricao() {
       {inscricaoError && (
         <Alert severity="error">Ocorreu um erro. Tente novamente.</Alert>
       )}
-      <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
+      <Card sx={{ width: 800, mt: 5 }}>
         <CardHeader
           title={`${
             inscricaoId ? "Editar" : ""
