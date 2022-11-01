@@ -84,7 +84,7 @@ export default function Cadastro() {
           telefone: signUpData.telefone,
         })
         .then(() => {
-          navigate("/");
+          navigate("/", { state: { edit: true } });
           setEditError(false);
         })
         .catch(() => {
@@ -118,10 +118,9 @@ export default function Cadastro() {
     getDadosAluno()
       .then(({ data }) => {
       if(isEditar()){
-        // setDados(data);
         signUpData.nome = data.aluno.nome;
-          signUpData.matricula = data.aluno.matricula;
-          signUpData.semestre_pgcomp = data.aluno.semestre_pgcomp;
+        signUpData.matricula = data.aluno.matricula;
+        signUpData.semestre_pgcomp = data.aluno.semestre_pgcomp;
         signUpData.curso = data.aluno.curso;
         signUpData.lattes_link = data.aluno.lattes_link;
         signUpData.email = data.email;
@@ -153,12 +152,11 @@ export default function Cadastro() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      {signUpError ||
-        (editError && (
+      {(signUpError || editError) && (
           <Alert severity="error" sx={{ mb: 2 }}>
             Ocorreu um erro. Tente novamente.
           </Alert>
-        ))}
+        )}
       <Card sx={{ minWidth: 275, maxWidth: 500, pb: 4 }}>
         <CardHeader
           title={`${

@@ -31,6 +31,7 @@ export default function Home() {
   const location = useLocation();
   const signOutSuccess = location.state ? "signOut" in location.state : false;
   const signInSuccess = location.state ? "signIn" in location.state : false;
+  const editSuccess = location.state ? "edit" in location.state : false;
   window.history.replaceState(null, "");
   const { user } = useContext(UserContext);
   const [editais, setEditais] = useState<IEdital[]>([]);
@@ -146,6 +147,11 @@ export default function Home() {
       {signInSuccess && (
         <Alert severity="success" sx={{ mb: 2 }}>
           Você está logado.
+        </Alert>
+      )}
+      {editSuccess && (
+        <Alert severity="success" sx={{ mb: 2 }}>
+          Alterações realizadas com sucesso.
         </Alert>
       )}
       <Card sx={{ py: 2 }}>
