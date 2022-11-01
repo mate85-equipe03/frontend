@@ -4,8 +4,8 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import { Divider, StepConnector } from "@mui/material";
-import Etapa2 from "./Etapa2";
 import Etapa1 from "./Etapa1";
+import Etapa2 from "./Etapa2";
 import InscricaoConcluida from "./InscricaoConcluida";
 
 interface IProps {
