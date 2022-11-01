@@ -5,7 +5,7 @@ import FormInscricao from "./FormInscricao";
 interface IProps {
   inscricaoId: number | undefined;
   setInscricaoId: (id: number) => void;
-  setCurrentEtapa: (etapa: 1 | 2) => void;
+  setCurrentEtapa: (etapa: 0 | 1 | 2) => void;
   setInscricaoError: (error: boolean) => void;
 }
 
@@ -17,7 +17,7 @@ export default function Etapa1({
 }: IProps) {
   const actionAfterRequestSuccess = (isncricaoId: number) => {
     setInscricaoId(isncricaoId);
-    setCurrentEtapa(2);
+    setCurrentEtapa(1);
   };
 
   return (
