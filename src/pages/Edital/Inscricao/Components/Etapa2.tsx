@@ -1,26 +1,22 @@
 import React from "react";
 import { Button, Grid, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import ProducoesCientificas from "./ProducoesCientificasDjair";
 
 interface IProps {
   inscricaoId: number;
-  setCurrentEtapa: (etapa: 1 | 2) => void;
+  setCurrentEtapa: (etapa: 0 | 1 | 2) => void;
 }
 
 export default function Etapa2({
   inscricaoId, // eslint-disable-line @typescript-eslint/no-unused-vars
   setCurrentEtapa,
 }: IProps) {
-  const navigate = useNavigate();
-
   const voltar = () => {
-    setCurrentEtapa(1);
+    setCurrentEtapa(0);
   };
 
   const finalizar = () => {
-    navigate("/");
-    // Botar mensagem de sucesso
+    setCurrentEtapa(2);
   };
 
   return (
