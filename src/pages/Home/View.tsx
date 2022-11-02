@@ -5,10 +5,8 @@ import {
   CardHeader,
   CardContent,
   Alert,
-  Link,
   Divider,
 } from "@mui/material";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -18,6 +16,7 @@ import { IEdital } from "./Types";
 import getAllProcessosSeletivos from "./Service";
 import Loading from "../../Components/Loading";
 import UserContext from "../../context/UserContext";
+import PDFFile from "../Components/PDFFile";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -89,15 +88,11 @@ export default function Home() {
       width: 240,
       renderCell: (cellValues) => {
         return (
-          <Link
-            href={cellValues.row.edital_url}
-            target="_blank"
-            underline="none"
+          <PDFFile
+            pdfUrl={cellValues.row.edital_url}
+            pdfTitle={cellValues.row.titulo}
             onClick={handleLinkClick}
-          >
-            <PictureAsPdfIcon fontSize="small" sx={{ mr: 0.5 }} />
-            {cellValues.row.titulo}
-          </Link>
+          />
         );
       },
     },
