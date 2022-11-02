@@ -64,9 +64,9 @@ export default function FormInscricao({
     );
   };
 
-  const getBlobPDF = (historico: IHistorico) => {
-    console.log("blob", historico);
-    
+  const setHistoricos = (historico: IHistorico) => {
+    console.log(historico);
+
     const url =
       "https://cdn-icons-png.flaticon.com/512/1256/1256397.png?w=2000";
     // "https://www.africau.edu/images/default/sample.pdf";
@@ -77,30 +77,26 @@ export default function FormInscricao({
           type: "image/png", //"application/pdf", //"image/png",
         });
 
-        console.log(file);
-
         const newFile = {
           id: historico.id,
           fileData: file,
         };
 
-        if (historico.tipo === "GRADUACAO"){
+        if (historico.tipo === "GRADUACAO") {
           setHistoricosGraduacao([newFile]);
         }
 
-        if (historico.tipo === "POS_GRADUACAO"){
+        if (historico.tipo === "POS_GRADUACAO") {
           setHistoricosPosGraduacao([newFile]);
         }
-
-
       });
   };
 
   useEffect(() => {
     if (editalId && inscricaoId && user) {
       getDadosInscricao(editalId).then(({ data }) => {
-        data.Historico.map(historico => {
-          getBlobPDF(historico);
+        data.Historico.map((historico) => {
+          setHistoricos(historico);
         });
 
         setInscricaoData({
@@ -137,8 +133,6 @@ export default function FormInscricao({
       const newFiles = Array.from(eventFiles)?.map((file) => {
         return { id: ++currentCount, fileData: file };
       });
-
-      console.log(newFiles);
 
       setCountFiles(currentCount);
       setInscricaoData({
@@ -292,6 +286,14 @@ export default function FormInscricao({
               label="Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso."
               control={<Checkbox required id="checkbox-3" name="checkbox-3" />}
             />
+            <FormControlLabel
+              sx={{ mb: 1 }}
+              label="Estou ciente de que, após o período de inscrições, caso nenhuma
+              produção seja adicionada, será considerado que eu optei por não
+              enviar nenhuma produção cientifica."
+              control={<Checkbox required id="checkbox-4" name="checkbox-4" />}
+            />
+            
           </FormGroup>
         </FormControl>
       )}
