@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   FormControl,
@@ -35,12 +35,16 @@ export default function FormInscricao({
   const { editalId } = useParams();
   const [countFiles, setCountFiles] = useState<number>(0);
   const [loadingInscricao, setLoadingInscricao] = useState<boolean>(false);
-  const [inscricaoData, setInscricaoData] = React.useState<IInscricaoData>({
+
+  const initialInscricaoData = {
     historico_graduacao_file: [],
     historico_posgraduacao_file: [],
     url_enade: "",
     processo_seletivo_id: Number(editalId),
-  });
+  };
+
+  const [inscricaoData, setInscricaoData] =
+    React.useState<IInscricaoData>(initialInscricaoData);
 
   // TODO: if inscricaoId => getDadosInscricao (botar loading)
 
@@ -120,8 +124,32 @@ export default function FormInscricao({
       })
       .finally(() => {
         setLoadingInscricao(false);
+        setFormChanged(false);
       });
   };
+
+  const [formChanged, setFormChanged] = useState<Boolean>(false);
+ 
+  useEffect(() => {
+    setFormChanged(
+      JSON.stringify(initialInscricaoData) !== JSON.stringify(inscricaoData)
+    );
+  }, [inscricaoData]);
+
+  useEffect(() => {
+    const handler = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    if (formChanged) {
+      window.addEventListener("beforeunload", handler);
+      return () => {
+        window.removeEventListener("beforeunload", handler);
+      };
+    }
+    return () => {};
+  }, [formChanged]);
 
   return (
     <form id="inscricao-form" onChange={handleFormChange} onSubmit={sendForm}>
