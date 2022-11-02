@@ -11,13 +11,13 @@ import {
   Link,
   Button,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
 import AttachInput from "./AttachInput";
 import { IInscricaoData, IFile, IInscricaoDataReq } from "../Interfaces";
 import postInscricao from "../Service";
 import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
 
 interface IProps {
+  editalId: number;
   inscricaoId: number | undefined;
   displayCheckboxes: boolean;
   btnText: string;
@@ -26,20 +26,20 @@ interface IProps {
 }
 
 export default function FormInscricao({
+  editalId,
   inscricaoId, // eslint-disable-line @typescript-eslint/no-unused-vars
   btnText,
   displayCheckboxes,
   setInscricaoError,
   actionAfterRequestSuccess,
 }: IProps) {
-  const { editalId } = useParams();
   const [countFiles, setCountFiles] = useState<number>(0);
   const [loadingInscricao, setLoadingInscricao] = useState<boolean>(false);
   const [inscricaoData, setInscricaoData] = React.useState<IInscricaoData>({
     historico_graduacao_file: [],
     historico_posgraduacao_file: [],
     url_enade: "",
-    processo_seletivo_id: Number(editalId),
+    processo_seletivo_id: editalId,
   });
 
   // TODO: if inscricaoId => getDadosInscricao (botar loading)

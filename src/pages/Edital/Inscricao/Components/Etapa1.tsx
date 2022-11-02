@@ -3,6 +3,7 @@ import { Typography } from "@mui/material";
 import FormInscricao from "./FormInscricao";
 
 interface IProps {
+  editalId: number;
   inscricaoId: number | undefined;
   setInscricaoId: (id: number) => void;
   setCurrentEtapa: (etapa: 0 | 1 | 2) => void;
@@ -10,6 +11,7 @@ interface IProps {
 }
 
 export default function Etapa1({
+  editalId,
   inscricaoId,
   setInscricaoId,
   setCurrentEtapa,
@@ -26,6 +28,7 @@ export default function Etapa1({
         Formulário de Inscrição
       </Typography>
       <FormInscricao
+        editalId={editalId}
         inscricaoId={inscricaoId}
         btnText="Continuar"
         displayCheckboxes

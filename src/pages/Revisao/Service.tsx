@@ -10,6 +10,6 @@ export const getDetalhesInscricaoProfessor = (
   );
 };
 
-export const getDetalhesInscricaoAluno = (editalId: string) => {
+export const getDetalhesInscricaoAluno = (editalId: number) => {
   return api.get<IDetalhes>(`/processos-seletivos/${editalId}/inscricao`);
 };

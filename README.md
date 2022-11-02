@@ -1,13 +1,13 @@
 # Frontend
 <p align="center">
-  <a href="https://www.npmjs.com/" target="_blank"><img src="https://img.shields.io/badge/npm-8.15.0-blue" alt="NPM 8.15.0" /></a>
-  <a href="https://pt-br.reactjs.org/" target="_blank"><img src="https://img.shields.io/badge/React-18.2.0-blue" alt="React 18.2.0" /></a>
+  <a href="https://nodejs.org/" target="_blank"><img src="https://img.shields.io/badge/node-v16.17.0-blue" alt="Node 16.17.0" /></a>
+  <a href="https://www.npmjs.com/" target="_blank"><img src="https://img.shields.io/badge/npm-v8.15.0-blue" alt="NPM 8.15.0" /></a>
+  <a href="https://pt-br.reactjs.org/" target="_blank"><img src="https://img.shields.io/badge/React-v18.2.0-blue" alt="React 18.2.0" /></a>
   <a href="https://www.typescriptlang.org/" target="_blank"><img src="https://img.shields.io/badge/TypeScript-v4.6.4-blue" alt="Typescript 4.6.4" /></a>
   <a href="https://vitest.dev/" target="_blank"><img src="https://img.shields.io/badge/Vitest-v0.22.1-blue" alt="Vitest 0.22.1" /></a>
-  <a href="https://material.io/" target="_blank"><img src="https://img.shields.io/badge/Material Design-v5.10.4-blue" alt="Material Design 5.10.4" /></a>
+  <a href="https://mui.com/" target="_blank"><img src="https://img.shields.io/badge/Material Design-v5.10.4-blue" alt="Material Design 5.10.4" /></a>
   <a href="https://getbootstrap.com/" target="_blank"><img src="https://img.shields.io/badge/Bootstrap-v5.2.1-blue" alt="Bootstrap 5.2.1" /></a>
   <a href="https://eslint.org/" target="_blank"><img src="https://img.shields.io/badge/ESLint-v8.23.0-blue" alt="ESLint 8.23.0" /></a>
-  <a href="https://vitest.dev/" target="_blank"><img src="https://img.shields.io/badge/Vitest-v0.22.1-blue" alt="Vitest 0.22.1" /></a>
   <a href="https://stylelint.io/" target="_blank"><img src="https://img.shields.io/badge/Stylelint-v14.11.0-blue" alt="Stylelint 14.11.0" /></a>
   <a href="https://prettier.io/" target="_blank"><img src="https://img.shields.io/badge/Prettier-v2.7.1-blue" alt="Prettier 2.7.1" /></a>
   <a href="https://vitejs.dev/" target="_blank"><img src="https://img.shields.io/badge/Vite-v3.0.7-blue" alt="Vite 3.0.7" /></a>

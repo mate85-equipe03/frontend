@@ -35,7 +35,7 @@ export default function RevisarInscricaoAluno() {
     if (user && editalId) {
       setLoadingAluno(true);
       setLoadingProcesso(true);
-      getDetalhesInscricaoAluno(editalId)
+      getDetalhesInscricaoAluno(Number(editalId))
         .then(({ data }) => {
           setInscricao(data);
         })

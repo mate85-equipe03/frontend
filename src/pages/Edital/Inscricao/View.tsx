@@ -20,7 +20,6 @@ import NovaInscricao from "./Components/NovaInscricao";
 export default function Inscricao() {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const { editalId } = useParams();
   const [loadingEdital, setLoadingEdital] = useState<boolean>(false);
   const [loadingProcessoSeletivo, setLoadingProcessoSeletivo] =
     useState<boolean>(false);
@@ -29,6 +28,9 @@ export default function Inscricao() {
   const [dadosAluno, setDadosAluno] = useState<IDetalhes | undefined>();
 
   const params = useParams();
+
+  const editalId = Number(params.editalId) ? Number(params.editalId) : null;
+
   const inscricaoId = Number(params.inscricaoId)
     ? Number(params.inscricaoId)
     : null;
@@ -106,14 +108,19 @@ export default function Inscricao() {
 
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
           <DadosCandidato dadosInscrito={dadosAluno?.aluno} />
-          {inscricaoId === null ? (
-            <NovaInscricao setInscricaoError={setInscricaoError} />
-          ) : (
-            <EditarInscricao
-              inscricaoId={inscricaoId}
-              setInscricaoError={setInscricaoError}
-            />
-          )}
+          {editalId &&
+            (inscricaoId === null ? (
+              <NovaInscricao
+                editalId={editalId}
+                setInscricaoError={setInscricaoError}
+              />
+            ) : (
+              <EditarInscricao
+                editalId={editalId}
+                inscricaoId={inscricaoId}
+                setInscricaoError={setInscricaoError}
+              />
+            ))}
         </CardContent>
       </Card>
     </Grid>
