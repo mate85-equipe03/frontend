@@ -1,7 +1,11 @@
 import * as React from "react";
 import { Grid, Link, Typography } from "@mui/material";
 
-export default function InscricaoConcluida() {
+interface IProps {
+  editalId: number;
+}
+
+export default function InscricaoConcluida({ editalId }: IProps) {
   return (
     <Grid container direction="column" sx={{ py: 3 }}>
       <Typography align="center" variant="h5">
@@ -11,7 +15,7 @@ export default function InscricaoConcluida() {
         Sua inscrição foi concluída com sucesso.
       </Typography>
       {/* TODO: Ver link certo */}
-      <Link align="center" href="/">
+      <Link align="center" href={`/edital/${editalId}/inscricao`}>
         Editar inscrição
       </Link>
     </Grid>

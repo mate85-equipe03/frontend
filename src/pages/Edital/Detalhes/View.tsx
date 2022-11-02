@@ -32,8 +32,8 @@ export default function EditalDetails() {
     navigate(`/edital/${editalId}/inscricao`);
   };
 
-  const redirectToMySubscription = () => {
-    navigate(`/edital/${editalId}/dados-inscricao`);
+  const redirectToEditarInscricao = () => {
+    navigate(`/edital/${editalId}/inscricao`);
   };
 
   const redirectToEnrolledList = () => {
@@ -138,10 +138,10 @@ export default function EditalDetails() {
                       {edital?.isInscrito ? (
                         <Button
                           type="button"
-                          onClick={redirectToMySubscription}
+                          onClick={redirectToEditarInscricao}
                           size="large"
                         >
-                          Visualizar Inscrição
+                          Editar Inscrição
                         </Button>
                       ) : (
                         <Button

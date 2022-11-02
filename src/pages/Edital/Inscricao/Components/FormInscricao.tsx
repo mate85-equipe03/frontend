@@ -11,7 +11,6 @@ import {
   Link,
   Button,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
 import AttachInput from "./AttachInput";
 import { IInscricaoData, IFile, IInscricaoDataReq } from "../Interfaces";
 import postInscricao from "../Service";
@@ -21,6 +20,7 @@ import api from "../../../../services/Api";
 import UserContext from "../../../../context/UserContext";
 
 interface IProps {
+  editalId: number;
   inscricaoId: number | undefined;
   displayCheckboxes: boolean;
   btnText: string;
@@ -29,13 +29,13 @@ interface IProps {
 }
 
 export default function FormInscricao({
+  editalId,
   inscricaoId, // eslint-disable-line @typescript-eslint/no-unused-vars
   btnText,
   displayCheckboxes,
   setInscricaoError,
   actionAfterRequestSuccess,
 }: IProps) {
-  const { editalId } = useParams();
   const [countFiles, setCountFiles] = useState<number>(0);
   const [loadingInscricao, setLoadingInscricao] = useState<boolean>(false);
 
@@ -53,7 +53,7 @@ export default function FormInscricao({
   // Editar Inscricao
   const { user } = useContext(UserContext);
 
-  const getDetalhesInscricaoAluno = (editalId: string) => {
+  const getDadosInscricao = (editalId: number) => {
     return api.get<IEditInscricao>(
       `/processos-seletivos/${editalId}/inscricao`
     );
@@ -61,12 +61,12 @@ export default function FormInscricao({
 
   useEffect(() => {
     if (editalId && inscricaoId && user) {
-      getDetalhesInscricaoAluno(editalId).then(({ data }) => {
+      getDadosInscricao(editalId).then(({ data }) => {
         console.log(data);
       });
     }
   }, []);
-  
+
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
     setInscricaoData({
       ...inscricaoData,
