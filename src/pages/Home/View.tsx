@@ -106,6 +106,7 @@ export default function Home() {
       headerName: "Inscrito(a)",
       width: 170,
       hide: !isAluno,
+      valueGetter: (params) => params.row.isInscrito,
       renderCell: (cellValues) => {
         return cellValues.row.isInscrito ? (
           <Grid sx={{ color: "success.main", fontWeight: "bold" }}>
