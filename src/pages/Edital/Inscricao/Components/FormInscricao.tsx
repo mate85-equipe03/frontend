@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Grid,
   FormControl,
@@ -16,6 +16,9 @@ import AttachInput from "./AttachInput";
 import { IInscricaoData, IFile, IInscricaoDataReq } from "../Interfaces";
 import postInscricao from "../Service";
 import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
+import { IEditInscricao } from "../Interfaces";
+import api from "../../../../services/Api";
+import UserContext from "../../../../context/UserContext";
 
 interface IProps {
   inscricaoId: number | undefined;
@@ -47,7 +50,23 @@ export default function FormInscricao({
     React.useState<IInscricaoData>(initialInscricaoData);
 
   // TODO: if inscricaoId => getDadosInscricao (botar loading)
+  // Editar Inscricao
+  const { user } = useContext(UserContext);
 
+  const getDetalhesInscricaoAluno = (editalId: string) => {
+    return api.get<IEditInscricao>(
+      `/processos-seletivos/${editalId}/inscricao`
+    );
+  };
+
+  useEffect(() => {
+    if (editalId && inscricaoId && user) {
+      getDetalhesInscricaoAluno(editalId).then(({ data }) => {
+        console.log(data);
+      });
+    }
+  }, []);
+  
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
     setInscricaoData({
       ...inscricaoData,
@@ -129,7 +148,7 @@ export default function FormInscricao({
   };
 
   const [formChanged, setFormChanged] = useState<Boolean>(false);
- 
+
   useEffect(() => {
     setFormChanged(
       JSON.stringify(initialInscricaoData) !== JSON.stringify(inscricaoData)
