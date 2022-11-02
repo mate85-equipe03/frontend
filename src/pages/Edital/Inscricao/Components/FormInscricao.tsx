@@ -23,6 +23,7 @@ import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
 import { IEditInscricao } from "../Interfaces";
 import api from "../../../../services/Api";
 import UserContext from "../../../../context/UserContext";
+import InputNota from "./InputNota";
 
 interface IProps {
   editalId: number;
@@ -104,6 +105,8 @@ export default function FormInscricao({
           url_enade: data.url_enade,
         });
       });
+
+      console.log("fiM", inscricaoData);
     }
   }, []);
 
@@ -212,50 +215,113 @@ export default function FormInscricao({
 
   return (
     <form id="inscricao-form" onChange={handleFormChange} onSubmit={sendForm}>
-      <FormControl required fullWidth margin="normal">
-        {/* Visível apenas para mestrandos calouros  */}
-        <AttachInput
-          inputName="historico_graduacao_file"
-          label="Histórico acadêmico de curso de graduação"
-          multipleFiles={false}
-          files={inscricaoData.historico_graduacao_file}
-          setFiles={setHistoricosGraduacao}
-        />
-      </FormControl>
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-between"
+        alignItems="flex-end"
+      >
+        <Grid item xs={10.7}>
+          <FormControl required fullWidth margin="normal">
+            {/* Visível apenas para mestrandos calouros  */}
+            <AttachInput
+              inputName="historico_graduacao_file"
+              label="Histórico acadêmico de curso de graduação"
+              multipleFiles={false}
+              files={inscricaoData.historico_graduacao_file}
+              setFiles={setHistoricosGraduacao}
+            />
+          </FormControl>
+        </Grid>
+        <Grid item xs={1} sx={{ mb: 1.1 }}>
+          <FormControl>
+            <InputLabel htmlFor="Nota">Nota</InputLabel>
+            <OutlinedInput
+              id="nota_historico_graduacao_file"
+              name="nota_historico_graduacao_file"
+              label="Nota"
+              type="text"
+              value="0"
+            />
+          </FormControl>
+        </Grid>
+      </Grid>
 
-      <FormControl required fullWidth margin="normal">
-        <AttachInput
-          inputName="historico_posgraduacao_file"
-          label="Histórico acadêmico de curso de Pós-Graduação Strictu Sensu ou comprovação de disciplinas cursadas"
-          multipleFiles={false}
-          files={inscricaoData.historico_posgraduacao_file}
-          setFiles={setHistoricosPosGraduacao}
-        />
-      </FormControl>
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-between"
+        alignItems="flex-end"
+      >
+        <Grid item xs={10.7}>
+          <FormControl required fullWidth margin="normal">
+            <AttachInput
+              inputName="historico_posgraduacao_file"
+              label="Histórico acadêmico de curso de Pós-Graduação Strictu Sensu ou comprovação de disciplinas cursadas"
+              multipleFiles={false}
+              files={inscricaoData.historico_posgraduacao_file}
+              setFiles={setHistoricosPosGraduacao}
+            />
+          </FormControl>
+        </Grid>
+        <Grid item xs={1} sx={{ mb: 1.1 }}>
+          <FormControl>
+            <InputLabel htmlFor="Nota">Nota</InputLabel>
+            <OutlinedInput
+              id="nota_historico_posgraduacao_file"
+              name="nota_historico_posgraduacao_file"
+              label="Nota"
+              type="text"
+              value="0"
+            />
+          </FormControl>
+        </Grid>
+      </Grid>
 
-      <FormControl required fullWidth margin="normal" sx={{ mt: 3 }}>
-        <InputLabel htmlFor="url_enade">
-          Link para o ENADE do seu curso de graduação
-        </InputLabel>
-        <OutlinedInput
-          id="url_enade"
-          name="url_enade"
-          label="Link para o ENADE do seu curso de graduação"
-          placeholder="https://emec.mec.gov.br"
-          type="url"
-          value={inscricaoData.url_enade}
-        />
-        <Link
-          href="https://enade.inep.gov.br/enade/#!/relatorioCursos"
-          target="_blank"
-          align="right"
-          variant="caption"
-          display="block"
-          gutterBottom
-        >
-          Relatório de cursos Enade
-        </Link>
-      </FormControl>
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Grid item xs={10.7}>
+          <FormControl required fullWidth margin="normal" sx={{ mt: 3 }}>
+            <InputLabel htmlFor="url_enade">
+              Link para o ENADE do seu curso de graduação
+            </InputLabel>
+            <OutlinedInput
+              id="url_enade"
+              name="url_enade"
+              label="Link para o ENADE do seu curso de graduação"
+              placeholder="https://emec.mec.gov.br"
+              type="url"
+              value={inscricaoData.url_enade}
+            />
+            <Link
+              href="https://enade.inep.gov.br/enade/#!/relatorioCursos"
+              target="_blank"
+              align="right"
+              variant="caption"
+              display="block"
+              gutterBottom
+            >
+              Relatório de cursos Enade
+            </Link>
+          </FormControl>
+        </Grid>
+        <Grid item xs={1} sx={{ mb: 1.1 }}>
+          <FormControl>
+            <InputLabel htmlFor="Nota">Nota</InputLabel>
+            <OutlinedInput
+              id="nota_enade"
+              name="nota_enade"
+              label="Nota"
+              type="text"
+              value="0"
+            />
+          </FormControl>
+        </Grid>
+      </Grid>
 
       {displayCheckboxes && (
         <FormControl
@@ -293,7 +359,6 @@ export default function FormInscricao({
               enviar nenhuma produção cientifica."
               control={<Checkbox required id="checkbox-4" name="checkbox-4" />}
             />
-            
           </FormGroup>
         </FormControl>
       )}
