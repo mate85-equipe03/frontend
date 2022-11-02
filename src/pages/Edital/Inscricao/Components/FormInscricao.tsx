@@ -12,7 +12,12 @@ import {
   Button,
 } from "@mui/material";
 import AttachInput from "./AttachInput";
-import { IInscricaoData, IFile, IInscricaoDataReq } from "../Interfaces";
+import {
+  IInscricaoData,
+  IFile,
+  IInscricaoDataReq,
+  IHistorico,
+} from "../Interfaces";
 import postInscricao from "../Service";
 import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
 import { IEditInscricao } from "../Interfaces";
@@ -59,10 +64,49 @@ export default function FormInscricao({
     );
   };
 
+  const getBlobPDF = (historico: IHistorico) => {
+    console.log("blob", historico);
+    
+    const url =
+      "https://cdn-icons-png.flaticon.com/512/1256/1256397.png?w=2000";
+    // "https://www.africau.edu/images/default/sample.pdf";
+    let blob = fetch(url)
+      .then((r) => r.blob())
+      .then((blobFile) => {
+        const file = new File([blobFile], historico.filename, {
+          type: "image/png", //"application/pdf", //"image/png",
+        });
+
+        console.log(file);
+
+        const newFile = {
+          id: historico.id,
+          fileData: file,
+        };
+
+        if (historico.tipo === "GRADUACAO"){
+          setHistoricosGraduacao([newFile]);
+        }
+
+        if (historico.tipo === "POS_GRADUACAO"){
+          setHistoricosPosGraduacao([newFile]);
+        }
+
+
+      });
+  };
+
   useEffect(() => {
     if (editalId && inscricaoId && user) {
       getDadosInscricao(editalId).then(({ data }) => {
-        console.log(data);
+        data.Historico.map(historico => {
+          getBlobPDF(historico);
+        });
+
+        setInscricaoData({
+          ...inscricaoData,
+          url_enade: data.url_enade,
+        });
       });
     }
   }, []);
@@ -93,6 +137,8 @@ export default function FormInscricao({
       const newFiles = Array.from(eventFiles)?.map((file) => {
         return { id: ++currentCount, fileData: file };
       });
+
+      console.log(newFiles);
 
       setCountFiles(currentCount);
       setInscricaoData({

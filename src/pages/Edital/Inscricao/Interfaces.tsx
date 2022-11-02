@@ -34,6 +34,7 @@ export interface IHistorico {
   url: string;
   tipo: string;
   inscricao_id: number;
+  filename: string;
 }
 
 export interface IProducoes {
