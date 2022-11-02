@@ -41,7 +41,7 @@ export default function NovaInscricao({ editalId, setInscricaoError }: IProps) {
         ) : null;
       }
       case 2: {
-        return inscricaoId ? <InscricaoConcluida editalId={editalId} /> : null;
+        return <InscricaoConcluida editalId={editalId} />;
       }
       default: {
         return null;
