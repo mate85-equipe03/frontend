@@ -5,20 +5,21 @@ import FormInscricao from "./FormInscricao";
 import ProducoesCientificas from "./ProducoesCientificasDjair";
 
 interface IProps {
+  editalId: number;
   inscricaoId: number;
   setInscricaoError: (error: boolean) => void;
 }
 
 export default function EditarInscricao({
-  setInscricaoError,
+  editalId,
   inscricaoId,
+  setInscricaoError,
 }: IProps) {
   const navigate = useNavigate();
   const actionAfterRequestSuccess = (
     _: number // eslint-disable-line @typescript-eslint/no-unused-vars
   ) => {
-    navigate("/");
-    // Botar mensagem de sucesso
+    navigate("/", { state: { editInscricao: true } });
   };
   return (
     <>
@@ -26,6 +27,7 @@ export default function EditarInscricao({
         Editar Dados Básicos da Inscrição
       </Typography>
       <FormInscricao
+        editalId={editalId}
         inscricaoId={inscricaoId}
         btnText="Editar Dados Básicos"
         displayCheckboxes={false}

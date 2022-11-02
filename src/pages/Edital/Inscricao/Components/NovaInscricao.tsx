@@ -9,10 +9,11 @@ import Etapa2 from "./Etapa2";
 import InscricaoConcluida from "./InscricaoConcluida";
 
 interface IProps {
+  editalId: number;
   setInscricaoError: (error: boolean) => void;
 }
 
-export default function NovaInscricao({ setInscricaoError }: IProps) {
+export default function NovaInscricao({ editalId, setInscricaoError }: IProps) {
   const steps = ["Dados Básicos da Inscrição", "Produções Científicas"];
   const [inscricaoId, setInscricaoId] = useState<number>();
   const [currentEtapa, setCurrentEtapa] = useState<0 | 1 | 2>(0);
@@ -22,6 +23,7 @@ export default function NovaInscricao({ setInscricaoError }: IProps) {
       case 0: {
         return (
           <Etapa1
+            editalId={editalId}
             inscricaoId={inscricaoId}
             setInscricaoId={setInscricaoId}
             setInscricaoError={setInscricaoError}
@@ -31,16 +33,18 @@ export default function NovaInscricao({ setInscricaoError }: IProps) {
       }
       case 1: {
         return inscricaoId ? (
-          <Etapa2 inscricaoId={inscricaoId} setCurrentEtapa={setCurrentEtapa} />
-        ) : (
-          <div />
-        );
+          <Etapa2
+            editalId={editalId}
+            inscricaoId={inscricaoId}
+            setCurrentEtapa={setCurrentEtapa}
+          />
+        ) : null;
       }
       case 2: {
-        return <InscricaoConcluida />;
+        return inscricaoId ? <InscricaoConcluida editalId={editalId} /> : null;
       }
       default: {
-        return <div />;
+        return null;
       }
     }
   };
