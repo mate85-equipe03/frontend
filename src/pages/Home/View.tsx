@@ -31,11 +31,13 @@ export default function Home() {
   const location = useLocation();
   const signOutSuccess = location.state ? "signOut" in location.state : false;
   const signInSuccess = location.state ? "signIn" in location.state : false;
+  const editInscricaoSuccess = location.state
+    ? "editInscricao" in location.state
+    : false;
   window.history.replaceState(null, "");
   const { user } = useContext(UserContext);
   const [editais, setEditais] = useState<IEdital[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
   const [isAluno, setIsAluno] = useState<boolean>(false);
 
   useEffect(() => {
@@ -57,6 +59,22 @@ export default function Home() {
         setLoading(false);
       });
   }, [user]);
+
+  const checkSuccessMessage = (): string | null => {
+    if (signInSuccess) {
+      return "Login efetuado com sucesso.";
+    }
+
+    if (signOutSuccess) {
+      return "Você foi deslogado com sucesso.";
+    }
+
+    if (editInscricaoSuccess) {
+      return "Sua inscrição foi alterada com sucesso.";
+    }
+
+    return null;
+  };
 
   const handleRowClick: GridEventListener<"rowClick"> = (params) => {
     navigate(`/edital/${params.row.id}/detalhes`);
@@ -128,6 +146,8 @@ export default function Home() {
     },
   ];
 
+  const successMessage = checkSuccessMessage();
+
   return loading ? (
     <Loading />
   ) : (
@@ -138,14 +158,9 @@ export default function Home() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      {signOutSuccess && (
+      {successMessage && (
         <Alert severity="success" sx={{ mb: 2 }}>
-          Você está deslogado.
-        </Alert>
-      )}
-      {signInSuccess && (
-        <Alert severity="success" sx={{ mb: 2 }}>
-          Você está logado.
+          {successMessage}
         </Alert>
       )}
       <Card sx={{ py: 2 }}>
