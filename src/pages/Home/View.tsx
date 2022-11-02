@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
-
 import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
@@ -184,7 +182,6 @@ export default function Home() {
         <CardContent sx={{ px: 10 }}>
           <DataGrid
             onRowClick={handleRowClick}
-            {...editais}
             rows={editais}
             columns={colunas}
             sx={{

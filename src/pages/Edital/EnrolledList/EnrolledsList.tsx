@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
-
 import { Card, CardContent, CardHeader, Divider, Grid } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -113,7 +111,6 @@ export default function EnrolledsList() {
         <CardContent sx={{ px: 10 }}>
           <DataGrid
             onRowClick={handleRowClick}
-            {...enrolledList}
             rows={enrolledList}
             columns={colunas}
             sx={{
