@@ -23,7 +23,6 @@ import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
 import { IEditInscricao } from "../Interfaces";
 import api from "../../../../services/Api";
 import UserContext from "../../../../context/UserContext";
-import InputNota from "./InputNota";
 
 interface IProps {
   editalId: number;
@@ -50,6 +49,9 @@ export default function FormInscricao({
     historico_posgraduacao_file: [],
     url_enade: "",
     processo_seletivo_id: Number(editalId),
+    nota_historico_graduacao_file: 0,
+    nota_historico_posgraduacao_file: 0,
+    nota_url_enade: 0,
   };
 
   const [inscricaoData, setInscricaoData] =
@@ -146,6 +148,7 @@ export default function FormInscricao({
   };
 
   const handleFormChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+    
     if (event.target.type === "file") {
       handleFileInputChange(event);
     } else if (event.target.type !== "checkbox") {
@@ -241,7 +244,7 @@ export default function FormInscricao({
               name="nota_historico_graduacao_file"
               label="Nota"
               type="text"
-              value="0"
+              value={inscricaoData.nota_historico_graduacao_file}
             />
           </FormControl>
         </Grid>
@@ -272,7 +275,7 @@ export default function FormInscricao({
               name="nota_historico_posgraduacao_file"
               label="Nota"
               type="text"
-              value="0"
+              value={inscricaoData.nota_historico_posgraduacao_file}
             />
           </FormControl>
         </Grid>
@@ -313,11 +316,10 @@ export default function FormInscricao({
           <FormControl>
             <InputLabel htmlFor="Nota">Nota</InputLabel>
             <OutlinedInput
-              id="nota_enade"
-              name="nota_enade"
+              id="nota_url_enade"
+              name="nota_url_enade"
               label="Nota"
-              type="text"
-              value="0"
+              value={inscricaoData.nota_url_enade}
             />
           </FormControl>
         </Grid>

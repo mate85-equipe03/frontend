@@ -14,6 +14,9 @@ export interface IInscricaoData {
   historico_posgraduacao_file: IFile[];
   url_enade: string;
   processo_seletivo_id: number;
+  nota_historico_graduacao_file: number;
+  nota_historico_posgraduacao_file: number;
+  nota_url_enade: number;
 }
 
 export interface IInscricaoDataReq {
