@@ -17,10 +17,10 @@ import {
   IFile,
   IInscricaoDataReq,
   IHistorico,
+  IEditInscricao,
 } from "../Interfaces";
 import postInscricao from "../Service";
 import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
-import { IEditInscricao } from "../Interfaces";
 import api from "../../../../services/Api";
 import UserContext from "../../../../context/UserContext";
 
@@ -44,6 +44,7 @@ export default function FormInscricao({
   const [countFiles, setCountFiles] = useState<number>(0);
   const [loadingInscricao, setLoadingInscricao] = useState<boolean>(false);
 
+  const [formChanged, setFormChanged] = useState<boolean>(false);
   let initialInscricaoData = {
     historico_graduacao_file: [],
     historico_posgraduacao_file: [],
@@ -61,23 +62,21 @@ export default function FormInscricao({
   // Editar Inscricao
   const { user } = useContext(UserContext);
 
-  const getDadosInscricao = (editalId: number) => {
+  const getDadosInscricao = (editalID: number) => {
     return api.get<IEditInscricao>(
-      `/processos-seletivos/${editalId}/inscricao`
+      `/processos-seletivos/${editalID}/inscricao`
     );
   };
 
   const setHistoricos = (historico: IHistorico) => {
-    console.log(historico);
-
     const url =
       "https://cdn-icons-png.flaticon.com/512/1256/1256397.png?w=2000";
     // "https://www.africau.edu/images/default/sample.pdf";
-    let blob = fetch(url)
+    fetch(url)
       .then((r) => r.blob())
       .then((blobFile) => {
         const file = new File([blobFile], historico.filename, {
-          type: "image/png", //"application/pdf", //"image/png",
+          type: "image/png", // "application/pdf", //"image/png",
         });
 
         const newFile = {
@@ -104,7 +103,7 @@ export default function FormInscricao({
   useEffect(() => {
     if (editalId && inscricaoId && user) {
       getDadosInscricao(editalId).then(({ data }) => {
-        data.Historico.map((historico) => {
+        data.Historico.forEach((historico) => {
           setHistoricos(historico);
         });
 
@@ -115,9 +114,9 @@ export default function FormInscricao({
 
         setInscricaoData(initialInscricaoData);
       });
-      setFormChanged(
-        JSON.stringify(initialInscricaoData) !== JSON.stringify(inscricaoData)
-      );
+      // setFormChanged(
+      //   JSON.stringify(initialInscricaoData) !== JSON.stringify(inscricaoData)
+      // );
     }
   }, []);
 
@@ -165,7 +164,6 @@ export default function FormInscricao({
         [event.target.name]: event.target.value,
       });
     }
-    
   };
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -202,27 +200,25 @@ export default function FormInscricao({
       });
   };
 
-  const [formChanged, setFormChanged] = useState<Boolean>(false);
-
   useEffect(() => {
     setFormChanged(
       JSON.stringify(initialInscricaoData) !== JSON.stringify(inscricaoData)
     );
-  }, [inscricaoData]);
+  }, [initialInscricaoData, inscricaoData]);
 
   useEffect(() => {
     const handler = (event: BeforeUnloadEvent) => {
       event.preventDefault();
+      /* eslint-disable no-param-reassign */
       event.returnValue = "";
     };
 
     if (formChanged) {
       window.addEventListener("beforeunload", handler);
-      return () => {
-        window.removeEventListener("beforeunload", handler);
-      };
     }
-    return () => {};
+    return () => {
+      window.removeEventListener("beforeunload", handler);
+    };
   }, [formChanged]);
 
   return (

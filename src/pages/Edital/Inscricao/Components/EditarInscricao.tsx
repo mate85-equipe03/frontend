@@ -3,7 +3,6 @@ import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import FormInscricao from "./FormInscricao";
 import ProducoesCientificas from "./ProducoesCientificasDjair";
-import ModalProducao from "./ModalProducao";
 
 interface IProps {
   editalId: number;
@@ -39,7 +38,6 @@ export default function EditarInscricao({
         Editar Produções Científicas
       </Typography>
       <ProducoesCientificas />
-      <ModalProducao onSuccess={()=>{}}/>
     </>
   );
 }
