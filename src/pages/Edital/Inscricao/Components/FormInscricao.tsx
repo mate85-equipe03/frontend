@@ -44,7 +44,7 @@ export default function FormInscricao({
   const [countFiles, setCountFiles] = useState<number>(0);
   const [loadingInscricao, setLoadingInscricao] = useState<boolean>(false);
 
-  const initialInscricaoData = {
+  let initialInscricaoData = {
     historico_graduacao_file: [],
     historico_posgraduacao_file: [],
     url_enade: "",
@@ -86,11 +86,17 @@ export default function FormInscricao({
         };
 
         if (historico.tipo === "GRADUACAO") {
-          setHistoricosGraduacao([newFile]);
+          initialInscricaoData = {
+            ...initialInscricaoData,
+            historico_graduacao_file: [newFile],
+          };
         }
 
         if (historico.tipo === "POS_GRADUACAO") {
-          setHistoricosPosGraduacao([newFile]);
+          initialInscricaoData = {
+            ...initialInscricaoData,
+            historico_posgraduacao_file: [newFile],
+          };
         }
       });
   };
@@ -102,13 +108,16 @@ export default function FormInscricao({
           setHistoricos(historico);
         });
 
-        setInscricaoData({
-          ...inscricaoData,
+        initialInscricaoData = {
+          ...initialInscricaoData,
           url_enade: data.url_enade,
-        });
-      });
+        };
 
-      console.log("fiM", inscricaoData);
+        setInscricaoData(initialInscricaoData);
+      });
+      setFormChanged(
+        JSON.stringify(initialInscricaoData) !== JSON.stringify(inscricaoData)
+      );
     }
   }, []);
 
@@ -148,7 +157,6 @@ export default function FormInscricao({
   };
 
   const handleFormChange = (event: React.ChangeEvent<HTMLFormElement>) => {
-    
     if (event.target.type === "file") {
       handleFileInputChange(event);
     } else if (event.target.type !== "checkbox") {
@@ -157,6 +165,7 @@ export default function FormInscricao({
         [event.target.name]: event.target.value,
       });
     }
+    
   };
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
