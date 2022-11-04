@@ -11,8 +11,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../../Components/Loading";
 import UserContext from "../../../context/UserContext";
 import DadosCandidato from "../../Components/DadosCandidato";
-import { IDetalhes } from "../../Revisao/Interfaces";
-import { getDetalhesInscricaoAluno } from "../../Revisao/Service";
+import { IEditInscricao } from "./Interfaces";
+import { getDadosInscricao } from "./Service";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
 import EditarInscricao from "./Components/EditarInscricao";
 import NovaInscricao from "./Components/NovaInscricao";
@@ -25,7 +25,7 @@ export default function Inscricao() {
     useState<boolean>(false);
   const [inscricaoError, setInscricaoError] = React.useState<boolean>(false);
   const [editalName, setEditalName] = useState<string>();
-  const [dadosAluno, setDadosAluno] = useState<IDetalhes | undefined>();
+  const [dadosAluno, setDadosAluno] = useState<IEditInscricao | undefined>();
 
   const params = useParams();
 
@@ -49,7 +49,7 @@ export default function Inscricao() {
     if (user && editalId) {
       setLoadingEdital(true);
       setLoadingProcessoSeletivo(true);
-      getDetalhesInscricaoAluno(editalId)
+      getDadosInscricao(editalId)
         .then(({ data }) => {
           setDadosAluno(data);
         })

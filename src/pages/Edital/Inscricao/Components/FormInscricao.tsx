@@ -17,11 +17,9 @@ import {
   IFile,
   IInscricaoDataReq,
   IHistorico,
-  IEditInscricao,
 } from "../Interfaces";
-import postInscricao from "../Service";
+import {postInscricao, getDadosInscricao} from "../Service";
 import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
-import api from "../../../../services/Api";
 import UserContext from "../../../../context/UserContext";
 
 interface IProps {
@@ -61,12 +59,6 @@ export default function FormInscricao({
   // TODO: if inscricaoId => getDadosInscricao (botar loading)
   // Editar Inscricao
   const { user } = useContext(UserContext);
-
-  const getDadosInscricao = (editalID: number) => {
-    return api.get<IEditInscricao>(
-      `/processos-seletivos/${editalID}/inscricao`
-    );
-  };
 
   const setHistoricos = (historico: IHistorico) => {
     const url =
