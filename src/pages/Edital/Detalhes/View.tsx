@@ -7,18 +7,17 @@ import {
   CardHeader,
   Divider,
   Grid,
-  Link,
   List,
   ListItem,
   ListItemText,
   Typography,
 } from "@mui/material";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import moment from "moment";
 import { IDetails } from "./Interfaces";
 import getDetailsProcessoSeletivo from "./Service";
 import UserContext from "../../../context/UserContext";
 import Loading from "../../../Components/Loading";
+import PDFFile from "../../Components/PDFFile";
 
 export default function EditalDetails() {
   const navigate = useNavigate();
@@ -103,15 +102,13 @@ export default function EditalDetails() {
                 </ListItem>
               ))}
             </List>
-            <Link
-              href={edital?.edital_url}
-              underline="none"
-              target="_blank"
-              sx={{ my: 1 }}
-            >
-              <PictureAsPdfIcon fontSize="small" sx={{ mr: 0.5 }} />
-              {`${edital?.titulo}.pdf`}
-            </Link>
+            {edital && (
+              <PDFFile
+                pdfUrl={edital?.edital_url}
+                pdfTitle={`${edital?.titulo}.pdf`}
+                sx={{ my: 1 }}
+              />
+            )}
             <Grid
               container
               direction="column"

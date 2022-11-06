@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
-
 import React, { useContext, useEffect, useState } from "react";
 import {
   Grid,
@@ -7,24 +5,18 @@ import {
   CardHeader,
   CardContent,
   Alert,
-  Link,
   Divider,
 } from "@mui/material";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  DataGrid,
-  GridColDef,
-  GridEventListener,
-  ptBR,
-} from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import moment from "moment";
 import { IEdital } from "./Types";
 import getAllProcessosSeletivos from "./Service";
 import Loading from "../../Components/Loading";
 import UserContext from "../../context/UserContext";
+import PDFFile from "../Components/PDFFile";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -93,42 +85,41 @@ export default function Home() {
     {
       field: "titulo",
       headerName: "Edital",
-      width: 200,
-    },
-    {
-      field: "inscrito",
-      headerName: "Inscrito?",
-      width: 100,
+      width: 240,
       renderCell: (cellValues) => {
-        return cellValues.row.isInscrito ? (
-          <CheckCircleIcon color="success" fontSize="small" />
-        ) : (
-          <CancelIcon color="error" fontSize="small" />
+        return (
+          <PDFFile
+            pdfUrl={cellValues.row.edital_url}
+            pdfTitle={cellValues.row.titulo}
+            onClick={handleLinkClick}
+          />
         );
       },
     },
     {
-      field: "edital_url",
-      headerName: "Edital",
-      width: 260,
+      field: "inscrito",
+      headerName: "Inscrito(a)",
+      width: 170,
+      hide: !isAluno,
+      valueGetter: (params) => params.row.isInscrito,
       renderCell: (cellValues) => {
-        return (
-          <Link
-            href={cellValues.row.edital_url}
-            target="_blank"
-            underline="none"
-            onClick={handleLinkClick}
-          >
-            <PictureAsPdfIcon fontSize="small" sx={{ mr: 0.5 }} />
-            {`${cellValues.row.titulo}.pdf`}
-          </Link>
+        return cellValues.row.isInscrito ? (
+          <Grid sx={{ color: "success.main", fontWeight: "bold" }}>
+            <CheckCircleIcon fontSize="small" sx={{ mr: 0.5 }} />
+            Inscrito(a)
+          </Grid>
+        ) : (
+          <Grid sx={{ color: "error.main", fontWeight: "bold" }}>
+            <CancelIcon fontSize="small" sx={{ mr: 0.5 }} />
+            Não Inscrito(a)
+          </Grid>
         );
       },
     },
     {
       field: "arquivado",
       headerName: "Status",
-      width: 120,
+      width: 145,
       valueGetter: (params) => {
         return params.row.arquivado ? "Encerrado" : "Em Andamento";
       },
@@ -136,7 +127,7 @@ export default function Home() {
     {
       field: "etapa",
       headerName: "Etapa Atual",
-      width: 200,
+      width: 270,
       valueGetter: (params) => {
         const { etapas } = params.row;
         return etapas.length > 0
@@ -145,6 +136,10 @@ export default function Home() {
       },
     },
   ];
+
+  const allColumnsWidth = colunas.reduce((acc, { width, hide }) => {
+    return width && !hide ? acc + width : acc;
+  }, 0);
 
   const successMessage = checkSuccessMessage();
 
@@ -163,7 +158,8 @@ export default function Home() {
           {successMessage}
         </Alert>
       )}
-      <Card sx={{ py: 2 }}>
+
+      <Card sx={{ py: 2, mt: 5 }}>
         <CardHeader
           title="Processos Seletivos"
           titleTypographyProps={{
@@ -176,29 +172,16 @@ export default function Home() {
             align: "center",
           }}
         />
-        <Divider sx={{ mx: 3 }} />
-        <CardContent
-          sx={{
-            px: { xs: 5, sm: 5 },
-            width: "90vw",
-            minHeight: 260,
-            height: "45vh",
-          }}
-        >
+
+        <Divider sx={{ mx: 3, my: 2 }} />
+
+        <CardContent sx={{ px: 10 }}>
           <DataGrid
             onRowClick={handleRowClick}
-            {...editais}
             rows={editais}
             columns={colunas}
-            pageSize={5}
-            rowsPerPageOptions={[5, 10, 15, 20]}
-            localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
-            initialState={{
-              columns: {
-                columnVisibilityModel: {
-                  inscrito: isAluno,
-                },
-              },
+            sx={{
+              width: Math.min(allColumnsWidth + 2, 1000),
             }}
           />
         </CardContent>
