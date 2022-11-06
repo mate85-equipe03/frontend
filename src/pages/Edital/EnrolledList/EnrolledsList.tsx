@@ -1,14 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
-
 import { Card, CardContent, CardHeader, Divider, Grid } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  DataGrid,
-  GridColDef,
-  GridEventListener,
-  ptBR,
-} from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import { getEnrolledList } from "./Service";
 import { IADetalhes } from "./Interfaces";
 import getDetailsProcessoSeletivo from "../Detalhes/Service";
@@ -86,6 +79,10 @@ export default function EnrolledsList() {
     },
   ];
 
+  const allColumnsWidth = colunas.reduce((acc, { width }) => {
+    return width ? acc + width : acc;
+  }, 0);
+
   return loadingInscritos || loadingProcesso ? (
     <Loading />
   ) : (
@@ -96,11 +93,12 @@ export default function EnrolledsList() {
       alignItems="center"
       sx={{ width: "100%" }}
     >
-      <Card sx={{ minWidth: { md: 500 }, maxWidth: 1920, mt: 5 }}>
+      <Card sx={{ py: 2, mt: 5 }}>
         <CardHeader
           title="Estudantes Inscritos(as)"
           titleTypographyProps={{
             align: "center",
+            variant: "h4",
           }}
           subheader={editalName}
           subheaderTypographyProps={{
@@ -108,20 +106,17 @@ export default function EnrolledsList() {
           }}
         />
 
-        <Divider sx={{ mx: 3 }} />
+        <Divider sx={{ mx: 3, my: 2 }} />
 
-        <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
-          <div style={{ height: 400, width: 700 }}>
-            <DataGrid
-              onRowClick={handleRowClick}
-              {...enrolledList}
-              rows={enrolledList}
-              columns={colunas}
-              pageSize={5}
-              rowsPerPageOptions={[5, 10, 15, 20]}
-              localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
-            />
-          </div>
+        <CardContent sx={{ px: 10 }}>
+          <DataGrid
+            onRowClick={handleRowClick}
+            rows={enrolledList}
+            columns={colunas}
+            sx={{
+              width: Math.min(allColumnsWidth + 2, 1000),
+            }}
+          />
         </CardContent>
       </Card>
     </Grid>
