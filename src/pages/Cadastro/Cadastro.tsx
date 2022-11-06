@@ -123,7 +123,7 @@ export default function Cadastro() {
     setLoading(true);
     getDadosAluno()
       .then(({ data }) => {
-        if (isEditar()) {
+        if (user) {
           signUpData.nome = data.aluno.nome;
           signUpData.matricula = data.aluno.matricula;
           signUpData.semestre_pgcomp = data.aluno.semestre_pgcomp;
@@ -139,7 +139,7 @@ export default function Cadastro() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [user]);
 
   return loading ? (
     <Loading />
