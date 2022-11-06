@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Alert,
   Card,
@@ -70,6 +70,13 @@ export default function Cadastro() {
     setShowPassword(!showPassword);
   };
 
+  function isEditar() {
+    if (user) {
+      return true;
+    }
+    return false;
+  }
+
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     if (isEditar()) {
       event.preventDefault();
@@ -132,14 +139,7 @@ export default function Cadastro() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
-
-  function isEditar() {
-    if (user) {
-      return true;
-    }
-    return false;
-  }
+  }, [isEditar, signUpData]);
 
   return loading ? (
     <Loading />
