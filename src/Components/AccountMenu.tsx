@@ -7,7 +7,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import { Person } from "@mui/icons-material";
@@ -125,12 +124,6 @@ export default function AccountMenu() {
             <Person fontSize="small" />
           </ListItemIcon>
           Editar Dados Pessoais
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Configurações
         </MenuItem>
         <MenuItem onClick={logout}>
           <ListItemIcon>
