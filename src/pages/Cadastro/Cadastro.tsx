@@ -92,7 +92,6 @@ export default function Cadastro() {
         })
         .finally(() => {
           setLoading(false);
-          // window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         });
     } else {
       event.preventDefault();
@@ -182,7 +181,6 @@ export default function Cadastro() {
                 placeholder="Digite seu nome completo"
                 type="text"
                 value={signUpData.nome}
-                // value={isEditar() ? dados?.aluno.nome : signUpData.nome}
                 onChange={handleChange}
               />
             </FormControl>
@@ -194,7 +192,6 @@ export default function Cadastro() {
                 label="Matrícula"
                 placeholder="Digite sua matrícula"
                 type="text"
-                // value={isEditar() ? dados?.aluno.matricula : signUpData.matricula}
                 value={signUpData.matricula}
                 onChange={handleChange}
                 disabled={isEditar()}
@@ -269,7 +266,6 @@ export default function Cadastro() {
                 label="Semestre de ingresso no PGCOMP"
                 placeholder="Digite seu semestre de ingresso no PGCOMP"
                 type="text"
-                // value={isEditar() ? dados?.aluno.semestre_pgcomp : signUpData.semestre_pgcomp}
                 value={signUpData.semestre_pgcomp}
                 onChange={handleChange}
                 format="####.#"
@@ -285,7 +281,6 @@ export default function Cadastro() {
                 row
                 aria-labelledby="selecionar-curso"
                 name="curso"
-                // value={isEditar() ? dados?.aluno.curso : signUpData.curso}
                 value={signUpData.curso}
                 onChange={handleChange}
               >
@@ -311,7 +306,6 @@ export default function Cadastro() {
                 label="link para o CV Lattes"
                 placeholder="www.example.com.br"
                 type="url"
-                // value={isEditar() ? dados?.aluno.lattes_link : signUpData.lattes_link}
                 value={signUpData.lattes_link}
                 onChange={handleChange}
               />
@@ -324,7 +318,6 @@ export default function Cadastro() {
                 label="E-mail"
                 placeholder="exemplo@email.com.br"
                 type="email"
-                // value={isEditar() ? dados?.email : signUpData.email}
                 value={signUpData.email}
                 onChange={handleChange}
               />
@@ -337,7 +330,6 @@ export default function Cadastro() {
                 label="Telefone / Celular"
                 placeholder="(00) 00000-0000"
                 type="tel"
-                // value={isEditar() ? dados?.telefone : signUpData.telefone}
                 value={signUpData.telefone}
                 onChange={handleChange}
                 format="(##) #####-####"
