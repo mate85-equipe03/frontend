@@ -139,7 +139,7 @@ export default function Cadastro() {
       .finally(() => {
         setLoading(false);
       });
-  }, [user]);
+  }, [user, signUpData]);
 
   return loading ? (
     <Loading />
