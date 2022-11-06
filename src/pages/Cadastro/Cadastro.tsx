@@ -22,7 +22,7 @@ import FormLabel from "@mui/material/FormLabel";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/Api";
 import BtnSubmitLoading from "../../Components/BtnSubmitLoading";
-import { IDados, ISignUpData } from "./Types";
+import { ISignUpData } from "./Types";
 import UserContext from "../../context/UserContext";
 import getDadosAluno from "./Service";
 import Loading from "../../Components/Loading";
@@ -116,20 +116,20 @@ export default function Cadastro() {
     setLoading(true);
     getDadosAluno()
       .then(({ data }) => {
-      if(isEditar()){
-        signUpData.nome = data.aluno.nome;
-        signUpData.matricula = data.aluno.matricula;
-        signUpData.semestre_pgcomp = data.aluno.semestre_pgcomp;
-        signUpData.curso = data.aluno.curso;
-        signUpData.lattes_link = data.aluno.lattes_link;
-        signUpData.email = data.email;
-        signUpData.telefone = data.telefone;
-      }
+        if (isEditar()) {
+          signUpData.nome = data.aluno.nome;
+          signUpData.matricula = data.aluno.matricula;
+          signUpData.semestre_pgcomp = data.aluno.semestre_pgcomp;
+          signUpData.curso = data.aluno.curso;
+          signUpData.lattes_link = data.aluno.lattes_link;
+          signUpData.email = data.email;
+          signUpData.telefone = data.telefone;
+        }
       })
-    .catch(() => {
-      // TODO: Ver como exibir erros va View
-    })
-    .finally(() => {
+      .catch(() => {
+        // TODO: Ver como exibir erros va View
+      })
+      .finally(() => {
         setLoading(false);
       });
   }, []);
@@ -152,15 +152,13 @@ export default function Cadastro() {
       sx={{ height: "100%" }}
     >
       {(signUpError || editError) && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            Ocorreu um erro. Tente novamente.
-          </Alert>
-        )}
+        <Alert severity="error" sx={{ mb: 2 }}>
+          Ocorreu um erro. Tente novamente.
+        </Alert>
+      )}
       <Card sx={{ minWidth: 275, maxWidth: 500, pb: 4 }}>
         <CardHeader
-          title={`${
-            isEditar() ? "Editar" : ""
-          } Cadastro`}
+          title={`${isEditar() ? "Editar" : ""} Cadastro`}
           titleTypographyProps={{
             align: "center",
             variant: "h4",
@@ -205,27 +203,27 @@ export default function Cadastro() {
               <div>
                 <FormControl required fullWidth margin="normal">
                   <InputLabel htmlFor="senha">Senha</InputLabel>
-                <OutlinedInput
+                  <OutlinedInput
                     id="senha"
                     name="senha"
-                  label="Senha"
-                  placeholder="Digite sua senha"
+                    label="Senha"
+                    placeholder="Digite sua senha"
                     type={showPassword ? "text" : "password"}
                     value={signUpData.senha}
-                  onChange={handleChange}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label={`${
-                          showPassword ? "Ocultar" : "Mostrar"
+                    onChange={handleChange}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label={`${
+                            showPassword ? "Ocultar" : "Mostrar"
                           } senha`}
                           onClick={handleClickShowPassword}
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
                 </FormControl>
                 <FormControl required fullWidth margin="normal">
                   <InputLabel htmlFor="confirmacaoSenha">
