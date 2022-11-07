@@ -66,6 +66,10 @@ export default function Home() {
       return "Sua inscrição foi alterada com sucesso.";
     }
 
+    if (editSuccess) {
+      return "Dados pessoais alterados com sucesso.";
+    }
+
     return null;
   };
 
@@ -157,11 +161,6 @@ export default function Home() {
       {successMessage && (
         <Alert severity="success" sx={{ mb: 2 }}>
           {successMessage}
-        </Alert>
-      )}
-      {editSuccess && (
-        <Alert severity="success" sx={{ mb: 2 }}>
-          Alterações realizadas com sucesso.
         </Alert>
       )}
 
