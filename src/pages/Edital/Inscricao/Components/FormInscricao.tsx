@@ -82,20 +82,19 @@ export default function FormInscricao({
   useEffect(() => {
     if (editalId && inscricaoId && user) {
       getDadosInscricao(editalId).then(({ data }) => {
+        console.log(data);
+
         const reqInscricao: IInscricaoData = {
           ...initialInscricaoData,
           url_enade: data.url_enade,
+          nota_url_enade: data.nota_enade,
         };
-
-        setInitialInscricaoData(reqInscricao);
-        setInscricaoData(reqInscricao);
 
         // Os históricos são setados a partir de useEffects especificos
         data.Historico.forEach((historico) => {
-          const url =
-            "https://cdn-icons-png.flaticon.com/512/1256/1256397.png?w=2000";
+          const url = // historico.url;
+            "https://cdn-icons-png.flaticon.com/512/1256/1256397.png?w=2000"; //provisório -> teste
           // "https://www.africau.edu/images/default/sample.pdf";
-          // historico.url;
 
           fetch(url)
             .then((r) => r.blob())
@@ -104,29 +103,41 @@ export default function FormInscricao({
 
               if (historico.tipo === "GRADUACAO") {
                 setHistGrad([newFile]);
+                reqInscricao.nota_historico_graduacao_file = historico.nota;
               }
 
               if (historico.tipo === "POS_GRADUACAO") {
                 setPosHistGrad([newFile]);
+                reqInscricao.nota_historico_graduacao_file = historico.nota;
               }
             });
         });
+
+        setInitialInscricaoData(reqInscricao);
+        setInscricaoData(reqInscricao);
       });
     }
   }, []);
 
   // Solução provisória para popular ambos os históricos a partir do blob
   useEffect(() => {
-    setInscricaoData({...inscricaoData, historico_graduacao_file: histGrad})
-    setInitialInscricaoData({...initialInscricaoData, historico_graduacao_file: histGrad})
+    setInscricaoData({ ...inscricaoData, historico_graduacao_file: histGrad });
+    setInitialInscricaoData({
+      ...initialInscricaoData,
+      historico_graduacao_file: histGrad,
+    });
   }, [histGrad]);
 
   useEffect(() => {
-    setInscricaoData({...inscricaoData, historico_posgraduacao_file: histPosGrad})
-    setInitialInscricaoData({...initialInscricaoData, historico_posgraduacao_file: histPosGrad})
+    setInscricaoData({
+      ...inscricaoData,
+      historico_posgraduacao_file: histPosGrad,
+    });
+    setInitialInscricaoData({
+      ...initialInscricaoData,
+      historico_posgraduacao_file: histPosGrad,
+    });
   }, [histPosGrad]);
-
-  
 
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
     setInscricaoData({

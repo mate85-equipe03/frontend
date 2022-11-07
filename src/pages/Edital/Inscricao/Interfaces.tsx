@@ -37,6 +37,7 @@ export interface IHistorico {
   tipo: string;
   inscricao_id: number;
   filename: string;
+  nota:number;
 }
 
 export interface IProducoes {
@@ -71,6 +72,7 @@ export interface IEditInscricao {
   url_enade: string;
   revisor_id: number;
   auditor_id: number;
+  nota_enade: number;
   nota_final: number;
   classificacao: number;
   Historico: IHistorico[];
