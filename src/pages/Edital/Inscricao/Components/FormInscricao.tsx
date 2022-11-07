@@ -221,20 +221,27 @@ export default function FormInscricao({
     };
 
     setLoadingInscricao(true);
-    postInscricao(payload)
-      .then(() => {
-        setInscricaoError(false);
-        // TODO: [Aguardando back] Pegar id da inscricao no post
-        // actionAfterRequestSuccess();
-      })
-      .catch(() => {
-        setInscricaoError(true);
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-      })
-      .finally(() => {
-        setLoadingInscricao(false);
-        setFormChanged(false);
-      });
+
+    if (inscricaoId) {
+      // Editar Inscrição
+      // TODO: Implementar rota do back para atualizar inscrição
+    } else {
+      // Nova Inscrição
+      postInscricao(payload)
+        .then(() => {
+          setInscricaoError(false);
+          // TODO: [Aguardando back] Pegar id da inscricao no post
+          // actionAfterRequestSuccess();
+        })
+        .catch(() => {
+          setInscricaoError(true);
+          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        })
+        .finally(() => {
+          setLoadingInscricao(false);
+          setFormChanged(false);
+        });
+    }
   };
 
   // const [loadingHistoricos, setLoadingHistoricos] = useState<boolean>(false);
