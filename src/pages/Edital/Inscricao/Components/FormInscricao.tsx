@@ -58,8 +58,8 @@ export default function FormInscricao({
   const [inscricaoData, setInscricaoData] =
     useState<IInscricaoData>(initialInscricaoData);
 
-  const [histGrad, setHistGrad] = useState<IFile[]>([]);
-  const [histPosGrad, setPosHistGrad] = useState<IFile[]>([]);
+  const [initialHistoricoGraduacao, setInitialHistoricoGraduacao] = useState<IFile[]>([]);
+  const [initialHistoricoPosGrad, setInitialHistoricoPosGrad] = useState<IFile[]>([]);
 
   const { user } = useContext(UserContext);
 
@@ -72,7 +72,7 @@ export default function FormInscricao({
     });
 
     const newFile = {
-      id: historico.id, // verificar conflito entre ID do back e do front
+      id: historico.id, // TODO: verificar conflito entre ID do back e do front
       fileData: file,
     };
 
@@ -102,12 +102,12 @@ export default function FormInscricao({
               const newFile = criaFile(blobFile, historico);
 
               if (historico.tipo === "GRADUACAO") {
-                setHistGrad([newFile]);
+                setInitialHistoricoGraduacao([newFile]);
                 reqInscricao.nota_historico_graduacao_file = historico.nota;
               }
 
               if (historico.tipo === "POS_GRADUACAO") {
-                setPosHistGrad([newFile]);
+                setInitialHistoricoPosGrad([newFile]);
                 reqInscricao.nota_historico_graduacao_file = historico.nota;
               }
             });
@@ -121,23 +121,23 @@ export default function FormInscricao({
 
   // Solução provisória para popular ambos os históricos a partir do blob
   useEffect(() => {
-    setInscricaoData({ ...inscricaoData, historico_graduacao_file: histGrad });
+    setInscricaoData({ ...inscricaoData, historico_graduacao_file: initialHistoricoGraduacao });
     setInitialInscricaoData({
       ...initialInscricaoData,
-      historico_graduacao_file: histGrad,
+      historico_graduacao_file: initialHistoricoGraduacao,
     });
-  }, [histGrad]);
+  }, [initialHistoricoGraduacao]);
 
   useEffect(() => {
     setInscricaoData({
       ...inscricaoData,
-      historico_posgraduacao_file: histPosGrad,
+      historico_posgraduacao_file: initialHistoricoPosGrad,
     });
     setInitialInscricaoData({
       ...initialInscricaoData,
-      historico_posgraduacao_file: histPosGrad,
+      historico_posgraduacao_file: initialHistoricoPosGrad,
     });
-  }, [histPosGrad]);
+  }, [initialHistoricoPosGrad]);
 
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
     setInscricaoData({
@@ -219,10 +219,18 @@ export default function FormInscricao({
       });
   };
 
+  const [loadingHistoricos, setLoadingHistoricos] = useState<boolean>(false);
   useEffect(() => {
     setFormChanged(
       JSON.stringify(initialInscricaoData) !== JSON.stringify(inscricaoData)
     );
+
+    setLoadingHistoricos(
+      initialInscricaoData.historico_graduacao_file.length > 0 &&
+        initialInscricaoData.historico_posgraduacao_file.length > 0
+    );
+    // TODO: Implementar loading na logica de carregamento da pagina
+
   }, [initialInscricaoData, inscricaoData]);
 
   useEffect(() => {
