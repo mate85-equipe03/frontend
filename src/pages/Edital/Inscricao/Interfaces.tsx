@@ -37,7 +37,7 @@ export interface IHistorico {
   tipo: string;
   inscricao_id: number;
   filename: string;
-  nota:number;
+  nota: number;
 }
 
 export interface IProducoes {

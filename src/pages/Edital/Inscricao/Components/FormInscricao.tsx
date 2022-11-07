@@ -58,8 +58,12 @@ export default function FormInscricao({
   const [inscricaoData, setInscricaoData] =
     useState<IInscricaoData>(initialInscricaoData);
 
-  const [initialHistoricoGraduacao, setInitialHistoricoGraduacao] = useState<IFile[]>([]);
-  const [initialHistoricoPosGrad, setInitialHistoricoPosGrad] = useState<IFile[]>([]);
+  const [initialHistoricoGraduacao, setInitialHistoricoGraduacao] = useState<
+    IFile[]
+  >([]);
+  const [initialHistoricoPosGrad, setInitialHistoricoPosGrad] = useState<
+    IFile[]
+  >([]);
 
   const { user } = useContext(UserContext);
 
@@ -82,8 +86,6 @@ export default function FormInscricao({
   useEffect(() => {
     if (editalId && inscricaoId && user) {
       getDadosInscricao(editalId).then(({ data }) => {
-        console.log(data);
-
         const reqInscricao: IInscricaoData = {
           ...initialInscricaoData,
           url_enade: data.url_enade,
@@ -93,7 +95,7 @@ export default function FormInscricao({
         // Os históricos são setados a partir de useEffects especificos
         data.Historico.forEach((historico) => {
           const url = // historico.url;
-            "https://cdn-icons-png.flaticon.com/512/1256/1256397.png?w=2000"; //provisório -> teste
+            "https://cdn-icons-png.flaticon.com/512/1256/1256397.png?w=2000"; // provisório -> teste
           // "https://www.africau.edu/images/default/sample.pdf";
 
           fetch(url)
@@ -117,25 +119,38 @@ export default function FormInscricao({
         setInscricaoData(reqInscricao);
       });
     }
-  }, []);
+  }, [editalId, inscricaoId, user]);
 
   // Solução provisória para popular ambos os históricos a partir do blob
   useEffect(() => {
-    setInscricaoData({ ...inscricaoData, historico_graduacao_file: initialHistoricoGraduacao });
-    setInitialInscricaoData({
-      ...initialInscricaoData,
-      historico_graduacao_file: initialHistoricoGraduacao,
+    setInscricaoData((prevState) => {
+      return {
+        ...prevState,
+        historico_graduacao_file: initialHistoricoGraduacao,
+      };
+    });
+
+    setInitialInscricaoData((prevState) => {
+      return {
+        ...prevState,
+        historico_graduacao_file: initialHistoricoGraduacao,
+      };
     });
   }, [initialHistoricoGraduacao]);
 
   useEffect(() => {
-    setInscricaoData({
-      ...inscricaoData,
-      historico_posgraduacao_file: initialHistoricoPosGrad,
+    setInscricaoData((prevState) => {
+      return {
+        ...prevState,
+        historico_posgraduacao_file: initialHistoricoPosGrad,
+      };
     });
-    setInitialInscricaoData({
-      ...initialInscricaoData,
-      historico_posgraduacao_file: initialHistoricoPosGrad,
+
+    setInitialInscricaoData((prevState) => {
+      return {
+        ...prevState,
+        historico_posgraduacao_file: initialHistoricoPosGrad,
+      };
     });
   }, [initialHistoricoPosGrad]);
 
@@ -219,18 +234,18 @@ export default function FormInscricao({
       });
   };
 
-  const [loadingHistoricos, setLoadingHistoricos] = useState<boolean>(false);
+  // const [loadingHistoricos, setLoadingHistoricos] = useState<boolean>(false);
+
   useEffect(() => {
     setFormChanged(
       JSON.stringify(initialInscricaoData) !== JSON.stringify(inscricaoData)
     );
 
-    setLoadingHistoricos(
-      initialInscricaoData.historico_graduacao_file.length > 0 &&
-        initialInscricaoData.historico_posgraduacao_file.length > 0
-    );
     // TODO: Implementar loading na logica de carregamento da pagina
-
+    // setLoadingHistoricos(
+    //   initialInscricaoData.historico_graduacao_file.length > 0 &&
+    //     initialInscricaoData.historico_posgraduacao_file.length > 0
+    // );
   }, [initialInscricaoData, inscricaoData]);
 
   useEffect(() => {

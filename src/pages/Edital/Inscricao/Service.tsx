@@ -22,9 +22,5 @@ export const postInscricao = (payload: IInscricaoDataReq) => {
 };
 
 export const getDadosInscricao = (editalID: number) => {
-  return api.get<IEditInscricao>(
-    `/processos-seletivos/${editalID}/inscricao`
-  );
+  return api.get<IEditInscricao>(`/processos-seletivos/${editalID}/inscricao`);
 };
-
-
