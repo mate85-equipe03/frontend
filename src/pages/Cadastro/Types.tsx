@@ -11,3 +11,15 @@ export interface ISignUpData {
   email: string;
   telefone: string;
 }
+export interface IAluno {
+  nome: string;
+  matricula: string;
+  semestre_pgcomp: string;
+  curso: string;
+  lattes_link: string;
+}
+export interface IDados {
+  aluno: IAluno;
+  email: string;
+  telefone: string;
+}
