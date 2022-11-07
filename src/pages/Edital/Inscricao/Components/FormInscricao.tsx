@@ -69,7 +69,6 @@ export default function FormInscricao({
 
   // TODO: if inscricaoId => getDadosInscricao (botar loading)
   // Editar Inscricao
-
   const criaFile = (blob: Blob, historico: IHistorico) => {
     const file = new File([blob], historico.filename, {
       type: "image/png", // "application/pdf", //"image/png",
@@ -86,9 +85,13 @@ export default function FormInscricao({
   useEffect(() => {
     if (editalId && inscricaoId && user) {
       getDadosInscricao(editalId).then(({ data }) => {
-        const reqInscricao: IInscricaoData = {
-          ...initialInscricaoData,
+        const reqInscricao = {
+          historico_graduacao_file: [],
+          historico_posgraduacao_file: [],
           url_enade: data.url_enade,
+          processo_seletivo_id: editalId,
+          nota_historico_graduacao_file: 0,
+          nota_historico_posgraduacao_file: 0,
           nota_url_enade: data.nota_enade,
         };
 
