@@ -124,13 +124,18 @@ export default function Cadastro() {
     getDadosAluno()
       .then(({ data }) => {
         if (user) {
-          signUpData.nome = data.aluno.nome;
-          signUpData.matricula = data.aluno.matricula;
-          signUpData.semestre_pgcomp = data.aluno.semestre_pgcomp;
-          signUpData.curso = data.aluno.curso;
-          signUpData.lattes_link = data.aluno.lattes_link;
-          signUpData.email = data.email;
-          signUpData.telefone = data.telefone;
+          setSignUpData((oldValue) => { 
+            return {
+              ...oldValue,
+              nome: data.aluno.nome,
+              matricula: data.aluno.matricula,
+              semestre_pgcomp: data.aluno.semestre_pgcomp,
+              curso: data.aluno.curso,
+              lattes_link: data.aluno.lattes_link,
+              email: data.email,
+              telefone: data.telefone,
+            }
+          })
         }
       })
       .catch(() => {
