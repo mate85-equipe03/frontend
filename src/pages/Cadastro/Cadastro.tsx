@@ -124,7 +124,7 @@ export default function Cadastro() {
     getDadosAluno()
       .then(({ data }) => {
         if (user) {
-          setSignUpData((oldValue) => { 
+          setSignUpData((oldValue) => {
             return {
               ...oldValue,
               nome: data.aluno.nome,
@@ -134,8 +134,8 @@ export default function Cadastro() {
               lattes_link: data.aluno.lattes_link,
               email: data.email,
               telefone: data.telefone,
-            }
-          })
+            };
+          });
         }
       })
       .catch(() => {
