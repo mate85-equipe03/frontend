@@ -18,7 +18,7 @@ import {
   IInscricaoDataReq,
   IHistorico,
 } from "../Interfaces";
-import {postInscricao, getDadosInscricao} from "../Service";
+import { postInscricao, getDadosInscricao } from "../Service";
 import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
 import UserContext from "../../../../context/UserContext";
 
@@ -43,74 +43,90 @@ export default function FormInscricao({
   const [loadingInscricao, setLoadingInscricao] = useState<boolean>(false);
 
   const [formChanged, setFormChanged] = useState<boolean>(false);
-  let initialInscricaoData = {
-    historico_graduacao_file: [],
-    historico_posgraduacao_file: [],
-    url_enade: "",
-    processo_seletivo_id: Number(editalId),
-    nota_historico_graduacao_file: 0,
-    nota_historico_posgraduacao_file: 0,
-    nota_url_enade: 0,
-  };
+
+  const [initialInscricaoData, setInitialInscricaoData] =
+    useState<IInscricaoData>({
+      historico_graduacao_file: [],
+      historico_posgraduacao_file: [],
+      url_enade: "",
+      processo_seletivo_id: editalId,
+      nota_historico_graduacao_file: 0,
+      nota_historico_posgraduacao_file: 0,
+      nota_url_enade: 0,
+    });
 
   const [inscricaoData, setInscricaoData] =
-    React.useState<IInscricaoData>(initialInscricaoData);
+    useState<IInscricaoData>(initialInscricaoData);
+
+  const [histGrad, setHistGrad] = useState<IFile[]>([]);
+  const [histPosGrad, setPosHistGrad] = useState<IFile[]>([]);
+
+  const { user } = useContext(UserContext);
 
   // TODO: if inscricaoId => getDadosInscricao (botar loading)
   // Editar Inscricao
-  const { user } = useContext(UserContext);
 
-  const setHistoricos = (historico: IHistorico) => {
-    const url =
-      "https://cdn-icons-png.flaticon.com/512/1256/1256397.png?w=2000";
-    // "https://www.africau.edu/images/default/sample.pdf";
-    fetch(url)
-      .then((r) => r.blob())
-      .then((blobFile) => {
-        const file = new File([blobFile], historico.filename, {
-          type: "image/png", // "application/pdf", //"image/png",
-        });
+  const criaFile = (blob: Blob, historico: IHistorico) => {
+    const file = new File([blob], historico.filename, {
+      type: "image/png", // "application/pdf", //"image/png",
+    });
 
-        const newFile = {
-          id: historico.id,
-          fileData: file,
-        };
+    const newFile = {
+      id: historico.id, // verificar conflito entre ID do back e do front
+      fileData: file,
+    };
 
-        if (historico.tipo === "GRADUACAO") {
-          initialInscricaoData = {
-            ...initialInscricaoData,
-            historico_graduacao_file: [newFile],
-          };
-        }
-
-        if (historico.tipo === "POS_GRADUACAO") {
-          initialInscricaoData = {
-            ...initialInscricaoData,
-            historico_posgraduacao_file: [newFile],
-          };
-        }
-      });
+    return newFile;
   };
 
   useEffect(() => {
     if (editalId && inscricaoId && user) {
       getDadosInscricao(editalId).then(({ data }) => {
-        data.Historico.forEach((historico) => {
-          setHistoricos(historico);
-        });
-
-        initialInscricaoData = {
+        const reqInscricao: IInscricaoData = {
           ...initialInscricaoData,
           url_enade: data.url_enade,
         };
 
-        setInscricaoData(initialInscricaoData);
+        setInitialInscricaoData(reqInscricao);
+        setInscricaoData(reqInscricao);
+
+        // Os históricos são setados a partir de useEffects especificos
+        data.Historico.forEach((historico) => {
+          const url =
+            "https://cdn-icons-png.flaticon.com/512/1256/1256397.png?w=2000";
+          // "https://www.africau.edu/images/default/sample.pdf";
+          // historico.url;
+
+          fetch(url)
+            .then((r) => r.blob())
+            .then((blobFile) => {
+              const newFile = criaFile(blobFile, historico);
+
+              if (historico.tipo === "GRADUACAO") {
+                setHistGrad([newFile]);
+              }
+
+              if (historico.tipo === "POS_GRADUACAO") {
+                setPosHistGrad([newFile]);
+              }
+            });
+        });
       });
-      // setFormChanged(
-      //   JSON.stringify(initialInscricaoData) !== JSON.stringify(inscricaoData)
-      // );
     }
   }, []);
+
+  // Solução provisória para popular ambos os históricos a partir do blob
+  useEffect(() => {
+    setInscricaoData({...inscricaoData, historico_graduacao_file: histGrad})
+    setInitialInscricaoData({...initialInscricaoData, historico_graduacao_file: histGrad})
+  }, [histGrad]);
+
+  useEffect(() => {
+    setInscricaoData({...inscricaoData, historico_posgraduacao_file: histPosGrad})
+    setInitialInscricaoData({...initialInscricaoData, historico_posgraduacao_file: histPosGrad})
+  }, [histPosGrad]);
+
+  
 
   const setHistoricosGraduacao = (historicosGraduacao: IFile[]) => {
     setInscricaoData({
