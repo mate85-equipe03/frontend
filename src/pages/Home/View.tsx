@@ -23,6 +23,7 @@ export default function Home() {
   const location = useLocation();
   const signOutSuccess = location.state ? "signOut" in location.state : false;
   const signInSuccess = location.state ? "signIn" in location.state : false;
+  const editSuccess = location.state ? "edit" in location.state : false;
   const editInscricaoSuccess = location.state
     ? "editInscricao" in location.state
     : false;
@@ -63,6 +64,10 @@ export default function Home() {
 
     if (editInscricaoSuccess) {
       return "Sua inscrição foi alterada com sucesso.";
+    }
+
+    if (editSuccess) {
+      return "Dados pessoais alterados com sucesso.";
     }
 
     return null;
