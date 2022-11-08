@@ -95,9 +95,9 @@ export default function FormInscricao({
           nota_url_enade: data.nota_enade,
         };
 
-        // Os históricos são setados a partir de seus respectivos useEffects 
+        // Os históricos são setados a partir de seus respectivos useEffects
         data.Historico.forEach((historico) => {
-          const url = historico.url;
+          const { url } = historico;
           fetch(url)
             .then((r) => r.blob())
             .then((blobFile) => {
@@ -228,7 +228,7 @@ export default function FormInscricao({
         .then(() => {
           setInscricaoError(false);
           // TODO: [Aguardando back] Pegar id da inscricao no post
-          // actionAfterRequestSuccess();
+          // actionAfterRequestSuccess(inscricaoId);
         })
         .catch(() => {
           setInscricaoError(true);
