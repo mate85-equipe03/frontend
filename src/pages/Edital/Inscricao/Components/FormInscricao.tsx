@@ -71,7 +71,7 @@ export default function FormInscricao({
   // Editar Inscricao
   const criaFile = (blob: Blob, historico: IHistorico) => {
     const file = new File([blob], historico.filename, {
-      type: "image/png", // "application/pdf", //"image/png",
+      type: "application/pdf",
     });
 
     const newFile = {
@@ -95,12 +95,9 @@ export default function FormInscricao({
           nota_url_enade: data.nota_enade,
         };
 
-        // Os históricos são setados a partir de useEffects especificos
+        // Os históricos são setados a partir de seus respectivos useEffects 
         data.Historico.forEach((historico) => {
-          const url = // historico.url;
-            "https://cdn-icons-png.flaticon.com/512/1256/1256397.png?w=2000"; // provisório -> teste
-          // "https://www.africau.edu/images/default/sample.pdf";
-
+          const url = historico.url;
           fetch(url)
             .then((r) => r.blob())
             .then((blobFile) => {
