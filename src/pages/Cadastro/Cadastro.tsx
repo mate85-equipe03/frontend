@@ -128,8 +128,8 @@ export default function Cadastro() {
             return {
               ...oldValue,
               nome: data.aluno.nome,
-              matricula: data.aluno.matricula,
-              semestre_pgcomp: data.aluno.semestre_pgcomp,
+              matricula: String(data.aluno.matricula),
+              semestre_pgcomp: String(data.aluno.semestre_pgcomp),
               curso: data.aluno.curso,
               lattes_link: data.aluno.lattes_link,
               email: data.email,
