@@ -7,7 +7,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import { Person } from "@mui/icons-material";
@@ -38,6 +37,11 @@ export default function AccountMenu() {
     return name.split(" ")[0][0];
   }
 
+  const redirectToEdit = () => {
+    navigate("/editar-dados");
+    setAnchorEl(null);
+  };
+
   return (
     <>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -66,7 +70,7 @@ export default function AccountMenu() {
             overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 0,
-            maxWidth: "200px",
+            maxWidth: "220px",
             "& .MuiAvatar-root": {
               width: 32,
               height: 32,
@@ -115,17 +119,11 @@ export default function AccountMenu() {
           </Grid>
         </ListItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={redirectToEdit}>
           <ListItemIcon>
             <Person fontSize="small" />
           </ListItemIcon>
-          Meu Perfil
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Configurações
+          Editar Dados Pessoais
         </MenuItem>
         <MenuItem onClick={logout}>
           <ListItemIcon>
