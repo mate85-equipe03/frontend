@@ -225,10 +225,9 @@ export default function FormInscricao({
     } else {
       // Nova Inscrição
       postInscricao(payload)
-        .then(() => {
+        .then((res) => {
           setInscricaoError(false);
-          // TODO: [Aguardando back] Pegar id da inscricao no post
-          // actionAfterRequestSuccess(inscricaoId);
+          actionAfterRequestSuccess(res.data.id);
         })
         .catch(() => {
           setInscricaoError(true);
