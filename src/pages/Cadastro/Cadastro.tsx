@@ -163,7 +163,7 @@ export default function Cadastro() {
       )}
       <Card sx={{ minWidth: 275, maxWidth: 500, pb: 4 }}>
         <CardHeader
-          title={`${isEditar() ? "Editar" : ""} Cadastro`}
+          title={isEditar() ? "Editar Dados Pessoais" : "Cadastro"}
           titleTypographyProps={{
             align: "center",
             variant: "h4",
