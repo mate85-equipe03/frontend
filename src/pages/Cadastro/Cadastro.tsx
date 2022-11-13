@@ -128,8 +128,8 @@ export default function Cadastro() {
             return {
               ...oldValue,
               nome: data.aluno.nome,
-              matricula: data.aluno.matricula,
-              semestre_pgcomp: data.aluno.semestre_pgcomp,
+              matricula: String(data.aluno.matricula),
+              semestre_pgcomp: String(data.aluno.semestre_pgcomp),
               curso: data.aluno.curso,
               lattes_link: data.aluno.lattes_link,
               email: data.email,
@@ -163,7 +163,7 @@ export default function Cadastro() {
       )}
       <Card sx={{ minWidth: 275, maxWidth: 500, pb: 4 }}>
         <CardHeader
-          title={`${isEditar() ? "Editar" : ""} Cadastro`}
+          title={isEditar() ? "Editar Dados Pessoais" : "Cadastro"}
           titleTypographyProps={{
             align: "center",
             variant: "h4",
