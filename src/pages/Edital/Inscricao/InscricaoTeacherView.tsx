@@ -99,11 +99,12 @@ export default function InscricaoTeacherView() {
 
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
           <DadosCandidato dadosInscrito={dadosInscricao?.aluno} />
-          {editalId && inscricaoId && (
+          {editalId && inscricaoId && dadosInscricao && (
             <RevisarAuditarInscricao
               editalId={editalId}
               inscricaoId={inscricaoId}
               isAuditoria={isAuditoria}
+              dadosInscricao={dadosInscricao}
               setInscricaoError={setInscricaoError}
             />
           )}

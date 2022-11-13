@@ -3,11 +3,13 @@ import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import FormInscricao from "../../Edital/Inscricao/Components/FormInscricao";
 import ProducoesCientificas from "../../Edital/Inscricao/Components/ProducoesCientificasDjair";
+import { IDetalhesInscricao } from "../Interfaces";
 
 interface IProps {
   editalId: number;
   inscricaoId: number;
   isAuditoria: boolean;
+  dadosInscricao: IDetalhesInscricao;
   setInscricaoError: (error: boolean) => void;
 }
 
@@ -15,6 +17,7 @@ export default function RevisarAuditarInscricao({
   editalId,
   inscricaoId,
   isAuditoria,
+  dadosInscricao,
   setInscricaoError,
 }: IProps) {
   const navigate = useNavigate();
@@ -34,6 +37,7 @@ export default function RevisarAuditarInscricao({
       <FormInscricao
         editalId={editalId}
         inscricaoId={inscricaoId}
+        dadosInscricao={dadosInscricao}
         btnText={`Finalizar ${isAuditoria ? "auditoria" : "revisão"}`}
         displayCheckboxes={false}
         actionAfterRequestSuccess={actionAfterRequestSuccess}

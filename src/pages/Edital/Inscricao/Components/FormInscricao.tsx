@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   FormControl,
@@ -12,19 +12,15 @@ import {
   Button,
 } from "@mui/material";
 import AttachInput from "./AttachInput";
-import {
-  IInscricaoData,
-  IFile,
-  IInscricaoDataReq,
-  IHistorico,
-} from "../Interfaces";
-import { postInscricao, getDadosInscricao } from "../Service";
+import { IInscricaoData, IFile, IInscricaoDataReq } from "../Interfaces";
+import postInscricao from "../Service";
 import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
-import UserContext from "../../../../context/UserContext";
+import { IDetalhesInscricao, IHistorico } from "../../../Revisao/Interfaces";
 
 interface IProps {
   editalId: number;
   inscricaoId: number | undefined;
+  dadosInscricao: IDetalhesInscricao | undefined;
   displayCheckboxes: boolean;
   btnText: string;
   actionAfterRequestSuccess: (isncricaoId: number) => void;
@@ -34,6 +30,7 @@ interface IProps {
 export default function FormInscricao({
   editalId,
   inscricaoId,
+  dadosInscricao,
   btnText,
   displayCheckboxes,
   setInscricaoError,
@@ -65,8 +62,6 @@ export default function FormInscricao({
     IFile[]
   >([]);
 
-  const { user } = useContext(UserContext);
-
   // TODO: if inscricaoId => getDadosInscricao (botar loading)
   // Editar Inscricao
   const criaFile = (blob: Blob, historico: IHistorico) => {
@@ -83,43 +78,41 @@ export default function FormInscricao({
   };
 
   useEffect(() => {
-    if (editalId && inscricaoId && user) {
-      getDadosInscricao(editalId).then(({ data }) => {
-        const reqInscricao = {
-          historico_graduacao_file: [],
-          historico_posgraduacao_file: [],
-          url_enade: data.url_enade,
-          processo_seletivo_id: editalId,
-          nota_historico_graduacao_file: 0,
-          nota_historico_posgraduacao_file: 0,
-          nota_url_enade: data.nota_enade,
-        };
+    if (dadosInscricao) {
+      const reqInscricao = {
+        historico_graduacao_file: [],
+        historico_posgraduacao_file: [],
+        url_enade: dadosInscricao.url_enade,
+        processo_seletivo_id: editalId,
+        nota_historico_graduacao_file: 0,
+        nota_historico_posgraduacao_file: 0,
+        nota_url_enade: dadosInscricao.nota_enade,
+      };
 
-        // Os históricos são setados a partir de seus respectivos useEffects
-        data.Historico.forEach((historico) => {
-          const { url } = historico;
-          fetch(url)
-            .then((r) => r.blob())
-            .then((blobFile) => {
-              const newFile = criaFile(blobFile, historico);
+      // Os históricos são setados a partir de seus respectivos useEffects
+      dadosInscricao.Historico.forEach((historico) => {
+        const { url } = historico;
+        fetch(url)
+          .then((r) => r.blob())
+          .then((blobFile) => {
+            const newFile = criaFile(blobFile, historico);
 
-              if (historico.tipo === "GRADUACAO") {
-                setInitialHistoricoGraduacao([newFile]);
-                reqInscricao.nota_historico_graduacao_file = historico.nota;
-              }
+            if (historico.tipo === "GRADUACAO") {
+              setInitialHistoricoGraduacao([newFile]);
+              reqInscricao.nota_historico_graduacao_file = historico.nota;
+            }
 
-              if (historico.tipo === "POS_GRADUACAO") {
-                setInitialHistoricoPosGrad([newFile]);
-                reqInscricao.nota_historico_graduacao_file = historico.nota;
-              }
-            });
-        });
-
-        setInitialInscricaoData(reqInscricao);
-        setInscricaoData(reqInscricao);
+            if (historico.tipo === "POS_GRADUACAO") {
+              setInitialHistoricoPosGrad([newFile]);
+              reqInscricao.nota_historico_graduacao_file = historico.nota;
+            }
+          });
       });
+
+      setInitialInscricaoData(reqInscricao);
+      setInscricaoData(reqInscricao);
     }
-  }, [editalId, inscricaoId, user]);
+  }, [dadosInscricao, editalId]);
 
   // Solução provisória para popular ambos os históricos a partir do blob
   useEffect(() => {
@@ -225,9 +218,9 @@ export default function FormInscricao({
     } else {
       // Nova Inscrição
       postInscricao(payload)
-        .then((res) => {
+        .then(({ data }) => {
           setInscricaoError(false);
-          actionAfterRequestSuccess(res.data.id);
+          actionAfterRequestSuccess(data.id);
         })
         .catch(() => {
           setInscricaoError(true);
@@ -424,11 +417,9 @@ export default function FormInscricao({
           loading={loadingInscricao}
         />
         {/* TODO: Apagar esse botão */}
-        {inscricaoId && (
-          <Button onClick={() => actionAfterRequestSuccess(inscricaoId)}>
-            Simular um ok sem enviar pro back
-          </Button>
-        )}
+        <Button onClick={() => actionAfterRequestSuccess(1)}>
+          Simular um ok sem enviar pro back
+        </Button>
       </Grid>
     </form>
   );
