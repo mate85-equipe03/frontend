@@ -1,6 +1,13 @@
-import { Card, CardContent, CardHeader, Divider, Grid } from "@mui/material";
+import {
+  Alert,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Grid,
+} from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import { getEnrolledList } from "./Service";
 import { IADetalhes } from "./Interfaces";
@@ -10,6 +17,7 @@ import Loading from "../../../Components/Loading";
 
 export default function EnrolledsList() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [editalName, setEditalName] = useState<string>();
 
   const { editalId } = useParams();
@@ -19,6 +27,12 @@ export default function EnrolledsList() {
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
   const [loadingInscritos, setLoadingInscritos] = useState<boolean>(false);
   const [loadingProcesso, setLoadingProcesso] = useState<boolean>(false);
+
+  const revisaoSuccess = location.state ? "revisao" in location.state : false;
+  const auditoriaSuccess = location.state
+    ? "auditoria" in location.state
+    : false;
+  window.history.replaceState(null, "");
 
   useEffect(() => {
     if (user && editalId) {
@@ -52,6 +66,18 @@ export default function EnrolledsList() {
       });
   }, [editalId]);
 
+  const checkSuccessMessage = (): string | null => {
+    if (revisaoSuccess) {
+      return "Inscrição revisada com sucesso.";
+    }
+
+    if (auditoriaSuccess) {
+      return "Inscrição auditada com sucesso.";
+    }
+
+    return null;
+  };
+
   const colunas: GridColDef[] = [
     {
       field: "nome",
@@ -83,6 +109,8 @@ export default function EnrolledsList() {
     return width ? acc + width : acc;
   }, 0);
 
+  const successMessage = checkSuccessMessage();
+
   return loadingInscritos || loadingProcesso ? (
     <Loading />
   ) : (
@@ -93,6 +121,12 @@ export default function EnrolledsList() {
       alignItems="center"
       sx={{ width: "100%" }}
     >
+      {successMessage && (
+        <Alert severity="success" sx={{ mb: 2 }}>
+          {successMessage}
+        </Alert>
+      )}
+
       <Card sx={{ py: 2, mt: 5 }}>
         <CardHeader
           title="Estudantes Inscritos(as)"

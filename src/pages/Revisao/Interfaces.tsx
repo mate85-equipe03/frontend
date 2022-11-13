@@ -29,7 +29,7 @@ export interface IProducoes {
   };
 }
 
-export interface IDetalhes {
+export interface IDetalhesInscricao {
   id: number;
   status: string;
   processo_seletivo_id: number;
