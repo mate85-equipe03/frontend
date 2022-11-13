@@ -1,7 +1,7 @@
 import api from "../../../services/Api";
-import { IInscricaoDataReq } from "./Interfaces";
+import { IEditInscricao, IInscricaoDataReq } from "./Interfaces";
 
-const postInscricao = (payload: IInscricaoDataReq) => {
+export const postInscricao = (payload: IInscricaoDataReq) => {
   const formData = new FormData();
   payload.historico_graduacao_file.forEach((file) => {
     formData.append("historico_graduacao_file", file);
@@ -21,4 +21,6 @@ const postInscricao = (payload: IInscricaoDataReq) => {
   });
 };
 
-export default postInscricao;
+export const getDadosInscricao = (editalID: number) => {
+  return api.get<IEditInscricao>(`/processos-seletivos/${editalID}/inscricao`);
+};
