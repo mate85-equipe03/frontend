@@ -18,5 +18,6 @@ export interface IDetails {
   arquivado: boolean;
   etapas: IEtapa[];
   isInscrito: boolean;
+  idInscricao: number;
   categorias_producao: ICategoria[];
 }

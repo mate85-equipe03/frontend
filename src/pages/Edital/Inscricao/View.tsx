@@ -26,20 +26,10 @@ export default function Inscricao() {
   const [inscricaoError, setInscricaoError] = React.useState<boolean>(false);
   const [editalName, setEditalName] = useState<string>();
   const [dadosAluno, setDadosAluno] = useState<IDados | undefined>();
+  const [inscricaoId, setInscricaoId] = useState<number>();
 
   const params = useParams();
-
   const editalId = Number(params.editalId) ? Number(params.editalId) : null;
-
-  const inscricaoId = Number(params.inscricaoId)
-    ? Number(params.inscricaoId)
-    : null;
-
-  // Proteger rotas usando isInscrito e inscricaoId (useEffect)
-  // if isInscrito && !inscricaoId -> redirect to /inscricao/id (e se o id for diferente do id da inscricao da pessoa)
-  // if !isInscrito && inscricaoId -> redirect to /inscricao
-
-  // Será q realmente precisa de outra rota?
 
   useEffect(() => {
     const redirectToDetails = () => {
@@ -65,6 +55,7 @@ export default function Inscricao() {
             redirectToDetails();
           }
           setEditalName(data?.titulo);
+          setInscricaoId(data?.idInscricao);
         })
         .catch(() => {
           // TODO: Ver como exibir erros va View
@@ -109,7 +100,7 @@ export default function Inscricao() {
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
           <DadosCandidato dadosInscrito={dadosAluno?.aluno} />
           {editalId &&
-            (inscricaoId === null ? (
+            (!inscricaoId ? (
               <NovaInscricao
                 editalId={editalId}
                 setInscricaoError={setInscricaoError}
