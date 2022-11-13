@@ -77,6 +77,31 @@ export default function EnrolledsList() {
         return params.getValue(params.id, "aluno").semestre_pgcomp;
       },
     },
+    {
+      field: "statusRevisao",
+      headerName: "Status da Revisão",
+      width: 150,
+      valueGetter: (params) => {
+        if(params.getValue(params.id, "aluno").revisor_id){
+          return "Revisado";
+        }else{
+          return "Aguardando revisão";
+          //return "Clique para revisar";
+        }       
+      },
+    },
+    {
+      field: "statusAuditoria",
+      headerName: "Status da Auditoria",
+      width: 150,
+      valueGetter: (params) => {
+        if(params.getValue(params.id, "aluno").auditor_id){
+          return "Auditado";
+        }else{
+          return "-";
+        } 
+      },
+    },
   ];
 
   const allColumnsWidth = colunas.reduce((acc, { width }) => {
