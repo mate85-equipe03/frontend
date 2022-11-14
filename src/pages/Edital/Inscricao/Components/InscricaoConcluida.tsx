@@ -14,7 +14,6 @@ export default function InscricaoConcluida({ editalId }: IProps) {
       <Typography sx={{ pt: 0.5, pb: 1.5 }} align="center">
         Sua inscrição foi concluída com sucesso.
       </Typography>
-      {/* TODO: Ver link certo */}
       <Link align="center" href={`/edital/${editalId}/inscricao`}>
         Editar inscrição
       </Link>

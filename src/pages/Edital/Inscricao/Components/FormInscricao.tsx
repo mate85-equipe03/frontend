@@ -33,7 +33,7 @@ interface IProps {
 
 export default function FormInscricao({
   editalId,
-  inscricaoId, // eslint-disable-line @typescript-eslint/no-unused-vars
+  inscricaoId,
   btnText,
   displayCheckboxes,
   setInscricaoError,
@@ -424,9 +424,11 @@ export default function FormInscricao({
           loading={loadingInscricao}
         />
         {/* TODO: Apagar esse botão */}
-        <Button onClick={() => actionAfterRequestSuccess(1)}>
-          Simular um ok sem enviar pro back
-        </Button>
+        {inscricaoId && (
+          <Button onClick={() => actionAfterRequestSuccess(inscricaoId)}>
+            Simular um ok sem enviar pro back
+          </Button>
+        )}
       </Grid>
     </form>
   );

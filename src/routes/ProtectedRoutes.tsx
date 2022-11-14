@@ -9,7 +9,6 @@ import Cadastro from "../pages/Cadastro/Cadastro";
 
 const studentRoutes: RouteProps[] = [
   { path: "/edital/:editalId/inscricao", element: <Inscricao /> },
-  { path: "/edital/:editalId/inscricao/:inscricaoId", element: <Inscricao /> },
   {
     path: "/edital/:editalId/dados-inscricao",
     element: <RevisarInscricaoAluno />,
