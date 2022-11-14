@@ -48,7 +48,7 @@ export interface IDetalhesInscricao {
   producoes: IProducoes[];
 }
 
-export interface IPostRevisar {
+export interface IRevisarAuditar {
   id: number | undefined;
   nota_final: number;
   observacao: string;

@@ -2,9 +2,9 @@ import React from "react";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import FormInscricao from "../../Edital/Inscricao/Components/FormInscricao";
-import { IDetalhesInscricao, IPostRevisar } from "../Interfaces";
+import { IDetalhesInscricao, IRevisarAuditar } from "../Interfaces";
 import { IInscricaoData } from "../../Edital/Inscricao/Interfaces";
-import { patchRevisarInscricao } from "../Service";
+import { patchAuditarInscricao, patchRevisarInscricao } from "../Service";
 
 interface IProps {
   editalId: number;
@@ -31,13 +31,17 @@ export default function RevisarAuditarInscricao({
   };
 
   const submitRequest = (inscricaoData: IInscricaoData) => {
-    const payload: IPostRevisar = {
+    const payload: IRevisarAuditar = {
       id: inscricaoData.id_inscricao,
       nota_final: inscricaoData.nota_final,
       observacao: inscricaoData.observacao_professor,
     };
 
-    return patchRevisarInscricao(payload)
+    return (
+      isAuditoria
+        ? patchAuditarInscricao(payload)
+        : patchRevisarInscricao(payload)
+    )
       .then(({ data }) => {
         setInscricaoError(false);
         actionAfterRequestSuccess(data.id);

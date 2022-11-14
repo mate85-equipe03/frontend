@@ -38,11 +38,20 @@ export default function InscricaoTeacherView() {
       navigate(`/edital/${editalId}/detalhes`);
     };
 
+    const redirectToInscritos = () => {
+      navigate(`/edital/${editalId}/inscritos`, {
+        state: { auditorIgualARevisor: true },
+      });
+    };
+
     if (user && editalId && inscricaoId) {
       setLoadingDadosAluno(true);
       setLoadingProcessoSeletivo(true);
       getDetalhesInscricaoProfessor(inscricaoId, editalId)
         .then(({ data }) => {
+          if (data?.revisor_id === user.id) {
+            redirectToInscritos();
+          }
           setDadosInscricao(data);
           setIsAuditoria(Boolean(data?.revisor_id));
         })

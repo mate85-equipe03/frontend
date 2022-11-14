@@ -1,5 +1,5 @@
 import api from "../../services/Api";
-import { IDetalhesInscricao, IPostRevisar } from "./Interfaces";
+import { IDetalhesInscricao, IRevisarAuditar } from "./Interfaces";
 
 export const getDetalhesInscricaoProfessor = (
   inscricaoId: number,
@@ -16,6 +16,10 @@ export const getDetalhesInscricaoAluno = (editalId: number) => {
   );
 };
 
-export const patchRevisarInscricao = (payload: IPostRevisar) => {
+export const patchRevisarInscricao = (payload: IRevisarAuditar) => {
   return api.patch("/inscricoes/revisa-inscricao", payload);
+};
+
+export const patchAuditarInscricao = (payload: IRevisarAuditar) => {
+  return api.patch("/inscricoes/audita-inscricao", payload);
 };
