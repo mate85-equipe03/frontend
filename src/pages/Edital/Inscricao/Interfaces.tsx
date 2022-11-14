@@ -17,6 +17,9 @@ export interface IInscricaoData {
   nota_historico_graduacao_file: number;
   nota_historico_posgraduacao_file: number;
   nota_url_enade: number;
+  id_inscricao: number | undefined;
+  nota_final: number;
+  observacao_professor: string;
 }
 
 export interface IInscricaoDataReq {

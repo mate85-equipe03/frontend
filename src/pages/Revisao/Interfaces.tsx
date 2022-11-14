@@ -47,3 +47,9 @@ export interface IDetalhesInscricao {
   aluno: IAluno;
   producoes: IProducoes[];
 }
+
+export interface IPostRevisar {
+  id: number | undefined;
+  nota_final: number;
+  observacao: string;
+}
