@@ -46,6 +46,7 @@ export interface IDetalhesInscricao {
   Historico: IHistorico[];
   aluno: IAluno;
   producoes: IProducoes[];
+  observacao: string;
 }
 
 export interface IRevisarAuditar {

@@ -97,8 +97,8 @@ export default function FormInscricao({
 
         // Para professor:
         id_inscricao: inscricaoId,
-        nota_final: 0,
-        observacao_professor: "",
+        nota_final: dadosInscricao.nota_final,
+        observacao_professor: dadosInscricao.observacao,
       };
 
       // Os históricos são setados a partir de seus respectivos useEffects
