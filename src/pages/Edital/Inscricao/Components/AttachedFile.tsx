@@ -45,7 +45,6 @@ export default function AttachedFile({
   return (
     <ListItemButton
       sx={{
-        my: 1,
         py: 1,
         border: 1,
         borderRadius: 1,
