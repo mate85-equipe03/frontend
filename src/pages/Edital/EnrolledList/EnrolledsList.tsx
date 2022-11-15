@@ -6,7 +6,6 @@ import {
   Divider,
   Grid,
   Snackbar,
-  Tooltip,
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -47,27 +46,13 @@ export default function EnrolledsList() {
   }, [editalId, user, navigate]);
 
   function isRowClickable(
-    revisor_id: number | null,
-    auditor_id: number | null
+    revisorId: number | null
   ) {
-    return !(revisor_id == user?.id);
-  }
-
-  function revisorCellContent(revisor_id: number | null) {
-    return revisor_id ? (
-      <Grid sx={{ color: "success.main", fontWeight: "bold" }}>
-        <CheckCircleIcon fontSize="small" sx={{ mr: 0.5 }} />
-        Revisado
-      </Grid>
-    ) : (
-      <Grid sx={{ color: "warning.light", fontWeight: "bold" }}>
-        <WarningIcon fontSize="small" sx={{ mr: 0.5 }} />A revisar
-      </Grid>
-    );
+    return !(revisorId === user?.id);
   }
 
   const handleRowClick: GridEventListener<"rowClick"> = (params) => {
-    if (isRowClickable(params.row.revisor_id, params.row.auditor_id)) {
+    if (isRowClickable(params.row.revisor_id)) {
       navigate(`/edital/${editalId}/inscritos/${params.row.id}`);
     } else {
       setClickError("Auditor(a) não pode ser igual ao(à) revisor(a).");
@@ -209,7 +194,7 @@ export default function EnrolledsList() {
             columns={colunas}
             getRowClassName={(params) => {
               if (
-                !isRowClickable(params.row.revisor_id, params.row.auditor_id)
+                !isRowClickable(params.row.revisor_id)
               ) {
                 return "not-clickable-row";
               }
