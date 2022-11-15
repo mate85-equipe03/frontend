@@ -45,9 +45,7 @@ export default function EnrolledsList() {
     }
   }, [editalId, user, navigate]);
 
-  function isRowClickable(
-    revisorId: number | null
-  ) {
+  function isRowClickable(revisorId: number | null) {
     return !(revisorId === user?.id);
   }
 
@@ -193,9 +191,7 @@ export default function EnrolledsList() {
             rows={enrolledList}
             columns={colunas}
             getRowClassName={(params) => {
-              if (
-                !isRowClickable(params.row.revisor_id)
-              ) {
+              if (!isRowClickable(params.row.revisor_id)) {
                 return "not-clickable-row";
               }
               return "clickable-row";
