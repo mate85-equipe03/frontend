@@ -85,7 +85,6 @@ export default function FormInscricao({
   useEffect(() => {
     if (editalId && inscricaoId && user) {
       getDadosInscricao(editalId).then(({ data }) => {
-        console.log(data);
         const reqInscricao = {
           historico_graduacao_file: [],
           historico_posgraduacao_file: [],
@@ -96,10 +95,8 @@ export default function FormInscricao({
           nota_url_enade: data.nota_enade,
         };
 
-       
         // Os históricos são setados a partir de seus respectivos useEffects
         data.Historico.forEach((historico) => {
-          
           const { url } = historico;
           if (historico.tipo === "GRADUACAO") {
             reqInscricao.nota_historico_graduacao_file = historico.nota;
@@ -228,10 +225,8 @@ export default function FormInscricao({
 
     setLoadingInscricao(true);
 
+    // Editar Inscrição
     if (inscricaoId) {
-      // Editar Inscrição
-      // TODO: Implementar rota do back para atualizar inscrição
-      console.log(payload);
       patchInscricao(payload)
         .then((res) => {
           setInscricaoError(false);
