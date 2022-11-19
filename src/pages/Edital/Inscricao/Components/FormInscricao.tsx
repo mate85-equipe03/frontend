@@ -18,7 +18,7 @@ import {
   IInscricaoDataReq,
   IHistorico,
 } from "../Interfaces";
-import { postInscricao, getDadosInscricao } from "../Service";
+import { postInscricao, patchInscricao, getDadosInscricao } from "../Service";
 import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
 import UserContext from "../../../../context/UserContext";
 
@@ -27,7 +27,7 @@ interface IProps {
   inscricaoId: number | undefined;
   displayCheckboxes: boolean;
   btnText: string;
-  actionAfterRequestSuccess: (isncricaoId: number) => void;
+  actionAfterRequestSuccess: (inscricaoId: number) => void;
   setInscricaoError: (error: boolean) => void;
 }
 
@@ -85,6 +85,7 @@ export default function FormInscricao({
   useEffect(() => {
     if (editalId && inscricaoId && user) {
       getDadosInscricao(editalId).then(({ data }) => {
+        console.log(data);
         const reqInscricao = {
           historico_graduacao_file: [],
           historico_posgraduacao_file: [],
@@ -95,9 +96,18 @@ export default function FormInscricao({
           nota_url_enade: data.nota_enade,
         };
 
+       
         // Os históricos são setados a partir de seus respectivos useEffects
         data.Historico.forEach((historico) => {
+          
           const { url } = historico;
+          if (historico.tipo === "GRADUACAO") {
+            reqInscricao.nota_historico_graduacao_file = historico.nota;
+          }
+          if (historico.tipo === "POS_GRADUACAO") {
+            reqInscricao.nota_historico_posgraduacao_file = historico.nota;
+          }
+
           fetch(url)
             .then((r) => r.blob())
             .then((blobFile) => {
@@ -105,12 +115,11 @@ export default function FormInscricao({
 
               if (historico.tipo === "GRADUACAO") {
                 setInitialHistoricoGraduacao([newFile]);
-                reqInscricao.nota_historico_graduacao_file = historico.nota;
               }
 
               if (historico.tipo === "POS_GRADUACAO") {
                 setInitialHistoricoPosGrad([newFile]);
-                reqInscricao.nota_historico_graduacao_file = historico.nota;
+                reqInscricao.nota_historico_posgraduacao_file = historico.nota;
               }
             });
         });
@@ -222,6 +231,20 @@ export default function FormInscricao({
     if (inscricaoId) {
       // Editar Inscrição
       // TODO: Implementar rota do back para atualizar inscrição
+      console.log(payload);
+      patchInscricao(payload)
+        .then((res) => {
+          setInscricaoError(false);
+          actionAfterRequestSuccess(res.data.id);
+        })
+        .catch(() => {
+          setInscricaoError(true);
+          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        })
+        .finally(() => {
+          setLoadingInscricao(false);
+          setFormChanged(false);
+        });
     } else {
       // Nova Inscrição
       postInscricao(payload)
@@ -248,10 +271,12 @@ export default function FormInscricao({
     );
 
     // TODO: Implementar loading na logica de carregamento da pagina
-    // setLoadingHistoricos(
-    //   initialInscricaoData.historico_graduacao_file.length > 0 &&
-    //     initialInscricaoData.historico_posgraduacao_file.length > 0
-    // );
+    // if (inscricaoId) {
+    //   setLoadingHistoricos(
+    //     initialInscricaoData.historico_graduacao_file.length > 0 &&
+    //       initialInscricaoData.historico_posgraduacao_file.length > 0
+    //   );
+    // }
   }, [initialInscricaoData, inscricaoData]);
 
   useEffect(() => {

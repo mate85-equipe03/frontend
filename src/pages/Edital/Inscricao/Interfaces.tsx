@@ -24,6 +24,9 @@ export interface IInscricaoDataReq {
   historico_posgraduacao_file: File[];
   url_enade: string;
   processo_seletivo_id: number;
+  nota_historico_graduacao_file: number;
+  nota_historico_posgraduacao_file: number;
+  nota_url_enade: number;
 }
 
 export interface IProducao {
@@ -73,6 +76,8 @@ export interface IEditInscricao {
   revisor_id: number;
   auditor_id: number;
   nota_enade: number;
+  nota_historico_graduacao: number;
+  nota_historico_posgraduacao: number;
   nota_final: number;
   classificacao: number;
   Historico: IHistorico[];
