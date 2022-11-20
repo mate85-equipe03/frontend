@@ -2,28 +2,25 @@ import api from "../../../services/Api";
 import { IEditInscricao, IInscricaoDataReq } from "./Interfaces";
 
 const formData = (payload: IInscricaoDataReq) => {
-  const formData = new FormData();
+  const data = new FormData();
   payload.historico_graduacao_file.forEach((file) => {
-    formData.append("historico_graduacao_file", file);
+    data.append("historico_graduacao_file", file);
   });
   payload.historico_posgraduacao_file.forEach((file) => {
-    formData.append("historico_posgraduacao_file", file);
+    data.append("historico_posgraduacao_file", file);
   });
-  formData.append("url_enade", payload.url_enade);
-  formData.append(
-    "processo_seletivo_id",
-    payload.processo_seletivo_id.toString()
-  );
-  formData.append("nota_enade", payload.nota_url_enade.toString());
-  formData.append(
+  data.append("url_enade", payload.url_enade);
+  data.append("processo_seletivo_id", payload.processo_seletivo_id.toString());
+  data.append("nota_enade", payload.nota_url_enade.toString());
+  data.append(
     "nota_historico_graduacao",
     payload.nota_historico_graduacao_file.toString()
   );
-  formData.append(
+  data.append(
     "nota_historico_posgraduacao",
     payload.nota_historico_posgraduacao_file.toString()
   );
-  return formData;
+  return data;
 };
 
 export const postInscricao = (payload: IInscricaoDataReq) => {
