@@ -21,6 +21,7 @@ import {
 import { postInscricao, patchInscricao, getDadosInscricao } from "../Service";
 import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
 import UserContext from "../../../../context/UserContext";
+import Loading from "../../../../Components/Loading";
 
 interface IProps {
   editalId: number;
@@ -85,6 +86,9 @@ export default function FormInscricao({
   useEffect(() => {
     if (editalId && inscricaoId && user) {
       getDadosInscricao(editalId).then(({ data }) => {
+
+        setLoadingDadosInscricao(true);
+
         const reqInscricao = {
           historico_graduacao_file: [],
           historico_posgraduacao_file: [],
@@ -258,7 +262,7 @@ export default function FormInscricao({
     }
   };
 
-  // const [loadingHistoricos, setLoadingHistoricos] = useState<boolean>(false);
+  const [loadingDadosInscricao, setLoadingDadosInscricao] = useState<boolean>(false);
 
   useEffect(() => {
     setFormChanged(
@@ -266,12 +270,14 @@ export default function FormInscricao({
     );
 
     // TODO: Implementar loading na logica de carregamento da pagina
-    // if (inscricaoId) {
-    //   setLoadingHistoricos(
-    //     initialInscricaoData.historico_graduacao_file.length > 0 &&
-    //       initialInscricaoData.historico_posgraduacao_file.length > 0
-    //   );
-    // }
+    if (inscricaoId) {
+      setLoadingDadosInscricao(
+        initialInscricaoData.historico_graduacao_file.length < 1 ||
+          initialInscricaoData.historico_posgraduacao_file.length < 1
+      );
+    } else {
+      setLoadingDadosInscricao(false);
+    }
   }, [initialInscricaoData, inscricaoData]);
 
   useEffect(() => {
@@ -289,7 +295,9 @@ export default function FormInscricao({
     };
   }, [formChanged]);
 
-  return (
+  return loadingDadosInscricao ? (
+    <Loading />
+  ) : (
     <form id="inscricao-form" onChange={handleFormChange} onSubmit={sendForm}>
       <Grid
         container
