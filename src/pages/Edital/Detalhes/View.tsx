@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import moment from "moment";
 import { IDetails } from "./Interfaces";
-import getDetailsProcessoSeletivo from "./Service";
+import { getDetailsProcessoSeletivo, deleteInscricao } from "./Service";
 import UserContext from "../../../context/UserContext";
 import Loading from "../../../Components/Loading";
 import PDFFile from "../../Components/PDFFile";
@@ -37,6 +37,22 @@ export default function EditalDetails() {
 
   const redirectToEnrolledList = () => {
     navigate(`/edital/${editalId}/inscritos`);
+  };
+
+  const cancelarInscricao = () => {
+    console.log("Cancelar");
+    console.log(edital);
+    deleteInscricao(edital?.idInscricao)
+      .then(({ data }) => {
+        console.log(data);
+        // setEdital(data);
+      })
+      .catch(() => {
+        // TODO: Ver como exibir erros va View
+      })
+      .finally(() => {
+        // setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -133,13 +149,22 @@ export default function EditalDetails() {
                   ) : (
                     <Grid>
                       {edital?.isInscrito ? (
-                        <Button
-                          type="button"
-                          onClick={redirectToEditarInscricao}
-                          size="large"
-                        >
-                          Editar Inscrição
-                        </Button>
+                        <Grid>
+                          <Button
+                            type="button"
+                            onClick={cancelarInscricao}
+                            size="large"
+                          >
+                            Cancelar Inscrição
+                          </Button>
+                          <Button
+                            type="button"
+                            onClick={redirectToEditarInscricao}
+                            size="large"
+                          >
+                            Editar Inscrição
+                          </Button>
+                        </Grid>
                       ) : (
                         <Button
                           type="button"
