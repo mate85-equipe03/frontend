@@ -68,7 +68,6 @@ export default function FormInscricao({
 
   const { user } = useContext(UserContext);
 
-  // TODO: if inscricaoId => getDadosInscricao (botar loading)
   // Editar Inscricao
   const criaFile = (blob: Blob, historico: IHistorico) => {
     const file = new File([blob], historico.filename, {
@@ -83,10 +82,12 @@ export default function FormInscricao({
     return newFile;
   };
 
+  const [loadingDadosInscricao, setLoadingDadosInscricao] =
+    useState<boolean>(false);
+
   useEffect(() => {
     if (editalId && inscricaoId && user) {
       getDadosInscricao(editalId).then(({ data }) => {
-
         setLoadingDadosInscricao(true);
 
         const reqInscricao = {
@@ -262,14 +263,11 @@ export default function FormInscricao({
     }
   };
 
-  const [loadingDadosInscricao, setLoadingDadosInscricao] = useState<boolean>(false);
-
   useEffect(() => {
     setFormChanged(
       JSON.stringify(initialInscricaoData) !== JSON.stringify(inscricaoData)
     );
 
-    // TODO: Implementar loading na logica de carregamento da pagina
     if (inscricaoId) {
       setLoadingDadosInscricao(
         initialInscricaoData.historico_graduacao_file.length < 1 ||
@@ -278,7 +276,7 @@ export default function FormInscricao({
     } else {
       setLoadingDadosInscricao(false);
     }
-  }, [initialInscricaoData, inscricaoData]);
+  }, [initialInscricaoData, inscricaoData, inscricaoId]);
 
   useEffect(() => {
     const handler = (event: BeforeUnloadEvent) => {
