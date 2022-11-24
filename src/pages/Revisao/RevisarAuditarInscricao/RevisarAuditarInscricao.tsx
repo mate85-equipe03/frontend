@@ -65,7 +65,6 @@ export default function RevisarAuditarInscricao({
         inscricaoId={inscricaoId}
         dadosInscricao={dadosInscricao}
         btnText={`Finalizar ${isAuditoria ? "auditoria" : "revisão"}`}
-        displayCheckboxes={false}
         isTeacher
         submitRequest={submitRequest}
         actionAfterRequestSuccess={actionAfterRequestSuccess}

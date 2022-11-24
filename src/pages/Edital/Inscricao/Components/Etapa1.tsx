@@ -79,7 +79,6 @@ export default function Etapa1({
         inscricaoId={inscricaoId}
         dadosInscricao={dadosInscricao}
         btnText="Continuar"
-        displayCheckboxes
         isTeacher={false}
         actionAfterRequestSuccess={actionAfterRequestSuccess}
         submitRequest={submitRequest}
