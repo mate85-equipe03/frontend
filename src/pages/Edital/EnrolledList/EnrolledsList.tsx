@@ -156,6 +156,11 @@ export default function EnrolledsList() {
 
         <CardContent sx={{ px: 10 }}>
           <DataGrid
+            initialState={{
+              sorting: {
+                sortModel: [{ field: "nome", sort: "asc" }],
+              },
+            }}
             onRowClick={handleRowClick}
             rows={enrolledList}
             columns={colunas}
