@@ -13,7 +13,7 @@ import UserContext from "../../../context/UserContext";
 import getDadosAluno from "../../Cadastro/Service";
 import { IDados } from "../../Cadastro/Types";
 import DadosCandidato from "../../Components/DadosCandidato";
-import {getDetailsProcessoSeletivo} from "../Detalhes/Service";
+import { getDetailsProcessoSeletivo } from "../Detalhes/Service";
 import EditarInscricao from "./Components/EditarInscricao";
 import NovaInscricao from "./Components/NovaInscricao";
 

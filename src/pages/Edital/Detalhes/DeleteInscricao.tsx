@@ -7,7 +7,9 @@ import {
   DialogContentText,
   DialogTitle,
   Grid,
+  IconButton,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { deleteInscricao } from "./Service";
 
 interface PropsModal {
@@ -19,21 +21,6 @@ export default function DeleteInscricao({
   idInscricao,
   onSuccess,
 }: PropsModal) {
-  const excluirInscricao = () => {
-    deleteInscricao(idInscricao)
-      .then(({ data }) => {
-        console.log(data);
-        // setEdital(data);
-      })
-      .catch(() => {
-        // TODO: Ver como exibir erros va View
-      })
-      .finally(() => {
-        handleClose();
-        onSuccess();
-      });
-  };
-
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -42,6 +29,17 @@ export default function DeleteInscricao({
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const excluirInscricao = () => {
+    deleteInscricao(idInscricao)
+      .then(() => {
+        handleClose();
+        onSuccess();
+      })
+      .catch(() => {
+        // TODO: Ver como exibir erros va View
+      });
   };
 
   return (
@@ -61,20 +59,40 @@ export default function DeleteInscricao({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <Grid sx={{p:3, width: "470px" }}>
-          <DialogTitle id="alert-dialog-title" sx={{ fontSize:"30px", textAlign: "center" }}>
-            {
-              "Confirmar exclusão"
-              // "Esta ação é irreversível. Tem certeza de que deseja excluir permanentemente a sua inscrição no edital?"
-            }
+        <Grid sx={{ p: 3, width: "470px" }}>
+          <DialogTitle
+            id="alert-dialog-title"
+            sx={{ fontSize: "30px", textAlign: "center" }}
+          >
+            Confirmar Exclusão
+            <IconButton
+              aria-label="close"
+              onClick={handleClose}
+              sx={{
+                position: "absolute",
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
           </DialogTitle>
-          <DialogContent sx={{mt:1, mb:2}}>
-            <DialogContentText  sx={{fontSize:"18px", textAlign: "center" }} id="alert-dialog-description">
-              Esta ação é irreversível. Tem certeza de que deseja excluir permanentemente a sua inscrição no edital?
+          <DialogContent sx={{ mt: 1, mb: 2 }}>
+            <DialogContentText
+              sx={{ fontSize: "18px", textAlign: "center" }}
+              id="alert-dialog-description"
+            >
+              Esta ação é irreversível. Tem certeza de que deseja excluir
+              permanentemente a sua inscrição no edital?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Grid sx={{ mb: 1 }} container justifyContent="space-evenly">
+            <Grid
+              sx={{ mb: 1, mx: 3 }}
+              container
+              justifyContent="space-between"
+            >
               <Button color="inherit" onClick={handleClose}>
                 Voltar
               </Button>

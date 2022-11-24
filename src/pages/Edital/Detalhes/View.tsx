@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import moment from "moment";
 import { IDetails } from "./Interfaces";
-import { getDetailsProcessoSeletivo, deleteInscricao } from "./Service";
+import { getDetailsProcessoSeletivo } from "./Service";
 import UserContext from "../../../context/UserContext";
 import Loading from "../../../Components/Loading";
 import PDFFile from "../../Components/PDFFile";
@@ -62,15 +62,6 @@ export default function EditalDetails() {
     return date.format("DD/MM/YYYY");
   };
 
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-  };
-
   return loading ? (
     <Loading />
   ) : (
@@ -79,9 +70,8 @@ export default function EditalDetails() {
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={inscricaoCancelada}
         autoHideDuration={6000}
-        onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+        <Alert severity="error" sx={{ width: "100%" }}>
           Inscrição cancelada com sucesso!
         </Alert>
       </Snackbar>
@@ -93,7 +83,7 @@ export default function EditalDetails() {
         alignItems="center"
         sx={{ width: "100%" }}
       >
-        <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5, p:4}}>
+        <Card sx={{ minWidth: { md: 600 }, maxWidth: 800, mt: 5, p: 4 }}>
           <CardHeader
             title={edital?.titulo}
             titleTypographyProps={{
@@ -109,13 +99,13 @@ export default function EditalDetails() {
           />
           <Divider sx={{ mx: 3 }} />
 
-          <CardContent sx={{ px: { xs: 5, sm: 10 }}}>
+          <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
             <Grid
               container
               direction="column"
               justifyContent="center"
               alignItems="center"
-              sx={{ width: "100%" }}
+              sx={{ width: "auto" }}
             >
               <List>
                 {edital?.etapas.map((etapa) => (
@@ -160,7 +150,11 @@ export default function EditalDetails() {
                     ) : (
                       <Grid>
                         {edital?.isInscrito ? (
-                          <Grid container sx={{ pt: 2 }}>
+                          <Grid
+                            container
+                            justifyContent="space-between"
+                            sx={{ width: "100%", pt: 2 }}
+                          >
                             <DeleteInscricao
                               idInscricao={edital.idInscricao}
                               onSuccess={() => setInscricaoCancelada(true)}
