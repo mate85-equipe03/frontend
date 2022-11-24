@@ -5,10 +5,13 @@ import {
   CardHeader,
   Divider,
   Grid,
+<<<<<<< HEAD
   Snackbar,
+=======
+>>>>>>> 67d9045489e4cb4c167d1826a2d5bd32017fd52c
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import WarningIcon from "@mui/icons-material/Warning";
@@ -20,6 +23,7 @@ import Loading from "../../../Components/Loading";
 
 export default function EnrolledsList() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [editalName, setEditalName] = useState<string>();
 
   const { editalId } = useParams();
@@ -30,6 +34,15 @@ export default function EnrolledsList() {
   const [loadingInscritos, setLoadingInscritos] = useState<boolean>(false);
   const [loadingProcesso, setLoadingProcesso] = useState<boolean>(false);
   const [clickError, setClickError] = useState<string>("");
+
+  const revisaoSuccess = location.state ? "revisao" in location.state : false;
+  const auditoriaSuccess = location.state
+    ? "auditoria" in location.state
+    : false;
+  const auditorIgualARevisorError = location.state
+    ? "auditorIgualARevisor" in location.state
+    : false;
+  window.history.replaceState(null, "");
 
   useEffect(() => {
     if (user && editalId) {
@@ -80,6 +93,26 @@ export default function EnrolledsList() {
         setLoadingProcesso(false);
       });
   }, [editalId]);
+
+  const checkSuccessMessage = (): string | null => {
+    if (revisaoSuccess) {
+      return "Inscrição revisada com sucesso.";
+    }
+
+    if (auditoriaSuccess) {
+      return "Inscrição auditada com sucesso.";
+    }
+
+    return null;
+  };
+
+  const checkErrorMessage = (): string | null => {
+    if (auditorIgualARevisorError) {
+      return "Auditor(a) não pode ser igual ao(à) revisor(a).";
+    }
+
+    return null;
+  };
 
   const colunas: GridColDef[] = [
     {
@@ -148,6 +181,9 @@ export default function EnrolledsList() {
     return width ? acc + width : acc;
   }, 0);
 
+  const successMessage = checkSuccessMessage();
+  const errorMessage = checkErrorMessage();
+
   return loadingInscritos || loadingProcesso ? (
     <Loading />
   ) : (
@@ -158,6 +194,7 @@ export default function EnrolledsList() {
       alignItems="center"
       sx={{ width: "100%" }}
     >
+<<<<<<< HEAD
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={Boolean(clickError)}
@@ -168,6 +205,19 @@ export default function EnrolledsList() {
           {clickError}
         </Alert>
       </Snackbar>
+=======
+      {successMessage && (
+        <Alert severity="success" sx={{ mb: 2 }}>
+          {successMessage}
+        </Alert>
+      )}
+
+      {errorMessage && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {errorMessage}
+        </Alert>
+      )}
+>>>>>>> 67d9045489e4cb4c167d1826a2d5bd32017fd52c
 
       <Card sx={{ py: 2, mt: 5 }}>
         <CardHeader

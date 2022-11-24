@@ -1,14 +1,14 @@
 import { RouteProps } from "react-router-dom";
 import EnrolledsList from "../pages/Edital/EnrolledList/EnrolledsList";
-import Inscricao from "../pages/Edital/Inscricao/View";
+import InscricaoStudentView from "../pages/Edital/Inscricao/InscricaoStudentView";
+import InscricaoTeacherView from "../pages/Edital/Inscricao/InscricaoTeacherView";
 import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
-import RevisarInscricaoProfessor from "../pages/Revisao/RevisarInscricaoProfessor/View";
 import RevisarInscricaoAluno from "../pages/Revisao/RevisarInscricaoAluno/View";
 import Cadastro from "../pages/Cadastro/Cadastro";
 
 const studentRoutes: RouteProps[] = [
-  { path: "/edital/:editalId/inscricao", element: <Inscricao /> },
+  { path: "/edital/:editalId/inscricao", element: <InscricaoStudentView /> },
   {
     path: "/edital/:editalId/dados-inscricao",
     element: <RevisarInscricaoAluno />,
@@ -19,7 +19,7 @@ const studentRoutes: RouteProps[] = [
 const teacherRoutes: RouteProps[] = [
   {
     path: "/edital/:editalId/inscritos/:inscricaoId",
-    element: <RevisarInscricaoProfessor />,
+    element: <InscricaoTeacherView />,
   },
   { path: "/edital/:editalId/inscritos", element: <EnrolledsList /> },
 ];

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   FormControl,
@@ -10,38 +10,37 @@ import {
   FormLabel,
   Link,
   Button,
+  Typography,
 } from "@mui/material";
 import AttachInput from "./AttachInput";
-import {
-  IInscricaoData,
-  IFile,
-  IInscricaoDataReq,
-  IHistorico,
-} from "../Interfaces";
-import { postInscricao, getDadosInscricao } from "../Service";
+import { IInscricaoData, IFile } from "../Interfaces";
 import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
-import UserContext from "../../../../context/UserContext";
+import { IDetalhesInscricao, IHistorico } from "../../../Revisao/Interfaces";
+import ProducoesCientificas from "./ProducoesCientificasDjair";
 
 interface IProps {
   editalId: number;
   inscricaoId: number | undefined;
+  dadosInscricao: IDetalhesInscricao | undefined;
   displayCheckboxes: boolean;
   btnText: string;
+  isTeacher: boolean;
   actionAfterRequestSuccess: (isncricaoId: number) => void;
-  setInscricaoError: (error: boolean) => void;
+  submitRequest: (inscricaoData: IInscricaoData) => Promise<void>;
 }
 
 export default function FormInscricao({
   editalId,
   inscricaoId,
-  btnText,
+  dadosInscricao,
   displayCheckboxes,
-  setInscricaoError,
+  btnText,
+  isTeacher,
+  submitRequest,
   actionAfterRequestSuccess,
 }: IProps) {
   const [countFiles, setCountFiles] = useState<number>(0);
   const [loadingInscricao, setLoadingInscricao] = useState<boolean>(false);
-
   const [formChanged, setFormChanged] = useState<boolean>(false);
 
   const [initialInscricaoData, setInitialInscricaoData] =
@@ -53,6 +52,11 @@ export default function FormInscricao({
       nota_historico_graduacao_file: 0,
       nota_historico_posgraduacao_file: 0,
       nota_url_enade: 0,
+
+      // Para professor:
+      id_inscricao: inscricaoId,
+      nota_final: 0,
+      observacao_professor: "",
     });
 
   const [inscricaoData, setInscricaoData] =
@@ -64,8 +68,6 @@ export default function FormInscricao({
   const [initialHistoricoPosGrad, setInitialHistoricoPosGrad] = useState<
     IFile[]
   >([]);
-
-  const { user } = useContext(UserContext);
 
   // TODO: if inscricaoId => getDadosInscricao (botar loading)
   // Editar Inscricao
@@ -83,43 +85,46 @@ export default function FormInscricao({
   };
 
   useEffect(() => {
-    if (editalId && inscricaoId && user) {
-      getDadosInscricao(editalId).then(({ data }) => {
-        const reqInscricao = {
-          historico_graduacao_file: [],
-          historico_posgraduacao_file: [],
-          url_enade: data.url_enade,
-          processo_seletivo_id: editalId,
-          nota_historico_graduacao_file: 0,
-          nota_historico_posgraduacao_file: 0,
-          nota_url_enade: data.nota_enade,
-        };
+    if (dadosInscricao) {
+      const reqInscricao: IInscricaoData = {
+        historico_graduacao_file: [],
+        historico_posgraduacao_file: [],
+        url_enade: dadosInscricao.url_enade,
+        processo_seletivo_id: editalId,
+        nota_historico_graduacao_file: 0,
+        nota_historico_posgraduacao_file: 0,
+        nota_url_enade: dadosInscricao.nota_enade,
 
-        // Os históricos são setados a partir de seus respectivos useEffects
-        data.Historico.forEach((historico) => {
-          const { url } = historico;
-          fetch(url)
-            .then((r) => r.blob())
-            .then((blobFile) => {
-              const newFile = criaFile(blobFile, historico);
+        // Para professor:
+        id_inscricao: inscricaoId,
+        nota_final: dadosInscricao.nota_final,
+        observacao_professor: dadosInscricao.observacao,
+      };
 
-              if (historico.tipo === "GRADUACAO") {
-                setInitialHistoricoGraduacao([newFile]);
-                reqInscricao.nota_historico_graduacao_file = historico.nota;
-              }
+      // Os históricos são setados a partir de seus respectivos useEffects
+      dadosInscricao.Historico.forEach((historico) => {
+        const { url } = historico;
+        fetch(url)
+          .then((r) => r.blob())
+          .then((blobFile) => {
+            const newFile = criaFile(blobFile, historico);
 
-              if (historico.tipo === "POS_GRADUACAO") {
-                setInitialHistoricoPosGrad([newFile]);
-                reqInscricao.nota_historico_graduacao_file = historico.nota;
-              }
-            });
-        });
+            if (historico.tipo === "GRADUACAO") {
+              setInitialHistoricoGraduacao([newFile]);
+              reqInscricao.nota_historico_graduacao_file = historico.nota;
+            }
 
-        setInitialInscricaoData(reqInscricao);
-        setInscricaoData(reqInscricao);
+            if (historico.tipo === "POS_GRADUACAO") {
+              setInitialHistoricoPosGrad([newFile]);
+              reqInscricao.nota_historico_graduacao_file = historico.nota;
+            }
+          });
       });
+
+      setInitialInscricaoData(reqInscricao);
+      setInscricaoData(reqInscricao);
     }
-  }, [editalId, inscricaoId, user]);
+  }, [dadosInscricao, editalId, inscricaoId]);
 
   // Solução provisória para popular ambos os históricos a partir do blob
   useEffect(() => {
@@ -168,7 +173,9 @@ export default function FormInscricao({
     });
   };
 
-  const handleFileInputChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleFileInputChange = (
+    event: React.ChangeEvent<HTMLFormElement>
+  ): void => {
     const previousValue =
       inscricaoData[event.target.name as keyof IInscricaoData];
     const isPreviousValueAnArray = previousValue instanceof Array;
@@ -203,41 +210,12 @@ export default function FormInscricao({
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const removeFileId = (filesWithId: IFile[]) => {
-      return filesWithId.map((historico) => historico.fileData);
-    };
-
-    const payload: IInscricaoDataReq = {
-      ...inscricaoData,
-      historico_graduacao_file: removeFileId(
-        inscricaoData.historico_graduacao_file
-      ),
-      historico_posgraduacao_file: removeFileId(
-        inscricaoData.historico_posgraduacao_file
-      ),
-    };
-
     setLoadingInscricao(true);
 
-    if (inscricaoId) {
-      // Editar Inscrição
-      // TODO: Implementar rota do back para atualizar inscrição
-    } else {
-      // Nova Inscrição
-      postInscricao(payload)
-        .then((res) => {
-          setInscricaoError(false);
-          actionAfterRequestSuccess(res.data.id);
-        })
-        .catch(() => {
-          setInscricaoError(true);
-          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-        })
-        .finally(() => {
-          setLoadingInscricao(false);
-          setFormChanged(false);
-        });
-    }
+    submitRequest(inscricaoData).finally(() => {
+      setLoadingInscricao(false);
+      setFormChanged(false);
+    });
   };
 
   // const [loadingHistoricos, setLoadingHistoricos] = useState<boolean>(false);
@@ -286,6 +264,7 @@ export default function FormInscricao({
               multipleFiles={false}
               files={inscricaoData.historico_graduacao_file}
               setFiles={setHistoricosGraduacao}
+              disabled={isTeacher}
             />
           </FormControl>
         </Grid>
@@ -317,6 +296,7 @@ export default function FormInscricao({
               multipleFiles={false}
               files={inscricaoData.historico_posgraduacao_file}
               setFiles={setHistoricosPosGraduacao}
+              disabled={isTeacher}
             />
           </FormControl>
         </Grid>
@@ -352,6 +332,7 @@ export default function FormInscricao({
               placeholder="https://emec.mec.gov.br"
               type="url"
               value={inscricaoData.url_enade}
+              disabled={isTeacher}
             />
             <Link
               href="https://enade.inep.gov.br/enade/#!/relatorioCursos"
@@ -395,27 +376,93 @@ export default function FormInscricao({
             <FormControlLabel
               sx={{ mb: 1 }}
               label="Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na resolução vigente."
-              control={<Checkbox required id="checkbox-1" name="checkbox-1" />}
+              control={
+                <Checkbox
+                  required
+                  id="checkbox-1"
+                  name="checkbox-1"
+                  defaultChecked={Boolean(inscricaoId)}
+                  disabled={Boolean(inscricaoId)}
+                />
+              }
             />
             <FormControlLabel
               sx={{ mb: 1 }}
               label="Meu (minha) orientador(a) tem ciência da minha participação nesse Edital de Concessão de Bolsas."
-              control={<Checkbox required id="checkbox-2" name="checkbox-2" />}
+              control={
+                <Checkbox
+                  required
+                  id="checkbox-2"
+                  name="checkbox-2"
+                  defaultChecked={Boolean(inscricaoId)}
+                  disabled={Boolean(inscricaoId)}
+                />
+              }
             />
             <FormControlLabel
               sx={{ mb: 1 }}
               label="Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso."
-              control={<Checkbox required id="checkbox-3" name="checkbox-3" />}
+              control={
+                <Checkbox
+                  required
+                  id="checkbox-3"
+                  name="checkbox-3"
+                  defaultChecked={Boolean(inscricaoId)}
+                  disabled={Boolean(inscricaoId)}
+                />
+              }
             />
             <FormControlLabel
               sx={{ mb: 1 }}
               label="Estou ciente de que, após o período de inscrições, caso nenhuma
               produção seja adicionada, será considerado que eu optei por não
               enviar nenhuma produção cientifica."
-              control={<Checkbox required id="checkbox-4" name="checkbox-4" />}
+              control={
+                <Checkbox
+                  required
+                  id="checkbox-4"
+                  name="checkbox-4"
+                  defaultChecked={Boolean(inscricaoId)}
+                  disabled={Boolean(inscricaoId)}
+                />
+              }
             />
           </FormGroup>
         </FormControl>
+      )}
+
+      {isTeacher && (
+        <>
+          <Typography variant="h6" sx={{ mt: 3 }}>
+            Produções Científicas
+          </Typography>
+          <ProducoesCientificas />
+
+          <Typography variant="h6" sx={{ mt: 5 }}>
+            Revisão/Auditoria
+          </Typography>
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="observacao_professor">Observações</InputLabel>
+            <OutlinedInput
+              multiline
+              rows={3}
+              id="observacao_professor"
+              name="observacao_professor"
+              label="Observações"
+              value={inscricaoData.observacao_professor}
+            />
+          </FormControl>
+          <FormControl required fullWidth margin="normal" sx={{ mt: 3 }}>
+            <InputLabel htmlFor="nota_final">Nota Final</InputLabel>
+            <OutlinedInput
+              id="nota_final"
+              name="nota_final"
+              label="Nota Final"
+              placeholder="10.0"
+              value={inscricaoData.nota_final}
+            />
+          </FormControl>
+        </>
       )}
       <Grid container direction="row" justifyContent="flex-end" sx={{ mt: 1 }}>
         <BtnSubmitLoading
