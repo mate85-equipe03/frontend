@@ -45,13 +45,13 @@ export default function FormInscricao({
 
   const [initialInscricaoData, setInitialInscricaoData] =
     useState<IInscricaoData>({
+      processo_seletivo_id: editalId,
+      url_enade: "",
+      nota_url_enade: 0,
       historico_graduacao_file: [],
       historico_posgraduacao_file: [],
-      url_enade: "",
-      processo_seletivo_id: editalId,
       nota_historico_graduacao_file: 0,
       nota_historico_posgraduacao_file: 0,
-      nota_url_enade: 0,
 
       // Para professor:
       id_inscricao: inscricaoId,
@@ -69,8 +69,6 @@ export default function FormInscricao({
     IFile[]
   >([]);
 
-  // TODO: if inscricaoId => getDadosInscricao (botar loading)
-  // Editar Inscricao
   const criaFile = (blob: Blob, historico: IHistorico) => {
     const file = new File([blob], historico.filename, {
       type: "application/pdf",
@@ -87,13 +85,13 @@ export default function FormInscricao({
   useEffect(() => {
     if (dadosInscricao) {
       const reqInscricao: IInscricaoData = {
+        processo_seletivo_id: editalId,
+        url_enade: dadosInscricao.url_enade,
+        nota_url_enade: dadosInscricao.nota_enade,
         historico_graduacao_file: [],
         historico_posgraduacao_file: [],
-        url_enade: dadosInscricao.url_enade,
-        processo_seletivo_id: editalId,
         nota_historico_graduacao_file: 0,
         nota_historico_posgraduacao_file: 0,
-        nota_url_enade: dadosInscricao.nota_enade,
 
         // Para professor:
         id_inscricao: inscricaoId,
