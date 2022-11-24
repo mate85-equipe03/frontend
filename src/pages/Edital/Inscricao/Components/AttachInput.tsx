@@ -7,6 +7,9 @@ import { IFile } from "../Interfaces";
 interface IProps {
   inputName: string;
   label: string;
+  // ATENÇÃO: Tá funcionando só quando o multipleFiles é false.
+  // TODO: Implementar disabled para multipleFiles = true
+  disabled?: boolean;
   multipleFiles: boolean;
   files: IFile[];
   setFiles: (files: IFile[]) => void;
@@ -18,6 +21,7 @@ export default function AttachInput({
   files,
   setFiles,
   multipleFiles,
+  disabled,
 }: IProps) {
   const hasFiles = files && files.length !== 0;
 
@@ -48,13 +52,15 @@ export default function AttachInput({
         <Typography
           component="label"
           htmlFor={inputName}
-          sx={{
-            cursor: "pointer",
-            color: "#00000099",
-            "&:hover": {
-              color: "primary.main",
-            },
-          }}
+          sx={
+            disabled
+              ? { color: "#00000061" }
+              : {
+                  color: "#00000099",
+                  cursor: "pointer",
+                  "&:hover": { color: "primary.main" },
+                }
+          }
         >
           {label} *
         </Typography>
@@ -88,6 +94,7 @@ export default function AttachInput({
                 fileData={file?.fileData}
                 deleteFile={deleteFile}
                 editFile={editFile}
+                disabled={disabled}
               />
             ))}
           </List>
@@ -117,3 +124,5 @@ export default function AttachInput({
     </>
   );
 }
+
+AttachInput.defaultProps = { disabled: false };
