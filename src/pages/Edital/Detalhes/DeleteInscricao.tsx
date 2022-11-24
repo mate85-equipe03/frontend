@@ -43,7 +43,7 @@ export default function DeleteInscricao({
   };
 
   return (
-    <div>
+    <>
       <Button
         sx={{ width: "192px" }}
         color="error"
