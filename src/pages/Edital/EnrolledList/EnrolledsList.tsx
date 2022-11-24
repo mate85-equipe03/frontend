@@ -32,9 +32,6 @@ export default function EnrolledsList() {
   const auditoriaSuccess = location.state
     ? "auditoria" in location.state
     : false;
-  const auditorIgualARevisorError = location.state
-    ? "auditorIgualARevisor" in location.state
-    : false;
   window.history.replaceState(null, "");
 
   useEffect(() => {
@@ -81,14 +78,6 @@ export default function EnrolledsList() {
     return null;
   };
 
-  const checkErrorMessage = (): string | null => {
-    if (auditorIgualARevisorError) {
-      return "Auditor(a) não pode ser igual ao(à) revisor(a).";
-    }
-
-    return null;
-  };
-
   const colunas: GridColDef[] = [
     {
       field: "nome",
@@ -115,7 +104,6 @@ export default function EnrolledsList() {
   }, 0);
 
   const successMessage = checkSuccessMessage();
-  const errorMessage = checkErrorMessage();
 
   return loadingInscritos || loadingProcesso ? (
     <Loading />
@@ -132,13 +120,6 @@ export default function EnrolledsList() {
           {successMessage}
         </Alert>
       )}
-
-      {errorMessage && (
-        <Alert severity="error" sx={{ mb: 2 }}>
-          {errorMessage}
-        </Alert>
-      )}
-
       <Card sx={{ py: 2, mt: 5 }}>
         <CardHeader
           title="Estudantes Inscritos(as)"
