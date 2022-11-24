@@ -8,12 +8,9 @@ import {
   Divider,
   FormControl,
   Grid,
-  IconButton,
-  InputAdornment,
   InputLabel,
   OutlinedInput,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { PatternFormat } from "react-number-format";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -26,13 +23,15 @@ import { ISignUpData } from "./Types";
 import UserContext from "../../context/UserContext";
 import getDadosAluno from "./Service";
 import Loading from "../../Components/Loading";
+import Senhas from "../../Components/Senhas";
 
 export default function Cadastro() {
   const navigate = useNavigate();
 
-  const [signUpError, setSignUpError] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [signUpError, setSignUpError] = React.useState<boolean>(false);
   const [editError, setEditError] = React.useState<boolean>(false);
+  const [senhaError, setSenhaError] = React.useState<boolean>(false);
 
   const [signUpData, setSignUpData] = React.useState<ISignUpData>({
     nome: "",
@@ -47,8 +46,6 @@ export default function Cadastro() {
     telefone: "",
   });
   const { user } = useContext(UserContext);
-
-  const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -66,10 +63,6 @@ export default function Cadastro() {
     }
   };
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
   function isEditar() {
     if (user) {
       return true;
@@ -78,8 +71,8 @@ export default function Cadastro() {
   }
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (isEditar()) {
-      event.preventDefault();
       setLoading(true);
       api
         .patch("/alunos/editar-inscricao", {
@@ -100,8 +93,10 @@ export default function Cadastro() {
         .finally(() => {
           setLoading(false);
         });
+    } else if (signUpData.senha !== signUpData.confirmacaoSenha) {
+      setSenhaError(true);
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     } else {
-      event.preventDefault();
       setLoading(true);
       api
         .post("/alunos", signUpData)
@@ -156,6 +151,11 @@ export default function Cadastro() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
+      {senhaError && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          As senhas digitadas devem ser iguais.
+        </Alert>
+      )}
       {(signUpError || editError) && (
         <Alert severity="error" sx={{ mb: 2 }}>
           Ocorreu um erro. Tente novamente.
@@ -205,58 +205,11 @@ export default function Cadastro() {
                 Alterar Senha
               </Link>
             ) : (
-              <div>
-                <FormControl required fullWidth margin="normal">
-                  <InputLabel htmlFor="senha">Senha</InputLabel>
-                  <OutlinedInput
-                    id="senha"
-                    name="senha"
-                    label="Senha"
-                    placeholder="Digite sua senha"
-                    type={showPassword ? "text" : "password"}
-                    value={signUpData.senha}
-                    onChange={handleChange}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label={`${
-                            showPassword ? "Ocultar" : "Mostrar"
-                          } senha`}
-                          onClick={handleClickShowPassword}
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-                <FormControl required fullWidth margin="normal">
-                  <InputLabel htmlFor="confirmacaoSenha">
-                    Confirme sua senha
-                  </InputLabel>
-                  <OutlinedInput
-                    id="confirmacaoSenha"
-                    name="confirmacaoSenha"
-                    label="Confirme sua senha"
-                    placeholder="Confirme sua senha"
-                    type={showPassword ? "text" : "password"}
-                    value={signUpData.confirmacaoSenha}
-                    onChange={handleChange}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label={`${
-                            showPassword ? "Ocultar" : "Mostrar"
-                          } senha`}
-                          onClick={handleClickShowPassword}
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </div>
+              <Senhas
+                valueSenha={signUpData.senha}
+                valueConfirmacaoSenha={signUpData.confirmacaoSenha}
+                handleChange={handleChange}
+              />
             )}
 
             <FormControl required fullWidth margin="normal">
