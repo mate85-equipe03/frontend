@@ -71,7 +71,7 @@ export default function EditalDetails() {
         open={inscricaoCancelada}
         autoHideDuration={6000}
       >
-        <Alert severity="error" sx={{ width: "100%" }}>
+        <Alert severity="success" sx={{ width: "100%" }}>
           Inscrição cancelada com sucesso!
         </Alert>
       </Snackbar>
