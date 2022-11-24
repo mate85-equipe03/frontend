@@ -5,10 +5,6 @@ import {
   CardHeader,
   Divider,
   Grid,
-<<<<<<< HEAD
-  Snackbar,
-=======
->>>>>>> 67d9045489e4cb4c167d1826a2d5bd32017fd52c
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -33,7 +29,6 @@ export default function EnrolledsList() {
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
   const [loadingInscritos, setLoadingInscritos] = useState<boolean>(false);
   const [loadingProcesso, setLoadingProcesso] = useState<boolean>(false);
-  const [clickError, setClickError] = useState<string>("");
 
   const revisaoSuccess = location.state ? "revisao" in location.state : false;
   const auditoriaSuccess = location.state
@@ -58,26 +53,8 @@ export default function EnrolledsList() {
     }
   }, [editalId, user, navigate]);
 
-  function isRowClickable(revisorId: number | null) {
-    return !(revisorId === user?.id);
-  }
-
   const handleRowClick: GridEventListener<"rowClick"> = (params) => {
-    if (isRowClickable(params.row.revisor_id)) {
       navigate(`/edital/${editalId}/inscritos/${params.row.id}`);
-    } else {
-      setClickError("Auditor(a) não pode ser igual ao(à) revisor(a).");
-    }
-  };
-
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setClickError("");
   };
 
   useEffect(() => {
@@ -194,18 +171,6 @@ export default function EnrolledsList() {
       alignItems="center"
       sx={{ width: "100%" }}
     >
-<<<<<<< HEAD
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={Boolean(clickError)}
-        autoHideDuration={6000}
-        onClose={handleClose}
-      >
-        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          {clickError}
-        </Alert>
-      </Snackbar>
-=======
       {successMessage && (
         <Alert severity="success" sx={{ mb: 2 }}>
           {successMessage}
@@ -217,7 +182,6 @@ export default function EnrolledsList() {
           {errorMessage}
         </Alert>
       )}
->>>>>>> 67d9045489e4cb4c167d1826a2d5bd32017fd52c
 
       <Card sx={{ py: 2, mt: 5 }}>
         <CardHeader
@@ -240,21 +204,8 @@ export default function EnrolledsList() {
             disableSelectionOnClick
             rows={enrolledList}
             columns={colunas}
-            getRowClassName={(params) => {
-              if (!isRowClickable(params.row.revisor_id)) {
-                return "not-clickable-row";
-              }
-              return "clickable-row";
-            }}
             sx={{
               width: Math.min(allColumnsWidth + 2, 1000),
-              ".not-clickable-row": {
-                ":hover": {
-                  color: "initial",
-                  backgroundColor: "initial",
-                  cursor: "default",
-                },
-              },
             }}
           />
         </CardContent>
