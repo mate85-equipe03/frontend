@@ -41,17 +41,23 @@ export default function InscricaoTeacherView() {
     };
 
     const isRevisadaEAuditada = (revisorId: number, auditorId: number) => {
-      setWarningMessage(
-        "Você está no modo Somente Leitura, pois esta inscrição já foi revisada e auditada."
-      );
-      return revisorId && auditorId;
+      if (revisorId && auditorId) {
+        setWarningMessage(
+          "Você está no modo Somente Leitura, pois esta inscrição já foi revisada e auditada."
+        );
+        return true;
+      }
+      return false;
     };
 
     const isIgualAoRevisor = (userId: number, revisorId: number) => {
-      setWarningMessage(
-        "Você está no modo Somente Leitura, pois o(a) auditor(a) deve ser diferente do(a) revisor(a)."
-      );
-      return userId === revisorId;
+      if (userId === revisorId) {
+        setWarningMessage(
+          "Você está no modo Somente Leitura, pois o(a) auditor(a) deve ser diferente do(a) revisor(a)."
+        );
+        return true;
+      }
+      return false;
     };
 
     const isReadOnly = (
