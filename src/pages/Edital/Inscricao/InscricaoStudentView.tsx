@@ -17,10 +17,10 @@ import {getDetailsProcessoSeletivo} from "../Detalhes/Service";
 import EditarInscricao from "./Components/EditarInscricao";
 import NovaInscricao from "./Components/NovaInscricao";
 
-export default function Inscricao() {
+export default function InscricaoStudentView() {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const [loadingEdital, setLoadingEdital] = useState<boolean>(false);
+  const [loadingDadosAluno, setLoadingDadosAluno] = useState<boolean>(false);
   const [loadingProcessoSeletivo, setLoadingProcessoSeletivo] =
     useState<boolean>(false);
   const [inscricaoError, setInscricaoError] = React.useState<boolean>(false);
@@ -37,7 +37,7 @@ export default function Inscricao() {
     };
 
     if (user && editalId) {
-      setLoadingEdital(true);
+      setLoadingDadosAluno(true);
       setLoadingProcessoSeletivo(true);
       getDadosAluno()
         .then(({ data }) => {
@@ -47,7 +47,7 @@ export default function Inscricao() {
           // TODO: Ver como exibir erros va View
         })
         .finally(() => {
-          setLoadingEdital(false);
+          setLoadingDadosAluno(false);
         });
       getDetailsProcessoSeletivo(editalId)
         .then(({ data }) => {
@@ -66,7 +66,7 @@ export default function Inscricao() {
     }
   }, [editalId, navigate, user]);
 
-  return loadingEdital || loadingProcessoSeletivo ? (
+  return loadingDadosAluno || loadingProcessoSeletivo ? (
     <Loading />
   ) : (
     <Grid

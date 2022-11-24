@@ -1,6 +1,13 @@
-import { Card, CardContent, CardHeader, Divider, Grid } from "@mui/material";
+import {
+  Alert,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Grid,
+} from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import { getEnrolledList } from "./Service";
 import { IADetalhes } from "./Interfaces";
@@ -10,6 +17,7 @@ import Loading from "../../../Components/Loading";
 
 export default function EnrolledsList() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [editalName, setEditalName] = useState<string>();
 
   const { editalId } = useParams();
@@ -19,6 +27,15 @@ export default function EnrolledsList() {
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
   const [loadingInscritos, setLoadingInscritos] = useState<boolean>(false);
   const [loadingProcesso, setLoadingProcesso] = useState<boolean>(false);
+
+  const revisaoSuccess = location.state ? "revisao" in location.state : false;
+  const auditoriaSuccess = location.state
+    ? "auditoria" in location.state
+    : false;
+  const auditorIgualARevisorError = location.state
+    ? "auditorIgualARevisor" in location.state
+    : false;
+  window.history.replaceState(null, "");
 
   useEffect(() => {
     if (user && editalId) {
@@ -54,36 +71,53 @@ export default function EnrolledsList() {
       });
   }, [editalId]);
 
+  const checkSuccessMessage = (): string | null => {
+    if (revisaoSuccess) {
+      return "Inscrição revisada com sucesso.";
+    }
+
+    if (auditoriaSuccess) {
+      return "Inscrição auditada com sucesso.";
+    }
+
+    return null;
+  };
+
+  const checkErrorMessage = (): string | null => {
+    if (auditorIgualARevisorError) {
+      return "Auditor(a) não pode ser igual ao(à) revisor(a).";
+    }
+
+    return null;
+  };
+
   const colunas: GridColDef[] = [
     {
       field: "nome",
       headerName: "Nome",
       width: 300,
-      valueGetter: (params) => {
-        return params.getValue(params.id, "aluno").nome;
-      },
+      valueGetter: (params) => params.row.aluno.nome,
     },
     {
       field: "curso",
       headerName: "Curso",
       width: 100,
-      valueGetter: (params) => {
-        return params.getValue(params.id, "aluno").curso;
-      },
+      valueGetter: (params) => params.row.aluno.curso,
     },
     {
-      field: "semestre",
+      field: "semestre_pgcomp",
       headerName: "Semestre de Ingresso",
       width: 200,
-      valueGetter: (params) => {
-        return params.getValue(params.id, "aluno").semestre_pgcomp;
-      },
+      valueGetter: (params) => params.row.aluno.semestre_pgcomp,
     },
   ];
 
   const allColumnsWidth = colunas.reduce((acc, { width }) => {
     return width ? acc + width : acc;
   }, 0);
+
+  const successMessage = checkSuccessMessage();
+  const errorMessage = checkErrorMessage();
 
   return loadingInscritos || loadingProcesso ? (
     <Loading />
@@ -95,6 +129,18 @@ export default function EnrolledsList() {
       alignItems="center"
       sx={{ width: "100%" }}
     >
+      {successMessage && (
+        <Alert severity="success" sx={{ mb: 2 }}>
+          {successMessage}
+        </Alert>
+      )}
+
+      {errorMessage && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {errorMessage}
+        </Alert>
+      )}
+
       <Card sx={{ py: 2, mt: 5 }}>
         <CardHeader
           title="Estudantes Inscritos(as)"
@@ -112,6 +158,11 @@ export default function EnrolledsList() {
 
         <CardContent sx={{ px: 10 }}>
           <DataGrid
+            initialState={{
+              sorting: {
+                sortModel: [{ field: "nome", sort: "asc" }],
+              },
+            }}
             onRowClick={handleRowClick}
             rows={enrolledList}
             columns={colunas}

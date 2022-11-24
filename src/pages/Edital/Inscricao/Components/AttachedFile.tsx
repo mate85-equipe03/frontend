@@ -8,6 +8,7 @@ interface IProps {
   fileData: File;
   deleteFile: (id: number) => void;
   editFile: (file: IFile) => void;
+  disabled?: boolean;
 }
 
 export default function AttachedFile({
@@ -15,6 +16,7 @@ export default function AttachedFile({
   fileData,
   deleteFile,
   editFile,
+  disabled,
 }: IProps) {
   const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -49,6 +51,7 @@ export default function AttachedFile({
         border: 1,
         borderRadius: 1,
         borderColor: "#00000044",
+        height: "56px",
       }}
       onClick={openInNewTab}
     >
@@ -63,47 +66,50 @@ export default function AttachedFile({
         <Grid item>
           <ListItemText
             sx={{
-              color: "#00000099",
+              color: disabled ? "#00000061" : "#00000099",
             }}
           >
             {fileData?.name}
           </ListItemText>
         </Grid>
-
-        <Grid item>
-          <Grid
-            container
-            spacing={0.5}
-            direction="row"
-            justifyContent="flex-end"
-            wrap="nowrap"
-          >
-            <Grid item>
-              <IconButton
-                component="label"
-                aria-label="Editar arquivo."
-                onClick={handleEditClick}
-              >
-                <Edit />
-                <input
-                  onChange={handleEditFile}
-                  type="file"
-                  accept=".pdf"
-                  hidden
-                />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <IconButton
-                aria-label="Excluir arquivo."
-                onClick={handleDeleteClick}
-              >
-                <Delete color="error" />
-              </IconButton>
+        {!disabled && (
+          <Grid item>
+            <Grid
+              container
+              spacing={0.5}
+              direction="row"
+              justifyContent="flex-end"
+              wrap="nowrap"
+            >
+              <Grid item>
+                <IconButton
+                  component="label"
+                  aria-label="Editar arquivo."
+                  onClick={handleEditClick}
+                >
+                  <Edit />
+                  <input
+                    onChange={handleEditFile}
+                    type="file"
+                    accept=".pdf"
+                    hidden
+                  />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <IconButton
+                  aria-label="Excluir arquivo."
+                  onClick={handleDeleteClick}
+                >
+                  <Delete color="error" />
+                </IconButton>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        )}
       </Grid>
     </ListItemButton>
   );
 }
+
+AttachedFile.defaultProps = { disabled: false };

@@ -16,13 +16,13 @@ import UserContext from "../../../context/UserContext";
 import Loading from "../../../Components/Loading";
 import { IDetails } from "../../Edital/Detalhes/Interfaces";
 import {getDetailsProcessoSeletivo} from "../../Edital/Detalhes/Service";
-import { IDetalhes } from "../Interfaces";
+import { IDetalhesInscricao } from "../Interfaces";
 import { getDetalhesInscricaoProfessor } from "../Service";
 import DadosCandidato from "../../Components/DadosCandidato";
 
 export default function RevisarInscricaoProfessor() {
   const { user } = useContext(UserContext);
-  const [inscricao, setInscricao] = useState<IDetalhes>();
+  const [inscricao, setInscricao] = useState<IDetalhesInscricao>();
   const [edital, setEdital] = useState<IDetails>();
   const [loadingInscricao, setLoadingInscricao] = useState<boolean>(true);
   const [loadingProcesso, setLoadingProcesso] = useState<boolean>(true);
@@ -32,7 +32,7 @@ export default function RevisarInscricaoProfessor() {
     if (user && inscricaoId && editalId) {
       setLoadingInscricao(true);
       setLoadingProcesso(true);
-      getDetalhesInscricaoProfessor(inscricaoId, editalId)
+      getDetalhesInscricaoProfessor(Number(inscricaoId), Number(editalId))
         .then(({ data }) => {
           setInscricao(data);
         })
