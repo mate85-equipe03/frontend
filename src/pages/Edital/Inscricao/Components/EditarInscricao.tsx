@@ -11,12 +11,14 @@ import postInscricao from "../Service";
 interface IProps {
   editalId: number;
   inscricaoId: number;
+  readOnly: boolean;
   setInscricaoError: (error: boolean) => void;
 }
 
 export default function EditarInscricao({
   editalId,
   inscricaoId,
+  readOnly,
   setInscricaoError,
 }: IProps) {
   const navigate = useNavigate();
@@ -67,22 +69,26 @@ export default function EditarInscricao({
   return (
     <>
       <Typography variant="h6" sx={{ mt: 3 }}>
-        Editar Dados Básicos da Inscrição
+        Dados Básicos da Inscrição
       </Typography>
       <FormInscricao
         editalId={editalId}
         inscricaoId={inscricaoId}
         dadosInscricao={dadosInscricao}
         btnText="Editar Dados Básicos"
-        displayCheckboxes={false}
         isTeacher={false}
         submitRequest={submitRequest}
         actionAfterRequestSuccess={actionAfterRequestSuccess}
+        readOnly={readOnly}
       />
-      <Typography variant="h6" sx={{ mt: 3 }}>
-        Editar Produções Científicas
-      </Typography>
-      <ProducoesCientificas />
+      {!readOnly && (
+        <>
+          <Typography variant="h6" sx={{ mt: 3 }}>
+            Produções Científicas
+          </Typography>
+          <ProducoesCientificas />
+        </>
+      )}
     </>
   );
 }

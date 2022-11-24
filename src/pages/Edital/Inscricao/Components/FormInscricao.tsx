@@ -22,7 +22,6 @@ interface IProps {
   editalId: number;
   inscricaoId: number | undefined;
   dadosInscricao: IDetalhesInscricao | undefined;
-  displayCheckboxes: boolean;
   btnText: string;
   isTeacher: boolean;
   readOnly?: boolean;
@@ -34,7 +33,6 @@ export default function FormInscricao({
   editalId,
   inscricaoId,
   dadosInscricao,
-  displayCheckboxes,
   btnText,
   isTeacher,
   readOnly,
@@ -365,7 +363,7 @@ export default function FormInscricao({
           </Grid>
         </Grid>
 
-        {displayCheckboxes && (
+        {!isTeacher && (
           <FormControl
             required
             fullWidth
@@ -437,9 +435,9 @@ export default function FormInscricao({
           </FormControl>
         )}
 
-        {isTeacher && (
+        {(isTeacher || readOnly) && (
           <>
-            <Typography variant="h6" sx={{ mt: 3 }}>
+            <Typography variant="h6" sx={{ mt: 1 }}>
               Produções Científicas
             </Typography>
             <ProducoesCientificas />
@@ -474,6 +472,7 @@ export default function FormInscricao({
             </FormControl>
           </>
         )}
+
         {!readOnly && (
           <Grid
             container
