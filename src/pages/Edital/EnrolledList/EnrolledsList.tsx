@@ -9,6 +9,8 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import WarningIcon from "@mui/icons-material/Warning";
 import { getEnrolledList } from "./Service";
 import { IADetalhes } from "./Interfaces";
 import { getDetailsProcessoSeletivo } from "../Detalhes/Service";
@@ -31,9 +33,6 @@ export default function EnrolledsList() {
   const revisaoSuccess = location.state ? "revisao" in location.state : false;
   const auditoriaSuccess = location.state
     ? "auditoria" in location.state
-    : false;
-  const auditorIgualARevisorError = location.state
-    ? "auditorIgualARevisor" in location.state
     : false;
   window.history.replaceState(null, "");
 
@@ -83,14 +82,6 @@ export default function EnrolledsList() {
     return null;
   };
 
-  const checkErrorMessage = (): string | null => {
-    if (auditorIgualARevisorError) {
-      return "Auditor(a) não pode ser igual ao(à) revisor(a).";
-    }
-
-    return null;
-  };
-
   const colunas: GridColDef[] = [
     {
       field: "nome",
@@ -110,6 +101,42 @@ export default function EnrolledsList() {
       width: 200,
       valueGetter: (params) => params.row.aluno.semestre_pgcomp,
     },
+    {
+      field: "statusRevisao",
+      headerName: "Status da Revisão",
+      width: 150,
+      valueGetter: (params) => params.row.revisor_id,
+      renderCell: (cellValues) => {
+        return cellValues.row.revisor_id ? (
+          <Grid sx={{ color: "success.main", fontWeight: "bold" }}>
+            <CheckCircleIcon fontSize="small" sx={{ mr: 0.5 }} />
+            Revisada
+          </Grid>
+        ) : (
+          <Grid sx={{ color: "warning.light", fontWeight: "bold" }}>
+            <WarningIcon fontSize="small" sx={{ mr: 0.5 }} />A revisar
+          </Grid>
+        );
+      },
+    },
+    {
+      field: "statusAuditoria",
+      headerName: "Status da Auditoria",
+      width: 150,
+      valueGetter: (params) => params.row.auditor_id,
+      renderCell: (cellValues) => {
+        return cellValues.row.auditor_id ? (
+          <Grid sx={{ color: "success.main", fontWeight: "bold" }}>
+            <CheckCircleIcon fontSize="small" sx={{ mr: 0.5 }} />
+            Auditada
+          </Grid>
+        ) : (
+          <Grid sx={{ color: "warning.light", fontWeight: "bold" }}>
+            <WarningIcon fontSize="small" sx={{ mr: 0.5 }} />A auditar
+          </Grid>
+        );
+      },
+    },
   ];
 
   const allColumnsWidth = colunas.reduce((acc, { width }) => {
@@ -117,7 +144,6 @@ export default function EnrolledsList() {
   }, 0);
 
   const successMessage = checkSuccessMessage();
-  const errorMessage = checkErrorMessage();
 
   return loadingInscritos || loadingProcesso ? (
     <Loading />
@@ -134,13 +160,6 @@ export default function EnrolledsList() {
           {successMessage}
         </Alert>
       )}
-
-      {errorMessage && (
-        <Alert severity="error" sx={{ mb: 2 }}>
-          {errorMessage}
-        </Alert>
-      )}
-
       <Card sx={{ py: 2, mt: 5 }}>
         <CardHeader
           title="Estudantes Inscritos(as)"
@@ -164,6 +183,7 @@ export default function EnrolledsList() {
               },
             }}
             onRowClick={handleRowClick}
+            disableSelectionOnClick
             rows={enrolledList}
             columns={colunas}
             sx={{

@@ -36,10 +36,6 @@ export default function InscricaoTeacherView() {
     : null;
 
   useEffect(() => {
-    const redirectToDetails = () => {
-      navigate(`/edital/${editalId}/detalhes`);
-    };
-
     const isRevisadaEAuditada = (revisorId: number, auditorId: number) => {
       if (revisorId && auditorId) {
         setWarningMessage(
@@ -91,7 +87,7 @@ export default function InscricaoTeacherView() {
       getDetailsProcessoSeletivo(editalId)
         .then(({ data }) => {
           if (data?.arquivado) {
-            redirectToDetails();
+            setReadOnly(true);
           }
           setEditalName(data?.titulo);
         })

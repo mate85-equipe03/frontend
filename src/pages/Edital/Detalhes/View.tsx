@@ -31,12 +31,12 @@ export default function EditalDetails() {
 
   const { editalId } = useParams();
 
-  const redirectToSubscribe = () => {
+  const redirectToInscricao = () => {
     navigate(`/edital/${editalId}/inscricao`);
   };
 
-  const redirectToEditarInscricao = () => {
-    navigate(`/edital/${editalId}/inscricao`);
+  const redirectToResults = () => {
+    navigate(`/edital/${editalId}/resultado`);
   };
 
   const redirectToEnrolledList = () => {
@@ -144,9 +144,27 @@ export default function EditalDetails() {
                 ) : (
                   <Grid>
                     {edital?.arquivado ? (
-                      <Typography sx={{ fontSize: 20, color: "primary.main" }}>
-                        Resultados disponíveis {/* link para resultado */}
-                      </Typography>
+                      <Grid container direction="column">
+                      <Button
+                        type="button"
+                        onClick={redirectToResults}
+                        size="large"
+                        sx={{ mt: 2 }}
+                      >
+                          Resultados Disponíveis
+                      </Button>
+                      {edital?.isInscrito && (
+                        <Button
+                          type="button"
+                          color="inherit"
+                          onClick={redirectToInscricao}
+                          size="large"
+                          sx={{ mt: 1 }}
+                        >
+                          Ver Minha Inscrição
+                        </Button>
+                      )}
+                      </Grid>
                     ) : (
                       <Grid>
                         {edital?.isInscrito ? (
@@ -162,7 +180,7 @@ export default function EditalDetails() {
 
                             <Button
                               type="button"
-                              onClick={redirectToEditarInscricao}
+                              onClick={redirectToInscricao}
                               size="large"
                               sx={{ width: "192px", ml: 2 }}
                             >
@@ -172,7 +190,7 @@ export default function EditalDetails() {
                         ) : (
                           <Button
                             type="button"
-                            onClick={redirectToSubscribe}
+                            onClick={redirectToInscricao}
                             size="large"
                           >
                             Inscreva-se
