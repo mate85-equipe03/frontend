@@ -10,4 +10,3 @@ const deleteInscricao = (inscricaoId: number) => {
 };
 
 export { getDetailsProcessoSeletivo, deleteInscricao };
-

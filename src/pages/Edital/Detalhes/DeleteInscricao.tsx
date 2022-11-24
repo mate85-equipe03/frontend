@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { deleteInscricao } from "./Service";
-import BtnSubmitLoading from "../../../Components/BtnSubmitLoading";
 import Loading from "../../../Components/Loading";
 
 interface PropsModal {
@@ -48,7 +47,6 @@ export default function DeleteInscricao({
         })
         .catch(() => {
           setErrorExclusao(true);
-          console.log("ops");
         })
         .finally(() => {
           setLoadingAction(false);
@@ -79,7 +77,9 @@ export default function DeleteInscricao({
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={errorExclusao}
             autoHideDuration={6000}
-            onClose={() => {setErrorExclusao(false)}}
+            onClose={() => {
+              setErrorExclusao(false);
+            }}
           >
             <Alert severity="error" sx={{ width: "100%" }}>
               Ocorreu um erro. Tente novamente!
