@@ -11,4 +11,3 @@ const deleteInscricao = (inscricaoId: number | string | undefined) => {
 
 export { getDetailsProcessoSeletivo, deleteInscricao };
 
-// export default getDetailsProcessoSeletivo;
