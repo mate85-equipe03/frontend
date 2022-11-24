@@ -27,7 +27,7 @@ export default function EditalDetails() {
   const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [inscricaoCancelada, setInscricaoCancelada] = useState(false);
+  const [inscricaoExcluida, setInscricaoExcluida] = useState(false);
 
   const { editalId } = useParams();
 
@@ -55,7 +55,7 @@ export default function EditalDetails() {
       .finally(() => {
         setLoading(false);
       });
-  }, [editalId, user, inscricaoCancelada]);
+  }, [editalId, user, inscricaoExcluida]);
 
   const dateToStr = (rawDate: string) => {
     const date = moment(rawDate);
@@ -68,11 +68,11 @@ export default function EditalDetails() {
     <Grid>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={inscricaoCancelada}
+        open={inscricaoExcluida}
         autoHideDuration={6000}
       >
         <Alert severity="success" sx={{ width: "100%" }}>
-          Inscrição cancelada com sucesso!
+          Inscrição excluída com sucesso!
         </Alert>
       </Snackbar>
 
@@ -175,7 +175,7 @@ export default function EditalDetails() {
                           >
                             <DeleteInscricao
                               idInscricao={edital.idInscricao}
-                              onSuccess={() => setInscricaoCancelada(true)}
+                              onSuccess={() => setInscricaoExcluida(true)}
                             />
 
                             <Button

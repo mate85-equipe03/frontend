@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Alert,
   Button,
   Dialog,
   DialogActions,
@@ -8,6 +9,7 @@ import {
   DialogTitle,
   Grid,
   IconButton,
+  Snackbar,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { deleteInscricao } from "./Service";
@@ -25,6 +27,7 @@ export default function DeleteInscricao({
 }: PropsModal) {
   const [open, setOpen] = React.useState(false);
   const [loadingAction, setLoadingAction] = React.useState(false);
+  const [errorExclusao, setErrorExclusao] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -32,19 +35,23 @@ export default function DeleteInscricao({
 
   const handleClose = () => {
     setOpen(false);
+    setErrorExclusao(false);
   };
 
   const excluirInscricao = () => {
     if (idInscricao) {
       setLoadingAction(true);
       deleteInscricao(idInscricao)
+        .then(() => {
+          onSuccess();
+          handleClose();
+        })
         .catch(() => {
-          // TODO: Ver como exibir erros va View
+          setErrorExclusao(true);
+          console.log("ops");
         })
         .finally(() => {
           setLoadingAction(false);
-          handleClose();
-          onSuccess();
         });
     }
   };
@@ -60,6 +67,7 @@ export default function DeleteInscricao({
       >
         Excluir Inscrição
       </Button>
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -67,6 +75,17 @@ export default function DeleteInscricao({
         aria-describedby="alert-dialog-description"
       >
         <Grid sx={{ p: 3, width: "470px" }}>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={errorExclusao}
+            autoHideDuration={6000}
+            onClose={() => {setErrorExclusao(false)}}
+          >
+            <Alert severity="error" sx={{ width: "100%" }}>
+              Ocorreu um erro. Tente novamente!
+            </Alert>
+          </Snackbar>
+
           <DialogTitle
             id="alert-dialog-title"
             sx={{ fontSize: "30px", textAlign: "center" }}
