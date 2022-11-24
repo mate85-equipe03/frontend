@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Button, CardMedia, Grid, Link } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
-import PosgressLogo from "../assets/logos/bolsis/horizontal-fundo-escuro.png";
+import PosgressLogo from "../assets/logos/sisbolsas/horizontal-fundo-escuro.png";
 import UserContext from "../context/UserContext";
 import AccountMenu from "./AccountMenu";
 
