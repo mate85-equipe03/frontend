@@ -26,6 +26,8 @@ export default function InscricaoTeacherView() {
   const [editalName, setEditalName] = useState<string>();
   const [dadosInscricao, setDadosInscricao] = useState<IDetalhesInscricao>();
   const [isAuditoria, setIsAuditoria] = React.useState<boolean>(false);
+  const [readOnly, setReadOnly] = React.useState<boolean>(false);
+  const [warningMessage, setWarningMessage] = React.useState<string>();
 
   const params = useParams();
   const editalId = Number(params.editalId) ? Number(params.editalId) : null;
@@ -38,10 +40,29 @@ export default function InscricaoTeacherView() {
       navigate(`/edital/${editalId}/detalhes`);
     };
 
-    const redirectToInscritos = () => {
-      navigate(`/edital/${editalId}/inscritos`, {
-        state: { auditorIgualARevisor: true },
-      });
+    const isRevisadaEAuditada = (revisorId: number, auditorId: number) => {
+      setWarningMessage(
+        "Você está no modo Somente Leitura, pois esta inscrição já foi revisada e auditada."
+      );
+      return revisorId && auditorId;
+    };
+
+    const isIgualAoRevisor = (userId: number, revisorId: number) => {
+      setWarningMessage(
+        "Você está no modo Somente Leitura, pois o(a) auditor(a) deve ser diferente do(a) revisor(a)."
+      );
+      return userId === revisorId;
+    };
+
+    const isReadOnly = (
+      userId: number,
+      revisorId: number,
+      auditorId: number
+    ) => {
+      return (
+        isRevisadaEAuditada(revisorId, auditorId) ||
+        isIgualAoRevisor(userId, revisorId)
+      );
     };
 
     if (user && editalId && inscricaoId) {
@@ -49,8 +70,8 @@ export default function InscricaoTeacherView() {
       setLoadingProcessoSeletivo(true);
       getDetalhesInscricaoProfessor(inscricaoId, editalId)
         .then(({ data }) => {
-          if (data?.revisor_id === user.id) {
-            redirectToInscritos();
+          if (isReadOnly(user.id, data?.revisor_id, data?.auditor_id)) {
+            setReadOnly(true);
           }
           setDadosInscricao(data);
           setIsAuditoria(Boolean(data?.revisor_id));
@@ -90,6 +111,9 @@ export default function InscricaoTeacherView() {
       {inscricaoError && (
         <Alert severity="error">Ocorreu um erro. Tente novamente.</Alert>
       )}
+      {(readOnly || warningMessage) && (
+        <Alert severity="warning">{warningMessage}</Alert>
+      )}
       <Card sx={{ width: 800, mt: 5 }}>
         <CardHeader
           title={`${isAuditoria ? "Auditar" : "Revisar"} Inscrição`}
@@ -113,6 +137,7 @@ export default function InscricaoTeacherView() {
               editalId={editalId}
               inscricaoId={inscricaoId}
               isAuditoria={isAuditoria}
+              isReadOnly={readOnly}
               dadosInscricao={dadosInscricao}
               setInscricaoError={setInscricaoError}
             />

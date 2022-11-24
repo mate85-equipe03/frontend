@@ -25,6 +25,7 @@ interface IProps {
   displayCheckboxes: boolean;
   btnText: string;
   isTeacher: boolean;
+  readOnly?: boolean;
   actionAfterRequestSuccess: (isncricaoId: number) => void;
   submitRequest: (inscricaoData: IInscricaoData) => Promise<void>;
 }
@@ -36,6 +37,7 @@ export default function FormInscricao({
   displayCheckboxes,
   btnText,
   isTeacher,
+  readOnly,
   submitRequest,
   actionAfterRequestSuccess,
 }: IProps) {
@@ -96,7 +98,9 @@ export default function FormInscricao({
         // Para professor:
         id_inscricao: inscricaoId,
         nota_final: dadosInscricao.nota_final,
-        observacao_professor: dadosInscricao.observacao,
+        observacao_professor: dadosInscricao.observacao
+          ? dadosInscricao.observacao
+          : "",
       };
 
       // Os históricos são setados a partir de seus respectivos useEffects
@@ -262,7 +266,7 @@ export default function FormInscricao({
               multipleFiles={false}
               files={inscricaoData.historico_graduacao_file}
               setFiles={setHistoricosGraduacao}
-              disabled={isTeacher}
+              disabled={isTeacher || readOnly}
             />
           </FormControl>
         </Grid>
@@ -275,6 +279,7 @@ export default function FormInscricao({
               label="Nota"
               type="text"
               value={inscricaoData.nota_historico_graduacao_file}
+              disabled={readOnly}
             />
           </FormControl>
         </Grid>
@@ -294,7 +299,7 @@ export default function FormInscricao({
               multipleFiles={false}
               files={inscricaoData.historico_posgraduacao_file}
               setFiles={setHistoricosPosGraduacao}
-              disabled={isTeacher}
+              disabled={isTeacher || readOnly}
             />
           </FormControl>
         </Grid>
@@ -307,6 +312,7 @@ export default function FormInscricao({
               label="Nota"
               type="text"
               value={inscricaoData.nota_historico_posgraduacao_file}
+              disabled={readOnly}
             />
           </FormControl>
         </Grid>
@@ -330,7 +336,7 @@ export default function FormInscricao({
               placeholder="https://emec.mec.gov.br"
               type="url"
               value={inscricaoData.url_enade}
-              disabled={isTeacher}
+              disabled={isTeacher || readOnly}
             />
             <Link
               href="https://enade.inep.gov.br/enade/#!/relatorioCursos"
@@ -352,6 +358,7 @@ export default function FormInscricao({
               name="nota_url_enade"
               label="Nota"
               value={inscricaoData.nota_url_enade}
+              disabled={readOnly}
             />
           </FormControl>
         </Grid>
@@ -380,7 +387,7 @@ export default function FormInscricao({
                   id="checkbox-1"
                   name="checkbox-1"
                   defaultChecked={Boolean(inscricaoId)}
-                  disabled={Boolean(inscricaoId)}
+                  disabled={Boolean(inscricaoId) || readOnly}
                 />
               }
             />
@@ -393,7 +400,7 @@ export default function FormInscricao({
                   id="checkbox-2"
                   name="checkbox-2"
                   defaultChecked={Boolean(inscricaoId)}
-                  disabled={Boolean(inscricaoId)}
+                  disabled={Boolean(inscricaoId) || readOnly}
                 />
               }
             />
@@ -406,7 +413,7 @@ export default function FormInscricao({
                   id="checkbox-3"
                   name="checkbox-3"
                   defaultChecked={Boolean(inscricaoId)}
-                  disabled={Boolean(inscricaoId)}
+                  disabled={Boolean(inscricaoId) || readOnly}
                 />
               }
             />
@@ -421,7 +428,7 @@ export default function FormInscricao({
                   id="checkbox-4"
                   name="checkbox-4"
                   defaultChecked={Boolean(inscricaoId)}
-                  disabled={Boolean(inscricaoId)}
+                  disabled={Boolean(inscricaoId) || readOnly}
                 />
               }
             />
@@ -448,6 +455,7 @@ export default function FormInscricao({
               name="observacao_professor"
               label="Observações"
               value={inscricaoData.observacao_professor}
+              disabled={readOnly}
             />
           </FormControl>
           <FormControl required fullWidth margin="normal" sx={{ mt: 3 }}>
@@ -458,6 +466,7 @@ export default function FormInscricao({
               label="Nota Final"
               placeholder="10.0"
               value={inscricaoData.nota_final}
+              disabled={readOnly}
             />
           </FormControl>
         </>
@@ -478,3 +487,7 @@ export default function FormInscricao({
     </form>
   );
 }
+
+FormInscricao.defaultProps = {
+  readOnly: false,
+};
