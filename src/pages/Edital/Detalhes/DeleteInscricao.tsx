@@ -103,6 +103,6 @@ export default function DeleteInscricao({
           </DialogActions>
         </Grid>
       </Dialog>
-    </div>
+    </>
   );
 }
