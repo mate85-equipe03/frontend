@@ -54,7 +54,7 @@ export default function EnrolledsList() {
   }, [editalId, user, navigate]);
 
   const handleRowClick: GridEventListener<"rowClick"> = (params) => {
-      navigate(`/edital/${editalId}/inscritos/${params.row.id}`);
+    navigate(`/edital/${editalId}/inscritos/${params.row.id}`);
   };
 
   useEffect(() => {
