@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { deleteInscricao } from "./Service";
+import BtnSubmitLoading from "../../../Components/BtnSubmitLoading";
+import Loading from "../../../Components/Loading";
 
 interface PropsModal {
   idInscricao: number;
@@ -22,6 +24,7 @@ export default function DeleteInscricao({
   onSuccess,
 }: PropsModal) {
   const [open, setOpen] = React.useState(false);
+  const [loadingAction, setLoadingAction] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -32,14 +35,18 @@ export default function DeleteInscricao({
   };
 
   const excluirInscricao = () => {
-    deleteInscricao(idInscricao)
-      .then(() => {
-        handleClose();
-        onSuccess();
-      })
-      .catch(() => {
-        // TODO: Ver como exibir erros va View
-      });
+    if (idInscricao) {
+      setLoadingAction(true);
+      deleteInscricao(idInscricao)
+        .catch(() => {
+          // TODO: Ver como exibir erros va View
+        })
+        .finally(() => {
+          setLoadingAction(false);
+          handleClose();
+          onSuccess();
+        });
+    }
   };
 
   return (
@@ -96,8 +103,9 @@ export default function DeleteInscricao({
               <Button color="inherit" onClick={handleClose}>
                 Voltar
               </Button>
+
               <Button color="error" onClick={excluirInscricao} autoFocus>
-                Excluir
+                {loadingAction ? <Loading /> : "Excluir"}
               </Button>
             </Grid>
           </DialogActions>
