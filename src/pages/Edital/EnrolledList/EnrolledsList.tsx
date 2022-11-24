@@ -94,25 +94,19 @@ export default function EnrolledsList() {
       field: "nome",
       headerName: "Nome",
       width: 300,
-      valueGetter: (params) => {
-        return params.getValue(params.id, "aluno").nome;
-      },
+      valueGetter: (params) => params.row.aluno.nome,
     },
     {
       field: "curso",
       headerName: "Curso",
       width: 100,
-      valueGetter: (params) => {
-        return params.getValue(params.id, "aluno").curso;
-      },
+      valueGetter: (params) => params.row.aluno.curso,
     },
     {
-      field: "semestre",
+      field: "semestre_pgcomp",
       headerName: "Semestre de Ingresso",
       width: 200,
-      valueGetter: (params) => {
-        return params.getValue(params.id, "aluno").semestre_pgcomp;
-      },
+      valueGetter: (params) => params.row.aluno.semestre_pgcomp,
     },
   ];
 
@@ -162,6 +156,11 @@ export default function EnrolledsList() {
 
         <CardContent sx={{ px: 10 }}>
           <DataGrid
+            initialState={{
+              sorting: {
+                sortModel: [{ field: "nome", sort: "asc" }],
+              },
+            }}
             onRowClick={handleRowClick}
             rows={enrolledList}
             columns={colunas}

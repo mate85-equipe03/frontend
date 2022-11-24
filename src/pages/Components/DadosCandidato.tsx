@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemText, Link, Typography } from "@mui/material";
+import { List, ListItem, Link, Typography } from "@mui/material";
 import { IAluno } from "../Revisao/Interfaces";
 
 interface IProps {
@@ -19,15 +19,27 @@ function DadosCandidato({ dadosInscrito }: IProps) {
       {dadosInscrito && (
         <>
           <ListItem>
-            <ListItemText primary={dadosInscrito.nome} />
+            <Typography color="primary" sx={{ fontWeight: "bold" }}>
+              &#8226;&emsp;Nome:&nbsp;&nbsp;
+            </Typography>
+            <Typography>{dadosInscrito.nome}</Typography>
           </ListItem>
           <ListItem>
-            <ListItemText primary={dadosInscrito.curso} />
+            <Typography color="primary" sx={{ fontWeight: "bold" }}>
+              &#8226;&emsp;Curso:&nbsp;&nbsp;
+            </Typography>
+            <Typography>{dadosInscrito.curso}</Typography>
           </ListItem>
           <ListItem>
-            <ListItemText primary={dadosInscrito.matricula} />
+            <Typography color="primary" sx={{ fontWeight: "bold" }}>
+              &#8226;&emsp;Matrícula:&nbsp;&nbsp;
+            </Typography>
+            <Typography>{dadosInscrito.matricula}</Typography>
           </ListItem>
           <ListItem>
+            <Typography color="primary" sx={{ fontWeight: "bold" }}>
+              &#8226;&emsp;
+            </Typography>
             <Link href={dadosInscrito.lattes_link} target="blank">
               Currículo Lattes
             </Link>

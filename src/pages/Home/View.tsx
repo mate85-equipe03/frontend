@@ -182,6 +182,11 @@ export default function Home() {
 
         <CardContent sx={{ px: 10 }}>
           <DataGrid
+            initialState={{
+              sorting: {
+                sortModel: [{ field: "arquivado", sort: "asc" }],
+              },
+            }}
             onRowClick={handleRowClick}
             rows={editais}
             columns={colunas}
