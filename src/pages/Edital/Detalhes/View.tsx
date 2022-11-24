@@ -27,6 +27,7 @@ export default function EditalDetails() {
   const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [inscricaoCancelada, setInscricaoCancelada] = useState(false);
 
   const { editalId } = useParams();
 
@@ -54,14 +55,12 @@ export default function EditalDetails() {
       .finally(() => {
         setLoading(false);
       });
-  }, [editalId, user]);
+  }, [editalId, user, inscricaoCancelada]);
 
   const dateToStr = (rawDate: string) => {
     const date = moment(rawDate);
     return date.format("DD/MM/YYYY");
   };
-
-  const [inscricaoCancelada, setInscricaoCancelada] = useState(false);
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -70,7 +69,6 @@ export default function EditalDetails() {
     if (reason === "clickaway") {
       return;
     }
-    setInscricaoCancelada(false);
   };
 
   return loading ? (
@@ -84,8 +82,7 @@ export default function EditalDetails() {
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          {" "}
-          Inscrição cancelada com sucesso!{" "}
+          Inscrição cancelada com sucesso!
         </Alert>
       </Snackbar>
 
@@ -96,7 +93,7 @@ export default function EditalDetails() {
         alignItems="center"
         sx={{ width: "100%" }}
       >
-        <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
+        <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5, p:4}}>
           <CardHeader
             title={edital?.titulo}
             titleTypographyProps={{
@@ -112,7 +109,7 @@ export default function EditalDetails() {
           />
           <Divider sx={{ mx: 3 }} />
 
-          <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
+          <CardContent sx={{ px: { xs: 5, sm: 10 }}}>
             <Grid
               container
               direction="column"
@@ -144,7 +141,7 @@ export default function EditalDetails() {
                 direction="column"
                 justifyContent="center"
                 alignItems="center"
-                sx={{ width: "100%", my: 2 }}
+                sx={{ width: "100%", mt: 2 }}
               >
                 {user?.role === "PROFESSOR" ? (
                   <Button
@@ -163,7 +160,7 @@ export default function EditalDetails() {
                     ) : (
                       <Grid>
                         {edital?.isInscrito ? (
-                          <Grid container justifyContent="space-between">
+                          <Grid container sx={{ pt: 2 }}>
                             <DeleteInscricao
                               idInscricao={edital.idInscricao}
                               onSuccess={() => setInscricaoCancelada(true)}
@@ -173,6 +170,7 @@ export default function EditalDetails() {
                               type="button"
                               onClick={redirectToEditarInscricao}
                               size="large"
+                              sx={{ width: "192px", ml: 2 }}
                             >
                               Editar Inscrição
                             </Button>

@@ -1,5 +1,13 @@
 import React from "react";
-import { Button, Dialog, DialogActions, DialogTitle, Grid } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+} from "@mui/material";
 import { deleteInscricao } from "./Service";
 
 interface PropsModal {
@@ -23,7 +31,6 @@ export default function DeleteInscricao({
       .finally(() => {
         handleClose();
         onSuccess();
-        // setLoading(false);
       });
   };
 
@@ -39,8 +46,14 @@ export default function DeleteInscricao({
 
   return (
     <div>
-      <Button color="inherit" type="button" size="large" onClick={handleClickOpen}>
-        Cancelar Inscrição
+      <Button
+        sx={{ width: "192px" }}
+        color="error"
+        type="button"
+        size="large"
+        onClick={handleClickOpen}
+      >
+        Excluir Inscrição
       </Button>
       <Dialog
         open={open}
@@ -48,24 +61,29 @@ export default function DeleteInscricao({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Deseja excluir a inscrição?"}
-        </DialogTitle>
-        {/* <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Descrição
+        <Grid sx={{p:3, width: "470px" }}>
+          <DialogTitle id="alert-dialog-title" sx={{ fontSize:"30px", textAlign: "center" }}>
+            {
+              "Confirmar exclusão"
+              // "Esta ação é irreversível. Tem certeza de que deseja excluir permanentemente a sua inscrição no edital?"
+            }
+          </DialogTitle>
+          <DialogContent sx={{mt:1, mb:2}}>
+            <DialogContentText  sx={{fontSize:"18px", textAlign: "center" }} id="alert-dialog-description">
+              Esta ação é irreversível. Tem certeza de que deseja excluir permanentemente a sua inscrição no edital?
             </DialogContentText>
-          </DialogContent> */}
-        <DialogActions>
-          <Grid sx={{mb:2}} container justifyContent="space-evenly">
-            <Button color="inherit" onClick={handleClose}>
-              Voltar
-            </Button>
-            <Button onClick={excluirInscricao} autoFocus>
-              Confirmar
-            </Button>
-          </Grid>
-        </DialogActions>
+          </DialogContent>
+          <DialogActions>
+            <Grid sx={{ mb: 1 }} container justifyContent="space-evenly">
+              <Button color="inherit" onClick={handleClose}>
+                Voltar
+              </Button>
+              <Button color="error" onClick={excluirInscricao} autoFocus>
+                Excluir
+              </Button>
+            </Grid>
+          </DialogActions>
+        </Grid>
       </Dialog>
     </div>
   );
