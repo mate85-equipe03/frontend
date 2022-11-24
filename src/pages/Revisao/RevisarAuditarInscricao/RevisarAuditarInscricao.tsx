@@ -10,6 +10,7 @@ interface IProps {
   editalId: number;
   inscricaoId: number;
   isAuditoria: boolean;
+  isReadOnly: boolean;
   dadosInscricao: IDetalhesInscricao;
   setInscricaoError: (error: boolean) => void;
 }
@@ -18,6 +19,7 @@ export default function RevisarAuditarInscricao({
   editalId,
   inscricaoId,
   isAuditoria,
+  isReadOnly,
   dadosInscricao,
   setInscricaoError,
 }: IProps) {
@@ -58,6 +60,7 @@ export default function RevisarAuditarInscricao({
         Dados Básicos da Inscrição
       </Typography>
       <FormInscricao
+        readOnly={isReadOnly}
         editalId={editalId}
         inscricaoId={inscricaoId}
         dadosInscricao={dadosInscricao}
