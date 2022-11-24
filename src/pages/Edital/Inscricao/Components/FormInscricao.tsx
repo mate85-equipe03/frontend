@@ -250,241 +250,252 @@ export default function FormInscricao({
   }, [formChanged]);
 
   return (
-    <form id="inscricao-form" onChange={handleFormChange} onSubmit={sendForm}>
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        alignItems="flex-end"
-      >
-        <Grid item xs={10.7}>
-          <FormControl required fullWidth margin="normal">
-            {/* Visível apenas para mestrandos calouros  */}
-            <AttachInput
-              inputName="historico_graduacao_file"
-              label="Histórico acadêmico de curso de graduação"
-              multipleFiles={false}
-              files={inscricaoData.historico_graduacao_file}
-              setFiles={setHistoricosGraduacao}
-              disabled={isTeacher || readOnly}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={1} sx={{ mb: 1.1 }}>
-          <FormControl>
-            <InputLabel htmlFor="Nota">Nota</InputLabel>
-            <OutlinedInput
-              id="nota_historico_graduacao_file"
-              name="nota_historico_graduacao_file"
-              label="Nota"
-              type="text"
-              value={inscricaoData.nota_historico_graduacao_file}
-              disabled={readOnly}
-            />
-          </FormControl>
-        </Grid>
-      </Grid>
-
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        alignItems="flex-end"
-      >
-        <Grid item xs={10.7}>
-          <FormControl required fullWidth margin="normal">
-            <AttachInput
-              inputName="historico_posgraduacao_file"
-              label="Histórico acadêmico de curso de Pós-Graduação Strictu Sensu ou comprovação de disciplinas cursadas"
-              multipleFiles={false}
-              files={inscricaoData.historico_posgraduacao_file}
-              setFiles={setHistoricosPosGraduacao}
-              disabled={isTeacher || readOnly}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={1} sx={{ mb: 1.1 }}>
-          <FormControl>
-            <InputLabel htmlFor="Nota">Nota</InputLabel>
-            <OutlinedInput
-              id="nota_historico_posgraduacao_file"
-              name="nota_historico_posgraduacao_file"
-              label="Nota"
-              type="text"
-              value={inscricaoData.nota_historico_posgraduacao_file}
-              disabled={readOnly}
-            />
-          </FormControl>
-        </Grid>
-      </Grid>
-
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Grid item xs={10.7}>
-          <FormControl required fullWidth margin="normal" sx={{ mt: 3 }}>
-            <InputLabel htmlFor="url_enade">
-              Link para o ENADE do seu curso de graduação
-            </InputLabel>
-            <OutlinedInput
-              id="url_enade"
-              name="url_enade"
-              label="Link para o ENADE do seu curso de graduação"
-              placeholder="https://emec.mec.gov.br"
-              type="url"
-              value={inscricaoData.url_enade}
-              disabled={isTeacher || readOnly}
-            />
-            <Link
-              href="https://enade.inep.gov.br/enade/#!/relatorioCursos"
-              target="_blank"
-              align="right"
-              variant="caption"
-              display="block"
-              gutterBottom
-            >
-              Relatório de cursos Enade
-            </Link>
-          </FormControl>
-        </Grid>
-        <Grid item xs={1} sx={{ mb: 1.1 }}>
-          <FormControl>
-            <InputLabel htmlFor="Nota">Nota</InputLabel>
-            <OutlinedInput
-              id="nota_url_enade"
-              name="nota_url_enade"
-              label="Nota"
-              value={inscricaoData.nota_url_enade}
-              disabled={readOnly}
-            />
-          </FormControl>
-        </Grid>
-      </Grid>
-
-      {displayCheckboxes && (
-        <FormControl
-          required
-          fullWidth
-          margin="normal"
-          sx={{
-            color: "#00000099",
-            m: 3,
-          }}
+    <Grid sx={{ mb: 2 }}>
+      <form id="inscricao-form" onChange={handleFormChange} onSubmit={sendForm}>
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="flex-end"
         >
-          <FormLabel component="legend">
-            Marque as opções que se aplicam
-          </FormLabel>
-          <FormGroup>
-            <FormControlLabel
-              sx={{ mb: 1 }}
-              label="Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na resolução vigente."
-              control={
-                <Checkbox
-                  required
-                  id="checkbox-1"
-                  name="checkbox-1"
-                  defaultChecked={Boolean(inscricaoId)}
-                  disabled={Boolean(inscricaoId) || readOnly}
-                />
-              }
-            />
-            <FormControlLabel
-              sx={{ mb: 1 }}
-              label="Meu (minha) orientador(a) tem ciência da minha participação nesse Edital de Concessão de Bolsas."
-              control={
-                <Checkbox
-                  required
-                  id="checkbox-2"
-                  name="checkbox-2"
-                  defaultChecked={Boolean(inscricaoId)}
-                  disabled={Boolean(inscricaoId) || readOnly}
-                />
-              }
-            />
-            <FormControlLabel
-              sx={{ mb: 1 }}
-              label="Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso."
-              control={
-                <Checkbox
-                  required
-                  id="checkbox-3"
-                  name="checkbox-3"
-                  defaultChecked={Boolean(inscricaoId)}
-                  disabled={Boolean(inscricaoId) || readOnly}
-                />
-              }
-            />
-            <FormControlLabel
-              sx={{ mb: 1 }}
-              label="Estou ciente de que, após o período de inscrições, caso nenhuma
+          <Grid item xs={10.7}>
+            <FormControl required fullWidth margin="normal">
+              {/* Visível apenas para mestrandos calouros  */}
+              <AttachInput
+                inputName="historico_graduacao_file"
+                label="Histórico acadêmico de curso de graduação"
+                multipleFiles={false}
+                files={inscricaoData.historico_graduacao_file}
+                setFiles={setHistoricosGraduacao}
+                disabled={isTeacher || readOnly}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={1} sx={{ mb: 1.1 }}>
+            <FormControl>
+              <InputLabel htmlFor="Nota">Nota</InputLabel>
+              <OutlinedInput
+                id="nota_historico_graduacao_file"
+                name="nota_historico_graduacao_file"
+                label="Nota"
+                type="text"
+                value={inscricaoData.nota_historico_graduacao_file}
+                disabled={readOnly}
+              />
+            </FormControl>
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="flex-end"
+        >
+          <Grid item xs={10.7}>
+            <FormControl required fullWidth margin="normal">
+              <AttachInput
+                inputName="historico_posgraduacao_file"
+                label="Histórico acadêmico de curso de Pós-Graduação Strictu Sensu ou comprovação de disciplinas cursadas"
+                multipleFiles={false}
+                files={inscricaoData.historico_posgraduacao_file}
+                setFiles={setHistoricosPosGraduacao}
+                disabled={isTeacher || readOnly}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={1} sx={{ mb: 1.1 }}>
+            <FormControl>
+              <InputLabel htmlFor="Nota">Nota</InputLabel>
+              <OutlinedInput
+                id="nota_historico_posgraduacao_file"
+                name="nota_historico_posgraduacao_file"
+                label="Nota"
+                type="text"
+                value={inscricaoData.nota_historico_posgraduacao_file}
+                disabled={readOnly}
+              />
+            </FormControl>
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Grid item xs={10.7}>
+            <FormControl required fullWidth margin="normal" sx={{ mt: 3 }}>
+              <InputLabel htmlFor="url_enade">
+                Link para o ENADE do seu curso de graduação
+              </InputLabel>
+              <OutlinedInput
+                id="url_enade"
+                name="url_enade"
+                label="Link para o ENADE do seu curso de graduação"
+                placeholder="https://emec.mec.gov.br"
+                type="url"
+                value={inscricaoData.url_enade}
+                disabled={isTeacher || readOnly}
+              />
+              <Link
+                href="https://enade.inep.gov.br/enade/#!/relatorioCursos"
+                target="_blank"
+                align="right"
+                variant="caption"
+                display="block"
+                gutterBottom
+              >
+                Relatório de cursos Enade
+              </Link>
+            </FormControl>
+          </Grid>
+          <Grid item xs={1} sx={{ mb: 1.1 }}>
+            <FormControl>
+              <InputLabel htmlFor="Nota">Nota</InputLabel>
+              <OutlinedInput
+                id="nota_url_enade"
+                name="nota_url_enade"
+                label="Nota"
+                value={inscricaoData.nota_url_enade}
+                disabled={readOnly}
+              />
+            </FormControl>
+          </Grid>
+        </Grid>
+
+        {displayCheckboxes && (
+          <FormControl
+            required
+            fullWidth
+            margin="normal"
+            sx={{
+              color: "#00000099",
+              m: 3,
+            }}
+          >
+            <FormLabel component="legend">
+              Marque as opções que se aplicam
+            </FormLabel>
+            <FormGroup>
+              <FormControlLabel
+                sx={{ mb: 1 }}
+                label="Li e estou ciente dos critérios de concessão de bolsa, tal qual estabelecida na resolução vigente."
+                control={
+                  <Checkbox
+                    required
+                    id="checkbox-1"
+                    name="checkbox-1"
+                    defaultChecked={Boolean(inscricaoId)}
+                    disabled={Boolean(inscricaoId) || readOnly}
+                  />
+                }
+              />
+              <FormControlLabel
+                sx={{ mb: 1 }}
+                label="Meu (minha) orientador(a) tem ciência da minha participação nesse Edital de Concessão de Bolsas."
+                control={
+                  <Checkbox
+                    required
+                    id="checkbox-2"
+                    name="checkbox-2"
+                    defaultChecked={Boolean(inscricaoId)}
+                    disabled={Boolean(inscricaoId) || readOnly}
+                  />
+                }
+              />
+              <FormControlLabel
+                sx={{ mb: 1 }}
+                label="Venho, por meio deste formulário, requerer uma bolsa de estudos do PGCOMP. Tenho ciência de que, para receber bolsa de estudos, preciso ter dedicação exclusiva ao curso."
+                control={
+                  <Checkbox
+                    required
+                    id="checkbox-3"
+                    name="checkbox-3"
+                    defaultChecked={Boolean(inscricaoId)}
+                    disabled={Boolean(inscricaoId) || readOnly}
+                  />
+                }
+              />
+              <FormControlLabel
+                sx={{ mb: 1 }}
+                label="Estou ciente de que, após o período de inscrições, caso nenhuma
               produção seja adicionada, será considerado que eu optei por não
               enviar nenhuma produção cientifica."
-              control={
-                <Checkbox
-                  required
-                  id="checkbox-4"
-                  name="checkbox-4"
-                  defaultChecked={Boolean(inscricaoId)}
-                  disabled={Boolean(inscricaoId) || readOnly}
-                />
-              }
-            />
-          </FormGroup>
-        </FormControl>
-      )}
-
-      {isTeacher && (
-        <>
-          <Typography variant="h6" sx={{ mt: 3 }}>
-            Produções Científicas
-          </Typography>
-          <ProducoesCientificas />
-
-          <Typography variant="h6" sx={{ mt: 5 }}>
-            Revisão/Auditoria
-          </Typography>
-          <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="observacao_professor">Observações</InputLabel>
-            <OutlinedInput
-              multiline
-              rows={3}
-              id="observacao_professor"
-              name="observacao_professor"
-              label="Observações"
-              value={inscricaoData.observacao_professor}
-              disabled={readOnly}
-            />
+                control={
+                  <Checkbox
+                    required
+                    id="checkbox-4"
+                    name="checkbox-4"
+                    defaultChecked={Boolean(inscricaoId)}
+                    disabled={Boolean(inscricaoId) || readOnly}
+                  />
+                }
+              />
+            </FormGroup>
           </FormControl>
-          <FormControl required fullWidth margin="normal" sx={{ mt: 3 }}>
-            <InputLabel htmlFor="nota_final">Nota Final</InputLabel>
-            <OutlinedInput
-              id="nota_final"
-              name="nota_final"
-              label="Nota Final"
-              placeholder="10.0"
-              value={inscricaoData.nota_final}
-              disabled={readOnly}
-            />
-          </FormControl>
-        </>
-      )}
-      <Grid container direction="row" justifyContent="flex-end" sx={{ mt: 1 }}>
-        <BtnSubmitLoading
-          label={btnText}
-          formId="inscricao-form"
-          loading={loadingInscricao}
-        />
-        {/* TODO: Apagar esse botão */}
-        {inscricaoId && (
-          <Button onClick={() => actionAfterRequestSuccess(inscricaoId)}>
-            Simular um ok sem enviar pro back
-          </Button>
         )}
-      </Grid>
-    </form>
+
+        {isTeacher && (
+          <>
+            <Typography variant="h6" sx={{ mt: 3 }}>
+              Produções Científicas
+            </Typography>
+            <ProducoesCientificas />
+
+            <Typography variant="h6" sx={{ mt: 5 }}>
+              Revisão/Auditoria
+            </Typography>
+            <FormControl fullWidth margin="normal">
+              <InputLabel htmlFor="observacao_professor">
+                Observações
+              </InputLabel>
+              <OutlinedInput
+                multiline
+                rows={3}
+                id="observacao_professor"
+                name="observacao_professor"
+                label="Observações"
+                value={inscricaoData.observacao_professor}
+                disabled={readOnly}
+              />
+            </FormControl>
+            <FormControl required fullWidth margin="normal" sx={{ mt: 3 }}>
+              <InputLabel htmlFor="nota_final">Nota Final</InputLabel>
+              <OutlinedInput
+                id="nota_final"
+                name="nota_final"
+                label="Nota Final"
+                placeholder="10.0"
+                value={inscricaoData.nota_final}
+                disabled={readOnly}
+              />
+            </FormControl>
+          </>
+        )}
+        {!readOnly && (
+          <Grid
+            container
+            direction="row"
+            justifyContent="flex-end"
+            sx={{ mt: 1 }}
+          >
+            <BtnSubmitLoading
+              label={btnText}
+              formId="inscricao-form"
+              loading={loadingInscricao}
+            />
+            {/* TODO: Apagar esse botão */}
+            {inscricaoId && (
+              <Button onClick={() => actionAfterRequestSuccess(inscricaoId)}>
+                Simular um ok sem enviar pro back
+              </Button>
+            )}
+          </Grid>
+        )}
+      </form>
+    </Grid>
   );
 }
 
