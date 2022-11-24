@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
+  Alert,
   Button,
   Card,
   CardContent,
@@ -10,6 +11,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Snackbar,
   Typography,
 } from "@mui/material";
 import moment from "moment";
@@ -18,6 +20,7 @@ import { getDetailsProcessoSeletivo, deleteInscricao } from "./Service";
 import UserContext from "../../../context/UserContext";
 import Loading from "../../../Components/Loading";
 import PDFFile from "../../Components/PDFFile";
+import DeleteInscricao from "./DeleteInscricao";
 
 export default function EditalDetails() {
   const navigate = useNavigate();
@@ -39,22 +42,6 @@ export default function EditalDetails() {
     navigate(`/edital/${editalId}/inscritos`);
   };
 
-  const cancelarInscricao = () => {
-    console.log("Cancelar");
-    console.log(edital);
-    deleteInscricao(edital?.idInscricao)
-      .then(({ data }) => {
-        console.log(data);
-        // setEdital(data);
-      })
-      .catch(() => {
-        // TODO: Ver como exibir erros va View
-      })
-      .finally(() => {
-        // setLoading(false);
-      });
-  };
-
   useEffect(() => {
     setLoading(true);
     getDetailsProcessoSeletivo(editalId)
@@ -74,114 +61,140 @@ export default function EditalDetails() {
     return date.format("DD/MM/YYYY");
   };
 
+  const [inscricaoCancelada, setInscricaoCancelada] = useState(false);
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setInscricaoCancelada(false);
+  };
+
   return loading ? (
     <Loading />
   ) : (
-    <Grid
-      container
-      direction="column"
-      justifyContent="center"
-      alignItems="center"
-      sx={{ width: "100%" }}
-    >
-      <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
-        <CardHeader
-          title={edital?.titulo}
-          titleTypographyProps={{
-            align: "center",
-            variant: "h4",
-            p: 1,
-          }}
-          sx={{ px: 3 }}
-          subheader={edital?.descricao}
-          subheaderTypographyProps={{
-            align: "center",
-          }}
-        />
-        <Divider sx={{ mx: 3 }} />
+    <Grid>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={inscricaoCancelada}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          {" "}
+          Inscrição cancelada com sucesso!{" "}
+        </Alert>
+      </Snackbar>
 
-        <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
-          <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            sx={{ width: "100%" }}
-          >
-            <List>
-              {edital?.etapas.map((etapa) => (
-                <ListItem disablePadding key={etapa.id}>
-                  <ListItemText
-                    primary={`${etapa.name}: ${dateToStr(etapa.data_inicio)} a 
-                          ${dateToStr(etapa.data_fim)}`}
-                  />
-                </ListItem>
-              ))}
-            </List>
-            {edital && (
-              <PDFFile
-                pdfUrl={edital?.edital_url}
-                pdfTitle={`${edital?.titulo}.pdf`}
-                sx={{ my: 1 }}
-              />
-            )}
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        sx={{ width: "100%" }}
+      >
+        <Card sx={{ minWidth: { md: 500 }, maxWidth: 800, mt: 5 }}>
+          <CardHeader
+            title={edital?.titulo}
+            titleTypographyProps={{
+              align: "center",
+              variant: "h4",
+              p: 1,
+            }}
+            sx={{ px: 3 }}
+            subheader={edital?.descricao}
+            subheaderTypographyProps={{
+              align: "center",
+            }}
+          />
+          <Divider sx={{ mx: 3 }} />
+
+          <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
             <Grid
               container
               direction="column"
               justifyContent="center"
               alignItems="center"
-              sx={{ width: "100%", my: 2 }}
+              sx={{ width: "100%" }}
             >
-              {user?.role === "PROFESSOR" ? (
-                <Button
-                  type="button"
-                  onClick={redirectToEnrolledList}
-                  size="large"
-                >
-                  Alunos Inscritos
-                </Button>
-              ) : (
-                <Grid>
-                  {edital?.arquivado ? (
-                    <Typography sx={{ fontSize: 20, color: "primary.main" }}>
-                      Resultados disponíveis {/* link para resultado */}
-                    </Typography>
-                  ) : (
-                    <Grid>
-                      {edital?.isInscrito ? (
-                        <Grid>
-                          <Button
-                            type="button"
-                            onClick={cancelarInscricao}
-                            size="large"
-                          >
-                            Cancelar Inscrição
-                          </Button>
-                          <Button
-                            type="button"
-                            onClick={redirectToEditarInscricao}
-                            size="large"
-                          >
-                            Editar Inscrição
-                          </Button>
-                        </Grid>
-                      ) : (
-                        <Button
-                          type="button"
-                          onClick={redirectToSubscribe}
-                          size="large"
-                        >
-                          Inscreva-se
-                        </Button>
-                      )}
-                    </Grid>
-                  )}
-                </Grid>
+              <List>
+                {edital?.etapas.map((etapa) => (
+                  <ListItem disablePadding key={etapa.id}>
+                    <ListItemText
+                      primary={`${etapa.name}: ${dateToStr(
+                        etapa.data_inicio
+                      )} a 
+                          ${dateToStr(etapa.data_fim)}`}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+              {edital && (
+                <PDFFile
+                  pdfUrl={edital?.edital_url}
+                  pdfTitle={`${edital?.titulo}.pdf`}
+                  sx={{ my: 1 }}
+                />
               )}
+              <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ width: "100%", my: 2 }}
+              >
+                {user?.role === "PROFESSOR" ? (
+                  <Button
+                    type="button"
+                    onClick={redirectToEnrolledList}
+                    size="large"
+                  >
+                    Alunos Inscritos
+                  </Button>
+                ) : (
+                  <Grid>
+                    {edital?.arquivado ? (
+                      <Typography sx={{ fontSize: 20, color: "primary.main" }}>
+                        Resultados disponíveis {/* link para resultado */}
+                      </Typography>
+                    ) : (
+                      <Grid>
+                        {edital?.isInscrito ? (
+                          <Grid container justifyContent="space-between">
+                            <DeleteInscricao
+                              idInscricao={edital.idInscricao}
+                              onSuccess={() => setInscricaoCancelada(true)}
+                            />
+
+                            <Button
+                              type="button"
+                              onClick={redirectToEditarInscricao}
+                              size="large"
+                            >
+                              Editar Inscrição
+                            </Button>
+                          </Grid>
+                        ) : (
+                          <Button
+                            type="button"
+                            onClick={redirectToSubscribe}
+                            size="large"
+                          >
+                            Inscreva-se
+                          </Button>
+                        )}
+                      </Grid>
+                    )}
+                  </Grid>
+                )}
+              </Grid>
             </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </Grid>
     </Grid>
   );
 }
