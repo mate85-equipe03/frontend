@@ -12,6 +12,7 @@ interface IProps {
   isAuditoria: boolean;
   isReadOnly: boolean;
   dadosInscricao: IDetalhesInscricao;
+  loadingDadosInscricao: boolean;
   setInscricaoError: (error: boolean) => void;
 }
 
@@ -21,6 +22,7 @@ export default function RevisarAuditarInscricao({
   isAuditoria,
   isReadOnly,
   dadosInscricao,
+  loadingDadosInscricao,
   setInscricaoError,
 }: IProps) {
   const navigate = useNavigate();
@@ -61,6 +63,8 @@ export default function RevisarAuditarInscricao({
         btnText={`Finalizar ${isAuditoria ? "auditoria" : "revisão"}`}
         isTeacher
         submitRequest={submitRequest}
+        loadingDadosInscricao = {loadingDadosInscricao}
+
       />
     </>
   );

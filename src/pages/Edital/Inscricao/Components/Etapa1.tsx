@@ -77,9 +77,7 @@ export default function Etapa1({
     }
   }, [editalId, inscricaoId]);
 
-  return loadingDetalhesInscricao ? (
-    <Loading />
-  ) : (
+  return (
     <>
       <Typography variant="h6" sx={{ mt: 3 }}>
         Formulário de Inscrição
@@ -91,6 +89,7 @@ export default function Etapa1({
         btnText="Continuar"
         isTeacher={false}
         submitRequest={submitRequest}
+        loadingDadosInscricao={loadingDetalhesInscricao}
       />
     </>
   );

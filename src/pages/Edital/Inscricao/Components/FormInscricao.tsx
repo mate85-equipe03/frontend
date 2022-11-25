@@ -22,24 +22,27 @@ interface IProps {
   editalId: number;
   inscricaoId: number | undefined;
   dadosInscricao: IDetalhesInscricao | undefined;
+  loadingDadosInscricao: boolean;
   btnText: string;
   isTeacher: boolean;
   readOnly?: boolean;
   submitRequest: (inscricaoData: IInscricaoData) => Promise<void>;
+  
 }
 
 export default function FormInscricao({
   editalId,
   inscricaoId,
   dadosInscricao,
+  loadingDadosInscricao,
   btnText,
   isTeacher,
   readOnly,
   submitRequest,
 }: IProps) {
   const [countFiles, setCountFiles] = useState<number>(0);
-  const [loadingInscricao, setLoadingInscricao] = useState<boolean>(false);
   const [formChanged, setFormChanged] = useState<boolean>(false);
+  const [loadingEnvioInscricao, setLoadingEnvioInscricao] = useState<boolean>(false);
   const [loadingHistoricos, setLoadingHistoricos] = useState<boolean>(false);
 
   const [initialInscricaoData, setInitialInscricaoData] =
@@ -215,10 +218,10 @@ export default function FormInscricao({
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setLoadingInscricao(true);
+    setLoadingEnvioInscricao(true);
 
     submitRequest(inscricaoData).finally(() => {
-      setLoadingInscricao(false);
+      setLoadingEnvioInscricao(false);
       setFormChanged(false);
     });
   };
@@ -253,7 +256,7 @@ export default function FormInscricao({
     };
   }, [formChanged]);
 
-  return loadingHistoricos ? (
+  return loadingHistoricos || loadingDadosInscricao ? (
     <Loading />
   ) : (
     <Grid sx={{ mb: 2 }}>
@@ -491,7 +494,7 @@ export default function FormInscricao({
             <BtnSubmitLoading
               label={btnText}
               formId="inscricao-form"
-              loading={loadingInscricao}
+              loading={loadingEnvioInscricao}
             />
           </Grid>
         )}

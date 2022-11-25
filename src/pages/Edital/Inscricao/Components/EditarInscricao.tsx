@@ -62,9 +62,7 @@ export default function EditarInscricao({
     });
   }, [editalId]);
 
-  return loadingDetalhesInscricao ? (
-    <Loading />
-  ) : (
+  return (
     <>
       <Typography variant="h6" sx={{ mt: 3 }}>
         Dados Básicos da Inscrição
@@ -77,6 +75,7 @@ export default function EditarInscricao({
         isTeacher={false}
         submitRequest={submitRequest}
         readOnly={readOnly}
+        loadingDadosInscricao={loadingDetalhesInscricao}
       />
       {!readOnly && (
         <>
