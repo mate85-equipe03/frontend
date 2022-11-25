@@ -7,7 +7,6 @@ import { getDetalhesInscricaoAluno } from "../../../Revisao/Service";
 import { IDetalhesInscricao } from "../../../Revisao/Interfaces";
 import { IFile, IInscricaoData, IInscricaoDataReq } from "../Interfaces";
 import { patchInscricao } from "../Service";
-import Loading from "../../../../Components/Loading";
 
 interface IProps {
   editalId: number;

@@ -63,8 +63,7 @@ export default function RevisarAuditarInscricao({
         btnText={`Finalizar ${isAuditoria ? "auditoria" : "revisão"}`}
         isTeacher
         submitRequest={submitRequest}
-        loadingDadosInscricao = {loadingDadosInscricao}
-
+        loadingDadosInscricao={loadingDadosInscricao}
       />
     </>
   );

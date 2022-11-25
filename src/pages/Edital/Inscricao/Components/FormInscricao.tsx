@@ -27,7 +27,6 @@ interface IProps {
   isTeacher: boolean;
   readOnly?: boolean;
   submitRequest: (inscricaoData: IInscricaoData) => Promise<void>;
-  
 }
 
 export default function FormInscricao({
@@ -42,7 +41,8 @@ export default function FormInscricao({
 }: IProps) {
   const [countFiles, setCountFiles] = useState<number>(0);
   const [formChanged, setFormChanged] = useState<boolean>(false);
-  const [loadingEnvioInscricao, setLoadingEnvioInscricao] = useState<boolean>(false);
+  const [loadingEnvioInscricao, setLoadingEnvioInscricao] =
+    useState<boolean>(false);
   const [loadingHistoricos, setLoadingHistoricos] = useState<boolean>(false);
 
   const [initialInscricaoData, setInitialInscricaoData] =
