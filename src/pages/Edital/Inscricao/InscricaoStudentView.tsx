@@ -13,7 +13,7 @@ import UserContext from "../../../context/UserContext";
 import getDadosAluno from "../../Cadastro/Service";
 import { IDados } from "../../Cadastro/Types";
 import DadosCandidato from "../../Components/DadosCandidato";
-import getDetailsProcessoSeletivo from "../Detalhes/Service";
+import { getDetailsProcessoSeletivo } from "../Detalhes/Service";
 import EditarInscricao from "./Components/EditarInscricao";
 import NovaInscricao from "./Components/NovaInscricao";
 
@@ -27,6 +27,7 @@ export default function InscricaoStudentView() {
   const [editalName, setEditalName] = useState<string>();
   const [dadosAluno, setDadosAluno] = useState<IDados | undefined>();
   const [inscricaoId, setInscricaoId] = useState<number>();
+  const [readOnly, setReadOnly] = useState<boolean>(false);
 
   const params = useParams();
   const editalId = Number(params.editalId) ? Number(params.editalId) : null;
@@ -52,7 +53,11 @@ export default function InscricaoStudentView() {
       getDetailsProcessoSeletivo(editalId)
         .then(({ data }) => {
           if (data?.arquivado) {
-            redirectToDetails();
+            if (!data?.idInscricao) {
+              redirectToDetails();
+            } else {
+              setReadOnly(true);
+            }
           }
           setEditalName(data?.titulo);
           setInscricaoId(data?.idInscricao);
@@ -81,9 +86,7 @@ export default function InscricaoStudentView() {
       )}
       <Card sx={{ width: 800, mt: 5 }}>
         <CardHeader
-          title={`${
-            inscricaoId ? "Editar" : ""
-          } Inscrição em Processo Seletivo`}
+          title="Inscrição em Processo Seletivo"
           titleTypographyProps={{
             align: "center",
             variant: "h4",
@@ -109,6 +112,7 @@ export default function InscricaoStudentView() {
               <EditarInscricao
                 editalId={editalId}
                 inscricaoId={inscricaoId}
+                readOnly={readOnly}
                 setInscricaoError={setInscricaoError}
               />
             ))}

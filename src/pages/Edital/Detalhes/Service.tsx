@@ -5,4 +5,8 @@ const getDetailsProcessoSeletivo = (editalId: number | string | undefined) => {
   return api.get<IDetails>(`/processos-seletivos/${editalId}`);
 };
 
-export default getDetailsProcessoSeletivo;
+const deleteInscricao = (inscricaoId: number) => {
+  return api.delete(`/inscricoes/${inscricaoId}`);
+};
+
+export { getDetailsProcessoSeletivo, deleteInscricao };

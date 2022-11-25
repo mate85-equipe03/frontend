@@ -66,7 +66,7 @@ export default function AttachedFile({
         <Grid item>
           <ListItemText
             sx={{
-              color: disabled ? "#00000061" : "#00000099",
+              color: "#00000099",
             }}
           >
             {fileData?.name}

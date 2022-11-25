@@ -14,7 +14,7 @@ import DadosCandidato from "../../Components/DadosCandidato";
 import { IDetalhesInscricao } from "../../Revisao/Interfaces";
 import RevisarAuditarInscricao from "../../Revisao/RevisarAuditarInscricao/RevisarAuditarInscricao";
 import { getDetalhesInscricaoProfessor } from "../../Revisao/Service";
-import getDetailsProcessoSeletivo from "../Detalhes/Service";
+import { getDetailsProcessoSeletivo } from "../Detalhes/Service";
 
 export default function InscricaoTeacherView() {
   const navigate = useNavigate();
@@ -36,10 +36,6 @@ export default function InscricaoTeacherView() {
     : null;
 
   useEffect(() => {
-    const redirectToDetails = () => {
-      navigate(`/edital/${editalId}/detalhes`);
-    };
-
     const isRevisadaEAuditada = (revisorId: number, auditorId: number) => {
       if (revisorId && auditorId) {
         setWarningMessage(
@@ -91,7 +87,7 @@ export default function InscricaoTeacherView() {
       getDetailsProcessoSeletivo(editalId)
         .then(({ data }) => {
           if (data?.arquivado) {
-            redirectToDetails();
+            setReadOnly(true);
           }
           setEditalName(data?.titulo);
         })

@@ -13,7 +13,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import WarningIcon from "@mui/icons-material/Warning";
 import { getEnrolledList } from "./Service";
 import { IADetalhes } from "./Interfaces";
-import getDetailsProcessoSeletivo from "../Detalhes/Service";
+import { getDetailsProcessoSeletivo } from "../Detalhes/Service";
 import UserContext from "../../../context/UserContext";
 import Loading from "../../../Components/Loading";
 
@@ -34,16 +34,15 @@ export default function EnrolledsList() {
   const auditoriaSuccess = location.state
     ? "auditoria" in location.state
     : false;
-  const auditorIgualARevisorError = location.state
-    ? "auditorIgualARevisor" in location.state
-    : false;
   window.history.replaceState(null, "");
 
   useEffect(() => {
     if (user && editalId) {
       setLoadingInscritos(true);
       getEnrolledList(editalId)
-        .then(({ data }) => setEnrolledList(data))
+        .then(({ data }) => {
+          setEnrolledList(data);
+        })
         .catch(() => {
           // TODO: Ver como exibir erros va View
         })
@@ -78,14 +77,6 @@ export default function EnrolledsList() {
 
     if (auditoriaSuccess) {
       return "Inscrição auditada com sucesso.";
-    }
-
-    return null;
-  };
-
-  const checkErrorMessage = (): string | null => {
-    if (auditorIgualARevisorError) {
-      return "Auditor(a) não pode ser igual ao(à) revisor(a).";
     }
 
     return null;
@@ -153,7 +144,6 @@ export default function EnrolledsList() {
   }, 0);
 
   const successMessage = checkSuccessMessage();
-  const errorMessage = checkErrorMessage();
 
   return loadingInscritos || loadingProcesso ? (
     <Loading />
@@ -170,13 +160,6 @@ export default function EnrolledsList() {
           {successMessage}
         </Alert>
       )}
-
-      {errorMessage && (
-        <Alert severity="error" sx={{ mb: 2 }}>
-          {errorMessage}
-        </Alert>
-      )}
-
       <Card sx={{ py: 2, mt: 5 }}>
         <CardHeader
           title="Estudantes Inscritos(as)"
