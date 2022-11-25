@@ -63,7 +63,15 @@ export default function AttachedFile({
         justifyContent="space-between"
         wrap="nowrap"
       >
-        <Grid item>
+        <Grid
+          item
+          sx={{
+            width: "100%",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+          }}
+        >
           <ListItemText
             sx={{
               color: "#00000099",

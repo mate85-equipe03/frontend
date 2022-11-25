@@ -9,7 +9,6 @@ import {
   FormGroup,
   FormLabel,
   Link,
-  Button,
   Typography,
 } from "@mui/material";
 import AttachInput from "./AttachInput";
@@ -17,15 +16,16 @@ import { IInscricaoData, IFile } from "../Interfaces";
 import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
 import { IDetalhesInscricao, IHistorico } from "../../../Revisao/Interfaces";
 import ProducoesCientificas from "./ProducoesCientificasDjair";
+import Loading from "../../../../Components/Loading";
 
 interface IProps {
   editalId: number;
   inscricaoId: number | undefined;
   dadosInscricao: IDetalhesInscricao | undefined;
+  loadingDadosInscricao: boolean;
   btnText: string;
   isTeacher: boolean;
   readOnly?: boolean;
-  actionAfterRequestSuccess: (isncricaoId: number) => void;
   submitRequest: (inscricaoData: IInscricaoData) => Promise<void>;
 }
 
@@ -33,15 +33,17 @@ export default function FormInscricao({
   editalId,
   inscricaoId,
   dadosInscricao,
+  loadingDadosInscricao,
   btnText,
   isTeacher,
   readOnly,
   submitRequest,
-  actionAfterRequestSuccess,
 }: IProps) {
   const [countFiles, setCountFiles] = useState<number>(0);
-  const [loadingInscricao, setLoadingInscricao] = useState<boolean>(false);
   const [formChanged, setFormChanged] = useState<boolean>(false);
+  const [loadingEnvioInscricao, setLoadingEnvioInscricao] =
+    useState<boolean>(false);
+  const [loadingHistoricos, setLoadingHistoricos] = useState<boolean>(false);
 
   const [initialInscricaoData, setInitialInscricaoData] =
     useState<IInscricaoData>({
@@ -104,6 +106,14 @@ export default function FormInscricao({
       // Os históricos são setados a partir de seus respectivos useEffects
       dadosInscricao.Historico.forEach((historico) => {
         const { url } = historico;
+
+        if (historico.tipo === "GRADUACAO") {
+          reqInscricao.nota_historico_graduacao_file = historico.nota;
+        }
+        if (historico.tipo === "POS_GRADUACAO") {
+          reqInscricao.nota_historico_posgraduacao_file = historico.nota;
+        }
+
         fetch(url)
           .then((r) => r.blob())
           .then((blobFile) => {
@@ -111,12 +121,10 @@ export default function FormInscricao({
 
             if (historico.tipo === "GRADUACAO") {
               setInitialHistoricoGraduacao([newFile]);
-              reqInscricao.nota_historico_graduacao_file = historico.nota;
             }
 
             if (historico.tipo === "POS_GRADUACAO") {
               setInitialHistoricoPosGrad([newFile]);
-              reqInscricao.nota_historico_graduacao_file = historico.nota;
             }
           });
       });
@@ -210,27 +218,28 @@ export default function FormInscricao({
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setLoadingInscricao(true);
+    setLoadingEnvioInscricao(true);
 
     submitRequest(inscricaoData).finally(() => {
-      setLoadingInscricao(false);
+      setLoadingEnvioInscricao(false);
       setFormChanged(false);
     });
   };
-
-  // const [loadingHistoricos, setLoadingHistoricos] = useState<boolean>(false);
 
   useEffect(() => {
     setFormChanged(
       JSON.stringify(initialInscricaoData) !== JSON.stringify(inscricaoData)
     );
 
-    // TODO: Implementar loading na logica de carregamento da pagina
-    // setLoadingHistoricos(
-    //   initialInscricaoData.historico_graduacao_file.length > 0 &&
-    //     initialInscricaoData.historico_posgraduacao_file.length > 0
-    // );
-  }, [initialInscricaoData, inscricaoData]);
+    if (inscricaoId) {
+      setLoadingHistoricos(
+        initialInscricaoData.historico_graduacao_file.length < 1 ||
+          initialInscricaoData.historico_posgraduacao_file.length < 1
+      );
+    } else {
+      setLoadingHistoricos(false);
+    }
+  }, [initialInscricaoData, inscricaoData, inscricaoId]);
 
   useEffect(() => {
     const handler = (event: BeforeUnloadEvent) => {
@@ -247,7 +256,9 @@ export default function FormInscricao({
     };
   }, [formChanged]);
 
-  return (
+  return loadingHistoricos || loadingDadosInscricao ? (
+    <Loading />
+  ) : (
     <Grid sx={{ mb: 2 }}>
       <form id="inscricao-form" onChange={handleFormChange} onSubmit={sendForm}>
         <Grid
@@ -483,14 +494,8 @@ export default function FormInscricao({
             <BtnSubmitLoading
               label={btnText}
               formId="inscricao-form"
-              loading={loadingInscricao}
+              loading={loadingEnvioInscricao}
             />
-            {/* TODO: Apagar esse botão */}
-            {inscricaoId && (
-              <Button onClick={() => actionAfterRequestSuccess(inscricaoId)}>
-                Simular um ok sem enviar pro back
-              </Button>
-            )}
           </Grid>
         )}
       </form>

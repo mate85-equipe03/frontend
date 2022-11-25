@@ -6,7 +6,7 @@ import ProducoesCientificas from "./ProducoesCientificasDjair";
 import { getDetalhesInscricaoAluno } from "../../../Revisao/Service";
 import { IDetalhesInscricao } from "../../../Revisao/Interfaces";
 import { IFile, IInscricaoData, IInscricaoDataReq } from "../Interfaces";
-import postInscricao from "../Service";
+import { patchInscricao } from "../Service";
 
 interface IProps {
   editalId: number;
@@ -24,12 +24,8 @@ export default function EditarInscricao({
   const navigate = useNavigate();
 
   const [dadosInscricao, setDadosInscricao] = useState<IDetalhesInscricao>();
-
-  const actionAfterRequestSuccess = (
-    _: number // eslint-disable-line @typescript-eslint/no-unused-vars
-  ) => {
-    navigate("/", { state: { editInscricao: true } });
-  };
+  const [loadingDetalhesInscricao, setLoadingDetalhesInscricao] =
+    useState(false);
 
   const submitRequest = (inscricaoData: IInscricaoData) => {
     const removeFileId = (filesWithId: IFile[]) => {
@@ -46,12 +42,10 @@ export default function EditarInscricao({
       ),
     };
 
-    // Editar Inscrição
-    // TODO: Implementar rota do back para atualizar inscrição
-    return postInscricao(payload)
-      .then(({ data }) => {
+    return patchInscricao(payload)
+      .then(() => {
         setInscricaoError(false);
-        actionAfterRequestSuccess(data.id);
+        navigate("/", { state: { editInscricao: true } });
       })
       .catch(() => {
         setInscricaoError(true);
@@ -60,9 +54,10 @@ export default function EditarInscricao({
   };
 
   useEffect(() => {
-    // TODO: loading
+    setLoadingDetalhesInscricao(true);
     getDetalhesInscricaoAluno(editalId).then(({ data }) => {
       setDadosInscricao(data);
+      setLoadingDetalhesInscricao(false);
     });
   }, [editalId]);
 
@@ -78,8 +73,8 @@ export default function EditarInscricao({
         btnText="Editar Dados Básicos"
         isTeacher={false}
         submitRequest={submitRequest}
-        actionAfterRequestSuccess={actionAfterRequestSuccess}
         readOnly={readOnly}
+        loadingDadosInscricao={loadingDetalhesInscricao}
       />
       {!readOnly && (
         <>
