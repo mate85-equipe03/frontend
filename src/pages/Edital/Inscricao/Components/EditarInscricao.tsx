@@ -28,12 +28,6 @@ export default function EditarInscricao({
   const [loadingDetalhesInscricao, setLoadingDetalhesInscricao] =
     useState(false);
 
-  const actionAfterRequestSuccess = (
-    _: number // eslint-disable-line @typescript-eslint/no-unused-vars
-  ) => {
-    navigate("/", { state: { editInscricao: true } });
-  };
-
   const submitRequest = (inscricaoData: IInscricaoData) => {
     const removeFileId = (filesWithId: IFile[]) => {
       return filesWithId.map((historico) => historico.fileData);
@@ -50,9 +44,9 @@ export default function EditarInscricao({
     };
 
     return patchInscricao(payload)
-      .then(({ data }) => {
+      .then(() => {
         setInscricaoError(false);
-        actionAfterRequestSuccess(data.id);
+        navigate("/", { state: { editInscricao: true } });
       })
       .catch(() => {
         setInscricaoError(true);
@@ -82,7 +76,6 @@ export default function EditarInscricao({
         btnText="Editar Dados Básicos"
         isTeacher={false}
         submitRequest={submitRequest}
-        actionAfterRequestSuccess={actionAfterRequestSuccess}
         readOnly={readOnly}
       />
       {!readOnly && (

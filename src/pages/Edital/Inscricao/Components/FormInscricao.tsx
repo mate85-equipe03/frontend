@@ -25,7 +25,6 @@ interface IProps {
   btnText: string;
   isTeacher: boolean;
   readOnly?: boolean;
-  actionAfterRequestSuccess: (isncricaoId: number) => void;
   submitRequest: (inscricaoData: IInscricaoData) => Promise<void>;
 }
 
@@ -37,7 +36,6 @@ export default function FormInscricao({
   isTeacher,
   readOnly,
   submitRequest,
-  actionAfterRequestSuccess,
 }: IProps) {
   const [countFiles, setCountFiles] = useState<number>(0);
   const [loadingInscricao, setLoadingInscricao] = useState<boolean>(false);

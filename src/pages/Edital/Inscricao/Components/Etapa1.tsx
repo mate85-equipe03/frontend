@@ -5,6 +5,7 @@ import { getDetalhesInscricaoAluno } from "../../../Revisao/Service";
 import { IDetalhesInscricao } from "../../../Revisao/Interfaces";
 import { patchInscricao, postInscricao } from "../Service";
 import { IFile, IInscricaoData, IInscricaoDataReq } from "../Interfaces";
+import Loading from "../../../../Components/Loading";
 
 interface IProps {
   editalId: number;
@@ -24,11 +25,6 @@ export default function Etapa1({
   const [dadosInscricao, setDadosInscricao] = useState<IDetalhesInscricao>();
   const [loadingDetalhesInscricao, setLoadingDetalhesInscricao] =
     useState(false);
-
-  const actionAfterRequestSuccess = (isncricaoId: number) => {
-    setInscricaoId(isncricaoId);
-    setCurrentEtapa(1);
-  };
 
   const submitRequest = (inscricaoData: IInscricaoData) => {
     const removeFileId = (filesWithId: IFile[]) => {
@@ -50,7 +46,8 @@ export default function Etapa1({
       return patchInscricao(payload)
         .then(({ data }) => {
           setInscricaoError(false);
-          actionAfterRequestSuccess(data.id);
+          setInscricaoId(data.id);
+          setCurrentEtapa(1);
         })
         .catch(() => {
           setInscricaoError(true);
@@ -61,7 +58,8 @@ export default function Etapa1({
     return postInscricao(payload)
       .then(({ data }) => {
         setInscricaoError(false);
-        actionAfterRequestSuccess(data.id);
+        setInscricaoId(data.id);
+        setCurrentEtapa(1);
       })
       .catch(() => {
         setInscricaoError(true);
@@ -79,7 +77,9 @@ export default function Etapa1({
     }
   }, [editalId, inscricaoId]);
 
-  return (
+  return loadingDetalhesInscricao ? (
+    <Loading />
+  ) : (
     <>
       <Typography variant="h6" sx={{ mt: 3 }}>
         Formulário de Inscrição
@@ -90,7 +90,6 @@ export default function Etapa1({
         dadosInscricao={dadosInscricao}
         btnText="Continuar"
         isTeacher={false}
-        actionAfterRequestSuccess={actionAfterRequestSuccess}
         submitRequest={submitRequest}
       />
     </>
