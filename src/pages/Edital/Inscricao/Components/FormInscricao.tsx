@@ -9,7 +9,6 @@ import {
   FormGroup,
   FormLabel,
   Link,
-  Button,
   Typography,
 } from "@mui/material";
 import AttachInput from "./AttachInput";
@@ -17,6 +16,7 @@ import { IInscricaoData, IFile } from "../Interfaces";
 import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
 import { IDetalhesInscricao, IHistorico } from "../../../Revisao/Interfaces";
 import ProducoesCientificas from "./ProducoesCientificasDjair";
+import Loading from "../../../../Components/Loading";
 
 interface IProps {
   editalId: number;
@@ -120,19 +120,16 @@ export default function FormInscricao({
 
             if (historico.tipo === "GRADUACAO") {
               setInitialHistoricoGraduacao([newFile]);
-              reqInscricao.nota_historico_graduacao_file = historico.nota;
             }
 
             if (historico.tipo === "POS_GRADUACAO") {
               setInitialHistoricoPosGrad([newFile]);
-              reqInscricao.nota_historico_graduacao_file = historico.nota;
             }
           });
       });
 
       setInitialInscricaoData(reqInscricao);
       setInscricaoData(reqInscricao);
-      console.log(inscricaoData);
     }
   }, [dadosInscricao, editalId, inscricaoId]);
 
@@ -232,7 +229,6 @@ export default function FormInscricao({
     setFormChanged(
       JSON.stringify(initialInscricaoData) !== JSON.stringify(inscricaoData)
     );
-    loadingHistoricos;
 
     if (inscricaoId) {
       setLoadingHistoricos(
@@ -259,7 +255,9 @@ export default function FormInscricao({
     };
   }, [formChanged]);
 
-  return (
+  return loadingHistoricos ? (
+    <Loading />
+  ) : (
     <Grid sx={{ mb: 2 }}>
       <form id="inscricao-form" onChange={handleFormChange} onSubmit={sendForm}>
         <Grid
@@ -497,12 +495,6 @@ export default function FormInscricao({
               formId="inscricao-form"
               loading={loadingInscricao}
             />
-            {/* TODO: Apagar esse botão */}
-            {inscricaoId && (
-              <Button onClick={() => actionAfterRequestSuccess(inscricaoId)}>
-                Simular um ok sem enviar pro back
-              </Button>
-            )}
           </Grid>
         )}
       </form>

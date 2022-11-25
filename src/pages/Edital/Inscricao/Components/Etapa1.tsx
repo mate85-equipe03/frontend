@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import FormInscricao from "./FormInscricao";
 import { getDetalhesInscricaoAluno } from "../../../Revisao/Service";
 import { IDetalhesInscricao } from "../../../Revisao/Interfaces";
-import {postInscricao} from "../Service";
+import { patchInscricao, postInscricao } from "../Service";
 import { IFile, IInscricaoData, IInscricaoDataReq } from "../Interfaces";
 
 interface IProps {
@@ -22,6 +22,8 @@ export default function Etapa1({
   setInscricaoError,
 }: IProps) {
   const [dadosInscricao, setDadosInscricao] = useState<IDetalhesInscricao>();
+  const [loadingDetalhesInscricao, setLoadingDetalhesInscricao] =
+    useState(false);
 
   const actionAfterRequestSuccess = (isncricaoId: number) => {
     setInscricaoId(isncricaoId);
@@ -43,10 +45,18 @@ export default function Etapa1({
       ),
     };
 
-    // if (inscricaoId) {
-    // Editar Inscrição
-    // TODO: Implementar rota do back para atualizar inscrição
-    // } else {
+    if (inscricaoId) {
+      // Editar Inscrição
+      return patchInscricao(payload)
+        .then(({ data }) => {
+          setInscricaoError(false);
+          actionAfterRequestSuccess(data.id);
+        })
+        .catch(() => {
+          setInscricaoError(true);
+          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        });
+    }
     // Nova Inscrição
     return postInscricao(payload)
       .then(({ data }) => {
@@ -57,14 +67,14 @@ export default function Etapa1({
         setInscricaoError(true);
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       });
-    // }
   };
 
   useEffect(() => {
     if (inscricaoId) {
-      // TODO: loading
+      setLoadingDetalhesInscricao(true);
       getDetalhesInscricaoAluno(editalId).then(({ data }) => {
         setDadosInscricao(data);
+        setLoadingDetalhesInscricao(false);
       });
     }
   }, [editalId, inscricaoId]);

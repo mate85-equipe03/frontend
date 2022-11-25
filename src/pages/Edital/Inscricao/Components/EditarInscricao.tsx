@@ -49,8 +49,6 @@ export default function EditarInscricao({
       ),
     };
 
-    // Editar Inscrição
-    // TODO: Implementar rota do back para atualizar inscrição
     return patchInscricao(payload)
       .then(({ data }) => {
         setInscricaoError(false);
@@ -63,7 +61,6 @@ export default function EditarInscricao({
   };
 
   useEffect(() => {
-    // TODO: loading
     setLoadingDetalhesInscricao(true);
     getDetalhesInscricaoAluno(editalId).then(({ data }) => {
       setDadosInscricao(data);
