@@ -45,6 +45,18 @@ export default function ResultadoEdital() {
       valueGetter: (params) => params.row.aluno.nome,
     },
     {
+      field: "matricula",
+      headerName: "Matrícula",
+      width: 100,
+      valueGetter: (params) => params.row.aluno.matricula,
+    },
+    {
+      field: "curso",
+      headerName: "Curso",
+      width: 100,
+      valueGetter: (params) => params.row.aluno.curso,
+    },
+    {
       field: "nota_final",
       headerName: "Nota Final",
       width: 100,
@@ -55,7 +67,7 @@ export default function ResultadoEdital() {
     return width ? acc + width : acc;
   }, 0);
 
-  return !isEditalArchived ? (
+  return isEditalArchived ? (
     <NaoArquivado />
   ) : (
     <Grid

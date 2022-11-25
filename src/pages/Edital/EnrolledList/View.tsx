@@ -50,6 +50,7 @@ export default function EnrolledsList() {
   }, [editalId, user, navigate]);
 
   const handleRowClick: GridEventListener<"rowClick"> = (params) => {
+    console.log(enrolledList)
     navigate(`/edital/${editalId}/inscritos/${params.row.id}`);
   };
 
