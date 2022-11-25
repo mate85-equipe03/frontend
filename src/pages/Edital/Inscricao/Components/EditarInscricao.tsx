@@ -6,7 +6,8 @@ import ProducoesCientificas from "./ProducoesCientificasDjair";
 import { getDetalhesInscricaoAluno } from "../../../Revisao/Service";
 import { IDetalhesInscricao } from "../../../Revisao/Interfaces";
 import { IFile, IInscricaoData, IInscricaoDataReq } from "../Interfaces";
-import postInscricao from "../Service";
+import { patchInscricao } from "../Service";
+import Loading from "../../../../Components/Loading";
 
 interface IProps {
   editalId: number;
@@ -24,6 +25,8 @@ export default function EditarInscricao({
   const navigate = useNavigate();
 
   const [dadosInscricao, setDadosInscricao] = useState<IDetalhesInscricao>();
+  const [loadingDetalhesInscricao, setLoadingDetalhesInscricao] =
+    useState(false);
 
   const actionAfterRequestSuccess = (
     _: number // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -48,7 +51,7 @@ export default function EditarInscricao({
 
     // Editar Inscrição
     // TODO: Implementar rota do back para atualizar inscrição
-    return postInscricao(payload)
+    return patchInscricao(payload)
       .then(({ data }) => {
         setInscricaoError(false);
         actionAfterRequestSuccess(data.id);
@@ -61,12 +64,16 @@ export default function EditarInscricao({
 
   useEffect(() => {
     // TODO: loading
+    setLoadingDetalhesInscricao(true);
     getDetalhesInscricaoAluno(editalId).then(({ data }) => {
       setDadosInscricao(data);
+      setLoadingDetalhesInscricao(false);
     });
   }, [editalId]);
 
-  return (
+  return loadingDetalhesInscricao ? (
+    <Loading />
+  ) : (
     <>
       <Typography variant="h6" sx={{ mt: 3 }}>
         Dados Básicos da Inscrição

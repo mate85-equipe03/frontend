@@ -42,6 +42,7 @@ export default function FormInscricao({
   const [countFiles, setCountFiles] = useState<number>(0);
   const [loadingInscricao, setLoadingInscricao] = useState<boolean>(false);
   const [formChanged, setFormChanged] = useState<boolean>(false);
+  const [loadingHistoricos, setLoadingHistoricos] = useState<boolean>(false);
 
   const [initialInscricaoData, setInitialInscricaoData] =
     useState<IInscricaoData>({
@@ -104,6 +105,14 @@ export default function FormInscricao({
       // Os históricos são setados a partir de seus respectivos useEffects
       dadosInscricao.Historico.forEach((historico) => {
         const { url } = historico;
+
+        if (historico.tipo === "GRADUACAO") {
+          reqInscricao.nota_historico_graduacao_file = historico.nota;
+        }
+        if (historico.tipo === "POS_GRADUACAO") {
+          reqInscricao.nota_historico_posgraduacao_file = historico.nota;
+        }
+
         fetch(url)
           .then((r) => r.blob())
           .then((blobFile) => {
@@ -123,6 +132,7 @@ export default function FormInscricao({
 
       setInitialInscricaoData(reqInscricao);
       setInscricaoData(reqInscricao);
+      console.log(inscricaoData);
     }
   }, [dadosInscricao, editalId, inscricaoId]);
 
@@ -218,19 +228,21 @@ export default function FormInscricao({
     });
   };
 
-  // const [loadingHistoricos, setLoadingHistoricos] = useState<boolean>(false);
-
   useEffect(() => {
     setFormChanged(
       JSON.stringify(initialInscricaoData) !== JSON.stringify(inscricaoData)
     );
+    loadingHistoricos;
 
-    // TODO: Implementar loading na logica de carregamento da pagina
-    // setLoadingHistoricos(
-    //   initialInscricaoData.historico_graduacao_file.length > 0 &&
-    //     initialInscricaoData.historico_posgraduacao_file.length > 0
-    // );
-  }, [initialInscricaoData, inscricaoData]);
+    if (inscricaoId) {
+      setLoadingHistoricos(
+        initialInscricaoData.historico_graduacao_file.length < 1 ||
+          initialInscricaoData.historico_posgraduacao_file.length < 1
+      );
+    } else {
+      setLoadingHistoricos(false);
+    }
+  }, [initialInscricaoData, inscricaoData, inscricaoId]);
 
   useEffect(() => {
     const handler = (event: BeforeUnloadEvent) => {

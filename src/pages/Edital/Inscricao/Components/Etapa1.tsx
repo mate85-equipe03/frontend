@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import FormInscricao from "./FormInscricao";
 import { getDetalhesInscricaoAluno } from "../../../Revisao/Service";
 import { IDetalhesInscricao } from "../../../Revisao/Interfaces";
-import postInscricao from "../Service";
+import {postInscricao} from "../Service";
 import { IFile, IInscricaoData, IInscricaoDataReq } from "../Interfaces";
 
 interface IProps {
