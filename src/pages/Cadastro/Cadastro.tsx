@@ -153,7 +153,7 @@ export default function Cadastro() {
     >
       {senhaError && (
         <Alert severity="error" sx={{ mb: 2 }}>
-          As senhas digitadas devem ser iguais.
+          As senhas não são iguais. Tente novamente.
         </Alert>
       )}
       {(signUpError || editError) && (
