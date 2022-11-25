@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import FormInscricao from "./FormInscricao";
 import { getDetalhesInscricaoAluno } from "../../../Revisao/Service";
 import { IDetalhesInscricao } from "../../../Revisao/Interfaces";
-import postInscricao from "../Service";
+import { patchInscricao, postInscricao } from "../Service";
 import { IFile, IInscricaoData, IInscricaoDataReq } from "../Interfaces";
 
 interface IProps {
@@ -22,11 +22,8 @@ export default function Etapa1({
   setInscricaoError,
 }: IProps) {
   const [dadosInscricao, setDadosInscricao] = useState<IDetalhesInscricao>();
-
-  const actionAfterRequestSuccess = (isncricaoId: number) => {
-    setInscricaoId(isncricaoId);
-    setCurrentEtapa(1);
-  };
+  const [loadingDetalhesInscricao, setLoadingDetalhesInscricao] =
+    useState(false);
 
   const submitRequest = (inscricaoData: IInscricaoData) => {
     const removeFileId = (filesWithId: IFile[]) => {
@@ -43,28 +40,38 @@ export default function Etapa1({
       ),
     };
 
-    // if (inscricaoId) {
-    // Editar Inscrição
-    // TODO: Implementar rota do back para atualizar inscrição
-    // } else {
+    if (inscricaoId) {
+      // Editar Inscrição
+      return patchInscricao(payload)
+        .then(({ data }) => {
+          setInscricaoError(false);
+          setInscricaoId(data.id);
+          setCurrentEtapa(1);
+        })
+        .catch(() => {
+          setInscricaoError(true);
+          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        });
+    }
     // Nova Inscrição
     return postInscricao(payload)
       .then(({ data }) => {
         setInscricaoError(false);
-        actionAfterRequestSuccess(data.id);
+        setInscricaoId(data.id);
+        setCurrentEtapa(1);
       })
       .catch(() => {
         setInscricaoError(true);
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       });
-    // }
   };
 
   useEffect(() => {
     if (inscricaoId) {
-      // TODO: loading
+      setLoadingDetalhesInscricao(true);
       getDetalhesInscricaoAluno(editalId).then(({ data }) => {
         setDadosInscricao(data);
+        setLoadingDetalhesInscricao(false);
       });
     }
   }, [editalId, inscricaoId]);
@@ -80,8 +87,8 @@ export default function Etapa1({
         dadosInscricao={dadosInscricao}
         btnText="Continuar"
         isTeacher={false}
-        actionAfterRequestSuccess={actionAfterRequestSuccess}
         submitRequest={submitRequest}
+        loadingDadosInscricao={loadingDetalhesInscricao}
       />
     </>
   );

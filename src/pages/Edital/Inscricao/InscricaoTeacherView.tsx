@@ -100,7 +100,7 @@ export default function InscricaoTeacherView() {
     }
   }, [editalId, navigate, user, inscricaoId]);
 
-  return loadingDadosAluno || loadingProcessoSeletivo ? (
+  return loadingProcessoSeletivo ? (
     <Loading />
   ) : (
     <Grid
@@ -141,6 +141,7 @@ export default function InscricaoTeacherView() {
               isAuditoria={isAuditoria}
               isReadOnly={readOnly}
               dadosInscricao={dadosInscricao}
+              loadingDadosInscricao={loadingDadosAluno}
               setInscricaoError={setInscricaoError}
             />
           )}

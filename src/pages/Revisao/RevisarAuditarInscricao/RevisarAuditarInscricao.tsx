@@ -12,6 +12,7 @@ interface IProps {
   isAuditoria: boolean;
   isReadOnly: boolean;
   dadosInscricao: IDetalhesInscricao;
+  loadingDadosInscricao: boolean;
   setInscricaoError: (error: boolean) => void;
 }
 
@@ -21,16 +22,10 @@ export default function RevisarAuditarInscricao({
   isAuditoria,
   isReadOnly,
   dadosInscricao,
+  loadingDadosInscricao,
   setInscricaoError,
 }: IProps) {
   const navigate = useNavigate();
-
-  const actionAfterRequestSuccess = (
-    _: number // eslint-disable-line @typescript-eslint/no-unused-vars
-  ) => {
-    const state = isAuditoria ? { auditoria: true } : { revisao: true };
-    navigate(`/edital/${editalId}/inscritos`, { state });
-  };
 
   const submitRequest = (inscricaoData: IInscricaoData) => {
     const payload: IRevisarAuditar = {
@@ -44,9 +39,10 @@ export default function RevisarAuditarInscricao({
         ? patchAuditarInscricao(payload)
         : patchRevisarInscricao(payload)
     )
-      .then(({ data }) => {
+      .then(() => {
+        const state = isAuditoria ? { auditoria: true } : { revisao: true };
         setInscricaoError(false);
-        actionAfterRequestSuccess(data.id);
+        navigate(`/edital/${editalId}/inscritos`, { state });
       })
       .catch(() => {
         setInscricaoError(true);
@@ -67,7 +63,7 @@ export default function RevisarAuditarInscricao({
         btnText={`Finalizar ${isAuditoria ? "auditoria" : "revisão"}`}
         isTeacher
         submitRequest={submitRequest}
-        actionAfterRequestSuccess={actionAfterRequestSuccess}
+        loadingDadosInscricao={loadingDadosInscricao}
       />
     </>
   );
