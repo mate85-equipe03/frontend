@@ -1,5 +1,5 @@
 import { RouteProps } from "react-router-dom";
-import EnrolledsList from "../pages/Edital/EnrolledList/EnrolledsList";
+import EnrolledsList from "../pages/Edital/EnrolledList/View";
 import InscricaoStudentView from "../pages/Edital/Inscricao/InscricaoStudentView";
 import InscricaoTeacherView from "../pages/Edital/Inscricao/InscricaoTeacherView";
 import auth from "../services/Auth";
