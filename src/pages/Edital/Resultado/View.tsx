@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, Grid } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useNavigate, useParams } from "react-router-dom";
 import UserContext from "../../../context/UserContext";
-import NaoArquivado from "./componente.tsx/NãoArquivado";
+import NaoArquivado from "./componente/NãoArquivado";
 import { IADetalhes } from "../EnrolledList/Interfaces";
 import { getEnrolledList } from "../EnrolledList/Service";
 import { getDetailsProcessoSeletivo } from "../Detalhes/Service";
