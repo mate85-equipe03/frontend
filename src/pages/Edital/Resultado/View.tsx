@@ -3,10 +3,10 @@ import { Card, CardContent, CardHeader, Grid } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useNavigate, useParams } from "react-router-dom";
 import UserContext from "../../../context/UserContext";
-import NaoArquivado from "./componente/NãoArquivado";
 import { IADetalhes } from "../EnrolledList/Interfaces";
 import { getEnrolledList } from "../EnrolledList/Service";
 import { getDetailsProcessoSeletivo } from "../Detalhes/Service";
+import NotArchived from "./componente.tsx/NãoArquivado";
 
 export default function ResultadoEdital() {
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
@@ -69,7 +69,7 @@ export default function ResultadoEdital() {
   }, 0);
 
   return !isEditalArchived ? (
-    <NaoArquivado />
+    <NotArchived />
   ) : (
     <Grid
       container

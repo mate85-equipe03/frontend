@@ -14,8 +14,8 @@ import WarningIcon from "@mui/icons-material/Warning";
 import { getDetailsProcessoSeletivo } from "./Edital/Detalhes/Service";
 import UserContext from "../context/UserContext";
 import Loading from "../Components/Loading";
-import { IADetalhes } from "./Edital/EnrolledList/Interfaces";
 import { getEnrolledList } from "./Edital/EnrolledList/Service";
+import { IADetalhes } from "./Edital/EnrolledList/Interfaces";
 
 export default function EnrolledsList() {
   const navigate = useNavigate();
