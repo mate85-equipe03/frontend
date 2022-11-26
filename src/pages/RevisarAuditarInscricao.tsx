@@ -1,16 +1,13 @@
 import React from "react";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import FormInscricao from "../../Edital/Inscricao/Components/FormInscricao";
+import FormInscricao from "./Edital/Inscricao/Components/FormInscricao";
 import {
   IDetalhesInscricao,
   IRevisarAuditar,
   IInscricaoData,
-} from "../../../interfaces/Interfaces";
-import {
-  patchAuditarInscricao,
-  patchRevisarInscricao,
-} from "../../../services/Api";
+} from "../interfaces/Interfaces";
+import { patchAuditarInscricao, patchRevisarInscricao } from "../services/Api";
 
 interface IProps {
   editalId: number;

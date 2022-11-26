@@ -11,7 +11,6 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import AttachInput from "./AttachInput";
 import {
   IInscricaoData,
   IFile,
@@ -21,6 +20,7 @@ import {
 import BtnSubmitLoading from "../../../../components/BtnSubmitLoading";
 import ProducoesCientificas from "./ProducoesCientificasDjair";
 import Loading from "../../../../components/Loading";
+import AttachInput from "../../../../components/AttachInput";
 
 interface IProps {
   editalId: number;

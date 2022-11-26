@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 import { Grid, Typography, ListItemText, ListItemButton } from "@mui/material";
-import { IEdital } from "../../../interfaces/Interfaces";
+import { IEdital } from "../interfaces/Interfaces";
 // import UserContext from "../../../context/UserContext";
 
 interface IProps {

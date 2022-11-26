@@ -11,13 +11,10 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import WarningIcon from "@mui/icons-material/Warning";
-import {
-  getEnrolledList,
-  getDetailsProcessoSeletivo,
-} from "../../../services/Api";
-import { IADetalhes } from "../../../interfaces/Interfaces";
-import UserContext from "../../../context/UserContext";
-import Loading from "../../../components/Loading";
+import { getEnrolledList, getDetailsProcessoSeletivo } from "../services/Api";
+import { IADetalhes } from "../interfaces/Interfaces";
+import UserContext from "../context/UserContext";
+import Loading from "../components/Loading";
 
 export default function EnrolledsList() {
   const navigate = useNavigate();

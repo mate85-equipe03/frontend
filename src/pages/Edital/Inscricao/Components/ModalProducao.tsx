@@ -19,12 +19,13 @@ import {
 import { Add } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 import api, { getDetailsProcessoSeletivo } from "../../../../services/Api";
-import AttachInput from "./AttachInput";
 import { IDetails, IFile, IProducao } from "../../../../interfaces/Interfaces";
 import BtnSubmitLoading from "../../../../components/BtnSubmitLoading";
+import AttachInput from "../../../../components/AttachInput";
 
-// import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
-type PropsModal = { onSuccess: () => void };
+interface PropsModal {
+  onSuccess: () => void;
+}
 
 export default function ModalProducao({ onSuccess }: PropsModal) {
   const { editalId } = useParams();

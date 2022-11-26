@@ -1,7 +1,7 @@
 import React from "react";
 import { Delete, Edit } from "@mui/icons-material";
 import { Grid, IconButton, ListItemButton, ListItemText } from "@mui/material";
-import { IFile } from "../../../../interfaces/Interfaces";
+import { IFile } from "../interfaces/Interfaces";
 
 interface IProps {
   fileKey: number;

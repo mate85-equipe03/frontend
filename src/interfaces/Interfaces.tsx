@@ -1,3 +1,23 @@
+export interface IUserContext {
+  id: number;
+  token: string;
+  username: string;
+  role: string;
+  email: string;
+  telefone: string;
+  nome: string;
+  matricula: string;
+}
+
+export interface IPropsUserContext {
+  user: IUserContext | null;
+  setUser: React.Dispatch<React.SetStateAction<IUserContext | null>>;
+}
+
+export interface IPropsContextProvider {
+  children: React.ReactNode;
+}
+
 export interface IEtapa {
   id: number;
   name: string;
@@ -191,4 +211,22 @@ export interface IDados {
   aluno: IAluno;
   email: string;
   telefone: string;
+}
+
+export interface ILoginData {
+  username: string;
+  password: string;
+}
+
+export interface IUserBackend {
+  id: number;
+  role: string;
+  email: string;
+  telefone: string;
+  nome: string;
+  matricula: string;
+}
+
+export interface IRecoverData {
+  matricula: string;
 }

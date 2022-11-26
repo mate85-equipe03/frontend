@@ -17,12 +17,12 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import { Link, useNavigate } from "react-router-dom";
-import api, { getDadosAluno } from "../../services/Api";
-import BtnSubmitLoading from "../../components/BtnSubmitLoading";
-import { ISignUpData } from "../../interfaces/Interfaces";
-import UserContext from "../../context/UserContext";
-import Loading from "../../components/Loading";
-import Senhas from "../../components/Senhas";
+import api, { getDadosAluno } from "../services/Api";
+import BtnSubmitLoading from "../components/BtnSubmitLoading";
+import { ISignUpData } from "../interfaces/Interfaces";
+import UserContext from "../context/UserContext";
+import Loading from "../components/Loading";
+import Senhas from "../components/Senhas";
 
 export default function Cadastro() {
   const navigate = useNavigate();

@@ -20,19 +20,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import api from "../services/Api";
 import UserContext from "../context/UserContext";
 import BtnSubmitLoading from "../components/BtnSubmitLoading";
-
-interface ILoginData {
-  username: string;
-  password: string;
-}
-interface IUserBackend {
-  id: number;
-  role: string;
-  email: string;
-  telefone: string;
-  nome: string;
-  matricula: string;
-}
+import { ILoginData, IUserBackend } from "../interfaces/Interfaces";
 
 export default function Login() {
   const navigate = useNavigate();

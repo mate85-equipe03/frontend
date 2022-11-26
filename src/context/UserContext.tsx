@@ -1,32 +1,11 @@
-import React, {
-  createContext,
-  ReactNode,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { createContext, useEffect, useMemo, useState } from "react";
+import {
+  IPropsUserContext,
+  IPropsContextProvider,
+  IUserContext,
+} from "../interfaces/Interfaces";
 import api from "../services/Api";
 import auth from "../services/Auth";
-
-interface IUserContext {
-  id: number;
-  token: string;
-  username: string;
-  role: string;
-  email: string;
-  telefone: string;
-  nome: string;
-  matricula: string;
-}
-
-interface IPropsUserContext {
-  user: IUserContext | null;
-  setUser: React.Dispatch<React.SetStateAction<IUserContext | null>>;
-}
-
-interface IPropsContextProvider {
-  children: ReactNode;
-}
 
 const DEFAULT_VALUE: IPropsUserContext = {
   user: null,
@@ -59,5 +38,4 @@ function UserContextProvider({ children }: IPropsContextProvider) {
 }
 
 export { UserContextProvider };
-export type { IUserContext };
 export default UserContext;
