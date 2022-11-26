@@ -4,12 +4,14 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useNavigate, useParams } from "react-router-dom";
 import UserContext from "../../../context/UserContext";
 import { IADetalhes } from "../EnrolledList/Interfaces";
-import { getEnrolledList } from "../EnrolledList/Service";
+import { getEnrolledList, getResultadoDoutorado, getResultadoMestrado } from "../EnrolledList/Service";
 import { getDetailsProcessoSeletivo } from "../Detalhes/Service";
 import NotArchived from "./Components/NãoArquivado";
 
 export default function ResultadoEdital() {
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
+  const [resultadoMestrado, setResultadoMestrado] = useState<IADetalhes[]>([]);
+  const [resultadoDoutorado, setResultadoDoutorado] = useState<IADetalhes[]>([]);
   const { user } = useContext(UserContext);
   const { editalId } = useParams();
   const [isEditalArchived, setIsEditalArchived] = useState(true);
@@ -28,6 +30,25 @@ export default function ResultadoEdital() {
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setIsEditalArchived(data?.arquivado);
+      })
+      .catch()
+      .finally();
+  }, [editalId]);
+
+
+  useEffect(() => {
+    getResultadoMestrado(editalId)
+      .then(({data}) => {
+        setResultadoMestrado(data)
+      })
+      .catch()
+      .finally();
+  }, [editalId]);
+
+  useEffect(() => {
+    getResultadoDoutorado(editalId)
+      .then(({data}) => {
+        setResultadoDoutorado(data)
       })
       .catch()
       .finally();
@@ -68,7 +89,7 @@ export default function ResultadoEdital() {
     return width ? acc + width : acc;
   }, 0);
 
-  return !isEditalArchived ? (
+  return isEditalArchived ? (
     <NotArchived />
   ) : (
     <Grid
@@ -94,7 +115,20 @@ export default function ResultadoEdital() {
               },
             }}
             disableSelectionOnClick
-            rows={enrolledList}
+            rows={resultadoMestrado}
+            columns={colunas}
+            sx={{
+              width: Math.min(allColumnsWidth + 2, 1000),
+            }}
+          />
+          <DataGrid
+            initialState={{
+              sorting: {
+                sortModel: [{ field: "nota_final", sort: "desc" }],
+              },
+            }}
+            disableSelectionOnClick
+            rows={resultadoDoutorado}
             columns={colunas}
             sx={{
               width: Math.min(allColumnsWidth + 2, 1000),
