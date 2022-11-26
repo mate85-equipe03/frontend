@@ -19,7 +19,7 @@ import { getDetailsProcessoSeletivo } from "../services/Api";
 import UserContext from "../context/UserContext";
 import Loading from "../components/Loading";
 import PDFFile from "../components/PDFFile";
-import DeleteInscricao from "./Edital/Inscricao/Components/DeleteInscricao";
+import DeleteInscricao from "../components/Inscricao/DeleteInscricao";
 
 export default function EditalDetails() {
   const navigate = useNavigate();

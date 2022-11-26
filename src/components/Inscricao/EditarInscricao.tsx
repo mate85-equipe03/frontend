@@ -1,33 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import FormInscricao from "./FormInscricao";
-import {
-  getDetalhesInscricaoAluno,
-  patchInscricao,
-  postInscricao,
-} from "../../../../services/Api";
+import ProducoesCientificas from "./ProducoesCientificasDjair";
+import { getDetalhesInscricaoAluno, patchInscricao } from "../../services/Api";
 import {
   IDetalhesInscricao,
   IFile,
   IInscricaoData,
   IInscricaoDataReq,
-} from "../../../../interfaces/Interfaces";
+} from "../../interfaces/Interfaces";
 
 interface IProps {
   editalId: number;
-  inscricaoId: number | undefined;
-  setInscricaoId: (id: number) => void;
-  setCurrentEtapa: (etapa: 0 | 1 | 2) => void;
+  inscricaoId: number;
+  readOnly: boolean;
   setInscricaoError: (error: boolean) => void;
 }
 
-export default function Etapa1({
+export default function EditarInscricao({
   editalId,
   inscricaoId,
-  setInscricaoId,
-  setCurrentEtapa,
+  readOnly,
   setInscricaoError,
 }: IProps) {
+  const navigate = useNavigate();
+
   const [dadosInscricao, setDadosInscricao] = useState<IDetalhesInscricao>();
   const [loadingDetalhesInscricao, setLoadingDetalhesInscricao] =
     useState(false);
@@ -47,25 +45,10 @@ export default function Etapa1({
       ),
     };
 
-    if (inscricaoId) {
-      // Editar Inscrição
-      return patchInscricao(payload)
-        .then(({ data }) => {
-          setInscricaoError(false);
-          setInscricaoId(data.id);
-          setCurrentEtapa(1);
-        })
-        .catch(() => {
-          setInscricaoError(true);
-          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-        });
-    }
-    // Nova Inscrição
-    return postInscricao(payload)
-      .then(({ data }) => {
+    return patchInscricao(payload)
+      .then(() => {
         setInscricaoError(false);
-        setInscricaoId(data.id);
-        setCurrentEtapa(1);
+        navigate("/", { state: { editInscricao: true } });
       })
       .catch(() => {
         setInscricaoError(true);
@@ -74,29 +57,36 @@ export default function Etapa1({
   };
 
   useEffect(() => {
-    if (inscricaoId) {
-      setLoadingDetalhesInscricao(true);
-      getDetalhesInscricaoAluno(editalId).then(({ data }) => {
-        setDadosInscricao(data);
-        setLoadingDetalhesInscricao(false);
-      });
-    }
-  }, [editalId, inscricaoId]);
+    setLoadingDetalhesInscricao(true);
+    getDetalhesInscricaoAluno(editalId).then(({ data }) => {
+      setDadosInscricao(data);
+      setLoadingDetalhesInscricao(false);
+    });
+  }, [editalId]);
 
   return (
     <>
       <Typography variant="h6" sx={{ mt: 3 }}>
-        Formulário de Inscrição
+        Dados Básicos da Inscrição
       </Typography>
       <FormInscricao
         editalId={editalId}
         inscricaoId={inscricaoId}
         dadosInscricao={dadosInscricao}
-        btnText="Continuar"
+        btnText="Editar Dados Básicos"
         isTeacher={false}
         submitRequest={submitRequest}
+        readOnly={readOnly}
         loadingDadosInscricao={loadingDetalhesInscricao}
       />
+      {!readOnly && (
+        <>
+          <Typography variant="h6" sx={{ mt: 3 }}>
+            Produções Científicas
+          </Typography>
+          <ProducoesCientificas />
+        </>
+      )}
     </>
   );
 }

@@ -16,11 +16,11 @@ import {
   IFile,
   IDetalhesInscricao,
   IHistorico,
-} from "../../../../interfaces/Interfaces";
-import BtnSubmitLoading from "../../../../components/BtnSubmitLoading";
+} from "../../interfaces/Interfaces";
+import BtnSubmitLoading from "../BtnSubmitLoading";
 import ProducoesCientificas from "./ProducoesCientificasDjair";
-import Loading from "../../../../components/Loading";
-import AttachInput from "../../../../components/AttachInput";
+import Loading from "../Loading";
+import AttachInput from "../AttachInput";
 
 interface IProps {
   editalId: number;

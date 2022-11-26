@@ -13,8 +13,8 @@ import UserContext from "../context/UserContext";
 import { getDadosAluno, getDetailsProcessoSeletivo } from "../services/Api";
 import { IDados } from "../interfaces/Interfaces";
 import DadosCandidato from "../components/DadosCandidato";
-import EditarInscricao from "./Edital/Inscricao/Components/EditarInscricao";
-import NovaInscricao from "./Edital/Inscricao/Components/NovaInscricao";
+import EditarInscricao from "../components/Inscricao/EditarInscricao";
+import NovaInscricao from "../components/Inscricao/NovaInscricao";
 
 export default function InscricaoStudentView() {
   const navigate = useNavigate();

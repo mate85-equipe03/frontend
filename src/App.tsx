@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import { BrowserRouter } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import theme from "./themes/DefaultTheme";
+import theme from "./themes/Theme";
 import { UserContextProvider } from "./context/UserContext";
 import AppRoutes from "./routes/Routes";
 
