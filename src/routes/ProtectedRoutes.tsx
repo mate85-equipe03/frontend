@@ -1,18 +1,13 @@
 import { RouteProps } from "react-router-dom";
-import EnrolledsList from "../pages/Edital/EnrolledList/EnrolledsList";
-import InscricaoStudentView from "../pages/Edital/Inscricao/InscricaoStudentView";
-import InscricaoTeacherView from "../pages/Edital/Inscricao/InscricaoTeacherView";
+import EnrolledsList from "../pages/EnrolledsList";
+import InscricaoStudentView from "../pages/InscricaoStudentView";
+import InscricaoTeacherView from "../pages/InscricaoTeacherView";
 import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
-import RevisarInscricaoAluno from "../pages/Revisao/RevisarInscricaoAluno/View";
-import Cadastro from "../pages/Cadastro/Cadastro";
+import Cadastro from "../pages/Cadastro";
 
 const studentRoutes: RouteProps[] = [
   { path: "/edital/:editalId/inscricao", element: <InscricaoStudentView /> },
-  {
-    path: "/edital/:editalId/dados-inscricao",
-    element: <RevisarInscricaoAluno />,
-  },
   { path: "/editar-dados", element: <Cadastro /> },
 ];
 

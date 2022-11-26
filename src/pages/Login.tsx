@@ -19,20 +19,8 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 import api from "../services/Api";
 import UserContext from "../context/UserContext";
-import BtnSubmitLoading from "../Components/BtnSubmitLoading";
-
-interface ILoginData {
-  username: string;
-  password: string;
-}
-interface IUserBackend {
-  id: number;
-  role: string;
-  email: string;
-  telefone: string;
-  nome: string;
-  matricula: string;
-}
+import BtnSubmitLoading from "../components/BtnSubmitLoading";
+import { ILoginData, IUserBackend } from "../interfaces/Interfaces";
 
 export default function Login() {
   const navigate = useNavigate();
