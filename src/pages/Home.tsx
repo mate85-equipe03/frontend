@@ -6,6 +6,7 @@ import {
   CardContent,
   Alert,
   Divider,
+  Button,
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -79,6 +80,10 @@ export default function Home() {
 
   const handleLinkClick = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
+  };
+
+  const redirectToCadastrpTeacher = () => {
+    navigate(`/cadastro-professor`);
   };
 
   const dateToStr = (rawDate: string) => {
@@ -163,6 +168,8 @@ export default function Home() {
           {successMessage}
         </Alert>
       )}
+
+      <Button onClick={redirectToCadastrpTeacher}>Cadastrar professor</Button>
 
       <Card sx={{ py: 2, mt: 5 }}>
         <CardHeader
