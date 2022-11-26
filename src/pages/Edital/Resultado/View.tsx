@@ -6,7 +6,7 @@ import UserContext from "../../../context/UserContext";
 import { IADetalhes } from "../EnrolledList/Interfaces";
 import { getEnrolledList } from "../EnrolledList/Service";
 import { getDetailsProcessoSeletivo } from "../Detalhes/Service";
-import NotArchived from "./componente.tsx/NãoArquivado";
+import NotArchived from "./Components/NãoArquivado";
 
 export default function ResultadoEdital() {
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
