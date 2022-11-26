@@ -33,12 +33,16 @@ export default function Home() {
   const [editais, setEditais] = useState<IEdital[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isAluno, setIsAluno] = useState<boolean>(false);
+  const [isRoot, setIsRoot] = useState<boolean>(false);
 
   useEffect(() => {
     if (user?.role === "ALUNO") {
       setIsAluno(true);
-    } else {
+    } else if(user?.role === "ROOT"){
+      setIsRoot(true);
+    }else {
       setIsAluno(false);
+      setIsRoot(false);
     }
   }, [user]);
 
@@ -169,7 +173,9 @@ export default function Home() {
         </Alert>
       )}
 
-      <Button onClick={redirectToCadastrpTeacher}>Cadastrar professor</Button>
+      { isRoot && (
+        <Button onClick={redirectToCadastrpTeacher}>Cadastrar professor</Button>
+      )}
 
       <Card sx={{ py: 2, mt: 5 }}>
         <CardHeader
