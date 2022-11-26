@@ -1,7 +1,7 @@
 import axios from "axios";
-import { IDados } from "../pages/Cadastro/Types";
-import { IEditaisReq } from "../pages/Home/Types";
 import {
+  IDados,
+  IEditaisReq,
   IInscricaoDataReq,
   IDetails,
   IADetalhes,

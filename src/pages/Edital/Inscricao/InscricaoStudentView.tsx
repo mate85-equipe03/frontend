@@ -14,7 +14,7 @@ import {
   getDadosAluno,
   getDetailsProcessoSeletivo,
 } from "../../../services/Api";
-import { IDados } from "../../Cadastro/Types";
+import { IDados } from "../../../interfaces/Interfaces";
 import DadosCandidato from "../../Components/DadosCandidato";
 import EditarInscricao from "./Components/EditarInscricao";
 import NovaInscricao from "./Components/NovaInscricao";

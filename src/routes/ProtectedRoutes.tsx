@@ -4,15 +4,10 @@ import InscricaoStudentView from "../pages/Edital/Inscricao/InscricaoStudentView
 import InscricaoTeacherView from "../pages/Edital/Inscricao/InscricaoTeacherView";
 import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
-import RevisarInscricaoAluno from "../pages/Revisao/RevisarInscricaoAluno/View";
 import Cadastro from "../pages/Cadastro/Cadastro";
 
 const studentRoutes: RouteProps[] = [
   { path: "/edital/:editalId/inscricao", element: <InscricaoStudentView /> },
-  {
-    path: "/edital/:editalId/dados-inscricao",
-    element: <RevisarInscricaoAluno />,
-  },
   { path: "/editar-dados", element: <Cadastro /> },
 ];
 

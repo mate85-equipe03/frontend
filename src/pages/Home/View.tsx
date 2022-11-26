@@ -12,7 +12,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { useNavigate, useLocation } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import moment from "moment";
-import { IEdital } from "./Types";
+import { IEdital } from "../../interfaces/Interfaces";
 import { getAllProcessosSeletivos } from "../../services/Api";
 import Loading from "../../components/Loading";
 import UserContext from "../../context/UserContext";

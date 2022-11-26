@@ -159,3 +159,36 @@ export interface IRevisarAuditar {
   nota_final: number;
   observacao: string;
 }
+
+export interface IEdital {
+  id: number;
+  titulo: string;
+  etapas: IEtapa[];
+}
+
+export interface IEditais {
+  processos: IEdital[];
+}
+
+export interface IEditaisReq {
+  editais: IEditais;
+}
+
+export interface ISignUpData {
+  nome: string;
+  login: string;
+  matricula: string;
+  senha: string;
+  confirmacaoSenha: string;
+  semestre_pgcomp: string;
+  curso: string;
+  lattes_link: string;
+  email: string;
+  telefone: string;
+}
+
+export interface IDados {
+  aluno: IAluno;
+  email: string;
+  telefone: string;
+}
