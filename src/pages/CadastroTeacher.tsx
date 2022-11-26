@@ -24,7 +24,6 @@ export default function CadastroTeacher() {
 
   const [loading, setLoading] = React.useState<boolean>(false);
   const [signUpError, setSignUpError] = React.useState<boolean>(false);
-  const [editError, setEditError] = React.useState<boolean>(false);
   const [senhaError, setSenhaError] = React.useState<boolean>(false);
 
   const [signUpData, setSignUpData] = React.useState<ISignUpDataTeacher>({
@@ -91,7 +90,7 @@ export default function CadastroTeacher() {
           As senhas não são iguais. Tente novamente.
         </Alert>
       )}
-      {(signUpError || editError) && (
+      {signUpError && (
         <Alert severity="error" sx={{ mb: 2 }}>
           Ocorreu um erro. Tente novamente.
         </Alert>
