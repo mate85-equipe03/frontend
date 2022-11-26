@@ -62,7 +62,7 @@ export default function CadastroTeacher() {
     } else {
       setLoading(true);
       api
-        .post("/alunos", signUpData)
+        .post("/professores", signUpData)
         .then(() => {
           navigate("/", { state: { signUp: true } });
           setSignUpError(false);
