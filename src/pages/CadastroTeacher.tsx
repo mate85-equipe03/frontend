@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import {
   Alert,
   Card,
@@ -12,11 +12,10 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import { PatternFormat } from "react-number-format";
-import { Link, useNavigate } from "react-router-dom";
-import api, { getDadosAluno } from "../services/Api";
+import { useNavigate } from "react-router-dom";
+import api from "../services/Api";
 import BtnSubmitLoading from "../components/BtnSubmitLoading";
 import { ISignUpDataTeacher } from "../interfaces/Interfaces";
-import UserContext from "../context/UserContext";
 import Loading from "../components/Loading";
 import Senhas from "../components/Senhas";
 
@@ -99,7 +98,7 @@ export default function CadastroTeacher() {
       )}
       <Card sx={{ minWidth: 275, maxWidth: 500, pb: 4 }}>
         <CardHeader
-          title={"Cadastro de Professor"}
+          title="Cadastro de Professor"
           titleTypographyProps={{
             align: "center",
             variant: "h4",
@@ -163,16 +162,16 @@ export default function CadastroTeacher() {
               />
             </FormControl>
             <Senhas
-                valueSenha={signUpData.senha}
-                valueConfirmacaoSenha={signUpData.confirmacaoSenha}
-                handleChange={handleChange}
+              valueSenha={signUpData.senha}
+              valueConfirmacaoSenha={signUpData.confirmacaoSenha}
+              handleChange={handleChange}
             />
           </form>
         </CardContent>
         <CardActions sx={{ px: { xs: 5, sm: 10 } }}>
           <Grid container justifyContent="space-between" alignItems="center">
             <BtnSubmitLoading
-              label={"Enviar"}
+              label="Enviar"
               formId="sign-up-form"
               loading={loading}
               fullWidth

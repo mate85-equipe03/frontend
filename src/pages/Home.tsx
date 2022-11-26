@@ -38,9 +38,9 @@ export default function Home() {
   useEffect(() => {
     if (user?.role === "ALUNO") {
       setIsAluno(true);
-    } else if(user?.role === "ROOT"){
+    } else if (user?.role === "ROOT") {
       setIsRoot(true);
-    }else {
+    } else {
       setIsAluno(false);
       setIsRoot(false);
     }
@@ -87,7 +87,7 @@ export default function Home() {
   };
 
   const redirectToCadastrpTeacher = () => {
-    navigate(`/cadastro-professor`);
+    navigate("/cadastro-professor");
   };
 
   const dateToStr = (rawDate: string) => {
@@ -173,7 +173,7 @@ export default function Home() {
         </Alert>
       )}
 
-      { isRoot && (
+      {isRoot && (
         <Button onClick={redirectToCadastrpTeacher}>Cadastrar professor</Button>
       )}
 
