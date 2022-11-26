@@ -5,7 +5,7 @@ import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
 import RevisarInscricaoAluno from "../pages/Revisao/RevisarInscricaoAluno/View";
 import Cadastro from "../pages/Cadastro/Cadastro";
-import EnrolledsList from "../pages/EnrolledsList";
+import EnrolledsList from "../pages/Edital/EnrolledList/EnrolledsList";
 
 const studentRoutes: RouteProps[] = [
   { path: "/edital/:editalId/inscricao", element: <InscricaoStudentView /> },
