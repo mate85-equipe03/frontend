@@ -2,10 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, Grid } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useNavigate, useParams } from "react-router-dom";
-import { IADetalhes } from "../EnrolledList/Interfaces";
 import UserContext from "../../../context/UserContext";
-import { getDetailsProcessoSeletivo, getEnrolledList } from "./Service";
 import NaoArquivado from "./componente.tsx/NãoArquivado";
+import { IADetalhes } from "../EnrolledList/Interfaces";
+import { getEnrolledList } from "../EnrolledList/Service";
+import { getDetailsProcessoSeletivo } from "../Detalhes/Service";
 
 export default function ResultadoEdital() {
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
