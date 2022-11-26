@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Typography } from "@mui/material";
-import Loading from "../../../Components/Loading";
+import Loading from "../../../components/Loading";
 
 export default function ResultadoEdital() {
   const [

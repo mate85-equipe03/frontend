@@ -12,8 +12,8 @@ import {
   Snackbar,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { deleteInscricao } from "./Service";
-import Loading from "../../../Components/Loading";
+import { deleteInscricao } from "../../../services/Api";
+import Loading from "../../../components/Loading";
 
 interface PropsModal {
   idInscricao: number;

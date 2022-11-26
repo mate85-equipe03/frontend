@@ -13,11 +13,12 @@ import {
   ListSubheader,
 } from "@mui/material";
 import UserContext from "../../../context/UserContext";
-import Loading from "../../../Components/Loading";
-import { IDetails } from "../../Edital/Detalhes/Interfaces";
-import { getDetailsProcessoSeletivo } from "../../Edital/Detalhes/Service";
-import { IDetalhesInscricao } from "../Interfaces";
-import { getDetalhesInscricaoProfessor } from "../Service";
+import Loading from "../../../components/Loading";
+import { IDetails, IDetalhesInscricao } from "../../../interfaces/Interfaces";
+import {
+  getDetailsProcessoSeletivo,
+  getDetalhesInscricaoProfessor,
+} from "../../../services/Api";
 import DadosCandidato from "../../Components/DadosCandidato";
 
 export default function RevisarInscricaoProfessor() {

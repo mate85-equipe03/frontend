@@ -18,12 +18,10 @@ import {
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
-import { getDetailsProcessoSeletivo } from "../../Detalhes/Service";
+import api, { getDetailsProcessoSeletivo } from "../../../../services/Api";
 import AttachInput from "./AttachInput";
-import { IDetails } from "../../Detalhes/Interfaces";
-import { IFile, IProducao } from "../Interfaces";
-import api from "../../../../services/Api";
-import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
+import { IDetails, IFile, IProducao } from "../../../../interfaces/Interfaces";
+import BtnSubmitLoading from "../../../../components/BtnSubmitLoading";
 
 // import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
 type PropsModal = { onSuccess: () => void };

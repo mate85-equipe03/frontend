@@ -1,4 +1,4 @@
-import { IAluno } from "../Revisao/Interfaces";
+import { IAluno } from "../../interfaces/Interfaces";
 
 export interface ISignUpData {
   // "matricula" e "login" duplicados, possuem mesmo valor.

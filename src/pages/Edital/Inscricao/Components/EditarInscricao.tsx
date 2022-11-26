@@ -3,10 +3,16 @@ import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import FormInscricao from "./FormInscricao";
 import ProducoesCientificas from "./ProducoesCientificasDjair";
-import { getDetalhesInscricaoAluno } from "../../../Revisao/Service";
-import { IDetalhesInscricao } from "../../../Revisao/Interfaces";
-import { IFile, IInscricaoData, IInscricaoDataReq } from "../Interfaces";
-import { patchInscricao } from "../Service";
+import {
+  getDetalhesInscricaoAluno,
+  patchInscricao,
+} from "../../../../services/Api";
+import {
+  IDetalhesInscricao,
+  IFile,
+  IInscricaoData,
+  IInscricaoDataReq,
+} from "../../../../interfaces/Interfaces";
 
 interface IProps {
   editalId: number;

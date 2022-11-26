@@ -12,11 +12,15 @@ import {
   Typography,
 } from "@mui/material";
 import AttachInput from "./AttachInput";
-import { IInscricaoData, IFile } from "../Interfaces";
-import BtnSubmitLoading from "../../../../Components/BtnSubmitLoading";
-import { IDetalhesInscricao, IHistorico } from "../../../Revisao/Interfaces";
+import {
+  IInscricaoData,
+  IFile,
+  IDetalhesInscricao,
+  IHistorico,
+} from "../../../../interfaces/Interfaces";
+import BtnSubmitLoading from "../../../../components/BtnSubmitLoading";
 import ProducoesCientificas from "./ProducoesCientificasDjair";
-import Loading from "../../../../Components/Loading";
+import Loading from "../../../../components/Loading";
 
 interface IProps {
   editalId: number;

@@ -1,8 +1,8 @@
 import React from "react";
 import { Link, Typography, Grid, CardMedia, Divider } from "@mui/material";
 
-import PGCOMPLogo from "../assets/logos/pgcomp/sem-texto.png";
-import UFBALogo from "../assets/logos/ufba/sem-texto.png";
+import PGCOMPLogo from "../assets/pgcomp/sem-texto.png";
+import UFBALogo from "../assets/ufba/sem-texto.png";
 
 function Footer() {
   return (

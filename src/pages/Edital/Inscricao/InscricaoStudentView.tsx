@@ -8,12 +8,14 @@ import {
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Loading from "../../../Components/Loading";
+import Loading from "../../../components/Loading";
 import UserContext from "../../../context/UserContext";
-import getDadosAluno from "../../Cadastro/Service";
+import {
+  getDadosAluno,
+  getDetailsProcessoSeletivo,
+} from "../../../services/Api";
 import { IDados } from "../../Cadastro/Types";
 import DadosCandidato from "../../Components/DadosCandidato";
-import { getDetailsProcessoSeletivo } from "../Detalhes/Service";
 import EditarInscricao from "./Components/EditarInscricao";
 import NovaInscricao from "./Components/NovaInscricao";
 

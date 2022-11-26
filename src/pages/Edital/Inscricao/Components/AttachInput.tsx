@@ -2,7 +2,7 @@ import React from "react";
 import { Typography, Button, Grid, List } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import AttachedFile from "./AttachedFile";
-import { IFile } from "../Interfaces";
+import { IFile } from "../../../../interfaces/Interfaces";
 
 interface IProps {
   inputName: string;

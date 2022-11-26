@@ -8,13 +8,15 @@ import {
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Loading from "../../../Components/Loading";
+import Loading from "../../../components/Loading";
 import UserContext from "../../../context/UserContext";
 import DadosCandidato from "../../Components/DadosCandidato";
-import { IDetalhesInscricao } from "../../Revisao/Interfaces";
+import { IDetalhesInscricao } from "../../../interfaces/Interfaces";
 import RevisarAuditarInscricao from "../../Revisao/RevisarAuditarInscricao/RevisarAuditarInscricao";
-import { getDetalhesInscricaoProfessor } from "../../Revisao/Service";
-import { getDetailsProcessoSeletivo } from "../Detalhes/Service";
+import {
+  getDetalhesInscricaoProfessor,
+  getDetailsProcessoSeletivo,
+} from "../../../services/Api";
 
 export default function InscricaoTeacherView() {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import { List, ListItem, Link, Typography } from "@mui/material";
-import { IAluno } from "../Revisao/Interfaces";
+import { IAluno } from "../../interfaces/Interfaces";
 
 interface IProps {
   dadosInscrito: IAluno | undefined;

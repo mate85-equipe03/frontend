@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
 import FormInscricao from "./FormInscricao";
-import { getDetalhesInscricaoAluno } from "../../../Revisao/Service";
-import { IDetalhesInscricao } from "../../../Revisao/Interfaces";
-import { patchInscricao, postInscricao } from "../Service";
-import { IFile, IInscricaoData, IInscricaoDataReq } from "../Interfaces";
+import {
+  getDetalhesInscricaoAluno,
+  patchInscricao,
+  postInscricao,
+} from "../../../../services/Api";
+import {
+  IDetalhesInscricao,
+  IFile,
+  IInscricaoData,
+  IInscricaoDataReq,
+} from "../../../../interfaces/Interfaces";
 
 interface IProps {
   editalId: number;

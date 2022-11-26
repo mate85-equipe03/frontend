@@ -19,7 +19,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 import api from "../services/Api";
 import UserContext from "../context/UserContext";
-import BtnSubmitLoading from "../Components/BtnSubmitLoading";
+import BtnSubmitLoading from "../components/BtnSubmitLoading";
 
 interface ILoginData {
   username: string;

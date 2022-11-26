@@ -15,11 +15,12 @@ import {
 } from "@mui/material";
 
 import UserContext from "../../../context/UserContext";
-import { IDetalhesInscricao } from "../Interfaces";
-import { getDetalhesInscricaoAluno } from "../Service";
-import Loading from "../../../Components/Loading";
-import { getDetailsProcessoSeletivo } from "../../Edital/Detalhes/Service";
-import { IDetails } from "../../Edital/Detalhes/Interfaces";
+import { IDetalhesInscricao, IDetails } from "../../../interfaces/Interfaces";
+import {
+  getDetalhesInscricaoAluno,
+  getDetailsProcessoSeletivo,
+} from "../../../services/Api";
+import Loading from "../../../components/Loading";
 import DadosCandidato from "../../Components/DadosCandidato";
 import ModalProducao from "../../Edital/Inscricao/Components/ModalProducao";
 

@@ -14,10 +14,10 @@ import {
   Snackbar,
 } from "@mui/material";
 import moment from "moment";
-import { IDetails } from "./Interfaces";
-import { getDetailsProcessoSeletivo } from "./Service";
+import { IDetails } from "../../../interfaces/Interfaces";
+import { getDetailsProcessoSeletivo } from "../../../services/Api";
 import UserContext from "../../../context/UserContext";
-import Loading from "../../../Components/Loading";
+import Loading from "../../../components/Loading";
 import PDFFile from "../../Components/PDFFile";
 import DeleteInscricao from "./DeleteInscricao";
 
