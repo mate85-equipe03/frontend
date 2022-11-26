@@ -45,6 +45,10 @@ const auth = {
     }
     return false;
   },
+
+  isLoggedOut(): boolean {
+    return !this.getStoragedUser();
+  },
 };
 
 export default auth;
