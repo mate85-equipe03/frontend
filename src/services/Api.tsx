@@ -100,17 +100,11 @@ export const deleteInscricao = (inscricaoId: number) => {
   return api.delete(`/inscricoes/${inscricaoId}`);
 };
 
-export const getEnrolledDetails = (editalId: string) => {
-  return api.get<IInscritos>(`/processos-seletivos/${editalId}`);
-};
-
-export const getResultadoMestrado = (editalId: number | string | undefined) => {
+export const getResultadoMestrado = (editalId: number) => {
   return api.get(`/processos-seletivos/${editalId}/resultado-final-mestrado`);
 };
 
-export const getResultadoDoutorado = (
-  editalId: number | string | undefined
-) => {
+export const getResultadoDoutorado = (editalId: number) => {
   return api.get(`/processos-seletivos/${editalId}/resultado-final-doutorado`);
 };
 

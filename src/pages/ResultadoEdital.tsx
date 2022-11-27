@@ -19,44 +19,51 @@ export default function ResultadoEdital() {
     []
   );
   const { user } = useContext(UserContext);
-  const { editalId } = useParams();
-  const [isEditalArchived, setIsEditalArchived] = useState(true);
-  const [isLoading, setIsloading] = useState(false);
+
+  const params = useParams();
+  const editalId = Number(params.editalId) ? Number(params.editalId) : null;
+
+  const [isLoadingPSDetalhes, setIsLoadingPSDetalhes] = useState(false);
+  const [isLoadingMestrado, setIsLoadingMestrado] = useState(false);
+  const [isLoadingDoutorado, setIsLoadingDoutorado] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setIsloading(true);
+    setIsLoadingPSDetalhes(true);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
-        setIsEditalArchived(data?.arquivado);
+        if (data.arquivado === true) {
+          navigate(`edital/${editalId}/inscricao`)
+        }
       })
       .catch()
       .finally(() => {
-        setIsloading(false);
+        setIsLoadingPSDetalhes(false);
       });
   }, [editalId]);
 
   useEffect(() => {
-    setIsloading(true);
-    getResultadoMestrado(editalId)
+    setIsLoadingMestrado(true);
+      getResultadoMestrado(editalId)
       .then(({ data }) => {
         setResultadoMestrado(data);
       })
       .catch()
       .finally(() => {
-        setIsloading(false);
+        setIsLoadingMestrado(false);
       });
-  }, [editalId, user, navigate]);
+      }, [editalId]);
+
 
   useEffect(() => {
-    setIsloading(true);
+    setIsLoadingDoutorado(true);
     getResultadoDoutorado(editalId)
       .then(({ data }) => {
         setResultadoDoutorado(data);
       })
       .catch()
       .finally(() => {
-        setIsloading(false);
+        setIsLoadingDoutorado(false);
       });
   }, [editalId, user, navigate]);
 
@@ -95,7 +102,7 @@ export default function ResultadoEdital() {
     return width ? acc + width : acc;
   }, 0);
 
-  return isLoading ? (
+  return isLoadingPSDetalhes || isLoadingMestrado || isLoadingDoutorado  ? (
     <Loading />
   ) : (
     <Grid
@@ -105,9 +112,6 @@ export default function ResultadoEdital() {
       alignItems="center"
       sx={{ width: "100%" }}
     >
-      {!isEditalArchived ? (
-        <NotArchived />
-      ) : (
         <Card>
           <CardHeader
             title="Resultado Final Mestrado"
@@ -156,7 +160,6 @@ export default function ResultadoEdital() {
             />
           </CardContent>
         </Card>
-      )}
     </Grid>
   );
 }
