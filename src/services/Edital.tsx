@@ -16,8 +16,8 @@ const editalService = {
     }
   },
 
-  nomeDaEtapa(etapaAtual: EtapasEnum): NomesEtapasEnum {
-    switch (etapaAtual) {
+  nomeDaEtapa(etapa: EtapasEnum): NomesEtapasEnum {
+    switch (etapa) {
       case EtapasEnum.INSCRICOES_ABERTAS:
         return NomesEtapasEnum.INSCRICOES_ABERTAS;
       case EtapasEnum.ANALISE_DE_INSCRICOES:
@@ -28,6 +28,11 @@ const editalService = {
         return NomesEtapasEnum.ERROR;
       }
     }
+  },
+
+  nomeDaEtapaRaw(etapa: IEtapa, edital: IEdital): NomesEtapasEnum {
+    const etapaEnum = editalService.etapaAtual(etapa, edital);
+    return editalService.nomeDaEtapa(etapaEnum);
   },
 
   isInscricoesAbertas(etapaAtual: IEtapa, edital: IEdital): boolean {
