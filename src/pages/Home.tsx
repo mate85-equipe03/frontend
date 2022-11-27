@@ -39,6 +39,7 @@ export default function Home() {
   const [editais, setEditais] = useState<IEdital[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isAluno, setIsAluno] = useState<boolean>(false);
+  const [isRoot, setIsRoot] = useState<boolean>(false);
 
   const redirectToNovoEdital = () => {
     navigate("/edital/novo");
@@ -46,6 +47,7 @@ export default function Home() {
 
   useEffect(() => {
     setIsAluno(auth.isStudent());
+    setIsRoot(auth.isRoot());
   }, [user]);
 
   useEffect(() => {
@@ -75,7 +77,7 @@ export default function Home() {
       return "Dados pessoais alterados com sucesso.";
     }
     if (novoEditalSuccess) {
-      return "Novo Processo Seletivo criado com sucesso.";
+      return "Processo Seletivo criado com sucesso.";
     }
 
     if (signUpSuccess) {
@@ -177,7 +179,7 @@ export default function Home() {
         </Alert>
       )}
 
-      {auth.isRoot() && (
+      {isRoot && (
         <Grid>
           <Button
             type="button"
@@ -194,7 +196,6 @@ export default function Home() {
             onClick={redirectToCadastroTeacher}
             sx={{ mx: 1 }}
           >
-            {/* @Kennedy POSG-120  */}
             <Add fontSize="small" sx={{ mr: 1 }} /> Cadastrar Professor
           </Button>
         </Grid>

@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-props-no-spreading */
+
 import { FormControl, Grid, TextField, Typography } from "@mui/material";
 import { LocalizationProvider, DesktopDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -25,23 +27,20 @@ export default function InputData({ datas, setDatas, etapa }: IProps) {
       justifyContent="space-between"
     >
       <Grid item xs={5.3}>
-        <FormControl required>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DesktopDatePicker
-              label="Data de Inicio"
-              inputFormat="DD/MM/YYYY"
-              value={dataInicio}
-              onChange={(newData) => {
-                setDatas({
-                  ...datas,
-                  [etapaInicio]: newData,
-                });
-              }}
-              /* eslint-disable react/jsx-props-no-spreading */
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
-        </FormControl>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DesktopDatePicker
+            label="Data de início"
+            inputFormat="DD/MM/YYYY"
+            value={dataInicio}
+            onChange={(newData) => {
+              setDatas({
+                ...datas,
+                [etapaInicio]: newData,
+              });
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
       </Grid>
       {etapa !== "etapa_resultado" && (
         <>
@@ -50,23 +49,20 @@ export default function InputData({ datas, setDatas, etapa }: IProps) {
           </Grid>
 
           <Grid item xs={5.3}>
-            <FormControl required>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DesktopDatePicker
-                  label="Data de Fim"
-                  inputFormat="DD/MM/YYYY"
-                  value={dataFim}
-                  onChange={(newData) => {
-                    setDatas({
-                      ...datas,
-                      [etapaFim]: newData,
-                    });
-                  }}
-                  /* eslint-disable react/jsx-props-no-spreading */
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-            </FormControl>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                label="Data de fim"
+                inputFormat="DD/MM/YYYY"
+                value={dataFim}
+                onChange={(newData) => {
+                  setDatas({
+                    ...datas,
+                    [etapaFim]: newData,
+                  });
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
           </Grid>
         </>
       )}

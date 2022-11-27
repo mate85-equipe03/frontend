@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Dayjs } from "dayjs";
 import api from "../services/Api";
-import { IDatasEtapas, IEditalData } from "../interfaces/Interfaces";
+import { IDatasEtapas, ICadastroEdital } from "../interfaces/Interfaces";
 import BtnSubmitLoading from "../components/BtnSubmitLoading";
 import InputData from "../components/InputData";
 
@@ -27,7 +27,7 @@ export default function NovoEdital() {
   const [loadingBtn, setLoadingBtn] = React.useState<boolean>(false);
   const [novoEditalError, setNovoEditalError] = React.useState<boolean>(false);
 
-  const [editalData, setEditalData] = React.useState<IEditalData>({
+  const [editalData, setEditalData] = React.useState<ICadastroEdital>({
     titulo: "",
     descricao: "",
     semestre: "",
@@ -77,18 +77,18 @@ export default function NovoEdital() {
     event.preventDefault();
     setLoadingBtn(true);
 
-    // console.log(editalData);
     api
       .post("/processos-seletivos", editalData)
       .then(() => {
         setNovoEditalError(false);
+        navigate("/", { state: { novoEdital: true } });
       })
       .catch(() => {
         setNovoEditalError(true);
       })
       .finally(() => {
         setLoadingBtn(false);
-        navigate("/", { state: { novoEdital: true } });
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       });
   };
 
@@ -119,11 +119,11 @@ export default function NovoEdital() {
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
           <form id="novo-edital-form" onSubmit={sendForm}>
             <FormControl required fullWidth margin="normal">
-              <InputLabel htmlFor="titulo">Titulo</InputLabel>
+              <InputLabel htmlFor="titulo">Título</InputLabel>
               <OutlinedInput
                 id="titulo"
                 name="titulo"
-                label="Titulo"
+                label="Título"
                 placeholder="Digite o título do edital"
                 type="text"
                 value={editalData.titulo}
@@ -179,7 +179,7 @@ export default function NovoEdital() {
             </Typography>
 
             <FormControl required fullWidth margin="normal">
-              <Typography sx={{ pb: 1 }}> Inscrições </Typography>
+              <Typography sx={{ pb: 1 }}> Inscrições Abertas</Typography>
               <InputData
                 datas={datas}
                 setDatas={setDatas}
@@ -188,7 +188,7 @@ export default function NovoEdital() {
             </FormControl>
 
             <FormControl required fullWidth margin="normal">
-              <Typography sx={{ pb: 1 }}> Análise </Typography>
+              <Typography sx={{ pb: 1 }}> Análise de Inscrições </Typography>
               <InputData
                 datas={datas}
                 setDatas={setDatas}
@@ -197,7 +197,7 @@ export default function NovoEdital() {
             </FormControl>
 
             <FormControl required fullWidth margin="normal">
-              <Typography sx={{ pb: 1 }}> Resultados </Typography>
+              <Typography sx={{ pb: 1 }}> Resultados Disponíveis </Typography>
               <InputData
                 datas={datas}
                 setDatas={setDatas}

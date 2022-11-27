@@ -238,7 +238,7 @@ export interface IRecoverData {
   matricula: string;
 }
 
-export interface IEditalData {
+export interface ICadastroEdital {
   titulo: string;
   descricao: string;
   semestre: string;
