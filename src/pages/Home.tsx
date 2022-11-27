@@ -39,7 +39,6 @@ export default function Home() {
   const [editais, setEditais] = useState<IEdital[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isAluno, setIsAluno] = useState<boolean>(false);
-  const [isRoot, setIsRoot] = useState<boolean>(false);
 
   const redirectToNovoEdital = () => {
     navigate("/edital/novo");
@@ -47,7 +46,6 @@ export default function Home() {
 
   useEffect(() => {
     setIsAluno(auth.isStudent());
-    setIsRoot(auth.isRoot());
   }, [user]);
 
   useEffect(() => {
