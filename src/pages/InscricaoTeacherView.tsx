@@ -78,6 +78,7 @@ export default function InscricaoTeacherView() {
 
     if (user && editalId && inscricaoId) {
       setLoadingDadosAluno(true);
+      setLoadingEtapaAtual(true);
       setLoadingProcessoSeletivo(true);
       getDetalhesInscricaoProfessor(inscricaoId, editalId)
         .then(({ data }) => {
