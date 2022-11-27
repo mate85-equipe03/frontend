@@ -291,21 +291,36 @@ export default function EditalDetails() {
               >
                 <Typography variant="h6">Etapas</Typography>
                 <List>
-                  {edital?.etapas.map((etapa, index) => (
-                    <ListItem disablePadding key={etapa.id}>
-                      <ListItemText>
-                        <Grid container direction="row">
-                          <Typography sx={{ fontWeight: "bold" }}>
-                            {index + 1}. {etapa.name}:&nbsp;
-                          </Typography>
-                          <Typography>
-                            {dateToStr(etapa.data_inicio)}&nbsp;a&nbsp;
-                            {dateToStr(etapa.data_fim)}
-                          </Typography>
-                        </Grid>
-                      </ListItemText>
-                    </ListItem>
-                  ))}
+                  {edital?.etapas.map((etapa, index) => {
+                    const dataInicio = dateToStr(etapa.data_inicio);
+                    const dataFim = dateToStr(etapa.data_fim);
+                    const nomeDaEtapa = editalService.nomeDaEtapaRaw(
+                      etapa,
+                      edital
+                    );
+                    const isResultadoFinal = editalService.isResultadoFinal(
+                      etapa,
+                      edital
+                    );
+
+                    return (
+                      <ListItem disablePadding key={etapa.id}>
+                        <ListItemText>
+                          <Grid container direction="row">
+                            <Typography sx={{ fontWeight: "bold" }}>
+                              {index + 1}. {nomeDaEtapa}
+                              :&nbsp;
+                            </Typography>
+                            <Typography>
+                              {!isResultadoFinal
+                                ? `${dataInicio} a ${dataFim}`
+                                : `A partir de ${dataInicio}`}
+                            </Typography>
+                          </Grid>
+                        </ListItemText>
+                      </ListItem>
+                    );
+                  })}
                 </List>
 
                 {nomeDaEtapaAtual && (
