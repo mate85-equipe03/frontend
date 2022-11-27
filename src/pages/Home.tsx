@@ -11,6 +11,7 @@ import {
 import { useNavigate, useLocation } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import moment from "moment";
+import { Add } from "@mui/icons-material";
 import { IEdital } from "../interfaces/Interfaces";
 import { getAllProcessosSeletivos } from "../services/Api";
 import Loading from "../components/Loading";
@@ -30,12 +31,19 @@ export default function Home() {
   const editInscricaoSuccess = location.state
     ? "editInscricao" in location.state
     : false;
+  const novoEditalSuccess = location.state
+    ? "novoEdital" in location.state
+    : false;
   window.history.replaceState(null, "");
   const { user } = useContext(UserContext);
   const [editais, setEditais] = useState<IEdital[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isAluno, setIsAluno] = useState<boolean>(false);
   const [isRoot, setIsRoot] = useState<boolean>(false);
+
+  const redirectToNovoEdital = () => {
+    navigate("/edital/novo");
+  };
 
   useEffect(() => {
     setIsAluno(auth.isStudent());
@@ -67,6 +75,9 @@ export default function Home() {
 
     if (editSuccess) {
       return "Dados pessoais alterados com sucesso.";
+    }
+    if (novoEditalSuccess) {
+      return "Processo Seletivo criado com sucesso.";
     }
 
     if (signUpSuccess) {
@@ -175,7 +186,25 @@ export default function Home() {
       )}
 
       {isRoot && (
-        <Button onClick={redirectToCadastroTeacher}>Cadastrar professor</Button>
+        <Grid>
+          <Button
+            type="button"
+            onClick={redirectToNovoEdital}
+            size="large"
+            sx={{ mx: 1 }}
+          >
+            <Add fontSize="small" sx={{ mr: 1 }} /> Novo Processo Seletivo
+          </Button>
+
+          <Button
+            type="button"
+            size="large"
+            onClick={redirectToCadastroTeacher}
+            sx={{ mx: 1 }}
+          >
+            <Add fontSize="small" sx={{ mr: 1 }} /> Cadastrar Professor
+          </Button>
+        </Grid>
       )}
 
       <Card sx={{ py: 2, mt: 5 }}>
