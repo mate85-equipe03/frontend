@@ -9,7 +9,6 @@ import {
   IRevisarAuditar,
   IEtapa,
   ISignUpDataTeacher,
-  IInscritos,
 } from "../interfaces/Interfaces";
 
 const api = axios.create({
