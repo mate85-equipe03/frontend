@@ -230,3 +230,10 @@ export interface IUserBackend {
 export interface IRecoverData {
   matricula: string;
 }
+
+export interface IEditalData {
+  titulo:string;
+  descricao:string;
+  semestre:string;
+  edital_url:string;
+}

@@ -6,6 +6,7 @@ import {
   CardContent,
   Alert,
   Divider,
+  Button,
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -17,6 +18,8 @@ import { getAllProcessosSeletivos } from "../services/Api";
 import Loading from "../components/Loading";
 import UserContext from "../context/UserContext";
 import PDFFile from "../components/PDFFile";
+import { Add } from "@mui/icons-material";
+import Auth from "../services/Auth";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -32,6 +35,10 @@ export default function Home() {
   const [editais, setEditais] = useState<IEdital[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isAluno, setIsAluno] = useState<boolean>(false);
+
+  const redirectToNovoEdital = () => {
+    navigate(`/edital/novo`);
+  };
 
   useEffect(() => {
     if (user?.role === "ALUNO") {
@@ -162,6 +169,24 @@ export default function Home() {
         <Alert severity="success" sx={{ mb: 2 }}>
           {successMessage}
         </Alert>
+      )}
+
+      {Auth.isRoot() && (
+        <Grid>
+          <Button
+            type="button"
+            onClick={redirectToNovoEdital}
+            size="large"
+            sx={{ mx: 1 }}
+          >
+            <Add fontSize="small" sx={{ mr: 1 }} /> Novo Processo Seletivo
+          </Button>
+
+          <Button type="button" size="large" sx={{ mx: 1 }}>
+            {/* @Kennedy POSG-120  */}
+            <Add fontSize="small" sx={{ mr: 1 }} /> Cadastrar Professor
+          </Button>
+        </Grid>
       )}
 
       <Card sx={{ py: 2, mt: 5 }}>
