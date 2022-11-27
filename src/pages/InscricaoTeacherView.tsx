@@ -91,9 +91,6 @@ export default function InscricaoTeacherView() {
         });
       getDetailsProcessoSeletivo(editalId)
         .then(({ data }) => {
-          if (data?.arquivado) {
-            setReadOnly(true);
-          }
           setEdital(data);
         })
         .catch()
@@ -128,8 +125,17 @@ export default function InscricaoTeacherView() {
         etapasValidas
       );
 
+      const isResultadoFinal = editalService.isResultadoFinal(
+        etapaAtual,
+        edital
+      );
+
       if (!isEtapaValida) {
         redirectToDetails();
+      }
+
+      if (isResultadoFinal) {
+        setReadOnly(true);
       }
     }
   }, [etapaAtual, edital, editalId, navigate]);
@@ -147,9 +153,7 @@ export default function InscricaoTeacherView() {
       {inscricaoError && (
         <Alert severity="error">Ocorreu um erro. Tente novamente.</Alert>
       )}
-      {(readOnly || warningMessage) && (
-        <Alert severity="warning">{warningMessage}</Alert>
-      )}
+      {warningMessage && <Alert severity="warning">{warningMessage}</Alert>}
       <Card sx={{ width: 800, mt: 5 }}>
         <CardHeader
           title={`${isAuditoria ? "Auditar" : "Revisar"} Inscrição`}

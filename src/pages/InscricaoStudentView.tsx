@@ -57,13 +57,6 @@ export default function InscricaoStudentView() {
         });
       getDetailsProcessoSeletivo(editalId)
         .then(({ data }) => {
-          if (data?.arquivado) {
-            if (!data?.idInscricao) {
-              redirectToDetails();
-            } else {
-              setReadOnly(true);
-            }
-          }
           setEdital(data);
           setInscricaoId(data?.idInscricao);
         })
@@ -98,8 +91,21 @@ export default function InscricaoStudentView() {
         etapasValidas
       );
 
+      const isResultadoFinal = editalService.isResultadoFinal(
+        etapaAtual,
+        edital
+      );
+
       if (!isEtapaValida) {
         redirectToDetails();
+      }
+
+      if (isResultadoFinal) {
+        if (inscricaoId) {
+          setReadOnly(true);
+        } else {
+          redirectToDetails();
+        }
       }
     }
   }, [etapaAtual, edital, editalId, navigate]);
