@@ -48,7 +48,6 @@ export default function NovoEdital() {
     etapa_analise_fim: null,
     etapa_resultado_inicio: null,
     etapa_resultado_fim: null,
-
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

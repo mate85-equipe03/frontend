@@ -258,5 +258,4 @@ export interface IDatasEtapas {
   etapa_analise_fim: Dayjs | null;
   etapa_resultado_inicio: Dayjs | null;
   etapa_resultado_fim: Dayjs | null;
-
 }
