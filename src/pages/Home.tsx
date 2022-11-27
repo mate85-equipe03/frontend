@@ -8,8 +8,6 @@ import {
   Divider,
   Button,
 } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
 import { useNavigate, useLocation } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import moment from "moment";
@@ -19,6 +17,8 @@ import Loading from "../components/Loading";
 import UserContext from "../context/UserContext";
 import PDFFile from "../components/PDFFile";
 import auth from "../services/Auth";
+import Inscrito from "../components/Inscrito";
+import editalService from "../services/Edital";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -46,9 +46,7 @@ export default function Home() {
     setLoading(true);
     getAllProcessosSeletivos()
       .then(({ data }) => setEditais(data.editais.processos))
-      .catch(() => {
-        // TODO: Ver como exibir erros va View
-      })
+      .catch()
       .finally(() => {
         setLoading(false);
       });
@@ -117,17 +115,7 @@ export default function Home() {
       hide: !isAluno,
       valueGetter: (params) => params.row.isInscrito,
       renderCell: (cellValues) => {
-        return cellValues.row.isInscrito ? (
-          <Grid sx={{ color: "success.main", fontWeight: "bold" }}>
-            <CheckCircleIcon fontSize="small" sx={{ mr: 0.5 }} />
-            Inscrito(a)
-          </Grid>
-        ) : (
-          <Grid sx={{ color: "error.main", fontWeight: "bold" }}>
-            <CancelIcon fontSize="small" sx={{ mr: 0.5 }} />
-            Não Inscrito(a)
-          </Grid>
-        );
+        return <Inscrito isInscrito={cellValues.row.isInscrito} />;
       },
     },
     {
@@ -144,9 +132,16 @@ export default function Home() {
       width: 270,
       valueGetter: (params) => {
         const { etapas } = params.row;
-        return etapas.length > 0
-          ? `${etapas[0].name} (até ${dateToStr(etapas[0].data_fim)})`
-          : "Resultados disponíveis";
+        // TODO: Pegar etapa_atual quando o back mandar
+        if (etapas.length > 0) {
+          const etapaAtual = editalService.etapaAtual(params.row, etapas[0]);
+          const nomeDaEtapa = editalService.nomeDaEtapa(etapaAtual);
+          const dataFim = dateToStr(etapas[0].data_fim);
+          if (nomeDaEtapa) {
+            return `${nomeDaEtapa} (até ${dataFim})`;
+          }
+        }
+        return "";
       },
     },
   ];

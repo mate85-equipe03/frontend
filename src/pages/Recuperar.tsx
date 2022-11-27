@@ -37,7 +37,7 @@ export default function Recuperar() {
     // .then(() => {
     //  console.log(recoverData);
     // });
-    // .catch(() => {});
+    // .catch();
   };
 
   return (

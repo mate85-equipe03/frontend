@@ -3,10 +3,11 @@ import {
   IDados,
   IEditaisReq,
   IInscricaoDataReq,
-  IDetails,
+  IEdital,
   IADetalhes,
   IDetalhesInscricao,
   IRevisarAuditar,
+  IEtapa,
   ISignUpDataTeacher,
 } from "../interfaces/Interfaces";
 
@@ -39,7 +40,11 @@ const formData = (payload: IInscricaoDataReq) => {
 export const getDetailsProcessoSeletivo = (
   editalId: number | string | undefined
 ) => {
-  return api.get<IDetails>(`/processos-seletivos/${editalId}`);
+  return api.get<IEdital>(`/processos-seletivos/${editalId}`);
+};
+
+export const getEtapaAtualProcessoSeletivo = (editalId: number) => {
+  return api.get<IEtapa>(`/processos-seletivos/${editalId}/etapa-atual`);
 };
 
 export const getAllProcessosSeletivos = () => {
