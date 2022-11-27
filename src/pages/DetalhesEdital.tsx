@@ -34,8 +34,9 @@ export default function EditalDetails() {
   const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IEdital | null>(null);
   const [loadingEdital, setLoadingEdital] = useState<boolean>(false);
-  const [etapaAtual, setEtapaAtual] = useState<IEtapa | null>(null);
   const [loadingEtapaAtual, setLoadingEtapaAtual] = useState<boolean>(false);
+  const [etapaAtual, setEtapaAtual] = useState<IEtapa | null>(null);
+  const [nomeDaEtapaAtual, setNomeDaEtapaAtual] = useState<string>();
   const [inscricaoExcluida, setInscricaoExcluida] = useState<boolean>(false);
   const [buttons, setButtons] = useState<JSX.Element | null>();
 
@@ -174,6 +175,9 @@ export default function EditalDetails() {
     };
 
     const getButtonsInscricoesAbertas = (): JSX.Element | null => {
+      if (auth.isTeacher()) {
+        return buttonsEnum.ALUNOS_INSCRITOS;
+      }
       if (auth.isStudent()) {
         return buttonsStudentInscricoesAbertas();
       }
@@ -201,6 +205,7 @@ export default function EditalDetails() {
 
     if (etapaAtual !== null && edital !== null) {
       const etapa = editalService.etapaAtual(etapaAtual, edital);
+      setNomeDaEtapaAtual(editalService.nomeDaEtapa(etapa));
       switch (etapa) {
         case EtapasEnum.INSCRICOES_ABERTAS:
           setButtons(getButtonsInscricoesAbertas());
@@ -303,9 +308,11 @@ export default function EditalDetails() {
                   ))}
                 </List>
 
-                <Alert sx={{ mt: 2 }} severity="info">
-                  Etapa atual: {etapaAtual?.name}
-                </Alert>
+                {nomeDaEtapaAtual && (
+                  <Alert sx={{ mt: 2 }} severity="info">
+                    Etapa atual: {nomeDaEtapaAtual}
+                  </Alert>
+                )}
               </Grid>
 
               {edital && (

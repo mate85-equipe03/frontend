@@ -1,4 +1,4 @@
-import { EtapasEnum } from "../enums/Enums";
+import { EtapasEnum, NomesEtapasEnum } from "../enums/Enums";
 import { IEdital, IEtapa } from "../interfaces/Interfaces";
 
 const editalService = {
@@ -13,6 +13,20 @@ const editalService = {
         return edital.arquivado ? EtapasEnum.RESULTADO_FINAL : EtapasEnum.ERROR;
       default: {
         return EtapasEnum.ERROR;
+      }
+    }
+  },
+
+  nomeDaEtapa(etapaAtual: EtapasEnum): NomesEtapasEnum {
+    switch (etapaAtual) {
+      case EtapasEnum.INSCRICOES_ABERTAS:
+        return NomesEtapasEnum.INSCRICOES_ABERTAS;
+      case EtapasEnum.ANALISE_DE_INSCRICOES:
+        return NomesEtapasEnum.ANALISE_DE_INSCRICOES;
+      case EtapasEnum.RESULTADO_FINAL:
+        return NomesEtapasEnum.RESULTADO_FINAL;
+      default: {
+        return NomesEtapasEnum.ERROR;
       }
     }
   },
