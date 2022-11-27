@@ -21,6 +21,7 @@ import Loading from "../components/Loading";
 import PDFFile from "../components/PDFFile";
 import DeleteInscricao from "../components/Inscricao/DeleteInscricao";
 import auth from "../services/Auth";
+import Inscrito from "../components/Inscrito";
 
 export default function EditalDetails() {
   const navigate = useNavigate();
@@ -233,6 +234,7 @@ export default function EditalDetails() {
               align: "center",
             }}
           />
+
           <Divider sx={{ mx: 3 }} />
 
           <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
@@ -243,6 +245,11 @@ export default function EditalDetails() {
               alignItems="center"
               sx={{ width: "auto" }}
             >
+              {auth.isStudent() && edital && (
+                <Grid sx={{ mb: 1 }}>
+                  <Inscrito isInscrito={edital.isInscrito} />
+                </Grid>
+              )}
               <List>
                 {edital?.etapas.map((etapa) => (
                   <ListItem disablePadding key={etapa.id}>
