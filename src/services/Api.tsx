@@ -7,6 +7,7 @@ import {
   IADetalhes,
   IDetalhesInscricao,
   IRevisarAuditar,
+  ISignUpDataTeacher,
   IInscritos,
 } from "../interfaces/Interfaces";
 
@@ -107,8 +108,14 @@ export const getResultadoMestrado = (editalId: number | string | undefined) => {
   return api.get(`/processos-seletivos/${editalId}/resultado-final-mestrado`);
 };
 
-export const getResultadoDoutorado = (editalId: number | string | undefined) => {
-  return api.get(`/processos-seletivos/${editalId}/resultado-final/doutorado`);
+export const getResultadoDoutorado = (
+  editalId: number | string | undefined
+) => {
+  return api.get(`/processos-seletivos/${editalId}/resultado-final-doutorado`);
+};
+
+export const postCadastroTeacher = (signUpData: ISignUpDataTeacher) => {
+  return api.post("/professores", signUpData);
 };
 
 export default api;

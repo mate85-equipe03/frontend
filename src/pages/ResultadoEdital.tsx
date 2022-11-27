@@ -6,15 +6,17 @@ import NotArchived from "../components/NãoArquivado";
 import UserContext from "../context/UserContext";
 import { IADetalhes } from "../interfaces/Interfaces";
 
-
-import { getDetailsProcessoSeletivo, getEnrolledList, getResultadoDoutorado, getResultadoMestrado } from "../services/Api";
+import {
+  getDetailsProcessoSeletivo,
+  getEnrolledList,
+  getResultadoDoutorado,
+  getResultadoMestrado,
+} from "../services/Api";
 
 export default function ResultadoEdital() {
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
   const [resultadoMestrado, setResultadoMestrado] = useState<IADetalhes[]>([]);
-  const [resultadoDoutorado, setResultadoDoutorado] = useState<IADetalhes[]>(
-    []
-  );
+  const [resultadoDoutorado, setResultadoDoutorado] = useState<IADetalhes[]>([]);
   const { user } = useContext(UserContext);
   const { editalId } = useParams();
   const [isEditalArchived, setIsEditalArchived] = useState(true);
@@ -92,7 +94,7 @@ export default function ResultadoEdital() {
   }, 0);
 
   return isEditalArchived ? (
-    <NotArchived/>
+    <NotArchived />
   ) : (
     <Grid
       container
@@ -103,7 +105,7 @@ export default function ResultadoEdital() {
     >
       <Card>
         <CardHeader
-          title="Resultado Final"
+          title="Resultado Final Mestrado"
           titleTypographyProps={{
             align: "center",
             variant: "h4",
@@ -121,8 +123,18 @@ export default function ResultadoEdital() {
             columns={colunas}
             sx={{
               width: Math.min(allColumnsWidth + 2, 1000),
+              mb : 5
             }}
           />
+
+        <CardHeader
+          title="Resultado Final Doutorado"
+          titleTypographyProps={{
+            align: "center",
+            variant: "h4",
+          }}
+        />
+
           <DataGrid
             initialState={{
               sorting: {
@@ -134,6 +146,7 @@ export default function ResultadoEdital() {
             columns={colunas}
             sx={{
               width: Math.min(allColumnsWidth + 2, 1000),
+              mb : 5
             }}
           />
         </CardContent>

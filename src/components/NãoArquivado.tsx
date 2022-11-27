@@ -31,7 +31,14 @@ export default function NotArchived() {
           }}
         />
         <Box textAlign="center">
-          <Button type="button" onClick={redirectToEnroll} size="large">
+          <Button 
+            type="button"
+            onClick={redirectToEnroll}
+            size="large"
+            sx={{
+              mb : 2
+            }}
+          >
             Inscreva-se
           </Button>
         </Box>
