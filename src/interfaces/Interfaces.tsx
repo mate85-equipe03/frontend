@@ -197,6 +197,8 @@ export interface IDetalhesInscricao {
   aluno: IAluno;
   producoes: IProducoes[];
   observacao: string;
+  revisor: string;
+  auditor: string;
 }
 
 export interface IRevisarAuditar {

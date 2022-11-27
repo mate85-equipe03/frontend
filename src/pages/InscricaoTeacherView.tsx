@@ -5,6 +5,9 @@ import {
   CardHeader,
   Divider,
   CardContent,
+  Typography,
+  List,
+  ListItem,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -43,6 +46,8 @@ export default function InscricaoTeacherView() {
   const inscricaoId = Number(params.inscricaoId)
     ? Number(params.inscricaoId)
     : null;
+  const [revisorName, setRevisorName] = useState<String>();
+  const [auditorName, setAuditorName] = useState<String>();
 
   useEffect(() => {
     const isRevisadaEAuditada = (revisorId: number, auditorId: number) => {
@@ -87,6 +92,8 @@ export default function InscricaoTeacherView() {
           }
           setDadosInscricao(data);
           setIsAuditoria(Boolean(data?.revisor_id));
+          setRevisorName(data.revisor);
+          setAuditorName(data.auditor);
         })
         .catch()
         .finally(() => {
@@ -165,8 +172,36 @@ export default function InscricaoTeacherView() {
           }}
         />
         <Divider sx={{ mx: 3 }} />
-
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
+          {revisorName && !(auditorName) &&(
+              <List
+              component="nav"
+              aria-labelledby="teachers"
+              >
+                <ListItem>
+                  <Typography color="primary" sx={{ fontWeight: "bold" }}>
+                    &emsp;{`Revisado por ${revisorName}`}&nbsp;&nbsp;
+                  </Typography>
+                </ListItem>
+              </List>
+            )}
+            {revisorName && auditorName && (
+              <List
+              component="nav"
+              aria-labelledby="teachers"
+              >
+                <ListItem>
+                  <Typography color="primary" sx={{ fontWeight: "bold" }}>
+                    &emsp;{`Revisado por ${revisorName}`}&nbsp;&nbsp;
+                  </Typography>
+                </ListItem>
+                <ListItem>
+                  <Typography color="primary" sx={{ fontWeight: "bold" }}>
+                    &emsp;{`Auditado por ${auditorName}`}&nbsp;&nbsp;
+                  </Typography>
+                </ListItem>
+              </List>
+            )}
           <DadosCandidato dadosInscrito={dadosInscricao?.aluno} />
           {editalId && inscricaoId && dadosInscricao && (
             <RevisarAuditarInscricao
