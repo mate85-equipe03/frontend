@@ -23,6 +23,7 @@ import auth from "../services/Auth";
 export default function Home() {
   const navigate = useNavigate();
   const location = useLocation();
+  const signUpSuccess = location.state ? "signUp" in location.state : false;
   const signOutSuccess = location.state ? "signOut" in location.state : false;
   const signInSuccess = location.state ? "signIn" in location.state : false;
   const editSuccess = location.state ? "edit" in location.state : false;
@@ -70,6 +71,10 @@ export default function Home() {
       return "Dados pessoais alterados com sucesso.";
     }
 
+    if (signUpSuccess) {
+      return "Cadastro de professor realizado com sucesso.";
+    }
+
     return null;
   };
 
@@ -81,7 +86,7 @@ export default function Home() {
     event.stopPropagation();
   };
 
-  const redirectToCadastrpTeacher = () => {
+  const redirectToCadastroTeacher = () => {
     navigate("/cadastro-professor");
   };
 
@@ -169,7 +174,7 @@ export default function Home() {
       )}
 
       {isRoot && (
-        <Button onClick={redirectToCadastrpTeacher}>Cadastrar professor</Button>
+        <Button onClick={redirectToCadastroTeacher}>Cadastrar professor</Button>
       )}
 
       <Card sx={{ py: 2, mt: 5 }}>
