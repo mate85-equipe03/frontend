@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { PatternFormat } from "react-number-format";
 import { useNavigate } from "react-router-dom";
-import api from "../services/Api";
+import { postCadastroTeacher } from "../services/Api";
 import BtnSubmitLoading from "../components/BtnSubmitLoading";
 import { ISignUpDataTeacher } from "../interfaces/Interfaces";
 import Loading from "../components/Loading";
@@ -59,8 +59,7 @@ export default function CadastroTeacher() {
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     } else {
       setLoading(true);
-      api
-        .post("/professores", signUpData)
+      postCadastroTeacher(signUpData)
         .then(() => {
           navigate("/", { state: { signUp: true } });
           setSignUpError(false);

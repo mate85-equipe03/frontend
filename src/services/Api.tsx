@@ -7,6 +7,7 @@ import {
   IADetalhes,
   IDetalhesInscricao,
   IRevisarAuditar,
+  ISignUpDataTeacher,
 } from "../interfaces/Interfaces";
 
 const api = axios.create({
@@ -97,5 +98,9 @@ export const patchAuditarInscricao = (payload: IRevisarAuditar) => {
 export const deleteInscricao = (inscricaoId: number) => {
   return api.delete(`/inscricoes/${inscricaoId}`);
 };
+
+export const postCadastroTeacher = (signUpData: ISignUpDataTeacher) => {
+  return api.post("/professores", signUpData);
+}
 
 export default api;
