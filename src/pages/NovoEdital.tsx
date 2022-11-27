@@ -22,8 +22,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import api from "../services/Api";
-import { IEditalData } from "../interfaces/Interfaces";
+import { IDatasEtapas, IEditalData } from "../interfaces/Interfaces";
 import BtnSubmitLoading from "../components/BtnSubmitLoading";
+import InputData from "../components/InputData";
 
 export default function NovoEdital() {
   const navigate = useNavigate();
@@ -43,15 +44,6 @@ export default function NovoEdital() {
     etapa_resultado_inicio: "",
     etapa_resultado_fim: "",
   });
-
-  interface IDatasEtapas {
-    etapa_inscricao_inicio: Dayjs | null;
-    etapa_inscricao_fim: Dayjs | null;
-    etapa_analise_inicio: Dayjs | null;
-    etapa_analise_fim: Dayjs | null;
-    etapa_resultado_inicio: Dayjs | null;
-    etapa_resultado_fim: Dayjs | null;
-  }
 
   const [datas, setDatas] = React.useState<IDatasEtapas>({
     etapa_inscricao_inicio: null,
@@ -351,6 +343,9 @@ export default function NovoEdital() {
                 </Grid>
               </Grid>
             </FormControl>
+
+            <InputData datas={datas} setDatas={setDatas} etapa="etapa_resultado" />
+            
           </form>
         </CardContent>
         <CardActions sx={{ px: { xs: 5, sm: 10 } }}>
