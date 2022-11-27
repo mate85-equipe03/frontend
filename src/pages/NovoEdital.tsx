@@ -10,8 +10,6 @@ import {
   OutlinedInput,
   CardActions,
   TextField,
-  TextFieldProps,
-  Box,
   Typography,
 } from "@mui/material";
 import { PatternFormat } from "react-number-format";
@@ -41,8 +39,28 @@ export default function NovoEdital() {
   });
 
   const [data, setData] = React.useState<Dayjs | null>(
-    dayjs("2022-11-28T18:50:00")
+    // dayjs("2022-11-28T18:50:00")
+    dayjs("2022/11/28")
   );
+
+  interface IDatasEtapas {
+    etapa_inscricao_inicio: Dayjs | null;
+    etapa_inscricao_fim: Dayjs | null;
+    etapa_analise_inicio: Dayjs | null;
+    etapa_analise_fim: Dayjs | null;
+    etapa_resultado_inicio: Dayjs | null ;
+    etapa_resultado_fim: Dayjs | null ;
+  }
+
+  const [datas, setDatas] = React.useState<IDatasEtapas>({
+    // dayjs("2022/11/28")
+    etapa_inscricao_inicio: null,
+    etapa_inscricao_fim: null,
+    etapa_analise_inicio: null,
+    etapa_analise_fim: null,
+    etapa_resultado_inicio: null,
+    etapa_resultado_fim: null,
+  });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -51,22 +69,33 @@ export default function NovoEdital() {
       [event.target.name]: event.target.value,
     });
   };
-  const handleChangeDate = (newValue: Dayjs | null) => {
-    setData(newValue);
+
+  const formatData = (data: Dayjs | null) => {
+    return data ? data.format("YYYY/MM/DD") : "";
   };
 
-  handleChangeDate;
+  useEffect(()=>{
+    //Formata datas
+    setEditalData({
+      ...editalData,
+      etapa_resultado_inicio: formatData(datas.etapa_resultado_inicio),
+      etapa_resultado_fim: formatData(datas.etapa_resultado_fim),
+    });
+  },[datas]);
+  
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    console.log(datas);
     console.log(editalData);
-    
+
     // setLoading(true);
 
-    api.post("/processos-seletivos", editalData).then((data) => {
-      console.log(data);
-      //     navigate("/login", { state: { signUp: true } });
-      //     setSignUpError(false);
-    });
+    // api.post("/processos-seletivos", editalData).then((data) => {
+    //   console.log(data);
+    //   //     navigate("/login", { state: { signUp: true } });
+    //   //     setSignUpError(false);
+    // });
     //   .catch(() => {
     //     setSignUpError(true);
     //   })
@@ -263,7 +292,7 @@ export default function NovoEdital() {
               </Grid>
             </FormControl>
 
-            <FormControl required fullWidth margin="normal">
+            {/* <FormControl required fullWidth margin="normal">
               <Typography sx={{ pb: 1 }}> Resultados </Typography>
               <Grid
                 container
@@ -314,8 +343,74 @@ export default function NovoEdital() {
                   </FormControl>
                 </Grid>
               </Grid>
-            </FormControl>
+            </FormControl> */}
 
+            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                label="etapa_resultado_fim"
+                inputFormat="DD/MM/YYYY"
+                value={datas.etapa_resultado_fim}
+                onChange={(newData) => {
+                  setDatas({
+                    ...datas,
+                    etapa_resultado_fim: newData,
+                  });
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider> */}
+
+            <FormControl required fullWidth margin="normal">
+              <Typography sx={{ pb: 1 }}> Resultados </Typography>
+              <Grid
+                container
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Grid item xs={5.3}>
+                  <FormControl required>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        label="Data de Inicio" //Resultados
+                        inputFormat="DD/MM/YYYY"
+                        value={datas.etapa_resultado_inicio}
+                        onChange={(newData) => {
+                          setDatas({
+                            ...datas,
+                            etapa_resultado_inicio: newData,
+                          });
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid>
+
+                <Grid item>
+                  <Typography> até </Typography>
+                </Grid>
+
+                <Grid item xs={5.3}>
+                  <FormControl required>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        label="Data de Fim" //Resultados
+                        inputFormat="DD/MM/YYYY"
+                        value={datas.etapa_resultado_fim}
+                        onChange={(newData) => {
+                          setDatas({
+                            ...datas,
+                            etapa_resultado_fim: newData,
+                          });
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </FormControl>
           </form>
         </CardContent>
         <CardActions sx={{ px: { xs: 5, sm: 10 } }}>
