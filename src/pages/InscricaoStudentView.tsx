@@ -108,7 +108,7 @@ export default function InscricaoStudentView() {
         }
       }
     }
-  }, [etapaAtual, edital, editalId, navigate]);
+  }, [etapaAtual, edital, editalId, inscricaoId, navigate]);
 
   return loadingDadosAluno || loadingEtapaAtual || loadingProcessoSeletivo ? (
     <Loading />
