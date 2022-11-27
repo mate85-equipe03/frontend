@@ -42,30 +42,26 @@ export default function InputData({ datas, setDatas, etapa }: IProps) {
           />
         </LocalizationProvider>
       </Grid>
-      {etapa !== "etapa_resultado" && (
-        <>
-          <Grid item>
-            <Typography> até </Typography>
-          </Grid>
+      <Grid item>
+        <Typography> até </Typography>
+      </Grid>
 
-          <Grid item xs={5.3}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker
-                label="Data de fim"
-                inputFormat="DD/MM/YYYY"
-                value={dataFim}
-                onChange={(newData) => {
-                  setDatas({
-                    ...datas,
-                    [etapaFim]: newData,
-                  });
-                }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-          </Grid>
-        </>
-      )}
+      <Grid item xs={5.3}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DesktopDatePicker
+            label="Data de fim"
+            inputFormat="DD/MM/YYYY"
+            value={dataFim}
+            onChange={(newData) => {
+              setDatas({
+                ...datas,
+                [etapaFim]: newData,
+              });
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
+      </Grid>
     </Grid>
   );
 }
