@@ -16,9 +16,6 @@ import { PatternFormat } from "react-number-format";
 import { useNavigate } from "react-router-dom";
 
 import { Dayjs } from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import api from "../services/Api";
 import { IDatasEtapas, IEditalData } from "../interfaces/Interfaces";
 import BtnSubmitLoading from "../components/BtnSubmitLoading";
@@ -83,6 +80,7 @@ export default function NovoEdital() {
     event.preventDefault();
     setLoadingBtn(true);
 
+    // console.log(editalData);
     api
       .post("/processos-seletivos", editalData)
       .then(() => {
