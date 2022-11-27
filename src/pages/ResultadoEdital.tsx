@@ -105,7 +105,7 @@ export default function ResultadoEdital() {
       alignItems="center"
       sx={{ width: "100%" }}
     >
-      {isEditalArchived ? (
+      {!isEditalArchived ? (
         <NotArchived />
       ) : (
         <Card>
