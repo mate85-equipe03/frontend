@@ -11,11 +11,13 @@ import {
   CardActions,
   TextField,
   Typography,
+  Alert,
 } from "@mui/material";
 import { PatternFormat } from "react-number-format";
 import BtnSubmitLoading from "../components/BtnSubmitLoading";
 import { IEditalData } from "../interfaces/Interfaces";
 import api from "../services/Api";
+import { useNavigate } from "react-router-dom";
 
 import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -23,7 +25,10 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 export default function NovoEdital() {
+  const navigate = useNavigate();
+
   const [loadingBtn, setLoadingBtn] = React.useState<boolean>(false);
+  const [novoEditalError, setNovoEditalError] = React.useState<boolean>(false);
 
   const [editalData, setEditalData] = React.useState<IEditalData>({
     titulo: "",
@@ -93,23 +98,26 @@ export default function NovoEdital() {
     console.log(datas);
     console.log(editalData);
 
-    // setLoading(true);
+    setLoadingBtn(true);
 
-    api.post("/processos-seletivos", editalData).then((data) => {
-      console.log(data);
-      //     navigate("/login", { state: { signUp: true } });
-      //     setSignUpError(false);
-    });
-    //   .catch(() => {
-    //     setSignUpError(true);
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    //   });
+    api
+      .post("/processos-seletivos", editalData)
+      .then((data) => {
+        console.log(data);
+        setNovoEditalError(false);
+      })
+      .catch(() => {
+        setNovoEditalError(true);
+      })
+      .finally(() => {
+        setLoadingBtn(false);
+        navigate("/", { state: { novoEdital: true } });
+        // window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      });
   };
 
   return (
+    
     <Grid
       container
       direction="column"
@@ -117,6 +125,11 @@ export default function NovoEdital() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
+      {novoEditalError && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          Ocorreu um erro. Tente novamente.
+        </Alert>
+      )}
       <Card sx={{ minWidth: 275, maxWidth: 500, pb: 4 }}>
         <CardHeader
           title={"Cadastrar Processo Seletivo"}
@@ -347,7 +360,6 @@ export default function NovoEdital() {
                 </Grid>
               </Grid>
             </FormControl>
-
           </form>
         </CardContent>
         <CardActions sx={{ px: { xs: 5, sm: 10 } }}>

@@ -28,8 +28,9 @@ export default function Home() {
   const signInSuccess = location.state ? "signIn" in location.state : false;
   const editSuccess = location.state ? "edit" in location.state : false;
   const editInscricaoSuccess = location.state
-    ? "editInscricao" in location.state
-    : false;
+  ? "editInscricao" in location.state
+  : false;
+  const novoEditalSuccess = location.state ? "novoEdital" in location.state : false;
   window.history.replaceState(null, "");
   const { user } = useContext(UserContext);
   const [editais, setEditais] = useState<IEdital[]>([]);
@@ -76,7 +77,9 @@ export default function Home() {
     if (editSuccess) {
       return "Dados pessoais alterados com sucesso.";
     }
-
+    if (novoEditalSuccess){
+      return "Novo Processo Seletivo criado com sucesso.";
+    }
     return null;
   };
 
