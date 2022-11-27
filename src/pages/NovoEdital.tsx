@@ -180,8 +180,7 @@ export default function NovoEdital() {
 
             <FormControl required fullWidth margin="normal">
               <Typography sx={{ pb: 1 }}>
-                {" "}
-                {NomesEtapasEnum.INSCRICOES_ABERTAS}{" "}
+                {NomesEtapasEnum.INSCRICOES_ABERTAS}
               </Typography>
               <InputData
                 datas={datas}
@@ -192,8 +191,7 @@ export default function NovoEdital() {
 
             <FormControl required fullWidth margin="normal">
               <Typography sx={{ pb: 1 }}>
-                {" "}
-                {NomesEtapasEnum.ANALISE_DE_INSCRICOES}{" "}
+                {NomesEtapasEnum.ANALISE_DE_INSCRICOES}
               </Typography>
               <InputData
                 datas={datas}
@@ -204,8 +202,7 @@ export default function NovoEdital() {
 
             <FormControl required fullWidth margin="normal">
               <Typography sx={{ pb: 1 }}>
-                {" "}
-                {NomesEtapasEnum.RESULTADO_FINAL}{" "}
+                {NomesEtapasEnum.RESULTADO_FINAL}
               </Typography>
               <InputData
                 datas={datas}
