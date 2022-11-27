@@ -202,6 +202,16 @@ export interface ISignUpData {
   telefone: string;
 }
 
+export interface ISignUpDataTeacher {
+  nome: string;
+  login: string;
+  siape: string;
+  senha: string;
+  confirmacaoSenha: string;
+  email: string;
+  telefone: string;
+}
+
 export interface IDados {
   aluno: IAluno;
   email: string;

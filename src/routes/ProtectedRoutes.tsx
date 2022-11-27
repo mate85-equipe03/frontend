@@ -5,6 +5,7 @@ import InscricaoTeacherView from "../pages/InscricaoTeacherView";
 import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
 import Cadastro from "../pages/Cadastro";
+import CadastroTeacher from "../pages/CadastroTeacher";
 
 const studentRoutes: RouteProps[] = [
   { path: "/edital/:editalId/inscricao", element: <InscricaoStudentView /> },
@@ -19,7 +20,9 @@ const teacherRoutes: RouteProps[] = [
   { path: "/edital/:editalId/inscritos", element: <EnrolledsList /> },
 ];
 
-const rootRoutes: RouteProps[] = [];
+const rootRoutes: RouteProps[] = [
+  { path: "/cadastro-professor", element: <CadastroTeacher /> },
+];
 
 const ProtectedRoutes = (): JSX.Element[] => {
   /* 

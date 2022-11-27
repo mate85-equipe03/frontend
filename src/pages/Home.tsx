@@ -6,6 +6,7 @@ import {
   CardContent,
   Alert,
   Divider,
+  Button,
 } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
@@ -22,6 +23,7 @@ import editalService from "../services/Edital";
 export default function Home() {
   const navigate = useNavigate();
   const location = useLocation();
+  const signUpSuccess = location.state ? "signUp" in location.state : false;
   const signOutSuccess = location.state ? "signOut" in location.state : false;
   const signInSuccess = location.state ? "signIn" in location.state : false;
   const editSuccess = location.state ? "edit" in location.state : false;
@@ -33,9 +35,11 @@ export default function Home() {
   const [editais, setEditais] = useState<IEdital[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isAluno, setIsAluno] = useState<boolean>(false);
+  const [isRoot, setIsRoot] = useState<boolean>(false);
 
   useEffect(() => {
     setIsAluno(auth.isStudent());
+    setIsRoot(auth.isRoot());
   }, [user]);
 
   useEffect(() => {
@@ -65,6 +69,10 @@ export default function Home() {
       return "Dados pessoais alterados com sucesso.";
     }
 
+    if (signUpSuccess) {
+      return "Cadastro de professor realizado com sucesso.";
+    }
+
     return null;
   };
 
@@ -74,6 +82,10 @@ export default function Home() {
 
   const handleLinkClick = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
+  };
+
+  const redirectToCadastroTeacher = () => {
+    navigate("/cadastro-professor");
   };
 
   const dateToStr = (rawDate: string) => {
@@ -154,6 +166,10 @@ export default function Home() {
         <Alert severity="success" sx={{ mb: 2 }}>
           {successMessage}
         </Alert>
+      )}
+
+      {isRoot && (
+        <Button onClick={redirectToCadastroTeacher}>Cadastrar professor</Button>
       )}
 
       <Card sx={{ py: 2, mt: 5 }}>
