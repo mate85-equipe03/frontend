@@ -57,7 +57,7 @@ export default function DeleteInscricao({
   return (
     <>
       <Button
-        sx={{ width: "192px" }}
+        sx={{ width: "192px", mx: 1 }}
         color="error"
         type="button"
         size="large"

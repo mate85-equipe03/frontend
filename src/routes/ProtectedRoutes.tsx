@@ -28,11 +28,11 @@ const ProtectedRoutes = (): JSX.Element[] => {
   /* 
     Se NÃO estiver logado(a), redireciona para o login caso tente acessar alguma das ProtectedRoutes
   */
-  if (!auth.isAuth()) {
+  if (!auth.isLoggedIn()) {
     return [
-      ...routesWithRedirect(!auth.isAuth(), "/login", studentRoutes),
-      ...routesWithRedirect(!auth.isAuth(), "/login", teacherRoutes),
-      ...routesWithRedirect(!auth.isAuth(), "/login", rootRoutes),
+      ...routesWithRedirect(!auth.isLoggedIn(), "/login", studentRoutes),
+      ...routesWithRedirect(!auth.isLoggedIn(), "/login", teacherRoutes),
+      ...routesWithRedirect(!auth.isLoggedIn(), "/login", rootRoutes),
     ];
   }
 

@@ -18,6 +18,7 @@ import { getAllProcessosSeletivos } from "../services/Api";
 import Loading from "../components/Loading";
 import UserContext from "../context/UserContext";
 import PDFFile from "../components/PDFFile";
+import auth from "../services/Auth";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -36,14 +37,8 @@ export default function Home() {
   const [isRoot, setIsRoot] = useState<boolean>(false);
 
   useEffect(() => {
-    if (user?.role === "ALUNO") {
-      setIsAluno(true);
-    } else if (user?.role === "ROOT") {
-      setIsRoot(true);
-    } else {
-      setIsAluno(false);
-      setIsRoot(false);
-    }
+    setIsAluno(auth.isStudent());
+    setIsRoot(auth.isRoot());
   }, [user]);
 
   useEffect(() => {
