@@ -12,10 +12,14 @@ import {
   ListItem,
   ListItemText,
   Snackbar,
+  Typography,
 } from "@mui/material";
 import moment from "moment";
-import { IDetails } from "../interfaces/Interfaces";
-import { getDetailsProcessoSeletivo } from "../services/Api";
+import { IDetails, IEtapa } from "../interfaces/Interfaces";
+import {
+  getDetailsProcessoSeletivo,
+  getEtapaAtualProcessoSeletivo,
+} from "../services/Api";
 import UserContext from "../context/UserContext";
 import Loading from "../components/Loading";
 import PDFFile from "../components/PDFFile";
@@ -27,7 +31,9 @@ export default function EditalDetails() {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IDetails | undefined>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingEdital, setLoadingEdital] = useState<boolean>(false);
+  const [etapaAtual, setEtapaAtual] = useState<IEtapa>();
+  const [loadingEtapaAtual, setLoadingEtapaAtual] = useState<boolean>(false);
   const [inscricaoExcluida, setInscricaoExcluida] = useState(false);
 
   const { editalId } = useParams();
@@ -45,17 +51,30 @@ export default function EditalDetails() {
   };
 
   useEffect(() => {
-    setLoading(true);
-    getDetailsProcessoSeletivo(editalId)
-      .then(({ data }) => {
-        setEdital(data);
-      })
-      .catch(() => {
-        // TODO: Ver como exibir erros va View
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    if (Number(editalId)) {
+      setLoadingEdital(true);
+      setLoadingEtapaAtual(true);
+      getDetailsProcessoSeletivo(Number(editalId))
+        .then(({ data }) => {
+          setEdital(data);
+        })
+        .catch(() => {
+          // TODO: Ver como exibir erros va View
+        })
+        .finally(() => {
+          setLoadingEdital(false);
+        });
+      getEtapaAtualProcessoSeletivo(Number(editalId))
+        .then(({ data }) => {
+          setEtapaAtual(data);
+        })
+        .catch(() => {
+          // TODO: Ver como exibir erros va View
+        })
+        .finally(() => {
+          setLoadingEtapaAtual(false);
+        });
+    }
   }, [editalId, user, inscricaoExcluida]);
 
   const dateToStr = (rawDate: string) => {
@@ -199,7 +218,7 @@ export default function EditalDetails() {
     }
   };
 
-  return loading ? (
+  return loadingEdital || loadingEtapaAtual ? (
     <Loading />
   ) : (
     <Grid>
@@ -246,22 +265,48 @@ export default function EditalDetails() {
               sx={{ width: "auto" }}
             >
               {auth.isStudent() && edital && (
-                <Grid sx={{ mb: 1 }}>
+                <Grid
+                  container
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  sx={{ width: "auto", mt: 2, mb: 1 }}
+                >
                   <Inscrito isInscrito={edital.isInscrito} />
                 </Grid>
               )}
-              <List>
-                {edital?.etapas.map((etapa) => (
-                  <ListItem disablePadding key={etapa.id}>
-                    <ListItemText
-                      primary={`${etapa.name}: ${dateToStr(
-                        etapa.data_inicio
-                      )} a 
-                          ${dateToStr(etapa.data_fim)}`}
-                    />
-                  </ListItem>
-                ))}
-              </List>
+
+              <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ width: "auto", my: 3 }}
+              >
+                <Typography variant="h6">Etapas</Typography>
+                <List>
+                  {edital?.etapas.map((etapa, index) => (
+                    <ListItem disablePadding key={etapa.id}>
+                      <ListItemText>
+                        <Grid container direction="row">
+                          <Typography sx={{ fontWeight: "bold" }}>
+                            {index + 1}. {etapa.name}:&nbsp;
+                          </Typography>
+                          <Typography>
+                            {dateToStr(etapa.data_inicio)}&nbsp;a&nbsp;
+                            {dateToStr(etapa.data_fim)}
+                          </Typography>
+                        </Grid>
+                      </ListItemText>
+                    </ListItem>
+                  ))}
+                </List>
+
+                <Alert sx={{ mt: 2 }} severity="info">
+                  Etapa atual: {etapaAtual?.name}
+                </Alert>
+              </Grid>
+
               {edital && (
                 <PDFFile
                   pdfUrl={edital?.edital_url}
@@ -269,6 +314,7 @@ export default function EditalDetails() {
                   sx={{ my: 1 }}
                 />
               )}
+
               <Grid
                 container
                 direction="column"

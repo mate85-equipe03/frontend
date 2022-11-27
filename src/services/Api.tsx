@@ -7,6 +7,7 @@ import {
   IADetalhes,
   IDetalhesInscricao,
   IRevisarAuditar,
+  IEtapa,
 } from "../interfaces/Interfaces";
 
 const api = axios.create({
@@ -39,6 +40,10 @@ export const getDetailsProcessoSeletivo = (
   editalId: number | string | undefined
 ) => {
   return api.get<IDetails>(`/processos-seletivos/${editalId}`);
+};
+
+export const getEtapaAtualProcessoSeletivo = (editalId: number) => {
+  return api.get<IEtapa>(`/processos-seletivos/${editalId}/etapa-atual`);
 };
 
 export const getAllProcessosSeletivos = () => {
