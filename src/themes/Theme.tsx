@@ -10,7 +10,6 @@ const paletteTheme = createTheme({
       light: "#9bc9ff",
       contrastText: "#fff",
     },
-    
   },
 });
 

@@ -86,14 +86,14 @@ export interface IAHistorico {
   inscricao_id: number;
 }
 
-export interface IRevisor{
+export interface IRevisor {
   id: number;
   userId: number;
   siape: number;
   nome: string;
 }
 
-export interface IAuditor{
+export interface IAuditor {
   id: number;
   userId: number;
   siape: number;

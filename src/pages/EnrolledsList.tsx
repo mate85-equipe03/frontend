@@ -89,7 +89,7 @@ export default function EnrolledsList() {
       width: 120,
       valueGetter: (params) => params.row.aluno.curso,
     },
-    
+
     {
       field: "statusRevisao",
       headerName: "Revisada por",
@@ -97,28 +97,32 @@ export default function EnrolledsList() {
       valueGetter: (params) => params.row.revisor_id,
       renderCell: (cellValues) => {
         return cellValues.row.revisor_id ? (
-          <Grid sx={{ 
-            color: "success.main", 
-            fontWeight: "bold", 
-            mr: 2, 
-            width: "100%",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-            textOverflow: "ellipsis",
-            }}>
+          <Grid
+            sx={{
+              color: "success.main",
+              fontWeight: "bold",
+              mr: 2,
+              width: "100%",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+            }}
+          >
             <CheckCircleIcon fontSize="small" sx={{ mr: 0.5 }} />
             {cellValues.row.revisor.nome}
           </Grid>
         ) : (
-          <Grid sx={{ 
-            color: "warning.light", 
-            fontWeight: "bold", 
-            mr: 2, 
-            width: "100%",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-            textOverflow: "ellipsis", 
-          }}>
+          <Grid
+            sx={{
+              color: "warning.light",
+              fontWeight: "bold",
+              mr: 2,
+              width: "100%",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+            }}
+          >
             <WarningIcon fontSize="small" sx={{ mr: 0.5 }} />A revisar
           </Grid>
         );
@@ -131,28 +135,32 @@ export default function EnrolledsList() {
       valueGetter: (params) => params.row.auditor_id,
       renderCell: (cellValues) => {
         return cellValues.row.auditor_id ? (
-          <Grid sx={{ 
-            color: "success.main", 
-            fontWeight: "bold", 
-            mr: 2, 
-            width: "100%",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-            textOverflow: "ellipsis", 
-          }}>       
+          <Grid
+            sx={{
+              color: "success.main",
+              fontWeight: "bold",
+              mr: 2,
+              width: "100%",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+            }}
+          >
             <CheckCircleIcon fontSize="small" sx={{ mr: 0.5 }} />
             {cellValues.row.auditor.nome}
           </Grid>
         ) : (
-          <Grid sx={{ 
-            color: "warning.light", 
-            fontWeight: "bold", 
-            mr: 2, 
-            width: "100%",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-            textOverflow: "ellipsis", 
-          }}>
+          <Grid
+            sx={{
+              color: "warning.light",
+              fontWeight: "bold",
+              mr: 2,
+              width: "100%",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+            }}
+          >
             <WarningIcon fontSize="small" sx={{ mr: 0.5 }} />A auditar
           </Grid>
         );
