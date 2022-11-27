@@ -222,14 +222,12 @@ export default function FormInscricao({
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log(inscricaoData);
+    setLoadingEnvioInscricao(true);
 
-    // setLoadingEnvioInscricao(true);
-
-    // submitRequest(inscricaoData).finally(() => {
-    //   setLoadingEnvioInscricao(false);
-    //   setFormChanged(false);
-    // });
+    submitRequest(inscricaoData).finally(() => {
+      setLoadingEnvioInscricao(false);
+      setFormChanged(false);
+    });
   };
 
   useEffect(() => {
