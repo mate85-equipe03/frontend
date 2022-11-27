@@ -88,6 +88,20 @@ export interface IAHistorico {
   inscricao_id: number;
 }
 
+export interface IRevisor {
+  id: number;
+  userId: number;
+  siape: number;
+  nome: string;
+}
+
+export interface IAuditor {
+  id: number;
+  userId: number;
+  siape: number;
+  nome: string;
+}
+
 export interface IADetalhes {
   id: number;
   status: string;
@@ -103,6 +117,8 @@ export interface IADetalhes {
   aluno: IAluno;
   createdAt: string;
   editedAt: string;
+  revisor: IRevisor;
+  auditor: IAuditor;
 }
 
 export interface IFile {
@@ -183,6 +199,8 @@ export interface IDetalhesInscricao {
   aluno: IAluno;
   producoes: IProducoes[];
   observacao: string;
+  revisor: string;
+  auditor: string;
 }
 
 export interface IRevisarAuditar {
