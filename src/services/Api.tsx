@@ -9,6 +9,7 @@ import {
   IRevisarAuditar,
   IEtapa,
   ISignUpDataTeacher,
+  ICadastroEdital,
 } from "../interfaces/Interfaces";
 
 const api = axios.create({
@@ -104,8 +105,20 @@ export const deleteInscricao = (inscricaoId: number) => {
   return api.delete(`/inscricoes/${inscricaoId}`);
 };
 
+export const getResultadoMestrado = (editalId: number) => {
+  return api.get(`/processos-seletivos/${editalId}/resultado-final-mestrado`);
+};
+
+export const getResultadoDoutorado = (editalId: number) => {
+  return api.get(`/processos-seletivos/${editalId}/resultado-final-doutorado`);
+};
+
 export const postCadastroTeacher = (signUpData: ISignUpDataTeacher) => {
   return api.post("/professores", signUpData);
+};
+
+export const postNovoEdital = (editalData: ICadastroEdital) => {
+  return api.post("/processos-seletivos", editalData);
 };
 
 export default api;

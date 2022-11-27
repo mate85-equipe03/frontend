@@ -43,7 +43,7 @@ export default function FormInscricao({
   readOnly,
   submitRequest,
 }: IProps) {
-  const [countFiles, setCountFiles] = useState<number>(0);
+  const [countFiles, setCountFiles] = useState<number>(1e9);
   const [formChanged, setFormChanged] = useState<boolean>(false);
   const [loadingEnvioInscricao, setLoadingEnvioInscricao] =
     useState<boolean>(false);

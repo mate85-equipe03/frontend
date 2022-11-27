@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 export interface IUserContext {
   id: number;
   token: string;
@@ -252,4 +254,24 @@ export interface IUserBackend {
 
 export interface IRecoverData {
   matricula: string;
+}
+
+export interface ICadastroEdital {
+  titulo: string;
+  descricao: string;
+  semestre: string;
+  edital_url: string;
+  etapa_inscricao_inicio: string;
+  etapa_inscricao_fim: string;
+  etapa_analise_inicio: string;
+  etapa_analise_fim: string;
+  etapa_resultado_inicio: string;
+}
+
+export interface IDatasEtapas {
+  etapa_inscricao_inicio: Dayjs | null;
+  etapa_inscricao_fim: Dayjs | null;
+  etapa_analise_inicio: Dayjs | null;
+  etapa_analise_fim: Dayjs | null;
+  etapa_resultado_inicio: Dayjs | null;
 }
