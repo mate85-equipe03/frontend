@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import moment from "moment";
-import { IDetails, IEtapa } from "../interfaces/Interfaces";
+import { IEdital, IEtapa } from "../interfaces/Interfaces";
 import {
   getDetailsProcessoSeletivo,
   getEtapaAtualProcessoSeletivo,
@@ -26,29 +26,20 @@ import PDFFile from "../components/PDFFile";
 import DeleteInscricao from "../components/Inscricao/DeleteInscricao";
 import auth from "../services/Auth";
 import Inscrito from "../components/Inscrito";
+import { EtapasEnum } from "../enums/Enums";
+import editalService from "../services/Edital";
 
 export default function EditalDetails() {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const [edital, setEdital] = useState<IDetails | undefined>();
+  const [edital, setEdital] = useState<IEdital | null>(null);
   const [loadingEdital, setLoadingEdital] = useState<boolean>(false);
-  const [etapaAtual, setEtapaAtual] = useState<IEtapa>();
+  const [etapaAtual, setEtapaAtual] = useState<IEtapa | null>(null);
   const [loadingEtapaAtual, setLoadingEtapaAtual] = useState<boolean>(false);
-  const [inscricaoExcluida, setInscricaoExcluida] = useState(false);
+  const [inscricaoExcluida, setInscricaoExcluida] = useState<boolean>(false);
+  const [buttons, setButtons] = useState<JSX.Element | null>();
 
   const { editalId } = useParams();
-
-  const redirectToInscricao = () => {
-    navigate(`/edital/${editalId}/inscricao`);
-  };
-
-  const redirectToEnrolledList = () => {
-    navigate(`/edital/${editalId}/inscritos`);
-  };
-
-  const redirectToResults = () => {
-    navigate(`/edital/${editalId}/resultado`);
-  };
 
   useEffect(() => {
     if (Number(editalId)) {
@@ -78,141 +69,155 @@ export default function EditalDetails() {
     return date.format("DD/MM/YYYY");
   };
 
-  const buttonsEnum = {
-    ALUNOS_INSCRITOS: (
-      <Button
-        type="button"
-        onClick={redirectToEnrolledList}
-        size="large"
-        sx={{ mx: 1 }}
-      >
-        Alunos Inscritos
-      </Button>
-    ),
+  useEffect(() => {
+    const redirectToInscricao = () => {
+      navigate(`/edital/${editalId}/inscricao`);
+    };
 
-    VISUALIZAR_INSCRICAO: (
-      <Button
-        type="button"
-        onClick={redirectToInscricao}
-        size="large"
-        sx={{ mx: 1 }}
-      >
-        Ver Inscrição
-      </Button>
-    ),
+    const redirectToEnrolledList = () => {
+      navigate(`/edital/${editalId}/inscritos`);
+    };
 
-    EDIT_DELETE_INSCRICAO: edital ? (
-      <Grid
-        container
-        justifyContent="space-between"
-        sx={{ width: "100%", pt: 2 }}
-      >
-        <DeleteInscricao
-          idInscricao={edital.idInscricao}
-          onSuccess={() => setInscricaoExcluida(true)}
-        />
+    const redirectToResults = () => {
+      navigate(`/edital/${editalId}/resultado`);
+    };
+
+    const buttonsEnum = {
+      ALUNOS_INSCRITOS: (
+        <Button
+          type="button"
+          onClick={redirectToEnrolledList}
+          size="large"
+          sx={{ mx: 1 }}
+        >
+          Alunos Inscritos
+        </Button>
+      ),
+
+      VISUALIZAR_INSCRICAO: (
         <Button
           type="button"
           onClick={redirectToInscricao}
           size="large"
-          sx={{ width: "192px", mx: 1 }}
+          sx={{ mx: 1 }}
         >
-          Editar Inscrição
+          Ver Inscrição
         </Button>
-      </Grid>
-    ) : null,
+      ),
 
-    INSCREVA_SE: (
-      <Button
-        type="button"
-        onClick={redirectToInscricao}
-        size="large"
-        sx={{ mx: 1 }}
-      >
-        Inscreva-se
-      </Button>
-    ),
+      EDIT_DELETE_INSCRICAO: edital ? (
+        <Grid
+          container
+          justifyContent="space-between"
+          sx={{ width: "100%", pt: 2 }}
+        >
+          <DeleteInscricao
+            idInscricao={edital.idInscricao}
+            onSuccess={() => setInscricaoExcluida(true)}
+          />
+          <Button
+            type="button"
+            onClick={redirectToInscricao}
+            size="large"
+            sx={{ width: "192px", mx: 1 }}
+          >
+            Editar Inscrição
+          </Button>
+        </Grid>
+      ) : null,
 
-    RESULTADOS_DISPONIVEIS: (
-      <Button
-        type="button"
-        onClick={redirectToResults}
-        size="large"
-        sx={{ mx: 1 }}
-      >
-        Ver Resultados
-      </Button>
-    ),
-  };
+      INSCREVA_SE: (
+        <Button
+          type="button"
+          onClick={redirectToInscricao}
+          size="large"
+          sx={{ mx: 1 }}
+        >
+          Inscreva-se
+        </Button>
+      ),
 
-  const buttonsStudentInscricoesAbertas = (): JSX.Element | null => {
-    if (edital?.isInscrito) {
-      return buttonsEnum.EDIT_DELETE_INSCRICAO;
-    }
-    return buttonsEnum.INSCREVA_SE;
-  };
+      RESULTADOS_DISPONIVEIS: (
+        <Button
+          type="button"
+          onClick={redirectToResults}
+          size="large"
+          sx={{ mx: 1 }}
+        >
+          Ver Resultados
+        </Button>
+      ),
+    };
 
-  const buttonsStudentInscricoesFechadas = (): JSX.Element | null => {
-    if (edital?.isInscrito) {
-      return buttonsEnum.VISUALIZAR_INSCRICAO;
-    }
-    return null;
-  };
-
-  const buttonsResultadosDisponiveis = (): JSX.Element | null => {
-    if (auth.isTeacher()) {
-      return buttonsEnum.ALUNOS_INSCRITOS;
-    }
-    if (auth.isStudent()) {
-      return buttonsStudentInscricoesFechadas();
-    }
-    return null;
-  };
-
-  const getButtonsInscricoesAbertas = (): JSX.Element | null => {
-    if (auth.isStudent()) {
-      return buttonsStudentInscricoesAbertas();
-    }
-    if (!auth.isLoggedIn()) {
+    const buttonsStudentInscricoesAbertas = (): JSX.Element | null => {
+      if (edital?.isInscrito) {
+        return buttonsEnum.EDIT_DELETE_INSCRICAO;
+      }
       return buttonsEnum.INSCREVA_SE;
-    }
-    return null;
-  };
+    };
 
-  const getButtonsAnaliseInscricoes = (): JSX.Element | null => {
-    if (auth.isTeacher()) {
-      return buttonsEnum.ALUNOS_INSCRITOS;
-    }
-    return null;
-  };
+    const buttonsStudentInscricoesFechadas = (): JSX.Element | null => {
+      if (edital?.isInscrito) {
+        return buttonsEnum.VISUALIZAR_INSCRICAO;
+      }
+      return null;
+    };
 
-  const getButtonsResultadosDisponiveis = (): JSX.Element | null => {
-    return (
-      <Grid container justifyContent="center" sx={{ width: "100%", pt: 2 }}>
-        {buttonsResultadosDisponiveis()}
-        {buttonsEnum.RESULTADOS_DISPONIVEIS}
-      </Grid>
-    );
-  };
+    const buttonsResultadosDisponiveis = (): JSX.Element | null => {
+      if (auth.isTeacher()) {
+        return buttonsEnum.ALUNOS_INSCRITOS;
+      }
+      if (auth.isStudent()) {
+        return buttonsStudentInscricoesFechadas();
+      }
+      return null;
+    };
 
-  const getButtons = (): JSX.Element | null => {
-    // TODO: Implementar lógica das etapas (POSG-138)
-    let etapa = 2;
-    etapa = 1;
-    etapa = 0;
+    const getButtonsInscricoesAbertas = (): JSX.Element | null => {
+      if (auth.isStudent()) {
+        return buttonsStudentInscricoesAbertas();
+      }
+      if (!auth.isLoggedIn()) {
+        return buttonsEnum.INSCREVA_SE;
+      }
+      return null;
+    };
 
-    switch (etapa) {
-      case 0: // "inscrições abertas"
-        return getButtonsInscricoesAbertas();
-      case 1: // "análise de inscrições"
-        return getButtonsAnaliseInscricoes();
-      case 2: // "resultados disponíveis"
-        return getButtonsResultadosDisponiveis();
-      default: {
-        return null;
+    const getButtonsAnaliseInscricoes = (): JSX.Element | null => {
+      if (auth.isTeacher()) {
+        return buttonsEnum.ALUNOS_INSCRITOS;
+      }
+      return null;
+    };
+
+    const getButtonsResultadosDisponiveis = (): JSX.Element | null => {
+      return (
+        <Grid container justifyContent="center" sx={{ width: "100%", pt: 2 }}>
+          {buttonsResultadosDisponiveis()}
+          {buttonsEnum.RESULTADOS_DISPONIVEIS}
+        </Grid>
+      );
+    };
+
+    if (etapaAtual !== null && edital !== null) {
+      const etapa = editalService.etapaAtual(etapaAtual, edital);
+      switch (etapa) {
+        case EtapasEnum.INSCRICOES_ABERTAS:
+          setButtons(getButtonsInscricoesAbertas());
+          break;
+        case EtapasEnum.ANALISE_DE_INSCRICOES:
+          setButtons(getButtonsAnaliseInscricoes());
+          break;
+        case EtapasEnum.RESULTADO_FINAL:
+          setButtons(getButtonsResultadosDisponiveis());
+          break;
+        default: {
+          setButtons(null);
+          break;
+        }
       }
     }
-  };
+  }, [etapaAtual, edital, editalId, navigate]);
 
   return loadingEdital || loadingEtapaAtual ? (
     <Loading />
@@ -318,7 +323,7 @@ export default function EditalDetails() {
                 alignItems="center"
                 sx={{ width: "100%", mt: 2 }}
               >
-                {getButtons()}
+                {buttons}
               </Grid>
             </Grid>
           </CardContent>

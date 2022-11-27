@@ -3,7 +3,7 @@ import {
   IDados,
   IEditaisReq,
   IInscricaoDataReq,
-  IDetails,
+  IEdital,
   IADetalhes,
   IDetalhesInscricao,
   IRevisarAuditar,
@@ -39,7 +39,7 @@ const formData = (payload: IInscricaoDataReq) => {
 export const getDetailsProcessoSeletivo = (
   editalId: number | string | undefined
 ) => {
-  return api.get<IDetails>(`/processos-seletivos/${editalId}`);
+  return api.get<IEdital>(`/processos-seletivos/${editalId}`);
 };
 
 export const getEtapaAtualProcessoSeletivo = (editalId: number) => {

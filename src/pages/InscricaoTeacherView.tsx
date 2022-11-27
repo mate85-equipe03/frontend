@@ -11,22 +11,27 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import UserContext from "../context/UserContext";
 import DadosCandidato from "../components/DadosCandidato";
-import { IDetalhesInscricao } from "../interfaces/Interfaces";
+import { IDetalhesInscricao, IEdital, IEtapa } from "../interfaces/Interfaces";
 import RevisarAuditarInscricao from "../components/Inscricao/RevisarAuditarInscricao";
 import {
   getDetalhesInscricaoProfessor,
   getDetailsProcessoSeletivo,
+  getEtapaAtualProcessoSeletivo,
 } from "../services/Api";
+import { EtapasEnum } from "../enums/Enums";
+import editalService from "../services/Edital";
 
 export default function InscricaoTeacherView() {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [loadingDadosAluno, setLoadingDadosAluno] = useState<boolean>(false);
+  const [loadingEtapaAtual, setLoadingEtapaAtual] = useState<boolean>(false);
   const [loadingProcessoSeletivo, setLoadingProcessoSeletivo] =
     useState<boolean>(false);
   const [inscricaoError, setInscricaoError] = React.useState<boolean>(false);
-  const [editalName, setEditalName] = useState<string>();
+  const [edital, setEdital] = useState<IEdital | null>(null);
   const [dadosInscricao, setDadosInscricao] = useState<IDetalhesInscricao>();
+  const [etapaAtual, setEtapaAtual] = useState<IEtapa | null>(null);
   const [isAuditoria, setIsAuditoria] = React.useState<boolean>(false);
   const [readOnly, setReadOnly] = React.useState<boolean>(false);
   const [warningMessage, setWarningMessage] = React.useState<string>();
@@ -89,16 +94,47 @@ export default function InscricaoTeacherView() {
           if (data?.arquivado) {
             setReadOnly(true);
           }
-          setEditalName(data?.titulo);
+          setEdital(data);
         })
         .catch()
         .finally(() => {
           setLoadingProcessoSeletivo(false);
         });
+      getEtapaAtualProcessoSeletivo(Number(editalId))
+        .then(({ data }) => {
+          setEtapaAtual(data);
+        })
+        .catch()
+        .finally(() => {
+          setLoadingEtapaAtual(false);
+        });
     }
   }, [editalId, navigate, user, inscricaoId]);
 
-  return loadingProcessoSeletivo ? (
+  useEffect(() => {
+    const redirectToDetails = () => {
+      navigate(`/edital/${editalId}/detalhes`);
+    };
+
+    const etapasValidas = [
+      EtapasEnum.ANALISE_DE_INSCRICOES,
+      EtapasEnum.RESULTADO_FINAL,
+    ];
+
+    if (etapaAtual !== null && edital !== null) {
+      const isEtapaValida = editalService.isEtapaValida(
+        etapaAtual,
+        edital,
+        etapasValidas
+      );
+
+      if (!isEtapaValida) {
+        redirectToDetails();
+      }
+    }
+  }, [etapaAtual, edital, editalId, navigate]);
+
+  return loadingEtapaAtual || loadingProcessoSeletivo ? (
     <Loading />
   ) : (
     <Grid
@@ -123,7 +159,7 @@ export default function InscricaoTeacherView() {
             p: 1,
           }}
           sx={{ px: 3 }}
-          subheader={editalName}
+          subheader={edital?.titulo}
           subheaderTypographyProps={{
             align: "center",
           }}

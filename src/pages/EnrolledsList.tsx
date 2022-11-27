@@ -11,23 +11,30 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import WarningIcon from "@mui/icons-material/Warning";
-import { getEnrolledList, getDetailsProcessoSeletivo } from "../services/Api";
-import { IADetalhes } from "../interfaces/Interfaces";
+import {
+  getEnrolledList,
+  getDetailsProcessoSeletivo,
+  getEtapaAtualProcessoSeletivo,
+} from "../services/Api";
+import { IADetalhes, IEdital, IEtapa } from "../interfaces/Interfaces";
 import UserContext from "../context/UserContext";
 import Loading from "../components/Loading";
+import editalService from "../services/Edital";
+import { EtapasEnum } from "../enums/Enums";
 
 export default function EnrolledsList() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [editalName, setEditalName] = useState<string>();
+  const [edital, setEdital] = useState<IEdital | null>(null);
 
   const { editalId } = useParams();
-
   const { user } = useContext(UserContext);
 
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
+  const [etapaAtual, setEtapaAtual] = useState<IEtapa | null>(null);
   const [loadingInscritos, setLoadingInscritos] = useState<boolean>(false);
   const [loadingProcesso, setLoadingProcesso] = useState<boolean>(false);
+  const [loadingEtapaAtual, setLoadingEtapaAtual] = useState<boolean>(false);
 
   const revisaoSuccess = location.state ? "revisao" in location.state : false;
   const auditoriaSuccess = location.state
@@ -46,8 +53,39 @@ export default function EnrolledsList() {
         .finally(() => {
           setLoadingInscritos(false);
         });
+      getEtapaAtualProcessoSeletivo(Number(editalId))
+        .then(({ data }) => {
+          setEtapaAtual(data);
+        })
+        .catch()
+        .finally(() => {
+          setLoadingEtapaAtual(false);
+        });
     }
   }, [editalId, user, navigate]);
+
+  useEffect(() => {
+    const redirectToDetails = () => {
+      navigate(`/edital/${editalId}/detalhes`);
+    };
+
+    const etapasValidas = [
+      EtapasEnum.ANALISE_DE_INSCRICOES,
+      EtapasEnum.RESULTADO_FINAL,
+    ];
+
+    if (etapaAtual !== null && edital !== null) {
+      const isEtapaValida = editalService.isEtapaValida(
+        etapaAtual,
+        edital,
+        etapasValidas
+      );
+
+      if (!isEtapaValida) {
+        redirectToDetails();
+      }
+    }
+  }, [etapaAtual, edital, editalId, navigate]);
 
   const handleRowClick: GridEventListener<"rowClick"> = (params) => {
     navigate(`/edital/${editalId}/inscritos/${params.row.id}`);
@@ -57,7 +95,7 @@ export default function EnrolledsList() {
     setLoadingProcesso(true);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
-        setEditalName(data?.titulo);
+        setEdital(data);
       })
       .catch()
       .finally(() => {
@@ -140,7 +178,7 @@ export default function EnrolledsList() {
 
   const successMessage = checkSuccessMessage();
 
-  return loadingInscritos || loadingProcesso ? (
+  return loadingInscritos || loadingProcesso || loadingEtapaAtual ? (
     <Loading />
   ) : (
     <Grid
@@ -162,7 +200,7 @@ export default function EnrolledsList() {
             align: "center",
             variant: "h4",
           }}
-          subheader={editalName}
+          subheader={edital?.titulo}
           subheaderTypographyProps={{
             align: "center",
           }}

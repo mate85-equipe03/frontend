@@ -19,7 +19,7 @@ import {
 import { Add } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 import api, { getDetailsProcessoSeletivo } from "../../services/Api";
-import { IDetails, IFile, IProducao } from "../../interfaces/Interfaces";
+import { IEdital, IFile, IProducao } from "../../interfaces/Interfaces";
 import BtnSubmitLoading from "../BtnSubmitLoading";
 import AttachInput from "../AttachInput";
 
@@ -29,7 +29,7 @@ interface PropsModal {
 
 export default function ModalProducao({ onSuccess }: PropsModal) {
   const { editalId } = useParams();
-  const [edital, setEdital] = useState<IDetails | undefined>();
+  const [edital, setEdital] = useState<IEdital | undefined>();
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
