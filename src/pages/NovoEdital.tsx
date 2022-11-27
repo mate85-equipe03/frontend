@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Card,
@@ -14,15 +14,15 @@ import {
   Alert,
 } from "@mui/material";
 import { PatternFormat } from "react-number-format";
-import BtnSubmitLoading from "../components/BtnSubmitLoading";
-import { IEditalData } from "../interfaces/Interfaces";
-import api from "../services/Api";
 import { useNavigate } from "react-router-dom";
 
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import api from "../services/Api";
+import { IEditalData } from "../interfaces/Interfaces";
+import BtnSubmitLoading from "../components/BtnSubmitLoading";
 
 export default function NovoEdital() {
   const navigate = useNavigate();
@@ -43,11 +43,6 @@ export default function NovoEdital() {
     etapa_resultado_fim: "",
   });
 
-  const [data, setData] = React.useState<Dayjs | null>(
-    // dayjs("2022-11-28T18:50:00")
-    dayjs("2022/11/28")
-  );
-
   interface IDatasEtapas {
     etapa_inscricao_inicio: Dayjs | null;
     etapa_inscricao_fim: Dayjs | null;
@@ -58,7 +53,6 @@ export default function NovoEdital() {
   }
 
   const [datas, setDatas] = React.useState<IDatasEtapas>({
-    // dayjs("2022/11/28")
     etapa_inscricao_inicio: null,
     etapa_inscricao_fim: null,
     etapa_analise_inicio: null,
@@ -80,7 +74,7 @@ export default function NovoEdital() {
   };
 
   useEffect(() => {
-    //Formata datas
+    // Formata datas
     setEditalData({
       ...editalData,
       etapa_inscricao_inicio: formatData(datas.etapa_inscricao_inicio),
@@ -94,16 +88,11 @@ export default function NovoEdital() {
 
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    console.log(datas);
-    console.log(editalData);
-
     setLoadingBtn(true);
 
     api
       .post("/processos-seletivos", editalData)
       .then((data) => {
-        console.log(data);
         setNovoEditalError(false);
       })
       .catch(() => {
@@ -117,7 +106,6 @@ export default function NovoEdital() {
   };
 
   return (
-    
     <Grid
       container
       direction="column"
@@ -132,7 +120,7 @@ export default function NovoEdital() {
       )}
       <Card sx={{ minWidth: 275, maxWidth: 500, pb: 4 }}>
         <CardHeader
-          title={"Cadastrar Processo Seletivo"}
+          title="Cadastrar Processo Seletivo"
           titleTypographyProps={{
             align: "center",
             variant: "h4",
@@ -217,7 +205,7 @@ export default function NovoEdital() {
                   <FormControl required>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        label="Data de Inicio" //Inscrições
+                        label="Data de Inicio" // Inscrições
                         inputFormat="DD/MM/YYYY"
                         value={datas.etapa_inscricao_inicio}
                         onChange={(newData) => {
@@ -240,7 +228,7 @@ export default function NovoEdital() {
                   <FormControl required>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        label="Data de Fim" //Inscrições
+                        label="Data de Fim" // Inscrições
                         inputFormat="DD/MM/YYYY"
                         value={datas.etapa_inscricao_fim}
                         onChange={(newData) => {
@@ -269,7 +257,7 @@ export default function NovoEdital() {
                   <FormControl required>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        label="Data de Inicio" //Analise
+                        label="Data de Inicio" // Analise
                         inputFormat="DD/MM/YYYY"
                         value={datas.etapa_analise_inicio}
                         onChange={(newData) => {
@@ -292,7 +280,7 @@ export default function NovoEdital() {
                   <FormControl required>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        label="Data de Fim" //Analise
+                        label="Data de Fim" // Analise
                         inputFormat="DD/MM/YYYY"
                         value={datas.etapa_analise_fim}
                         onChange={(newData) => {
@@ -321,7 +309,7 @@ export default function NovoEdital() {
                   <FormControl required>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        label="Data de Inicio" //Resultados
+                        label="Data de Inicio" // Resultados
                         inputFormat="DD/MM/YYYY"
                         value={datas.etapa_resultado_inicio}
                         onChange={(newData) => {
@@ -344,7 +332,7 @@ export default function NovoEdital() {
                   <FormControl required>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
-                        label="Data de Fim" //Resultados
+                        label="Data de Fim" // Resultados
                         inputFormat="DD/MM/YYYY"
                         value={datas.etapa_resultado_fim}
                         onChange={(newData) => {
@@ -365,7 +353,7 @@ export default function NovoEdital() {
         <CardActions sx={{ px: { xs: 5, sm: 10 } }}>
           <Grid container justifyContent="space-between" alignItems="center">
             <BtnSubmitLoading
-              label={"Enviar"}
+              label="Enviar"
               formId="novo-edital-form"
               loading={loadingBtn}
               fullWidth

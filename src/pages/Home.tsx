@@ -13,12 +13,12 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { useNavigate, useLocation } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import moment from "moment";
+import { Add } from "@mui/icons-material";
 import { IEdital } from "../interfaces/Interfaces";
 import { getAllProcessosSeletivos } from "../services/Api";
 import Loading from "../components/Loading";
 import UserContext from "../context/UserContext";
 import PDFFile from "../components/PDFFile";
-import { Add } from "@mui/icons-material";
 import Auth from "../services/Auth";
 
 export default function Home() {
@@ -28,9 +28,11 @@ export default function Home() {
   const signInSuccess = location.state ? "signIn" in location.state : false;
   const editSuccess = location.state ? "edit" in location.state : false;
   const editInscricaoSuccess = location.state
-  ? "editInscricao" in location.state
-  : false;
-  const novoEditalSuccess = location.state ? "novoEdital" in location.state : false;
+    ? "editInscricao" in location.state
+    : false;
+  const novoEditalSuccess = location.state
+    ? "novoEdital" in location.state
+    : false;
   window.history.replaceState(null, "");
   const { user } = useContext(UserContext);
   const [editais, setEditais] = useState<IEdital[]>([]);
@@ -38,7 +40,7 @@ export default function Home() {
   const [isAluno, setIsAluno] = useState<boolean>(false);
 
   const redirectToNovoEdital = () => {
-    navigate(`/edital/novo`);
+    navigate("/edital/novo");
   };
 
   useEffect(() => {
@@ -77,7 +79,7 @@ export default function Home() {
     if (editSuccess) {
       return "Dados pessoais alterados com sucesso.";
     }
-    if (novoEditalSuccess){
+    if (novoEditalSuccess) {
       return "Novo Processo Seletivo criado com sucesso.";
     }
     return null;
