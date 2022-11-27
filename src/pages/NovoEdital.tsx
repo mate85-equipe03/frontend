@@ -13,11 +13,11 @@ import {
   Alert,
 } from "@mui/material";
 
+import api, { postNovoEdital } from "../services/Api";
 import { PatternFormat } from "react-number-format";
 import { useNavigate } from "react-router-dom";
-import { Dayjs } from "dayjs";
 import { NomesEtapasEnum } from "../enums/Enums";
-import api from "../services/Api";
+import { Dayjs } from "dayjs";
 import { IDatasEtapas, ICadastroEdital } from "../interfaces/Interfaces";
 import BtnSubmitLoading from "../components/BtnSubmitLoading";
 import InputData from "../components/InputData";
@@ -28,7 +28,7 @@ export default function NovoEdital() {
   const [loadingBtn, setLoadingBtn] = React.useState<boolean>(false);
   const [novoEditalError, setNovoEditalError] = React.useState<boolean>(false);
 
-  const [editalData, setEditalData] = React.useState<ICadastroEdital>({
+  const [cadastroEdital, setCadastroEdital] = React.useState<ICadastroEdital>({
     titulo: "",
     descricao: "",
     semestre: "",
@@ -50,8 +50,8 @@ export default function NovoEdital() {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    setEditalData({
-      ...editalData,
+    setCadastroEdital({
+      ...cadastroEdital,
       [event.target.name]: event.target.value,
     });
   };
@@ -62,7 +62,7 @@ export default function NovoEdital() {
 
   useEffect(() => {
     // Formata datas
-    setEditalData((prevState) => {
+    setCadastroEdital((prevState) => {
       return {
         ...prevState,
         etapa_inscricao_inicio: formatData(datas.etapa_inscricao_inicio),
@@ -78,8 +78,8 @@ export default function NovoEdital() {
     event.preventDefault();
     setLoadingBtn(true);
 
-    api
-      .post("/processos-seletivos", editalData)
+    // api.post("/processos-seletivos", cadastroEdital)
+    postNovoEdital(cadastroEdital)
       .then(() => {
         setNovoEditalError(false);
         navigate("/", { state: { novoEdital: true } });
@@ -127,7 +127,7 @@ export default function NovoEdital() {
                 label="Título"
                 placeholder="Digite o título do edital"
                 type="text"
-                value={editalData.titulo}
+                value={cadastroEdital.titulo}
                 onChange={handleChange}
               />
             </FormControl>
@@ -139,7 +139,7 @@ export default function NovoEdital() {
                 label="Descrição"
                 placeholder="Digite a descrição do edital"
                 type="text"
-                value={editalData.descricao}
+                value={cadastroEdital.descricao}
                 onChange={handleChange}
               />
             </FormControl>
@@ -154,7 +154,7 @@ export default function NovoEdital() {
                 label="Semestre Vigente"
                 placeholder="Digite o semestre vigente"
                 type="text"
-                value={editalData.semestre}
+                value={cadastroEdital.semestre}
                 onChange={handleChange}
                 format="####.#"
                 mask="_"
@@ -170,7 +170,7 @@ export default function NovoEdital() {
                 label="URL do Edital"
                 placeholder="Digite a URL do edital"
                 type="url"
-                value={editalData.edital_url}
+                value={cadastroEdital.edital_url}
                 onChange={handleChange}
               />
             </FormControl>

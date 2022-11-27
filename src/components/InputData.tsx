@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Grid, TextField, Typography } from "@mui/material";
 import { LocalizationProvider, DesktopDatePicker } from "@mui/x-date-pickers";
@@ -15,7 +16,6 @@ export default function InputData({ datas, setDatas, etapa }: IProps) {
   const etapaInicio = `${etapa}_inicio`;
   const etapaFim = `${etapa}_fim`;
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
   const dataInicio = datas ? (datas as any)[etapaInicio] : null;
   const dataFim = datas ? (datas as any)[etapaFim] : null;
 

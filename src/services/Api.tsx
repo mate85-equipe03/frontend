@@ -9,6 +9,7 @@ import {
   IRevisarAuditar,
   IEtapa,
   ISignUpDataTeacher,
+  ICadastroEdital,
 } from "../interfaces/Interfaces";
 
 const api = axios.create({
@@ -106,6 +107,10 @@ export const deleteInscricao = (inscricaoId: number) => {
 
 export const postCadastroTeacher = (signUpData: ISignUpDataTeacher) => {
   return api.post("/professores", signUpData);
+};
+
+export const postNovoEdital = (editalData: ICadastroEdital) => {
+  return api.post("/processos-seletivos", editalData);
 };
 
 export default api;
