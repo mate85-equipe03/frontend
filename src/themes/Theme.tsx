@@ -10,9 +10,7 @@ const paletteTheme = createTheme({
       light: "#9bc9ff",
       contrastText: "#fff",
     },
-    warning: {
-      main: "#fbc33c",
-    },
+    
   },
 });
 
