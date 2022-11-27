@@ -8,28 +8,30 @@ import { IADetalhes } from "../interfaces/Interfaces";
 
 import {
   getDetailsProcessoSeletivo,
-  getEnrolledList,
+  /* getEnrolledList, */
   getResultadoDoutorado,
   getResultadoMestrado,
 } from "../services/Api";
 
 export default function ResultadoEdital() {
-  const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
+  /* const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]); */
   const [resultadoMestrado, setResultadoMestrado] = useState<IADetalhes[]>([]);
-  const [resultadoDoutorado, setResultadoDoutorado] = useState<IADetalhes[]>([]);
+  const [resultadoDoutorado, setResultadoDoutorado] = useState<IADetalhes[]>(
+    []
+  );
   const { user } = useContext(UserContext);
   const { editalId } = useParams();
   const [isEditalArchived, setIsEditalArchived] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (user && editalId) {
       getEnrolledList(editalId)
         .then(({ data }) => setEnrolledList(data))
         .catch()
         .finally();
     }
-  }, [editalId, user, navigate]);
+  }, [editalId, user, navigate]); */
 
   useEffect(() => {
     getDetailsProcessoSeletivo(editalId)
@@ -47,7 +49,7 @@ export default function ResultadoEdital() {
       })
       .catch()
       .finally();
-  }, [editalId]);
+  }, [editalId, user, navigate]);
 
   useEffect(() => {
     getResultadoDoutorado(editalId)
@@ -56,7 +58,7 @@ export default function ResultadoEdital() {
       })
       .catch()
       .finally();
-  }, [editalId]);
+  }, [editalId, user, navigate]);
 
   const colunas: GridColDef[] = [
     {
@@ -123,17 +125,17 @@ export default function ResultadoEdital() {
             columns={colunas}
             sx={{
               width: Math.min(allColumnsWidth + 2, 1000),
-              mb : 5
+              mb: 5,
             }}
           />
 
-        <CardHeader
-          title="Resultado Final Doutorado"
-          titleTypographyProps={{
-            align: "center",
-            variant: "h4",
-          }}
-        />
+          <CardHeader
+            title="Resultado Final Doutorado"
+            titleTypographyProps={{
+              align: "center",
+              variant: "h4",
+            }}
+          />
 
           <DataGrid
             initialState={{
@@ -146,7 +148,7 @@ export default function ResultadoEdital() {
             columns={colunas}
             sx={{
               width: Math.min(allColumnsWidth + 2, 1000),
-              mb : 5
+              mb: 5,
             }}
           />
         </CardContent>
