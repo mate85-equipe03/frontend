@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect } from "react";
 import {
   Grid,
@@ -75,14 +76,17 @@ export default function NovoEdital() {
 
   useEffect(() => {
     // Formata datas
-    setEditalData({
-      ...editalData,
-      etapa_inscricao_inicio: formatData(datas.etapa_inscricao_inicio),
-      etapa_inscricao_fim: formatData(datas.etapa_inscricao_fim),
-      etapa_analise_inicio: formatData(datas.etapa_analise_inicio),
-      etapa_analise_fim: formatData(datas.etapa_analise_fim),
-      etapa_resultado_inicio: formatData(datas.etapa_resultado_inicio),
-      etapa_resultado_fim: formatData(datas.etapa_resultado_fim),
+    // arrow func
+    setEditalData((prevState) => {
+      return {
+        ...prevState,
+        etapa_inscricao_inicio: formatData(datas.etapa_inscricao_inicio),
+        etapa_inscricao_fim: formatData(datas.etapa_inscricao_fim),
+        etapa_analise_inicio: formatData(datas.etapa_analise_inicio),
+        etapa_analise_fim: formatData(datas.etapa_analise_fim),
+        etapa_resultado_inicio: formatData(datas.etapa_resultado_inicio),
+        etapa_resultado_fim: formatData(datas.etapa_resultado_fim),
+      };
     });
   }, [datas]);
 
@@ -92,7 +96,7 @@ export default function NovoEdital() {
 
     api
       .post("/processos-seletivos", editalData)
-      .then((data) => {
+      .then(() => {
         setNovoEditalError(false);
       })
       .catch(() => {
@@ -101,7 +105,6 @@ export default function NovoEdital() {
       .finally(() => {
         setLoadingBtn(false);
         navigate("/", { state: { novoEdital: true } });
-        // window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       });
   };
 
