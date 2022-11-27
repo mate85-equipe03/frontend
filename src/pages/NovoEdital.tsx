@@ -13,11 +13,11 @@ import {
   Alert,
 } from "@mui/material";
 
-import api, { postNovoEdital } from "../services/Api";
 import { PatternFormat } from "react-number-format";
 import { useNavigate } from "react-router-dom";
-import { NomesEtapasEnum } from "../enums/Enums";
 import { Dayjs } from "dayjs";
+import { NomesEtapasEnum } from "../enums/Enums";
+import { postNovoEdital } from "../services/Api";
 import { IDatasEtapas, ICadastroEdital } from "../interfaces/Interfaces";
 import BtnSubmitLoading from "../components/BtnSubmitLoading";
 import InputData from "../components/InputData";
@@ -78,7 +78,6 @@ export default function NovoEdital() {
     event.preventDefault();
     setLoadingBtn(true);
 
-    // api.post("/processos-seletivos", cadastroEdital)
     postNovoEdital(cadastroEdital)
       .then(() => {
         setNovoEditalError(false);
