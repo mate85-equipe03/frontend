@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
-import { FormControl, Grid, TextField, Typography } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 import { LocalizationProvider, DesktopDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { IDatasEtapas } from "../interfaces/Interfaces";
