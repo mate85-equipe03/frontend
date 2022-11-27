@@ -64,7 +64,6 @@ export default function AccountMenu() {
         open={isMenuOpen}
         onClose={handleClose}
         PaperProps={{
-          // TODO: Colocar essas estilizações em outro arquivo para não poluir o .tsx
           elevation: 0,
           sx: {
             overflow: "visible",

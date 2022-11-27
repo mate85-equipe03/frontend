@@ -31,7 +31,8 @@ export interface ICategoria {
   pontuacao: string;
 }
 
-export interface IDetails {
+export interface IEdital {
+  id: number;
   titulo: string;
   semestre: string;
   descricao: string;
@@ -41,6 +42,14 @@ export interface IDetails {
   isInscrito: boolean;
   idInscricao: number;
   categorias_producao: ICategoria[];
+}
+
+export interface IEditais {
+  processos: IEdital[];
+}
+
+export interface IEditaisReq {
+  editais: IEditais;
 }
 
 export interface IInscritos {
@@ -194,20 +203,6 @@ export interface IRevisarAuditar {
   id: number | undefined;
   nota_final: number;
   observacao: string;
-}
-
-export interface IEdital {
-  id: number;
-  titulo: string;
-  etapas: IEtapa[];
-}
-
-export interface IEditais {
-  processos: IEdital[];
-}
-
-export interface IEditaisReq {
-  editais: IEditais;
 }
 
 export interface ISignUpData {
