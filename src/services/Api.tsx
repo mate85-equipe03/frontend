@@ -101,6 +101,6 @@ export const deleteInscricao = (inscricaoId: number) => {
 
 export const postCadastroTeacher = (signUpData: ISignUpDataTeacher) => {
   return api.post("/professores", signUpData);
-}
+};
 
 export default api;

@@ -71,7 +71,7 @@ export default function Home() {
       return "Dados pessoais alterados com sucesso.";
     }
 
-    if(signUpSuccess){
+    if (signUpSuccess) {
       return "Cadastro de professor realizado com sucesso.";
     }
 
