@@ -35,6 +35,8 @@ export default function InscricaoTeacherView() {
   const [isAuditoria, setIsAuditoria] = React.useState<boolean>(false);
   const [readOnly, setReadOnly] = React.useState<boolean>(false);
   const [warningMessage, setWarningMessage] = React.useState<string>();
+  const [isAnaliseDeInscricoes, setIsAnaliseDeInscricoes] =
+    React.useState<boolean>(false);
 
   const params = useParams();
   const editalId = Number(params.editalId) ? Number(params.editalId) : null;
@@ -109,36 +111,27 @@ export default function InscricaoTeacherView() {
   }, [editalId, navigate, user, inscricaoId]);
 
   useEffect(() => {
-    const redirectToDetails = () => {
-      navigate(`/edital/${editalId}/detalhes`);
-    };
-
-    const etapasValidas = [
-      EtapasEnum.ANALISE_DE_INSCRICOES,
+    const etapasDisabled = [
+      EtapasEnum.INSCRICOES_ABERTAS,
       EtapasEnum.RESULTADO_FINAL,
     ];
 
     if (etapaAtual !== null && edital !== null) {
-      const isEtapaValida = editalService.isEtapaValida(
+      const isEtapaDisabled = editalService.isEtapaValida(
         etapaAtual,
         edital,
-        etapasValidas
+        etapasDisabled
       );
 
-      const isResultadoFinal = editalService.isResultadoFinal(
-        etapaAtual,
-        edital
-      );
-
-      if (!isEtapaValida) {
-        redirectToDetails();
-      }
-
-      if (isResultadoFinal) {
+      if (isEtapaDisabled) {
         setReadOnly(true);
       }
+
+      setIsAnaliseDeInscricoes(
+        editalService.isAnaliseDeInscricoes(etapaAtual, edital)
+      );
     }
-  }, [etapaAtual, edital, editalId, navigate]);
+  }, [etapaAtual, edital, editalId]);
 
   return loadingEtapaAtual || loadingProcessoSeletivo ? (
     <Loading />
@@ -153,7 +146,9 @@ export default function InscricaoTeacherView() {
       {inscricaoError && (
         <Alert severity="error">Ocorreu um erro. Tente novamente.</Alert>
       )}
-      {warningMessage && <Alert severity="warning">{warningMessage}</Alert>}
+      {isAnaliseDeInscricoes && warningMessage && (
+        <Alert severity="warning">{warningMessage}</Alert>
+      )}
       <Card sx={{ width: 800, mt: 5 }}>
         <CardHeader
           title={`${isAuditoria ? "Auditar" : "Revisar"} Inscrição`}

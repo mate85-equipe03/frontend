@@ -2,7 +2,6 @@ import { EtapasEnum } from "../enums/Enums";
 import { IEdital, IEtapa } from "../interfaces/Interfaces";
 
 const editalService = {
-  
   // TODO: Pegar IDs corretos com o back
   etapaAtual(etapaAtual: IEtapa, edital: IEdital): EtapasEnum {
     switch (etapaAtual.id) {
@@ -24,7 +23,7 @@ const editalService = {
     );
   },
 
-  isAnaliseDeInsricoes(etapaAtual: IEtapa, edital: IEdital): boolean {
+  isAnaliseDeInscricoes(etapaAtual: IEtapa, edital: IEdital): boolean {
     return (
       this.etapaAtual(etapaAtual, edital) === EtapasEnum.ANALISE_DE_INSCRICOES
     );

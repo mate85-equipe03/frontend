@@ -40,9 +40,6 @@ export default function InscricaoStudentView() {
   const editalId = Number(params.editalId) ? Number(params.editalId) : null;
 
   useEffect(() => {
-    const redirectToDetails = () => {
-      navigate(`/edital/${editalId}/detalhes`);
-    };
     if (user && editalId) {
       setLoadingDadosAluno(true);
       setLoadingEtapaAtual(true);
@@ -73,7 +70,7 @@ export default function InscricaoStudentView() {
           setLoadingEtapaAtual(false);
         });
     }
-  }, [editalId, navigate, user]);
+  }, [editalId, user]);
 
   useEffect(() => {
     const redirectToDetails = () => {
