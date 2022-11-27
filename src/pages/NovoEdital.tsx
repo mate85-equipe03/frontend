@@ -48,8 +48,8 @@ export default function NovoEdital() {
     etapa_inscricao_fim: Dayjs | null;
     etapa_analise_inicio: Dayjs | null;
     etapa_analise_fim: Dayjs | null;
-    etapa_resultado_inicio: Dayjs | null ;
-    etapa_resultado_fim: Dayjs | null ;
+    etapa_resultado_inicio: Dayjs | null;
+    etapa_resultado_fim: Dayjs | null;
   }
 
   const [datas, setDatas] = React.useState<IDatasEtapas>({
@@ -74,15 +74,19 @@ export default function NovoEdital() {
     return data ? data.format("YYYY/MM/DD") : "";
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     //Formata datas
     setEditalData({
       ...editalData,
+      etapa_inscricao_inicio: formatData(datas.etapa_inscricao_inicio),
+      etapa_inscricao_fim: formatData(datas.etapa_inscricao_fim),
+      etapa_analise_inicio: formatData(datas.etapa_analise_inicio),
+      etapa_analise_fim: formatData(datas.etapa_analise_fim),
       etapa_resultado_inicio: formatData(datas.etapa_resultado_inicio),
       etapa_resultado_fim: formatData(datas.etapa_resultado_fim),
     });
-  },[datas]);
-  
+  }, [datas]);
+
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -91,11 +95,11 @@ export default function NovoEdital() {
 
     // setLoading(true);
 
-    // api.post("/processos-seletivos", editalData).then((data) => {
-    //   console.log(data);
-    //   //     navigate("/login", { state: { signUp: true } });
-    //   //     setSignUpError(false);
-    // });
+    api.post("/processos-seletivos", editalData).then((data) => {
+      console.log(data);
+      //     navigate("/login", { state: { signUp: true } });
+      //     setSignUpError(false);
+    });
     //   .catch(() => {
     //     setSignUpError(true);
     //   })
@@ -186,6 +190,8 @@ export default function NovoEdital() {
               Etapas
             </Typography>
 
+            {/* ********************* */}
+
             <FormControl required fullWidth margin="normal">
               <Typography sx={{ pb: 1 }}> Inscrições </Typography>
               <Grid
@@ -194,46 +200,45 @@ export default function NovoEdital() {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Grid item xs={5}>
+                <Grid item xs={5.3}>
                   <FormControl required>
-                    <InputLabel htmlFor="etapa_inscricao_inicio">
-                      Data de Inicio
-                    </InputLabel>
-                    <PatternFormat
-                      id="etapa_inscricao_inicio"
-                      name="etapa_inscricao_inicio"
-                      label="Data de Inicio"
-                      placeholder="dd/mm/aaaa"
-                      type="text"
-                      value={editalData.etapa_inscricao_inicio}
-                      onChange={handleChange}
-                      format="##/##/####"
-                      mask="_"
-                      customInput={OutlinedInput}
-                    />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        label="Data de Inicio" //Inscrições
+                        inputFormat="DD/MM/YYYY"
+                        value={datas.etapa_inscricao_inicio}
+                        onChange={(newData) => {
+                          setDatas({
+                            ...datas,
+                            etapa_inscricao_inicio: newData,
+                          });
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
                   </FormControl>
                 </Grid>
-                <Grid item xs={1}>
+
+                <Grid item>
                   <Typography> até </Typography>
                 </Grid>
 
-                <Grid item xs={5}>
+                <Grid item xs={5.3}>
                   <FormControl required>
-                    <InputLabel htmlFor="etapa_inscricao_fim">
-                      Data de Fim
-                    </InputLabel>
-                    <PatternFormat
-                      id="etapa_inscricao_fim"
-                      name="etapa_inscricao_fim"
-                      label="Data de Inicio"
-                      placeholder="dd/mm/aaaa"
-                      type="text"
-                      value={editalData.etapa_inscricao_fim}
-                      onChange={handleChange}
-                      format="##/##/####"
-                      mask="_"
-                      customInput={OutlinedInput}
-                    />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        label="Data de Fim" //Inscrições
+                        inputFormat="DD/MM/YYYY"
+                        value={datas.etapa_inscricao_fim}
+                        onChange={(newData) => {
+                          setDatas({
+                            ...datas,
+                            etapa_inscricao_fim: newData,
+                          });
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -247,118 +252,49 @@ export default function NovoEdital() {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Grid item xs={5}>
+                <Grid item xs={5.3}>
                   <FormControl required>
-                    <InputLabel htmlFor="etapa_analise_inicio">
-                      Data de Inicio
-                    </InputLabel>
-                    <PatternFormat
-                      id="etapa_analise_inicio"
-                      name="etapa_analise_inicio"
-                      label="Data de Inicio"
-                      placeholder="dd/mm/aaaa"
-                      type="text"
-                      value={editalData.etapa_analise_inicio}
-                      onChange={handleChange}
-                      format="##/##/####"
-                      mask="_"
-                      customInput={OutlinedInput}
-                    />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        label="Data de Inicio" //Analise
+                        inputFormat="DD/MM/YYYY"
+                        value={datas.etapa_analise_inicio}
+                        onChange={(newData) => {
+                          setDatas({
+                            ...datas,
+                            etapa_analise_inicio: newData,
+                          });
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
                   </FormControl>
                 </Grid>
-                <Grid item xs={1}>
+
+                <Grid item>
                   <Typography> até </Typography>
                 </Grid>
 
-                <Grid item xs={5}>
+                <Grid item xs={5.3}>
                   <FormControl required>
-                    <InputLabel htmlFor="etapa_analise_fim">
-                      Data de Fim
-                    </InputLabel>
-                    <PatternFormat
-                      id="etapa_analise_fim"
-                      name="etapa_analise_fim"
-                      label="Data de Inicio"
-                      placeholder="dd/mm/aaaa"
-                      type="text"
-                      value={editalData.etapa_analise_fim}
-                      onChange={handleChange}
-                      format="##/##/####"
-                      mask="_"
-                      customInput={OutlinedInput}
-                    />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        label="Data de Fim" //Analise
+                        inputFormat="DD/MM/YYYY"
+                        value={datas.etapa_analise_fim}
+                        onChange={(newData) => {
+                          setDatas({
+                            ...datas,
+                            etapa_analise_fim: newData,
+                          });
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
                   </FormControl>
                 </Grid>
               </Grid>
             </FormControl>
-
-            {/* <FormControl required fullWidth margin="normal">
-              <Typography sx={{ pb: 1 }}> Resultados </Typography>
-              <Grid
-                container
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Grid item xs={5}>
-                  <FormControl required>
-                    <InputLabel htmlFor="etapa_resultado_inicio">
-                      Data de Inicio
-                    </InputLabel>
-                    <PatternFormat
-                      id="etapa_resultado_inicio"
-                      name="etapa_resultado_inicio"
-                      label="Data de Inicio"
-                      placeholder="dd/mm/aaaa"
-                      type="text"
-                      value={editalData.etapa_resultado_inicio}
-                      onChange={handleChange}
-                      format="##/##/####"
-                      mask="_"
-                      customInput={OutlinedInput}
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={1}>
-                  <Typography> até </Typography>
-                </Grid>
-
-                <Grid item xs={5}>
-                  <FormControl required>
-                    <InputLabel htmlFor="etapa_resultado_fim">
-                      Data de Fim
-                    </InputLabel>
-                    <PatternFormat
-                      id="etapa_resultado_fim"
-                      name="etapa_resultado_fim"
-                      label="Data de Inicio"
-                      placeholder="dd/mm/aaaa"
-                      type="text"
-                      value={editalData.etapa_resultado_fim}
-                      onChange={handleChange}
-                      format="##/##/####"
-                      mask="_"
-                      customInput={OutlinedInput}
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </FormControl> */}
-
-            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker
-                label="etapa_resultado_fim"
-                inputFormat="DD/MM/YYYY"
-                value={datas.etapa_resultado_fim}
-                onChange={(newData) => {
-                  setDatas({
-                    ...datas,
-                    etapa_resultado_fim: newData,
-                  });
-                }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider> */}
 
             <FormControl required fullWidth margin="normal">
               <Typography sx={{ pb: 1 }}> Resultados </Typography>
@@ -411,6 +347,7 @@ export default function NovoEdital() {
                 </Grid>
               </Grid>
             </FormControl>
+
           </form>
         </CardContent>
         <CardActions sx={{ px: { xs: 5, sm: 10 } }}>
