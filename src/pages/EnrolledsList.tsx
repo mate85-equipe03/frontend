@@ -22,7 +22,6 @@ export default function EnrolledsList() {
   const [editalName, setEditalName] = useState<string>();
 
   const { editalId } = useParams();
-
   const { user } = useContext(UserContext);
 
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
@@ -42,14 +41,12 @@ export default function EnrolledsList() {
         .then(({ data }) => {
           setEnrolledList(data);
         })
-        .catch(() => {
-          // TODO: Ver como exibir erros va View
-        })
+        .catch()
         .finally(() => {
           setLoadingInscritos(false);
         });
     }
-  }, [editalId, user, navigate]);
+  }, [editalId, user]);
 
   const handleRowClick: GridEventListener<"rowClick"> = (params) => {
     navigate(`/edital/${editalId}/inscritos/${params.row.id}`);
@@ -61,9 +58,7 @@ export default function EnrolledsList() {
       .then(({ data }) => {
         setEditalName(data?.titulo);
       })
-      .catch(() => {
-        // TODO: Ver como exibir erros va View
-      })
+      .catch()
       .finally(() => {
         setLoadingProcesso(false);
       });
