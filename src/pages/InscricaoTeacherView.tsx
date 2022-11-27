@@ -81,7 +81,6 @@ export default function InscricaoTeacherView() {
           setIsAuditoria(Boolean(data?.revisor_id));
         })
         .catch(() => {
-          // TODO: Ver como exibir erros va View
         })
         .finally(() => {
           setLoadingDadosAluno(false);
@@ -94,7 +93,6 @@ export default function InscricaoTeacherView() {
           setEditalName(data?.titulo);
         })
         .catch(() => {
-          // TODO: Ver como exibir erros va View
         })
         .finally(() => {
           setLoadingProcessoSeletivo(false);

@@ -133,7 +133,6 @@ export default function Cadastro() {
         }
       })
       .catch(() => {
-        // TODO: Ver como exibir erros va View
       })
       .finally(() => {
         setLoading(false);

@@ -43,7 +43,6 @@ export default function EnrolledsList() {
           setEnrolledList(data);
         })
         .catch(() => {
-          // TODO: Ver como exibir erros va View
         })
         .finally(() => {
           setLoadingInscritos(false);
@@ -62,7 +61,6 @@ export default function EnrolledsList() {
         setEditalName(data?.titulo);
       })
       .catch(() => {
-        // TODO: Ver como exibir erros va View
       })
       .finally(() => {
         setLoadingProcesso(false);

@@ -44,7 +44,6 @@ export default function InscricaoStudentView() {
           setDadosAluno(data);
         })
         .catch(() => {
-          // TODO: Ver como exibir erros va View
         })
         .finally(() => {
           setLoadingDadosAluno(false);
@@ -62,7 +61,6 @@ export default function InscricaoStudentView() {
           setInscricaoId(data?.idInscricao);
         })
         .catch(() => {
-          // TODO: Ver como exibir erros va View
         })
         .finally(() => {
           setLoadingProcessoSeletivo(false);

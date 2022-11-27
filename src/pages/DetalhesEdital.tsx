@@ -59,7 +59,6 @@ export default function EditalDetails() {
           setEdital(data);
         })
         .catch(() => {
-          // TODO: Ver como exibir erros va View
         })
         .finally(() => {
           setLoadingEdital(false);
@@ -69,7 +68,6 @@ export default function EditalDetails() {
           setEtapaAtual(data);
         })
         .catch(() => {
-          // TODO: Ver como exibir erros va View
         })
         .finally(() => {
           setLoadingEtapaAtual(false);

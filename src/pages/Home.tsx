@@ -42,7 +42,6 @@ export default function Home() {
     getAllProcessosSeletivos()
       .then(({ data }) => setEditais(data.editais.processos))
       .catch(() => {
-        // TODO: Ver como exibir erros va View
       })
       .finally(() => {
         setLoading(false);
