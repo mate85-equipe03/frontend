@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Loading from "../components/Loading";
 import UserContext from "../context/UserContext";
 import DadosCandidato from "../components/DadosCandidato";
@@ -23,7 +24,6 @@ import {
 } from "../services/Api";
 import { EtapasEnum } from "../enums/Enums";
 import editalService from "../services/Edital";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 export default function InscricaoTeacherView() {
   const navigate = useNavigate();
@@ -174,24 +174,24 @@ export default function InscricaoTeacherView() {
         />
         <Divider sx={{ mx: 3 }} />
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
-        <List sx={{ pb: 2 }}>
-	            {revisorName && (
-	              <ListItem disableGutters sx={{ color: "success.main" }}>
-	                <CheckCircleIcon sx={{ mr: 0.5 }} />
-	                <Typography sx={{ fontWeight: "bold" }}>
-	                  Revisado por {revisorName}
-	                </Typography>
-	              </ListItem>
-	            )}
-	            {auditorName && revisorName && (
-	              <ListItem disableGutters sx={{ color: "success.main" }}>
-	                <CheckCircleIcon sx={{ mr: 0.5 }} />
-	                <Typography sx={{ fontWeight: "bold" }}>
-	                  Auditado por {auditorName}
-	                </Typography>
-	              </ListItem>
-	            )}
-	          </List>
+          <List sx={{ pb: 2 }}>
+            {revisorName && (
+              <ListItem disableGutters sx={{ color: "success.main" }}>
+                <CheckCircleIcon sx={{ mr: 0.5 }} />
+                <Typography sx={{ fontWeight: "bold" }}>
+                  Revisado por {revisorName}
+                </Typography>
+              </ListItem>
+            )}
+            {auditorName && revisorName && (
+              <ListItem disableGutters sx={{ color: "success.main" }}>
+                <CheckCircleIcon sx={{ mr: 0.5 }} />
+                <Typography sx={{ fontWeight: "bold" }}>
+                  Auditado por {auditorName}
+                </Typography>
+              </ListItem>
+            )}
+          </List>
           <DadosCandidato dadosInscrito={dadosInscricao?.aluno} />
           {editalId && inscricaoId && dadosInscricao && (
             <RevisarAuditarInscricao
