@@ -2,14 +2,13 @@ import { EtapasEnum, NomesEtapasEnum } from "../enums/Enums";
 import { IEdital, IEtapa } from "../interfaces/Interfaces";
 
 const editalService = {
-  // TODO: Pegar IDs corretos com o back
   etapaAtual(etapaAtual: IEtapa, edital: IEdital): EtapasEnum {
-    switch (etapaAtual.id) {
-      case 0:
+    switch (etapaAtual.name) {
+      case "Inscrições":
         return EtapasEnum.INSCRICOES_ABERTAS;
-      case 1:
+      case "Análise":
         return EtapasEnum.ANALISE_DE_INSCRICOES;
-      case 2:
+      case "Resultado Final":
         return edital.arquivado ? EtapasEnum.RESULTADO_FINAL : EtapasEnum.ERROR;
       default: {
         return EtapasEnum.ERROR;
