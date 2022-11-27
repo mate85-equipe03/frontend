@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect } from "react";
 import {
   Grid,
@@ -10,7 +9,6 @@ import {
   InputLabel,
   OutlinedInput,
   CardActions,
-  TextField,
   Typography,
   Alert,
 } from "@mui/material";
@@ -68,7 +66,6 @@ export default function NovoEdital() {
 
   useEffect(() => {
     // Formata datas
-    // arrow func
     setEditalData((prevState) => {
       return {
         ...prevState,
@@ -186,166 +183,32 @@ export default function NovoEdital() {
               Etapas
             </Typography>
 
-            {/* ********************* */}
-
             <FormControl required fullWidth margin="normal">
               <Typography sx={{ pb: 1 }}> Inscrições </Typography>
-              <Grid
-                container
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Grid item xs={5.3}>
-                  <FormControl required>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        label="Data de Inicio" // Inscrições
-                        inputFormat="DD/MM/YYYY"
-                        value={datas.etapa_inscricao_inicio}
-                        onChange={(newData) => {
-                          setDatas({
-                            ...datas,
-                            etapa_inscricao_inicio: newData,
-                          });
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
-                </Grid>
-
-                <Grid item>
-                  <Typography> até </Typography>
-                </Grid>
-
-                <Grid item xs={5.3}>
-                  <FormControl required>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        label="Data de Fim" // Inscrições
-                        inputFormat="DD/MM/YYYY"
-                        value={datas.etapa_inscricao_fim}
-                        onChange={(newData) => {
-                          setDatas({
-                            ...datas,
-                            etapa_inscricao_fim: newData,
-                          });
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
-                </Grid>
-              </Grid>
+              <InputData
+                datas={datas}
+                setDatas={setDatas}
+                etapa="etapa_inscricao"
+              />
             </FormControl>
 
             <FormControl required fullWidth margin="normal">
               <Typography sx={{ pb: 1 }}> Análise </Typography>
-              <Grid
-                container
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Grid item xs={5.3}>
-                  <FormControl required>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        label="Data de Inicio" // Analise
-                        inputFormat="DD/MM/YYYY"
-                        value={datas.etapa_analise_inicio}
-                        onChange={(newData) => {
-                          setDatas({
-                            ...datas,
-                            etapa_analise_inicio: newData,
-                          });
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
-                </Grid>
-
-                <Grid item>
-                  <Typography> até </Typography>
-                </Grid>
-
-                <Grid item xs={5.3}>
-                  <FormControl required>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        label="Data de Fim" // Analise
-                        inputFormat="DD/MM/YYYY"
-                        value={datas.etapa_analise_fim}
-                        onChange={(newData) => {
-                          setDatas({
-                            ...datas,
-                            etapa_analise_fim: newData,
-                          });
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
-                </Grid>
-              </Grid>
+              <InputData
+                datas={datas}
+                setDatas={setDatas}
+                etapa="etapa_analise"
+              />
             </FormControl>
 
             <FormControl required fullWidth margin="normal">
               <Typography sx={{ pb: 1 }}> Resultados </Typography>
-              <Grid
-                container
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Grid item xs={5.3}>
-                  <FormControl required>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        label="Data de Inicio" // Resultados
-                        inputFormat="DD/MM/YYYY"
-                        value={datas.etapa_resultado_inicio}
-                        onChange={(newData) => {
-                          setDatas({
-                            ...datas,
-                            etapa_resultado_inicio: newData,
-                          });
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
-                </Grid>
-
-                <Grid item>
-                  <Typography> até </Typography>
-                </Grid>
-
-                <Grid item xs={5.3}>
-                  <FormControl required>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        label="Data de Fim" // Resultados
-                        inputFormat="DD/MM/YYYY"
-                        value={datas.etapa_resultado_fim}
-                        onChange={(newData) => {
-                          setDatas({
-                            ...datas,
-                            etapa_resultado_fim: newData,
-                          });
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </FormControl>
-                </Grid>
-              </Grid>
+              <InputData
+                datas={datas}
+                setDatas={setDatas}
+                etapa="etapa_resultado"
+              />
             </FormControl>
-
-            <InputData datas={datas} setDatas={setDatas} etapa="etapa_resultado" />
-            
           </form>
         </CardContent>
         <CardActions sx={{ px: { xs: 5, sm: 10 } }}>
