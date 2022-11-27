@@ -12,6 +12,7 @@ import {
   TextField,
   TextFieldProps,
   Box,
+  Typography,
 } from "@mui/material";
 import { PatternFormat } from "react-number-format";
 import BtnSubmitLoading from "../components/BtnSubmitLoading";
@@ -43,7 +44,6 @@ export default function NovoEdital() {
     dayjs("2022-11-28T18:50:00")
   );
 
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setEditalData({
@@ -58,10 +58,9 @@ export default function NovoEdital() {
   handleChangeDate;
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    // setLoading(true);
-
     console.log(editalData);
+    
+    // setLoading(true);
 
     api.post("/processos-seletivos", editalData).then((data) => {
       console.log(data);
@@ -154,26 +153,169 @@ export default function NovoEdital() {
               />
             </FormControl>
 
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker
-                label="Inscrições inicio"
-                inputFormat="DD/MM/YYYY"
-                value={data}
-                onChange={handleChangeDate}
-                renderInput={(
-                  params: JSX.IntrinsicAttributes & TextFieldProps
-                ) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
+            <Typography variant="h6" sx={{ mt: 3 }}>
+              Etapas
+            </Typography>
 
-            {/* 
-            etapa_inscricao_inicio
-            etapa_inscricao_fim
-            etapa_analise_inicio
-            etapa_analise_fim
-            etapa_resultado_inicio
-            etapa_resultado_fim 
-            */}
+            <FormControl required fullWidth margin="normal">
+              <Typography sx={{ pb: 1 }}> Inscrições </Typography>
+              <Grid
+                container
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Grid item xs={5}>
+                  <FormControl required>
+                    <InputLabel htmlFor="etapa_inscricao_inicio">
+                      Data de Inicio
+                    </InputLabel>
+                    <PatternFormat
+                      id="etapa_inscricao_inicio"
+                      name="etapa_inscricao_inicio"
+                      label="Data de Inicio"
+                      placeholder="dd/mm/aaaa"
+                      type="text"
+                      value={editalData.etapa_inscricao_inicio}
+                      onChange={handleChange}
+                      format="##/##/####"
+                      mask="_"
+                      customInput={OutlinedInput}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={1}>
+                  <Typography> até </Typography>
+                </Grid>
+
+                <Grid item xs={5}>
+                  <FormControl required>
+                    <InputLabel htmlFor="etapa_inscricao_fim">
+                      Data de Fim
+                    </InputLabel>
+                    <PatternFormat
+                      id="etapa_inscricao_fim"
+                      name="etapa_inscricao_fim"
+                      label="Data de Inicio"
+                      placeholder="dd/mm/aaaa"
+                      type="text"
+                      value={editalData.etapa_inscricao_fim}
+                      onChange={handleChange}
+                      format="##/##/####"
+                      mask="_"
+                      customInput={OutlinedInput}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </FormControl>
+
+            <FormControl required fullWidth margin="normal">
+              <Typography sx={{ pb: 1 }}> Análise </Typography>
+              <Grid
+                container
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Grid item xs={5}>
+                  <FormControl required>
+                    <InputLabel htmlFor="etapa_analise_inicio">
+                      Data de Inicio
+                    </InputLabel>
+                    <PatternFormat
+                      id="etapa_analise_inicio"
+                      name="etapa_analise_inicio"
+                      label="Data de Inicio"
+                      placeholder="dd/mm/aaaa"
+                      type="text"
+                      value={editalData.etapa_analise_inicio}
+                      onChange={handleChange}
+                      format="##/##/####"
+                      mask="_"
+                      customInput={OutlinedInput}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={1}>
+                  <Typography> até </Typography>
+                </Grid>
+
+                <Grid item xs={5}>
+                  <FormControl required>
+                    <InputLabel htmlFor="etapa_analise_fim">
+                      Data de Fim
+                    </InputLabel>
+                    <PatternFormat
+                      id="etapa_analise_fim"
+                      name="etapa_analise_fim"
+                      label="Data de Inicio"
+                      placeholder="dd/mm/aaaa"
+                      type="text"
+                      value={editalData.etapa_analise_fim}
+                      onChange={handleChange}
+                      format="##/##/####"
+                      mask="_"
+                      customInput={OutlinedInput}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </FormControl>
+
+            <FormControl required fullWidth margin="normal">
+              <Typography sx={{ pb: 1 }}> Resultados </Typography>
+              <Grid
+                container
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Grid item xs={5}>
+                  <FormControl required>
+                    <InputLabel htmlFor="etapa_resultado_inicio">
+                      Data de Inicio
+                    </InputLabel>
+                    <PatternFormat
+                      id="etapa_resultado_inicio"
+                      name="etapa_resultado_inicio"
+                      label="Data de Inicio"
+                      placeholder="dd/mm/aaaa"
+                      type="text"
+                      value={editalData.etapa_resultado_inicio}
+                      onChange={handleChange}
+                      format="##/##/####"
+                      mask="_"
+                      customInput={OutlinedInput}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={1}>
+                  <Typography> até </Typography>
+                </Grid>
+
+                <Grid item xs={5}>
+                  <FormControl required>
+                    <InputLabel htmlFor="etapa_resultado_fim">
+                      Data de Fim
+                    </InputLabel>
+                    <PatternFormat
+                      id="etapa_resultado_fim"
+                      name="etapa_resultado_fim"
+                      label="Data de Inicio"
+                      placeholder="dd/mm/aaaa"
+                      type="text"
+                      value={editalData.etapa_resultado_fim}
+                      onChange={handleChange}
+                      format="##/##/####"
+                      mask="_"
+                      customInput={OutlinedInput}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </FormControl>
+
           </form>
         </CardContent>
         <CardActions sx={{ px: { xs: 5, sm: 10 } }}>
