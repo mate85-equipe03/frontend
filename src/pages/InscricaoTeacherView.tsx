@@ -80,7 +80,7 @@ export default function InscricaoTeacherView() {
           setDadosInscricao(data);
           setIsAuditoria(Boolean(data?.revisor_id));
         })
-        .catch(() => {})
+        .catch()
         .finally(() => {
           setLoadingDadosAluno(false);
         });
@@ -91,7 +91,7 @@ export default function InscricaoTeacherView() {
           }
           setEditalName(data?.titulo);
         })
-        .catch(() => {})
+        .catch()
         .finally(() => {
           setLoadingProcessoSeletivo(false);
         });

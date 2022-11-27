@@ -43,7 +43,7 @@ export default function InscricaoStudentView() {
         .then(({ data }) => {
           setDadosAluno(data);
         })
-        .catch(() => {})
+        .catch()
         .finally(() => {
           setLoadingDadosAluno(false);
         });
@@ -59,7 +59,7 @@ export default function InscricaoStudentView() {
           setEditalName(data?.titulo);
           setInscricaoId(data?.idInscricao);
         })
-        .catch(() => {})
+        .catch()
         .finally(() => {
           setLoadingProcessoSeletivo(false);
         });

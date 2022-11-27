@@ -58,7 +58,7 @@ export default function EditalDetails() {
         .then(({ data }) => {
           setEdital(data);
         })
-        .catch(() => {})
+        .catch()
         .finally(() => {
           setLoadingEdital(false);
         });
@@ -66,7 +66,7 @@ export default function EditalDetails() {
         .then(({ data }) => {
           setEtapaAtual(data);
         })
-        .catch(() => {})
+        .catch()
         .finally(() => {
           setLoadingEtapaAtual(false);
         });
