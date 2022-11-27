@@ -43,7 +43,7 @@ export default function FormInscricao({
   readOnly,
   submitRequest,
 }: IProps) {
-  const [countFiles, setCountFiles] = useState<number>(0);
+  const [countFiles, setCountFiles] = useState<number>(1e9);
   const [formChanged, setFormChanged] = useState<boolean>(false);
   const [loadingEnvioInscricao, setLoadingEnvioInscricao] =
     useState<boolean>(false);
@@ -222,12 +222,14 @@ export default function FormInscricao({
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setLoadingEnvioInscricao(true);
+    console.log(inscricaoData);
 
-    submitRequest(inscricaoData).finally(() => {
-      setLoadingEnvioInscricao(false);
-      setFormChanged(false);
-    });
+    // setLoadingEnvioInscricao(true);
+
+    // submitRequest(inscricaoData).finally(() => {
+    //   setLoadingEnvioInscricao(false);
+    //   setFormChanged(false);
+    // });
   };
 
   useEffect(() => {
