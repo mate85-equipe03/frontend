@@ -3,9 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import { BrowserRouter } from "react-router-dom";
-import Header from "./Components/Header";
-import Footer from "./Components/Footer";
-import theme from "./themes/DefaultTheme";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import theme from "./themes/Theme";
 import { UserContextProvider } from "./context/UserContext";
 import AppRoutes from "./routes/Routes";
 

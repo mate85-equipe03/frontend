@@ -1,4 +1,4 @@
-import { IUserContext } from "../context/UserContext";
+import { IUserContext } from "../interfaces/Interfaces";
 
 const auth = {
   isAuth(): boolean {

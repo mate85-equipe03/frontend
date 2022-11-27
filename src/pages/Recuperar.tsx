@@ -13,10 +13,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import api from "../services/Api";
-
-interface IRecoverData {
-  matricula: string;
-}
+import { IRecoverData } from "../interfaces/Interfaces";
 
 export default function Recuperar() {
   const navigate = useNavigate();

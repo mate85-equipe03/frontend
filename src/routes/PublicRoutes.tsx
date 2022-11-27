@@ -1,10 +1,10 @@
 import React from "react";
 import { RouteProps } from "react-router-dom";
-import Home from "../pages/Home/View";
-import PageNotFound from "../pages/PageNotFound/View";
+import Home from "../pages/Home";
+import PageNotFound from "../pages/PageNotFound";
 import { routeWithKey } from "./RoutesHelper";
-import EditalDetails from "../pages/Edital/Detalhes/View";
-import ResultadoEdital from "../pages/Edital/Resultado/View";
+import EditalDetails from "../pages/DetalhesEdital";
+import ResultadoEdital from "../pages/ResultadoEdital";
 
 const publicRoutes: RouteProps[] = [
   { path: "/", element: <Home /> },
