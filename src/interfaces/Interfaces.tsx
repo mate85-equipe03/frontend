@@ -248,7 +248,6 @@ export interface IEditalData {
   etapa_analise_inicio: string;
   etapa_analise_fim: string;
   etapa_resultado_inicio: string;
-  etapa_resultado_fim: string;
 }
 
 export interface IDatasEtapas {
@@ -257,5 +256,4 @@ export interface IDatasEtapas {
   etapa_analise_inicio: Dayjs | null;
   etapa_analise_fim: Dayjs | null;
   etapa_resultado_inicio: Dayjs | null;
-  etapa_resultado_fim: Dayjs | null;
 }

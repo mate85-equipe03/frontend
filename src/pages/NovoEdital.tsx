@@ -37,7 +37,6 @@ export default function NovoEdital() {
     etapa_analise_inicio: "",
     etapa_analise_fim: "",
     etapa_resultado_inicio: "",
-    etapa_resultado_fim: "",
   });
 
   const [datas, setDatas] = React.useState<IDatasEtapas>({
@@ -46,7 +45,6 @@ export default function NovoEdital() {
     etapa_analise_inicio: null,
     etapa_analise_fim: null,
     etapa_resultado_inicio: null,
-    etapa_resultado_fim: null,
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,7 +69,6 @@ export default function NovoEdital() {
         etapa_analise_inicio: formatData(datas.etapa_analise_inicio),
         etapa_analise_fim: formatData(datas.etapa_analise_fim),
         etapa_resultado_inicio: formatData(datas.etapa_resultado_inicio),
-        etapa_resultado_fim: formatData(datas.etapa_resultado_fim),
       };
     });
   }, [datas]);
