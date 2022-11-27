@@ -12,14 +12,14 @@ import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import WarningIcon from "@mui/icons-material/Warning";
 import { getEnrolledList, getDetailsProcessoSeletivo } from "../services/Api";
-import { IADetalhes, IEdital } from "../interfaces/Interfaces";
+import { IADetalhes } from "../interfaces/Interfaces";
 import UserContext from "../context/UserContext";
 import Loading from "../components/Loading";
 
 export default function EnrolledsList() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [edital, setEdital] = useState<IEdital | null>(null);
+  const [editalName, setEditalName] = useState<string>();
 
   const { editalId } = useParams();
   const { user } = useContext(UserContext);
@@ -56,7 +56,7 @@ export default function EnrolledsList() {
     setLoadingProcesso(true);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
-        setEdital(data);
+        setEditalName(data?.titulo);
       })
       .catch()
       .finally(() => {
@@ -161,7 +161,7 @@ export default function EnrolledsList() {
             align: "center",
             variant: "h4",
           }}
-          subheader={edital?.titulo}
+          subheader={editalName}
           subheaderTypographyProps={{
             align: "center",
           }}
