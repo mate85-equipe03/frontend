@@ -76,6 +76,7 @@ export default function InscricaoStudentView() {
     const redirectToDetails = () => {
       navigate(`/edital/${editalId}/detalhes`);
     };
+
     const etapasValidas = [
       EtapasEnum.INSCRICOES_ABERTAS,
       EtapasEnum.RESULTADO_FINAL,
