@@ -2,19 +2,18 @@ import { Card, CardContent, CardHeader, Grid } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Loading from "../components/Loading";
 import NotArchived from "../components/NãoArquivado";
 import UserContext from "../context/UserContext";
 import { IADetalhes } from "../interfaces/Interfaces";
 
 import {
   getDetailsProcessoSeletivo,
-  /* getEnrolledList, */
   getResultadoDoutorado,
   getResultadoMestrado,
 } from "../services/Api";
 
 export default function ResultadoEdital() {
-  /* const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]); */
   const [resultadoMestrado, setResultadoMestrado] = useState<IADetalhes[]>([]);
   const [resultadoDoutorado, setResultadoDoutorado] = useState<IADetalhes[]>(
     []
@@ -22,42 +21,43 @@ export default function ResultadoEdital() {
   const { user } = useContext(UserContext);
   const { editalId } = useParams();
   const [isEditalArchived, setIsEditalArchived] = useState(true);
+  const [isLoading, setIsloading] = useState(false);
   const navigate = useNavigate();
 
-  /* useEffect(() => {
-    if (user && editalId) {
-      getEnrolledList(editalId)
-        .then(({ data }) => setEnrolledList(data))
-        .catch()
-        .finally();
-    }
-  }, [editalId, user, navigate]); */
-
   useEffect(() => {
+    setIsloading(true);
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setIsEditalArchived(data?.arquivado);
       })
       .catch()
-      .finally();
+      .finally(() => {
+        setIsloading(false);
+      });
   }, [editalId]);
 
   useEffect(() => {
+    setIsloading(true);
     getResultadoMestrado(editalId)
       .then(({ data }) => {
         setResultadoMestrado(data);
       })
       .catch()
-      .finally();
+      .finally(() => {
+        setIsloading(false);
+      });
   }, [editalId, user, navigate]);
 
   useEffect(() => {
+    setIsloading(true);
     getResultadoDoutorado(editalId)
       .then(({ data }) => {
         setResultadoDoutorado(data);
       })
       .catch()
-      .finally();
+      .finally(() => {
+        setIsloading(false);
+      });
   }, [editalId, user, navigate]);
 
   const colunas: GridColDef[] = [
@@ -95,8 +95,8 @@ export default function ResultadoEdital() {
     return width ? acc + width : acc;
   }, 0);
 
-  return !isEditalArchived ? (
-    <NotArchived />
+  return isLoading ? (
+    <Loading />
   ) : (
     <Grid
       container
@@ -105,54 +105,58 @@ export default function ResultadoEdital() {
       alignItems="center"
       sx={{ width: "100%" }}
     >
-      <Card>
-        <CardHeader
-          title="Resultado Final Mestrado"
-          titleTypographyProps={{
-            align: "center",
-            variant: "h4",
-          }}
-        />
-        <CardContent sx={{ px: 10 }}>
-          <DataGrid
-            initialState={{
-              sorting: {
-                sortModel: [{ field: "nota_final", sort: "desc" }],
-              },
-            }}
-            disableSelectionOnClick
-            rows={resultadoMestrado}
-            columns={colunas}
-            sx={{
-              width: Math.min(allColumnsWidth + 2, 1000),
-              mb: 5,
-            }}
-          />
-
+      {isEditalArchived ? (
+        <NotArchived />
+      ) : (
+        <Card>
           <CardHeader
-            title="Resultado Final Doutorado"
+            title="Resultado Final Mestrado"
             titleTypographyProps={{
               align: "center",
               variant: "h4",
             }}
           />
+          <CardContent sx={{ px: 10 }}>
+            <DataGrid
+              initialState={{
+                sorting: {
+                  sortModel: [{ field: "nota_final", sort: "desc" }],
+                },
+              }}
+              disableSelectionOnClick
+              rows={resultadoMestrado}
+              columns={colunas}
+              sx={{
+                width: Math.min(allColumnsWidth + 2, 1000),
+                mb: 5,
+              }}
+            />
 
-          <DataGrid
-            initialState={{
-              sorting: {
-                sortModel: [{ field: "nota_final", sort: "desc" }],
-              },
-            }}
-            disableSelectionOnClick
-            rows={resultadoDoutorado}
-            columns={colunas}
-            sx={{
-              width: Math.min(allColumnsWidth + 2, 1000),
-              mb: 5,
-            }}
-          />
-        </CardContent>
-      </Card>
+            <CardHeader
+              title="Resultado Final Doutorado"
+              titleTypographyProps={{
+                align: "center",
+                variant: "h4",
+              }}
+            />
+
+            <DataGrid
+              initialState={{
+                sorting: {
+                  sortModel: [{ field: "nota_final", sort: "desc" }],
+                },
+              }}
+              disableSelectionOnClick
+              rows={resultadoDoutorado}
+              columns={colunas}
+              sx={{
+                width: Math.min(allColumnsWidth + 2, 1000),
+                mb: 5,
+              }}
+            />
+          </CardContent>
+        </Card>
+      )}
     </Grid>
   );
 }
