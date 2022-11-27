@@ -62,7 +62,7 @@ export default function EditalDetails() {
     return date.format("DD/MM/YYYY");
   };
 
-  const BUTTONS_ENUM = {
+  const buttonsEnum = {
     ALUNOS_INSCRITOS: (
       <Button
         type="button"
@@ -131,21 +131,21 @@ export default function EditalDetails() {
 
   const buttonsStudentInscricoesAbertas = (): JSX.Element | null => {
     if (edital?.isInscrito) {
-      return BUTTONS_ENUM.EDIT_DELETE_INSCRICAO;
+      return buttonsEnum.EDIT_DELETE_INSCRICAO;
     }
-    return BUTTONS_ENUM.INSCREVA_SE;
+    return buttonsEnum.INSCREVA_SE;
   };
 
   const buttonsStudentInscricoesFechadas = (): JSX.Element | null => {
     if (edital?.isInscrito) {
-      return BUTTONS_ENUM.VISUALIZAR_INSCRICAO;
+      return buttonsEnum.VISUALIZAR_INSCRICAO;
     }
     return null;
   };
 
   const buttonsResultadosDisponiveis = (): JSX.Element | null => {
     if (auth.isTeacher()) {
-      return BUTTONS_ENUM.ALUNOS_INSCRITOS;
+      return buttonsEnum.ALUNOS_INSCRITOS;
     }
     if (auth.isStudent()) {
       return buttonsStudentInscricoesFechadas();
@@ -158,14 +158,14 @@ export default function EditalDetails() {
       return buttonsStudentInscricoesAbertas();
     }
     if (!auth.isLoggedIn()) {
-      return BUTTONS_ENUM.INSCREVA_SE;
+      return buttonsEnum.INSCREVA_SE;
     }
     return null;
   };
 
   const getButtonsAnaliseInscricoes = (): JSX.Element | null => {
     if (auth.isTeacher()) {
-      return BUTTONS_ENUM.ALUNOS_INSCRITOS;
+      return buttonsEnum.ALUNOS_INSCRITOS;
     }
     return null;
   };
@@ -174,7 +174,7 @@ export default function EditalDetails() {
     return (
       <Grid container justifyContent="center" sx={{ width: "100%", pt: 2 }}>
         {buttonsResultadosDisponiveis()}
-        {BUTTONS_ENUM.RESULTADOS_DISPONIVEIS}
+        {buttonsEnum.RESULTADOS_DISPONIVEIS}
       </Grid>
     );
   };
