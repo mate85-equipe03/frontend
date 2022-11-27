@@ -18,11 +18,13 @@
     "lint-fix": "npm run eslint-fix && npm run stylelint-fix"
   },
   "dependencies": {
+    "@date-io/dayjs": "^2.16.0",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.4",
     "@mui/x-data-grid": "^5.17.6",
+    "@mui/x-date-pickers": "^5.0.9",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.1",
     "moment": "^2.29.4",
