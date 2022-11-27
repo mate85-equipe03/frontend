@@ -12,9 +12,10 @@ import {
   Typography,
   Alert,
 } from "@mui/material";
+
 import { PatternFormat } from "react-number-format";
 import { useNavigate } from "react-router-dom";
-
+import { NomesEtapasEnum } from "../enums/Enums";
 import { Dayjs } from "dayjs";
 import api from "../services/Api";
 import { IDatasEtapas, ICadastroEdital } from "../interfaces/Interfaces";
@@ -179,7 +180,7 @@ export default function NovoEdital() {
             </Typography>
 
             <FormControl required fullWidth margin="normal">
-              <Typography sx={{ pb: 1 }}> Inscrições Abertas</Typography>
+              <Typography sx={{ pb: 1 }}> {NomesEtapasEnum.INSCRICOES_ABERTAS} </Typography>
               <InputData
                 datas={datas}
                 setDatas={setDatas}
@@ -188,7 +189,7 @@ export default function NovoEdital() {
             </FormControl>
 
             <FormControl required fullWidth margin="normal">
-              <Typography sx={{ pb: 1 }}> Análise de Inscrições </Typography>
+              <Typography sx={{ pb: 1 }}> {NomesEtapasEnum.ANALISE_DE_INSCRICOES} </Typography>
               <InputData
                 datas={datas}
                 setDatas={setDatas}
@@ -197,7 +198,7 @@ export default function NovoEdital() {
             </FormControl>
 
             <FormControl required fullWidth margin="normal">
-              <Typography sx={{ pb: 1 }}> Resultados Disponíveis </Typography>
+              <Typography sx={{ pb: 1 }}> {NomesEtapasEnum.RESULTADO_FINAL} </Typography>
               <InputData
                 datas={datas}
                 setDatas={setDatas}
