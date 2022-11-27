@@ -12,7 +12,7 @@ import Loading from "../components/Loading";
 import UserContext from "../context/UserContext";
 import DadosCandidato from "../components/DadosCandidato";
 import { IDetalhesInscricao } from "../interfaces/Interfaces";
-import RevisarAuditarInscricao from "./RevisarAuditarInscricao";
+import RevisarAuditarInscricao from "../components/Inscricao/RevisarAuditarInscricao";
 import {
   getDetalhesInscricaoProfessor,
   getDetailsProcessoSeletivo,
@@ -80,8 +80,7 @@ export default function InscricaoTeacherView() {
           setDadosInscricao(data);
           setIsAuditoria(Boolean(data?.revisor_id));
         })
-        .catch(() => {
-        })
+        .catch(() => {})
         .finally(() => {
           setLoadingDadosAluno(false);
         });
@@ -92,8 +91,7 @@ export default function InscricaoTeacherView() {
           }
           setEditalName(data?.titulo);
         })
-        .catch(() => {
-        })
+        .catch(() => {})
         .finally(() => {
           setLoadingProcessoSeletivo(false);
         });

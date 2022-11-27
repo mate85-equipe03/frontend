@@ -41,8 +41,7 @@ export default function Home() {
     setLoading(true);
     getAllProcessosSeletivos()
       .then(({ data }) => setEditais(data.editais.processos))
-      .catch(() => {
-      })
+      .catch(() => {})
       .finally(() => {
         setLoading(false);
       });

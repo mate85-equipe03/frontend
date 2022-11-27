@@ -42,8 +42,7 @@ export default function EnrolledsList() {
         .then(({ data }) => {
           setEnrolledList(data);
         })
-        .catch(() => {
-        })
+        .catch(() => {})
         .finally(() => {
           setLoadingInscritos(false);
         });
@@ -60,8 +59,7 @@ export default function EnrolledsList() {
       .then(({ data }) => {
         setEditalName(data?.titulo);
       })
-      .catch(() => {
-      })
+      .catch(() => {})
       .finally(() => {
         setLoadingProcesso(false);
       });

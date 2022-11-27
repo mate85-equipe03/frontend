@@ -132,8 +132,7 @@ export default function Cadastro() {
           });
         }
       })
-      .catch(() => {
-      })
+      .catch(() => {})
       .finally(() => {
         setLoading(false);
       });
