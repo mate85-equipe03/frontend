@@ -1,7 +1,7 @@
 import { IUserContext } from "../interfaces/Interfaces";
 
 const auth = {
-  isAuth(): boolean {
+  isLoggedIn(): boolean {
     const storagedUserStr = localStorage.getItem("user");
     if (storagedUserStr) {
       const storagedUser = JSON.parse(storagedUserStr);
@@ -13,7 +13,7 @@ const auth = {
   },
 
   getStoragedUser(): IUserContext | null {
-    if (this.isAuth()) {
+    if (this.isLoggedIn()) {
       const storagedUserStr = localStorage.getItem("user");
       if (storagedUserStr) {
         return JSON.parse(storagedUserStr);
@@ -44,10 +44,6 @@ const auth = {
       return true;
     }
     return false;
-  },
-
-  isLoggedOut(): boolean {
-    return !this.getStoragedUser();
   },
 };
 

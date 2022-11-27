@@ -35,12 +35,12 @@ export default function EditalDetails() {
     navigate(`/edital/${editalId}/inscricao`);
   };
 
-  const redirectToResults = () => {
-    navigate(`/edital/${editalId}/resultado`);
-  };
-
   const redirectToEnrolledList = () => {
     navigate(`/edital/${editalId}/inscritos`);
+  };
+
+  const redirectToResults = () => {
+    navigate(`/edital/${editalId}/resultado`);
   };
 
   useEffect(() => {
@@ -62,8 +62,8 @@ export default function EditalDetails() {
     return date.format("DD/MM/YYYY");
   };
 
-  const buttons = {
-    alunosInscritos: (
+  const BUTTONS_ENUM = {
+    ALUNOS_INSCRITOS: (
       <Button
         type="button"
         onClick={redirectToEnrolledList}
@@ -74,7 +74,7 @@ export default function EditalDetails() {
       </Button>
     ),
 
-    visualizarInscricao: (
+    VISUALIZAR_INSCRICAO: (
       <Button
         type="button"
         onClick={redirectToInscricao}
@@ -85,7 +85,7 @@ export default function EditalDetails() {
       </Button>
     ),
 
-    editDeleteInscricao: edital ? (
+    EDIT_DELETE_INSCRICAO: edital ? (
       <Grid
         container
         justifyContent="space-between"
@@ -106,7 +106,7 @@ export default function EditalDetails() {
       </Grid>
     ) : null,
 
-    inscrevaSe: (
+    INSCREVA_SE: (
       <Button
         type="button"
         onClick={redirectToInscricao}
@@ -117,7 +117,7 @@ export default function EditalDetails() {
       </Button>
     ),
 
-    resultadosDisponiveis: (
+    RESULTADOS_DISPONIVEIS: (
       <Button
         type="button"
         onClick={redirectToResults}
@@ -129,53 +129,52 @@ export default function EditalDetails() {
     ),
   };
 
-  const buttonsInscricoesAbertasStudent = (): JSX.Element | null => {
+  const buttonsStudentInscricoesAbertas = (): JSX.Element | null => {
     if (edital?.isInscrito) {
-      return buttons.editDeleteInscricao;
+      return BUTTONS_ENUM.EDIT_DELETE_INSCRICAO;
     }
-    return buttons.inscrevaSe;
+    return BUTTONS_ENUM.INSCREVA_SE;
   };
 
-  const buttonsInscricoesFechadasStudent = (): JSX.Element | null => {
+  const buttonsStudentInscricoesFechadas = (): JSX.Element | null => {
     if (edital?.isInscrito) {
-      return buttons.visualizarInscricao;
-    }
-    return null;
-  };
-
-  const buttonsInscricoesAbertas = (): JSX.Element | null => {
-    if (auth.isStudent()) {
-      return buttonsInscricoesAbertasStudent();
-    }
-    if (auth.isLoggedOut()) {
-      return buttons.inscrevaSe;
-    }
-    return null;
-  };
-
-  const buttonsResultadosDisponiveis2 = (): JSX.Element | null => {
-    // Inscricões fechadas = Análise de Inscrições OU Resultados Disponíveis
-    if (auth.isTeacher() || auth.isRoot()) {
-      return buttons.alunosInscritos;
-    }
-    if (auth.isStudent()) {
-      return buttonsInscricoesFechadasStudent();
-    }
-    return null;
-  };
-
-  const buttonsAnaliseInscricoes = (): JSX.Element | null => {
-    if (auth.isTeacher() || auth.isRoot()) {
-      return buttons.alunosInscritos;
+      return BUTTONS_ENUM.VISUALIZAR_INSCRICAO;
     }
     return null;
   };
 
   const buttonsResultadosDisponiveis = (): JSX.Element | null => {
+    if (auth.isTeacher()) {
+      return BUTTONS_ENUM.ALUNOS_INSCRITOS;
+    }
+    if (auth.isStudent()) {
+      return buttonsStudentInscricoesFechadas();
+    }
+    return null;
+  };
+
+  const getButtonsInscricoesAbertas = (): JSX.Element | null => {
+    if (auth.isStudent()) {
+      return buttonsStudentInscricoesAbertas();
+    }
+    if (!auth.isLoggedIn()) {
+      return BUTTONS_ENUM.INSCREVA_SE;
+    }
+    return null;
+  };
+
+  const getButtonsAnaliseInscricoes = (): JSX.Element | null => {
+    if (auth.isTeacher()) {
+      return BUTTONS_ENUM.ALUNOS_INSCRITOS;
+    }
+    return null;
+  };
+
+  const getButtonsResultadosDisponiveis = (): JSX.Element | null => {
     return (
       <Grid container justifyContent="center" sx={{ width: "100%", pt: 2 }}>
-        {buttonsResultadosDisponiveis2()}
-        {buttons.resultadosDisponiveis}
+        {buttonsResultadosDisponiveis()}
+        {BUTTONS_ENUM.RESULTADOS_DISPONIVEIS}
       </Grid>
     );
   };
@@ -188,11 +187,11 @@ export default function EditalDetails() {
 
     switch (etapa) {
       case 0: // "inscrições abertas"
-        return buttonsInscricoesAbertas();
+        return getButtonsInscricoesAbertas();
       case 1: // "análise de inscrições"
-        return buttonsAnaliseInscricoes();
+        return getButtonsAnaliseInscricoes();
       case 2: // "resultados disponíveis"
-        return buttonsResultadosDisponiveis();
+        return getButtonsResultadosDisponiveis();
       default: {
         return null;
       }
