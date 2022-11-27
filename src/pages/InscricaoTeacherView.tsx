@@ -11,25 +11,32 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import UserContext from "../context/UserContext";
 import DadosCandidato from "../components/DadosCandidato";
-import { IDetalhesInscricao } from "../interfaces/Interfaces";
-import RevisarAuditarInscricao from "./RevisarAuditarInscricao";
+import { IDetalhesInscricao, IEdital, IEtapa } from "../interfaces/Interfaces";
+import RevisarAuditarInscricao from "../components/Inscricao/RevisarAuditarInscricao";
 import {
   getDetalhesInscricaoProfessor,
   getDetailsProcessoSeletivo,
+  getEtapaAtualProcessoSeletivo,
 } from "../services/Api";
+import { EtapasEnum } from "../enums/Enums";
+import editalService from "../services/Edital";
 
 export default function InscricaoTeacherView() {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [loadingDadosAluno, setLoadingDadosAluno] = useState<boolean>(false);
+  const [loadingEtapaAtual, setLoadingEtapaAtual] = useState<boolean>(false);
   const [loadingProcessoSeletivo, setLoadingProcessoSeletivo] =
     useState<boolean>(false);
   const [inscricaoError, setInscricaoError] = React.useState<boolean>(false);
-  const [editalName, setEditalName] = useState<string>();
+  const [edital, setEdital] = useState<IEdital | null>(null);
   const [dadosInscricao, setDadosInscricao] = useState<IDetalhesInscricao>();
+  const [etapaAtual, setEtapaAtual] = useState<IEtapa | null>(null);
   const [isAuditoria, setIsAuditoria] = React.useState<boolean>(false);
   const [readOnly, setReadOnly] = React.useState<boolean>(false);
   const [warningMessage, setWarningMessage] = React.useState<string>();
+  const [isAnaliseDeInscricoes, setIsAnaliseDeInscricoes] =
+    React.useState<boolean>(false);
 
   const params = useParams();
   const editalId = Number(params.editalId) ? Number(params.editalId) : null;
@@ -71,6 +78,7 @@ export default function InscricaoTeacherView() {
 
     if (user && editalId && inscricaoId) {
       setLoadingDadosAluno(true);
+      setLoadingEtapaAtual(true);
       setLoadingProcessoSeletivo(true);
       getDetalhesInscricaoProfessor(inscricaoId, editalId)
         .then(({ data }) => {
@@ -80,29 +88,53 @@ export default function InscricaoTeacherView() {
           setDadosInscricao(data);
           setIsAuditoria(Boolean(data?.revisor_id));
         })
-        .catch(() => {
-          // TODO: Ver como exibir erros va View
-        })
+        .catch()
         .finally(() => {
           setLoadingDadosAluno(false);
         });
       getDetailsProcessoSeletivo(editalId)
         .then(({ data }) => {
-          if (data?.arquivado) {
-            setReadOnly(true);
-          }
-          setEditalName(data?.titulo);
+          setEdital(data);
         })
-        .catch(() => {
-          // TODO: Ver como exibir erros va View
-        })
+        .catch()
         .finally(() => {
           setLoadingProcessoSeletivo(false);
+        });
+      getEtapaAtualProcessoSeletivo(Number(editalId))
+        .then(({ data }) => {
+          setEtapaAtual(data);
+        })
+        .catch()
+        .finally(() => {
+          setLoadingEtapaAtual(false);
         });
     }
   }, [editalId, navigate, user, inscricaoId]);
 
-  return loadingProcessoSeletivo ? (
+  useEffect(() => {
+    const etapasDisabled = [
+      EtapasEnum.INSCRICOES_ABERTAS,
+      EtapasEnum.RESULTADO_FINAL,
+    ];
+
+    if (etapaAtual !== null && edital !== null) {
+      const isEtapaDisabled = editalService.isEtapaValida(
+        etapaAtual,
+        edital,
+        etapasDisabled
+      );
+
+      if (isEtapaDisabled) {
+        setReadOnly(true);
+      }
+
+      setIsAnaliseDeInscricoes(
+        editalService.isAnaliseDeInscricoes(etapaAtual, edital)
+      );
+    }
+  }, [etapaAtual, edital, editalId]);
+
+  return loadingEtapaAtual || loadingProcessoSeletivo ? (
     <Loading />
   ) : (
     <Grid
@@ -115,7 +147,7 @@ export default function InscricaoTeacherView() {
       {inscricaoError && (
         <Alert severity="error">Ocorreu um erro. Tente novamente.</Alert>
       )}
-      {(readOnly || warningMessage) && (
+      {isAnaliseDeInscricoes && warningMessage && (
         <Alert severity="warning">{warningMessage}</Alert>
       )}
       <Card sx={{ width: 800, mt: 5 }}>
@@ -127,7 +159,7 @@ export default function InscricaoTeacherView() {
             p: 1,
           }}
           sx={{ px: 3 }}
-          subheader={editalName}
+          subheader={edital?.titulo}
           subheaderTypographyProps={{
             align: "center",
           }}

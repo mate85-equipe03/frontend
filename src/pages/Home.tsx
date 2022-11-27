@@ -8,8 +8,6 @@ import {
   Divider,
   Button,
 } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
 import { useNavigate, useLocation } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import moment from "moment";
@@ -19,11 +17,14 @@ import { getAllProcessosSeletivos } from "../services/Api";
 import Loading from "../components/Loading";
 import UserContext from "../context/UserContext";
 import PDFFile from "../components/PDFFile";
-import Auth from "../services/Auth";
+import auth from "../services/Auth";
+import Inscrito from "../components/Inscrito";
+import editalService from "../services/Edital";
 
 export default function Home() {
   const navigate = useNavigate();
   const location = useLocation();
+  const signUpSuccess = location.state ? "signUp" in location.state : false;
   const signOutSuccess = location.state ? "signOut" in location.state : false;
   const signInSuccess = location.state ? "signIn" in location.state : false;
   const editSuccess = location.state ? "edit" in location.state : false;
@@ -38,26 +39,22 @@ export default function Home() {
   const [editais, setEditais] = useState<IEdital[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isAluno, setIsAluno] = useState<boolean>(false);
+  const [isRoot, setIsRoot] = useState<boolean>(false);
 
   const redirectToNovoEdital = () => {
     navigate("/edital/novo");
   };
 
   useEffect(() => {
-    if (user?.role === "ALUNO") {
-      setIsAluno(true);
-    } else {
-      setIsAluno(false);
-    }
+    setIsAluno(auth.isStudent());
+    setIsRoot(auth.isRoot());
   }, [user]);
 
   useEffect(() => {
     setLoading(true);
     getAllProcessosSeletivos()
       .then(({ data }) => setEditais(data.editais.processos))
-      .catch(() => {
-        // TODO: Ver como exibir erros va View
-      })
+      .catch()
       .finally(() => {
         setLoading(false);
       });
@@ -82,6 +79,11 @@ export default function Home() {
     if (novoEditalSuccess) {
       return "Novo Processo Seletivo criado com sucesso.";
     }
+
+    if (signUpSuccess) {
+      return "Cadastro de professor realizado com sucesso.";
+    }
+
     return null;
   };
 
@@ -91,6 +93,10 @@ export default function Home() {
 
   const handleLinkClick = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
+  };
+
+  const redirectToCadastroTeacher = () => {
+    navigate("/cadastro-professor");
   };
 
   const dateToStr = (rawDate: string) => {
@@ -120,17 +126,7 @@ export default function Home() {
       hide: !isAluno,
       valueGetter: (params) => params.row.isInscrito,
       renderCell: (cellValues) => {
-        return cellValues.row.isInscrito ? (
-          <Grid sx={{ color: "success.main", fontWeight: "bold" }}>
-            <CheckCircleIcon fontSize="small" sx={{ mr: 0.5 }} />
-            Inscrito(a)
-          </Grid>
-        ) : (
-          <Grid sx={{ color: "error.main", fontWeight: "bold" }}>
-            <CancelIcon fontSize="small" sx={{ mr: 0.5 }} />
-            Não Inscrito(a)
-          </Grid>
-        );
+        return <Inscrito isInscrito={cellValues.row.isInscrito} />;
       },
     },
     {
@@ -147,9 +143,16 @@ export default function Home() {
       width: 270,
       valueGetter: (params) => {
         const { etapas } = params.row;
-        return etapas.length > 0
-          ? `${etapas[0].name} (até ${dateToStr(etapas[0].data_fim)})`
-          : "Resultados disponíveis";
+        // TODO: Pegar etapa_atual quando o back mandar
+        if (etapas.length > 0) {
+          const etapaAtual = editalService.etapaAtual(etapas[0], params.row);
+          const nomeDaEtapa = editalService.nomeDaEtapa(etapaAtual);
+          const dataFim = dateToStr(etapas[0].data_fim);
+          if (nomeDaEtapa) {
+            return `${nomeDaEtapa} (até ${dataFim})`;
+          }
+        }
+        return "";
       },
     },
   ];
@@ -176,7 +179,7 @@ export default function Home() {
         </Alert>
       )}
 
-      {Auth.isRoot() && (
+      {auth.isRoot() && (
         <Grid>
           <Button
             type="button"
@@ -187,7 +190,12 @@ export default function Home() {
             <Add fontSize="small" sx={{ mr: 1 }} /> Novo Processo Seletivo
           </Button>
 
-          <Button type="button" size="large" sx={{ mx: 1 }}>
+          <Button
+            type="button"
+            size="large"
+            onClick={redirectToCadastroTeacher}
+            sx={{ mx: 1 }}
+          >
             {/* @Kennedy POSG-120  */}
             <Add fontSize="small" sx={{ mr: 1 }} /> Cadastrar Professor
           </Button>

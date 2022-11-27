@@ -6,6 +6,7 @@ import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
 import Cadastro from "../pages/Cadastro";
 import NovoEdital from "../pages/NovoEdital";
+import CadastroTeacher from "../pages/CadastroTeacher";
 
 const studentRoutes: RouteProps[] = [
   { path: "/edital/:editalId/inscricao", element: <InscricaoStudentView /> },
@@ -25,17 +26,18 @@ const rootRoutes: RouteProps[] = [
     path: "/edital/novo",
     element: <NovoEdital />,
   },
+  { path: "/cadastro-professor", element: <CadastroTeacher /> },
 ];
 
 const ProtectedRoutes = (): JSX.Element[] => {
   /* 
     Se NÃO estiver logado(a), redireciona para o login caso tente acessar alguma das ProtectedRoutes
   */
-  if (!auth.isAuth()) {
+  if (!auth.isLoggedIn()) {
     return [
-      ...routesWithRedirect(!auth.isAuth(), "/login", studentRoutes),
-      ...routesWithRedirect(!auth.isAuth(), "/login", teacherRoutes),
-      ...routesWithRedirect(!auth.isAuth(), "/login", rootRoutes),
+      ...routesWithRedirect(!auth.isLoggedIn(), "/login", studentRoutes),
+      ...routesWithRedirect(!auth.isLoggedIn(), "/login", teacherRoutes),
+      ...routesWithRedirect(!auth.isLoggedIn(), "/login", rootRoutes),
     ];
   }
 

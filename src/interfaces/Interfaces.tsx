@@ -33,7 +33,8 @@ export interface ICategoria {
   pontuacao: string;
 }
 
-export interface IDetails {
+export interface IEdital {
+  id: number;
   titulo: string;
   semestre: string;
   descricao: string;
@@ -43,6 +44,14 @@ export interface IDetails {
   isInscrito: boolean;
   idInscricao: number;
   categorias_producao: ICategoria[];
+}
+
+export interface IEditais {
+  processos: IEdital[];
+}
+
+export interface IEditaisReq {
+  editais: IEditais;
 }
 
 export interface IInscritos {
@@ -182,20 +191,6 @@ export interface IRevisarAuditar {
   observacao: string;
 }
 
-export interface IEdital {
-  id: number;
-  titulo: string;
-  etapas: IEtapa[];
-}
-
-export interface IEditais {
-  processos: IEdital[];
-}
-
-export interface IEditaisReq {
-  editais: IEditais;
-}
-
 export interface ISignUpData {
   nome: string;
   login: string;
@@ -205,6 +200,16 @@ export interface ISignUpData {
   semestre_pgcomp: string;
   curso: string;
   lattes_link: string;
+  email: string;
+  telefone: string;
+}
+
+export interface ISignUpDataTeacher {
+  nome: string;
+  login: string;
+  siape: string;
+  senha: string;
+  confirmacaoSenha: string;
   email: string;
   telefone: string;
 }

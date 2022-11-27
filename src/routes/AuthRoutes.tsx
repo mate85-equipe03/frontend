@@ -18,6 +18,6 @@ const authRoutes: RouteProps[] = [
   Se o(a) usuário(a) JÁ estiver logado(a), redireciona-o(a) para a home caso tente acessar alguma das AuthRoutes
 */
 const AuthRoutes = (): JSX.Element[] =>
-  routesWithRedirect(auth.isAuth(), "/", authRoutes);
+  routesWithRedirect(auth.isLoggedIn(), "/", authRoutes);
 
 export default AuthRoutes;
