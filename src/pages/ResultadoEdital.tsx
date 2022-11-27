@@ -95,7 +95,7 @@ export default function ResultadoEdital() {
     return width ? acc + width : acc;
   }, 0);
 
-  return isEditalArchived ? (
+  return !isEditalArchived ? (
     <NotArchived />
   ) : (
     <Grid
