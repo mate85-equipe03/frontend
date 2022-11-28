@@ -18,7 +18,7 @@ import {
   IHistorico,
 } from "../../interfaces/Interfaces";
 import BtnSubmitLoading from "../BtnSubmitLoading";
-import ProducoesCientificas from "./ProducoesCientificasDjair";
+import ProducoesCientificas from "./ProducoesCientificas";
 import Loading from "../Loading";
 import AttachInput from "../AttachInput";
 

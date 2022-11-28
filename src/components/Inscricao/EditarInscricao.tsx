@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import FormInscricao from "./FormInscricao";
-import ProducoesCientificas from "./ProducoesCientificasDjair";
+import ProducoesCientificas from "./ProducoesCientificas";
 import { getDetalhesInscricaoAluno, patchInscricao } from "../../services/Api";
 import {
   IDetalhesInscricao,

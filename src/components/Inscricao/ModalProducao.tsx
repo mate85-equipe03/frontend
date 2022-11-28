@@ -221,9 +221,9 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
 
                 <FormControl required fullWidth margin="normal">
                   <AttachInput
+                    multipleFiles={false}
                     inputName="producao_cientifica_file"
                     label="Anexo"
-                    multipleFiles
                     files={producaoData.files}
                     setFiles={setProducaoFile}
                   />

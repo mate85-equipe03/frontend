@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Grid, Typography } from "@mui/material";
-import ProducoesCientificas from "./ProducoesCientificasDjair";
+import ProducoesCientificas from "./ProducoesCientificas";
 
 interface IProps {
   editalId: number;
