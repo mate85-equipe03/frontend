@@ -216,7 +216,7 @@ export default function Home() {
         return (
           <IconButton
             onClick={() => {
-              handleRowClick;
+              handleRowClick();
               navigate(`/edital/${cellValues.row.id}/editar`);
             }}
           >
