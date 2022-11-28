@@ -56,8 +56,8 @@ export default function ResultadoEdital() {
 
       getEtapaAtualProcessoSeletivo(editalIdNumber)
         .then(({ data }) => {
-          const isResultadoFinal = editalService.isResultadoDisponivel(data);
-          if (!isResultadoFinal) {
+          const isResultadoDisponivel = editalService.isResultadoDisponivel(data);
+          if (!isResultadoDisponivel) {
             redirectToDetails();
           }
         })

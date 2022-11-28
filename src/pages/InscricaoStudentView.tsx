@@ -88,7 +88,7 @@ export default function InscricaoStudentView() {
         etapasValidas
       );
 
-      const isResultadoFinal = editalService.isResultadoDisponivel(etapaAtual);
+      const isResultadoDisponivel = editalService.isResultadoDisponivel(etapaAtual);
 
       if (!isEtapaValida) {
         redirectToDetails();
