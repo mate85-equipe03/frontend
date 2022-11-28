@@ -48,7 +48,6 @@ export default function ResultadoEdital() {
       getResultadoMestrado(editalIdNumber)
         .then(({ data }) => {
           setResultadoMestrado(data);
-          console.log(data)
         })
         .catch()
         .finally(() => {
@@ -58,7 +57,6 @@ export default function ResultadoEdital() {
       getResultadoDoutorado(editalIdNumber)
         .then(({ data }) => {
           setResultadoDoutorado(data);
-          console.log(data)
         })
         .catch()
         .finally(() => {
