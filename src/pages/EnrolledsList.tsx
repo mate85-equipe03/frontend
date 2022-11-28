@@ -240,7 +240,7 @@ export default function EnrolledsList() {
           />
         </CardContent>
       </Card>
-      {faltaRevisarOuAuditar && (
+      {!faltaRevisarOuAuditar && (
         <Button type="button" size="large" sx={{ m: 2 }}>
           Liberar Resultado
         </Button>
