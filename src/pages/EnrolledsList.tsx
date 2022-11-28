@@ -14,7 +14,11 @@ import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import WarningIcon from "@mui/icons-material/Warning";
 import CheckIcon from "@mui/icons-material/Check";
-import { getEnrolledList, getDetailsProcessoSeletivo } from "../services/Api";
+import {
+  getEnrolledList,
+  getDetailsProcessoSeletivo,
+  patchLiberarResultado,
+} from "../services/Api";
 import { IADetalhes } from "../interfaces/Interfaces";
 import UserContext from "../context/UserContext";
 import Loading from "../components/Loading";
@@ -30,8 +34,8 @@ export default function EnrolledsList() {
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
   const [loadingInscritos, setLoadingInscritos] = useState<boolean>(false);
   const [loadingProcesso, setLoadingProcesso] = useState<boolean>(false);
-  const [loadingBotãoLiberar, setLoadingBotãoLiberar] =
-    useState<boolean>(false);
+  /* const [loadingPatchLiberarResultado, setLoadingPatchLiberarResultado] =
+    useState<boolean>(false); */
   const [faltaRevisarOuAuditar, setFaltaRevisarOuAuditar] =
     useState<boolean>(true);
 
@@ -59,7 +63,10 @@ export default function EnrolledsList() {
     navigate(`/edital/${editalId}/inscritos/${params.row.id}`);
   };
 
-  /* const handleClickLiberarResultado = () => {}; */
+  const handleClickLiberarResultado = () => {
+    /* setLoadingPatchLiberarResultado(true); */
+    patchLiberarResultado(Number(editalId)).then().catch().finally();
+  };
 
   useEffect(() => {
     setLoadingProcesso(true);
@@ -74,7 +81,6 @@ export default function EnrolledsList() {
   }, [editalId]);
 
   useEffect(() => {
-    setLoadingBotãoLiberar(true);
     if (enrolledList) {
       enrolledList.map((aluno) => {
         if (aluno.revisor || aluno.auditor === null) {
@@ -85,7 +91,6 @@ export default function EnrolledsList() {
         return faltaRevisarOuAuditar;
       });
     }
-    setLoadingBotãoLiberar(false);
   }, [faltaRevisarOuAuditar, enrolledList]);
 
   const checkSuccessMessage = (): string | null => {
@@ -198,7 +203,7 @@ export default function EnrolledsList() {
 
   const successMessage = checkSuccessMessage();
 
-  return loadingInscritos || loadingProcesso || loadingBotãoLiberar ? (
+  return loadingInscritos || loadingProcesso ? (
     <Loading />
   ) : (
     <Grid
@@ -220,14 +225,20 @@ export default function EnrolledsList() {
         >
           <span>
             <Button type="button" size="large" sx={{ m: 2 }} disabled>
-              <WarningIcon sx={{ mr: 0.5 }}/>
+              <WarningIcon sx={{ mr: 0.5 }} />
               Liberar Resultado
             </Button>
           </span>
         </Tooltip>
       ) : (
-        <Button type="button" size="large" sx={{ m: 2 }} disabled={false}>
-          <CheckIcon sx={{ mr: 0.5 }} />
+        <Button
+          type="button"
+          size="large"
+          onClick={handleClickLiberarResultado}
+          sx={{ m: 2 }}
+          disabled={false}
+        >
+          <CheckIcon />
           Liberar Resultado
         </Button>
       )}
