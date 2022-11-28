@@ -117,7 +117,6 @@ export default function NovoEdital() {
 
   useEffect(() => {
     if (Number(editalId)) {
-      // Loading
       setLoadingDetalhesProsel(true);
 
       getDetailsProcessoSeletivo(Number(editalId))
@@ -147,36 +146,19 @@ export default function NovoEdital() {
             });
 
             setDatas({
-              etapa_inscricao_inicio: dayjs(etapas.inscricao.data_inicio).add(
-                1,
-                "day"
-              ),
-              etapa_inscricao_fim: dayjs(etapas.inscricao.data_fim).add(
-                1,
-                "day"
-              ),
-              etapa_analise_inicio: dayjs(etapas.analise.data_inicio).add(
-                1,
-                "day"
-              ),
-              etapa_analise_fim: dayjs(etapas.analise.data_fim).add(1, "day"),
-              etapa_resultado_inicio: dayjs(etapas.resultado.data_inicio).add(
-                1,
-                "day"
-              ),
-              etapa_resultado_fim: dayjs(etapas.resultado.data_fim).add(
-                1,
-                "day"
-              ),
-              // add 1 dia para ajustar conversão da data. TODO: Verificar configurações de fuso horario?
+              etapa_inscricao_inicio: dayjs(etapas.inscricao.data_inicio).add(3, 'hour'),
+              etapa_inscricao_fim: dayjs(etapas.inscricao.data_fim).add(3, 'hour'),
+              etapa_analise_inicio: dayjs(etapas.analise.data_inicio).add(3, 'hour'),
+              etapa_analise_fim: dayjs(etapas.analise.data_fim).add(3, 'hour'),
+              etapa_resultado_inicio: dayjs(etapas.resultado.data_inicio).add(3, 'hour'),
+              etapa_resultado_fim: dayjs(etapas.resultado.data_fim).add(3, 'hour'),
+              // add diferença de fuso horário
             });
-
-            setLoadingDetalhesProsel(false);
           }
         })
         .catch()
         .finally(() => {
-          // setLoadingEdital(false);
+          setLoadingDetalhesProsel(false);
         });
     }
   }, [editalId]);
