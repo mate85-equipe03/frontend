@@ -13,7 +13,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import WarningIcon from "@mui/icons-material/Warning";
-import { Error } from "@mui/icons-material";
+import CheckIcon from "@mui/icons-material/Check";
 import { getEnrolledList, getDetailsProcessoSeletivo } from "../services/Api";
 import { IADetalhes } from "../interfaces/Interfaces";
 import UserContext from "../context/UserContext";
@@ -213,6 +213,25 @@ export default function EnrolledsList() {
           {successMessage}
         </Alert>
       )}
+      {faltaRevisarOuAuditar ? (
+        <Tooltip
+          title="Para liberar o resultado, todas as inscrições têm que estar revisadas e auditadas."
+          followCursor
+        >
+          <span>
+            <Button type="button" size="large" sx={{ m: 2 }} disabled>
+              <WarningIcon />
+              Liberar Resultado
+            </Button>
+          </span>
+        </Tooltip>
+      ) : (
+        <Button type="button" size="large" sx={{ m: 2 }} disabled={false}>
+          <CheckIcon />
+          Liberar Resultado
+        </Button>
+      )}
+
       <Card sx={{ py: 2, mt: 5 }}>
         <CardHeader
           title="Estudantes Inscritos(as)"
@@ -244,22 +263,6 @@ export default function EnrolledsList() {
           />
         </CardContent>
       </Card>
-      <Tooltip
-        title="Para liberar o resultado, todas as inscrições têm que estar revisadas e auditadas."
-        followCursor
-      >
-        <span>
-          <Button
-            type="button"
-            startIcon={<Error />}
-            size="large"
-            sx={{ m: 2 }}
-            disabled={faltaRevisarOuAuditar}
-          >
-            Liberar Resultado
-          </Button>
-        </span>
-      </Tooltip>
     </Grid>
   );
 }
