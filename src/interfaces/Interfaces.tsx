@@ -44,6 +44,7 @@ export interface IEdital {
   isInscrito: boolean;
   idInscricao: number;
   categorias_producao: ICategoria[];
+  resultado_liberado: boolean;
 }
 
 export interface IEditais {

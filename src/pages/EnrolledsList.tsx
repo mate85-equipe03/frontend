@@ -34,10 +34,12 @@ export default function EnrolledsList() {
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
   const [loadingInscritos, setLoadingInscritos] = useState<boolean>(false);
   const [loadingProcesso, setLoadingProcesso] = useState<boolean>(false);
-  /* const [loadingPatchLiberarResultado, setLoadingPatchLiberarResultado] =
-    useState<boolean>(false); */
+  const [loadingPatchLiberarResultado, setLoadingPatchLiberarResultado] =
+    useState<boolean>(false);
   const [faltaRevisarOuAuditar, setFaltaRevisarOuAuditar] =
     useState<boolean>(true);
+  const [isResultadoLiberado, setIsResultadoLiberado] =
+    useState<boolean>(false);
 
   const revisaoSuccess = location.state ? "revisao" in location.state : false;
   const auditoriaSuccess = location.state
@@ -51,6 +53,9 @@ export default function EnrolledsList() {
       getEnrolledList(editalId)
         .then(({ data }) => {
           setEnrolledList(data);
+          setFaltaRevisarOuAuditar(
+            data.some((inscricao) => !inscricao.revisor || !inscricao.auditor)
+          );
         })
         .catch()
         .finally(() => {
@@ -64,8 +69,11 @@ export default function EnrolledsList() {
   };
 
   const handleClickLiberarResultado = () => {
-    /* setLoadingPatchLiberarResultado(true); */
-    patchLiberarResultado(Number(editalId)).then().catch().finally();
+    setLoadingPatchLiberarResultado(true);
+    patchLiberarResultado(Number(editalId))
+      .then(() => navigate("/", { state: { resultadoLiberado: true } }))
+      .catch()
+      .finally(() => setLoadingPatchLiberarResultado(false));
   };
 
   useEffect(() => {
@@ -73,25 +81,13 @@ export default function EnrolledsList() {
     getDetailsProcessoSeletivo(editalId)
       .then(({ data }) => {
         setEditalName(data?.titulo);
+        setIsResultadoLiberado(data?.resultado_liberado);
       })
       .catch()
       .finally(() => {
         setLoadingProcesso(false);
       });
   }, [editalId]);
-
-  useEffect(() => {
-    if (enrolledList) {
-      enrolledList.map((aluno) => {
-        if (aluno.revisor || aluno.auditor === null) {
-          setFaltaRevisarOuAuditar(true);
-        } else {
-          setFaltaRevisarOuAuditar(false);
-        }
-        return faltaRevisarOuAuditar;
-      });
-    }
-  }, [faltaRevisarOuAuditar, enrolledList]);
 
   const checkSuccessMessage = (): string | null => {
     if (revisaoSuccess) {
@@ -203,6 +199,39 @@ export default function EnrolledsList() {
 
   const successMessage = checkSuccessMessage();
 
+  const getButtonResultado = (): JSX.Element => {
+    return faltaRevisarOuAuditar ? (
+      <Tooltip
+        title="Para liberar o resultado, todas as inscrições têm que estar revisadas e auditadas."
+        followCursor
+      >
+        <span>
+          <Button type="button" size="large" sx={{ m: 2 }} disabled>
+            <WarningIcon sx={{ mr: 1 }} />
+            Liberar Resultado
+          </Button>
+        </span>
+      </Tooltip>
+    ) : (
+      <Button
+        type="button"
+        size="large"
+        onClick={handleClickLiberarResultado}
+        sx={{ m: 2 }}
+        disabled={loadingPatchLiberarResultado}
+      >
+        {loadingPatchLiberarResultado ? (
+          <Loading />
+        ) : (
+          <>
+            <CheckIcon sx={{ mr: 1 }} />
+            Liberar Resultado
+          </>
+        )}
+      </Button>
+    );
+  };
+
   return loadingInscritos || loadingProcesso ? (
     <Loading />
   ) : (
@@ -218,29 +247,14 @@ export default function EnrolledsList() {
           {successMessage}
         </Alert>
       )}
-      {faltaRevisarOuAuditar ? (
-        <Tooltip
-          title="Para liberar o resultado, todas as inscrições têm que estar revisadas e auditadas."
-          followCursor
-        >
-          <span>
-            <Button type="button" size="large" sx={{ m: 2 }} disabled>
-              <WarningIcon sx={{ mr: 0.5 }} />
-              Liberar Resultado
-            </Button>
-          </span>
-        </Tooltip>
+
+      {isResultadoLiberado ? (
+        <Grid sx={{ color: "success.main", fontWeight: "bold" }}>
+          <CheckCircleIcon fontSize="small" sx={{ mr: 1 }} />O resultado já foi
+          liberado
+        </Grid>
       ) : (
-        <Button
-          type="button"
-          size="large"
-          onClick={handleClickLiberarResultado}
-          sx={{ m: 2 }}
-          disabled={false}
-        >
-          <CheckIcon />
-          Liberar Resultado
-        </Button>
+        getButtonResultado()
       )}
 
       <Card sx={{ py: 2, mt: 5 }}>
