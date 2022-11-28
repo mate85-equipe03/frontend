@@ -79,26 +79,23 @@ export default function InscricaoStudentView() {
 
     const etapasValidas = [
       EtapasEnum.INSCRICOES_ABERTAS,
-      EtapasEnum.RESULTADO_FINAL,
+      EtapasEnum.RESULTADO_DISPONIVEL,
     ];
 
     if (etapaAtual !== null && edital !== null) {
       const isEtapaValida = editalService.isEtapaValida(
         etapaAtual,
-        edital,
         etapasValidas
       );
 
-      const isResultadoFinal = editalService.isResultadoFinal(
-        etapaAtual,
-        edital
-      );
+      const isResultadoDisponivel =
+        editalService.isResultadoDisponivel(etapaAtual);
 
       if (!isEtapaValida) {
         redirectToDetails();
       }
 
-      if (isResultadoFinal) {
+      if (isResultadoDisponivel) {
         if (inscricaoId) {
           setReadOnly(true);
         } else {
