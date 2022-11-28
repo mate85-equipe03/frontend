@@ -17,7 +17,12 @@ import { PatternFormat } from "react-number-format";
 import { useNavigate, useParams } from "react-router-dom";
 import dayjs, { Dayjs } from "dayjs";
 import { NomesEtapasEnum } from "../enums/Enums";
-import { getDetailsProcessoSeletivo, postNovoEdital } from "../services/Api";
+import {
+  getDetailsProcessoSeletivo,
+  postNovoProsel,
+  editProsel,
+  editDatasProsel,
+} from "../services/Api";
 import {
   IDatasEtapas,
   ICadastroEdital,
@@ -25,6 +30,7 @@ import {
 } from "../interfaces/Interfaces";
 import BtnSubmitLoading from "../components/BtnSubmitLoading";
 import InputData from "../components/InputData";
+import EditalDetails from "./DetalhesEdital";
 
 export default function NovoEdital() {
   const navigate = useNavigate();
@@ -87,16 +93,31 @@ export default function NovoEdital() {
 
   const [edital, setEdital] = useState<IEdital | null>(null);
 
+  const [etapasId, setEtapasId] = React.useState({
+    //TODO: interface
+    etapa_inscricao: -1,
+    etapa_analise: -1,
+    etapa_resultado: -1,
+  });
+
   useEffect(() => {
     if (Number(editalId)) {
       getDetailsProcessoSeletivo(Number(editalId))
         .then(({ data }) => {
+          // console.log(data);
+
           setCadastroEdital({
             ...cadastroEdital,
             titulo: data.titulo,
             descricao: data.descricao,
             semestre: data.semestre,
             edital_url: data.edital_url,
+          });
+
+          setEtapasId({
+            etapa_inscricao: data.etapas[0].id,
+            etapa_analise: data.etapas[1].id,
+            etapa_resultado: data.etapas[2].id,
           });
 
           setDatas({
@@ -123,10 +144,47 @@ export default function NovoEdital() {
 
     console.log(cadastroEdital);
 
-    if (Number(editalId)) {
-      //editaInscrição
+    if (editalId) {
+      // Edição
+      console.log("EDIT");
+
+      editProsel(editalId, cadastroEdital)
+        .then((data) => {
+          // console.log(data);
+          // setNovoEditalError(false);
+          // navigate("/", { state: { novoEdital: true } });
+        })
+        .catch(() => {
+          setNovoEditalError(true);
+        })
+        .finally(() => {
+          setLoadingBtn(false);
+          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        });
+
+      // etapasId.map((etapaId:number) => {
+
+      const novasDatas = {
+        data_inicio: cadastroEdital.etapa_inscricao_inicio,
+        data_fim: cadastroEdital.etapa_inscricao_fim,
+      };
+
+      console.log(editalId, novasDatas);
+
+      editDatasProsel(editalId, etapasId.etapa_inscricao, novasDatas)
+        .then((data) => {
+          console.log(data);
+        })
+        .catch(() => {
+          setNovoEditalError(true);
+        })
+        .finally(() => {
+          // setLoadingBtn(false);
+          // window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        });
     } else {
-      postNovoEdital(cadastroEdital)
+      // Criação
+      postNovoProsel(cadastroEdital)
         .then(() => {
           setNovoEditalError(false);
           navigate("/", { state: { novoEdital: true } });
@@ -155,7 +213,7 @@ export default function NovoEdital() {
       )}
       <Card sx={{ minWidth: 275, maxWidth: 500, pb: 4 }}>
         <CardHeader
-          title="Cadastrar Processo Seletivo"
+          title={(editalId ? "Editar" : "Cadastrar") + " Processo Seletivo"}
           titleTypographyProps={{
             align: "center",
             variant: "h4",
