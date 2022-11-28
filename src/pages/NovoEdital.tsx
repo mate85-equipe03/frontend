@@ -143,7 +143,7 @@ export default function NovoEdital() {
             });
 
             setDatas({
-              etapa_inscricao_inicio: dayjs(etapas.inscricao.data_fim), 
+              etapa_inscricao_inicio: dayjs(etapas.inscricao.data_fim),
               etapa_inscricao_fim: dayjs(etapas.inscricao.data_fim),
               etapa_analise_inicio: dayjs(etapas.analise.data_inicio),
               etapa_analise_fim: dayjs(etapas.analise.data_fim),
@@ -154,7 +154,6 @@ export default function NovoEdital() {
         })
         .catch()
         .finally(() => {
-
           // reload page
           // setLoadingEdital(false);
         });
@@ -184,25 +183,52 @@ export default function NovoEdital() {
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         });
 
-      // etapasId.map((etapaId:number) => {
+      const editDatas = (
+        // melhoria: passar etapa e filtrar id e nome
+        etapaId: number,
+        data_inicio: string,
+        data_fim: string
+        // SETLOADING
+      ) => {
+        //setLoading
+        const novasDatas = {
+          data_inicio,
+          data_fim,
+        };
 
-      const novasDatas = {
-        data_inicio: cadastroEdital.etapa_inscricao_inicio,
-        data_fim: cadastroEdital.etapa_inscricao_fim,
+        editDatasProsel(editalId, etapaId, novasDatas)
+          .then((data) => {
+            console.log(data);
+          })
+          .catch(() => {
+            setNovoEditalError(true);
+          })
+          .finally(() => {
+            // setLoadingBtn(false);
+            // window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+          });
       };
 
-      editDatasProsel(editalId, etapasId.etapa_inscricao, novasDatas)
-        .then((data) => {
-          console.log(data);
-        })
-        .catch(() => {
-          setNovoEditalError(true);
-        })
-        .finally(() => {
-          // setLoadingBtn(false);
-          // window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-        });
+      editDatas(
+        etapasId.etapa_inscricao,
+        cadastroEdital.etapa_inscricao_inicio,
+        cadastroEdital.etapa_inscricao_fim
+      );
 
+      editDatas(
+        etapasId.etapa_analise,
+        cadastroEdital.etapa_analise_inicio,
+        cadastroEdital.etapa_analise_fim
+      );
+
+      editDatas(
+        etapasId.etapa_resultado,
+        cadastroEdital.etapa_resultado_inicio,
+        cadastroEdital.etapa_resultado_fim
+      );
+      
+      // TODO: redirect ao final de todas as requisições
+     
     } else {
       // Criação
       postNovoProsel(cadastroEdital)
