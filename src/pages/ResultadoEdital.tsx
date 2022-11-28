@@ -7,9 +7,10 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
+import UserContext from "../context/UserContext";
 import { IADetalhes, IEdital } from "../interfaces/Interfaces";
 import {
   getDetailsProcessoSeletivo,
@@ -25,6 +26,7 @@ export default function ResultadoEdital() {
   const [resultadoDoutorado, setResultadoDoutorado] = useState<IADetalhes[]>(
     []
   );
+  const { user } = useContext(UserContext);
   const { editalId } = useParams();
   const [isLoadingMestrado, setIsLoadingMestrado] = useState<boolean>(true);
   const [isLoadingDoutorado, setIsLoadingDoutorado] = useState<boolean>(true);
@@ -39,7 +41,7 @@ export default function ResultadoEdital() {
 
     const editalIdNumber = Number(editalId);
 
-    if (editalIdNumber) {
+    if (user && editalIdNumber) {
       setIsLoadingPSDetails(true);
       setIsLoadingMestrado(true);
       setIsLoadingDoutorado(true);
@@ -85,7 +87,7 @@ export default function ResultadoEdital() {
           setLoadingEtapaAtual(false);
         });
     }
-  }, [editalId, navigate]);
+  }, [editalId, user, navigate]);
 
   const colunas: GridColDef[] = [
     {
