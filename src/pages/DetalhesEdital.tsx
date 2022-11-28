@@ -33,6 +33,7 @@ export default function EditalDetails() {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [edital, setEdital] = useState<IEdital | null>(null);
+  const [etapas, setEtapas] = useState<IEtapa[]>([]);
   const [loadingEdital, setLoadingEdital] = useState<boolean>(false);
   const [loadingEtapaAtual, setLoadingEtapaAtual] = useState<boolean>(false);
   const [etapaAtual, setEtapaAtual] = useState<IEtapa | null>(null);
@@ -49,6 +50,22 @@ export default function EditalDetails() {
       getDetailsProcessoSeletivo(Number(editalId))
         .then(({ data }) => {
           setEdital(data);
+
+          const inscricao = data.etapas.find((etapa) =>
+            editalService.isInscricoesAbertas(etapa)
+          );
+
+          const analise = data.etapas.find((etapa) =>
+            editalService.isAnaliseDeInscricoes(etapa)
+          );
+
+          const resultado = data.etapas.find((etapa) =>
+            editalService.isResultadoDisponivel(etapa)
+          );
+
+          if (inscricao && analise && resultado) {
+            setEtapas([inscricao, analise, resultado]);
+          }
         })
         .catch()
         .finally(() => {
@@ -311,7 +328,7 @@ export default function EditalDetails() {
               >
                 <Typography variant="h6">Etapas</Typography>
                 <List>
-                  {edital?.etapas.map((etapa, index) => {
+                  {etapas.map((etapa, index) => {
                     const dataInicio = dateToStr(etapa.data_inicio);
                     const dataFim = dateToStr(etapa.data_fim);
                     const nomeDaEtapa = editalService.nomeDaEtapaRaw(etapa);
