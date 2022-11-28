@@ -27,10 +27,12 @@ import {
   IDatasEtapas,
   ICadastroEdital,
   IEdital,
+  IEtapa,
 } from "../interfaces/Interfaces";
 import BtnSubmitLoading from "../components/BtnSubmitLoading";
 import InputData from "../components/InputData";
 import EditalDetails from "./DetalhesEdital";
+import editalService from "../services/Edital";
 
 export default function NovoEdital() {
   const navigate = useNavigate();
@@ -100,6 +102,39 @@ export default function NovoEdital() {
     etapa_resultado: -1,
   });
 
+//   [
+//     {
+//       "id": 16,
+//       "processo_seletivo_id": 6,
+//       "name": "Inscrições",
+//       "data_inicio": "2023-03-14T00:00:00.000Z",
+//       "data_fim": "2023-04-30T00:00:00.000Z",
+//       "createdAt": "2022-11-28T00:18:09.697Z"
+//   },
+//   {
+//       "id": 17,
+//       "processo_seletivo_id": 6,
+//       "name": "Análise",
+//       "data_inicio": "2023-05-01T00:00:00.000Z",
+//       "data_fim": "2023-06-01T00:00:00.000Z",
+//       "createdAt": "2022-11-28T00:18:09.697Z"
+//   },
+//   {
+//       "id": 18,
+//       "processo_seletivo_id": 6,
+//       "name": "Resultado Final",
+//       "data_inicio": "2023-06-01T00:00:00.000Z",
+//       "data_fim": "2023-08-01T00:00:00.000Z",
+//       "createdAt": "2022-11-28T00:18:09.697Z"
+//   }
+// ]
+
+  const foo = (etapas:IEtapa[]) => {
+    const inscricao = etapas.find(etapa => {
+      // editalService.isInscricoesAbertas(etapa);
+    });
+  };
+
   useEffect(() => {
     if (Number(editalId)) {
       getDetailsProcessoSeletivo(Number(editalId))
@@ -115,7 +150,8 @@ export default function NovoEdital() {
           });
 
           setEtapasId({
-            etapa_inscricao: data.etapas[0].id,
+            //TODO: validar etapa (n carregar a partir da posição do array)
+            etapa_inscricao: data.etapas[0].id, 
             etapa_analise: data.etapas[1].id,
             etapa_resultado: data.etapas[2].id,
           });
@@ -135,6 +171,8 @@ export default function NovoEdital() {
         });
     }
   }, []);
+
+
 
   // ========================
   // Integração
