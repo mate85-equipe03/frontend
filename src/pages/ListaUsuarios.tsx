@@ -57,12 +57,12 @@ export default function ListaUsuarios() {
     >
       <Card>
         <CardHeader
-          title="Lista de professores cadastrados"
+          title="Professores Cadastrados"
           titleTypographyProps={{
             align: "center",
             variant: "h4",
           }}
-          subheader=""
+          subheader="Lista de professores cadastrados no sistema"
           subheaderTypographyProps={{
             align: "center",
           }}
