@@ -23,6 +23,7 @@ export interface IPropsContextProvider {
 
 export interface IEtapa {
   id: number;
+  processo_seletivo_id: number;
   name: string;
   data_inicio: string;
   data_fim: string;
@@ -45,14 +46,20 @@ export interface IEdital {
   isInscrito: boolean;
   idInscricao: number;
   categorias_producao: ICategoria[];
+  etapa_atual?: IEtapa;
 }
 
 export interface IEditais {
   processos: IEdital[];
 }
 
+export interface IEtapas {
+  etapas: IEtapa[];
+}
+
 export interface IEditaisReq {
   editais: IEditais;
+  etapas_atuais: IEtapas;
 }
 
 export interface IInscritos {
