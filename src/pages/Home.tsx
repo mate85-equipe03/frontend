@@ -215,7 +215,10 @@ export default function Home() {
       renderCell: (cellValues) => {
         return (
           <IconButton
-            onClick={() => navigate(`/edital/${cellValues.row.id}/editar`)}
+            onClick={(e) => {
+              handleLinkClick(e);
+              navigate(`/edital/${cellValues.row.id}/editar`);
+            }}
           >
             <EditIcon />
           </IconButton>
