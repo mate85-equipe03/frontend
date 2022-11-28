@@ -9,10 +9,15 @@ import {
   Button,
 } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
-import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridComparatorFn,
+  GridEventListener,
+} from "@mui/x-data-grid";
 import moment from "moment";
 import { Add } from "@mui/icons-material";
-import { IEdital } from "../interfaces/Interfaces";
+import { IEdital, IEtapa } from "../interfaces/Interfaces";
 import { getAllProcessosSeletivos } from "../services/Api";
 import Loading from "../components/Loading";
 import UserContext from "../context/UserContext";
@@ -20,6 +25,7 @@ import PDFFile from "../components/PDFFile";
 import auth from "../services/Auth";
 import Inscrito from "../components/Inscrito";
 import editalService from "../services/Edital";
+import { EtapasEnum } from "../enums/Enums";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -48,6 +54,18 @@ export default function Home() {
     navigate("/edital/novo");
   };
 
+  const editaisComEtapaAtual = (
+    rawEditais: IEdital[],
+    etapas: IEtapa[]
+  ): IEdital[] => {
+    return rawEditais.map((edital) => {
+      const etapaAtual = etapas.find(
+        (etapa) => edital.id === etapa.processo_seletivo_id
+      );
+      return { ...edital, etapa_atual: etapaAtual };
+    });
+  };
+
   useEffect(() => {
     setIsAluno(auth.isStudent());
     setIsRoot(auth.isRoot());
@@ -56,7 +74,14 @@ export default function Home() {
   useEffect(() => {
     setLoading(true);
     getAllProcessosSeletivos()
-      .then(({ data }) => setEditais(data.editais.processos))
+      .then(({ data }) => {
+        setEditais(
+          editaisComEtapaAtual(
+            data.editais.processos,
+            data.etapas_atuais.etapas
+          )
+        );
+      })
       .catch()
       .finally(() => {
         setLoading(false);
@@ -111,6 +136,12 @@ export default function Home() {
     return date.format("DD/MM/YYYY");
   };
 
+  const etapaComparator: GridComparatorFn<IEtapa> = (v1, v2) => {
+    const etapa1 = editalService.etapaAtual(v1);
+    const etapa2 = editalService.etapaAtual(v2);
+    return etapa1 - etapa2;
+  };
+
   const colunas: GridColDef[] = [
     {
       field: "titulo",
@@ -137,35 +168,33 @@ export default function Home() {
       },
     },
     {
-      field: "arquivado",
-      headerName: "Status",
+      field: "semestre",
+      headerName: "Semestre",
       width: 145,
-      valueGetter: (params) => {
-        return params.row.arquivado ? "Encerrado" : "Em Andamento";
-      },
     },
     {
-      field: "etapa",
+      field: "etapa_atual",
       headerName: "Etapa Atual",
-      width: 270,
-      valueGetter: (params) => {
-        const { etapas } = params.row;
-        // TODO: Pegar etapa_atual quando o back mandar
-        if (etapas.length > 0) {
-          const nomeDaEtapa = editalService.nomeDaEtapaRaw(
-            etapas[0],
-            params.row
-          );
-          const isResultadoFinal = editalService.isResultadoFinal(
-            etapas[0],
-            params.row
-          );
-          const dataFim = dateToStr(etapas[0].data_fim);
-          if (nomeDaEtapa) {
-            return nomeDaEtapa + (!isResultadoFinal ? ` (até ${dataFim})` : "");
-          }
-        }
-        return "";
+      width: 290,
+      sortComparator: etapaComparator,
+      renderCell: (cellValues) => {
+        const etapaAtual = cellValues.row.etapa_atual;
+
+        const nomeDaEtapa = editalService.nomeDaEtapaRaw(etapaAtual);
+
+        const etapasComData = [
+          EtapasEnum.INSCRICOES_ABERTAS,
+          EtapasEnum.ANALISE_DE_INSCRICOES,
+        ];
+
+        const isEtapaComData = editalService.isEtapaValida(
+          etapaAtual,
+          etapasComData
+        );
+
+        const dataFim = dateToStr(etapaAtual.data_fim);
+
+        return nomeDaEtapa + (isEtapaComData ? ` (até ${dataFim})` : "");
       },
     },
   ];
@@ -234,7 +263,7 @@ export default function Home() {
           <DataGrid
             initialState={{
               sorting: {
-                sortModel: [{ field: "arquivado", sort: "asc" }],
+                sortModel: [{ field: "etapa_atual", sort: "asc" }],
               },
             }}
             onRowClick={handleRowClick}

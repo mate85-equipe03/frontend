@@ -9,6 +9,7 @@ export interface IUserContext {
   telefone: string;
   nome: string;
   matricula: string;
+  professor_id: number;
 }
 
 export interface IPropsUserContext {
@@ -22,6 +23,7 @@ export interface IPropsContextProvider {
 
 export interface IEtapa {
   id: number;
+  processo_seletivo_id: number;
   name: string;
   data_inicio: string;
   data_fim: string;
@@ -45,14 +47,20 @@ export interface IEdital {
   idInscricao: number;
   categorias_producao: ICategoria[];
   resultado_liberado: boolean;
+  etapa_atual?: IEtapa;
 }
 
 export interface IEditais {
   processos: IEdital[];
 }
 
+export interface IEtapas {
+  etapas: IEtapa[];
+}
+
 export interface IEditaisReq {
   editais: IEditais;
+  etapas_atuais: IEtapas;
 }
 
 export interface IInscritos {
@@ -251,6 +259,7 @@ export interface IUserBackend {
   telefone: string;
   nome: string;
   matricula: string;
+  professor_id: number;
 }
 
 export interface IRecoverData {

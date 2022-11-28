@@ -1,15 +1,19 @@
 /* eslint-disable no-shadow */
 
 export enum EtapasEnum {
-  ERROR = -1,
-  INSCRICOES_ABERTAS = 0,
-  ANALISE_DE_INSCRICOES = 1,
-  RESULTADO_FINAL = 2,
+  ERROR,
+  ANTES_DAS_INSCRICOES,
+  INSCRICOES_ABERTAS,
+  ANALISE_DE_INSCRICOES,
+  RESULTADO_EM_BREVE, // Se já está no período de resultados, mas o professor ainda não liberou o resultado
+  RESULTADO_DISPONIVEL,
 }
 
 export enum NomesEtapasEnum {
   ERROR = "",
+  ANTES_DAS_INSCRICOES = "Inscrições em Breve",
   INSCRICOES_ABERTAS = "Inscrições Abertas",
   ANALISE_DE_INSCRICOES = "Análise de Inscrições",
-  RESULTADO_FINAL = "Resultado Final",
+  RESULTADO_EM_BREVE = "Resultados em Breve",
+  RESULTADO_FINAL = "Resultados Disponíveis",
 }

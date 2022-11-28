@@ -35,7 +35,6 @@ export default function InscricaoTeacherView() {
   const [inscricaoError, setInscricaoError] = React.useState<boolean>(false);
   const [edital, setEdital] = useState<IEdital | null>(null);
   const [dadosInscricao, setDadosInscricao] = useState<IDetalhesInscricao>();
-  const [etapaAtual, setEtapaAtual] = useState<IEtapa | null>(null);
   const [isAuditoria, setIsAuditoria] = React.useState<boolean>(false);
   const [readOnly, setReadOnly] = React.useState<boolean>(false);
   const [warningMessage, setWarningMessage] = React.useState<string>();
@@ -61,8 +60,8 @@ export default function InscricaoTeacherView() {
       return false;
     };
 
-    const isIgualAoRevisor = (userId: number, revisorId: number) => {
-      if (userId === revisorId) {
+    const isIgualAoRevisor = (professorId: number, revisorId: number) => {
+      if (professorId === revisorId) {
         setWarningMessage(
           "Você está no modo Somente Leitura, pois o(a) auditor(a) deve ser diferente do(a) revisor(a)."
         );
@@ -72,14 +71,29 @@ export default function InscricaoTeacherView() {
     };
 
     const isReadOnly = (
-      userId: number,
+      professorId: number,
       revisorId: number,
       auditorId: number
     ) => {
       return (
         isRevisadaEAuditada(revisorId, auditorId) ||
-        isIgualAoRevisor(userId, revisorId)
+        isIgualAoRevisor(professorId, revisorId)
       );
+    };
+
+    const checkEtapaAtual = (etapaAtual: IEtapa) => {
+      const etapasValidas = [
+        EtapasEnum.ANALISE_DE_INSCRICOES,
+        EtapasEnum.RESULTADO_EM_BREVE,
+      ];
+      const isEtapaDisabled = !editalService.isEtapaValida(
+        etapaAtual,
+        etapasValidas
+      );
+      if (isEtapaDisabled) {
+        setReadOnly(true);
+      }
+      setIsAnaliseDeInscricoes(editalService.isAnaliseDeInscricoes(etapaAtual));
     };
 
     if (user && editalId && inscricaoId) {
@@ -88,7 +102,9 @@ export default function InscricaoTeacherView() {
       setLoadingProcessoSeletivo(true);
       getDetalhesInscricaoProfessor(inscricaoId, editalId)
         .then(({ data }) => {
-          if (isReadOnly(user.id, data?.revisor_id, data?.auditor_id)) {
+          if (
+            isReadOnly(user.professor_id, data?.revisor_id, data?.auditor_id)
+          ) {
             setReadOnly(true);
           }
           setDadosInscricao(data);
@@ -110,7 +126,7 @@ export default function InscricaoTeacherView() {
         });
       getEtapaAtualProcessoSeletivo(Number(editalId))
         .then(({ data }) => {
-          setEtapaAtual(data);
+          checkEtapaAtual(data);
         })
         .catch()
         .finally(() => {
@@ -118,29 +134,6 @@ export default function InscricaoTeacherView() {
         });
     }
   }, [editalId, navigate, user, inscricaoId]);
-
-  useEffect(() => {
-    const etapasDisabled = [
-      EtapasEnum.INSCRICOES_ABERTAS,
-      EtapasEnum.RESULTADO_FINAL,
-    ];
-
-    if (etapaAtual !== null && edital !== null) {
-      const isEtapaDisabled = editalService.isEtapaValida(
-        etapaAtual,
-        edital,
-        etapasDisabled
-      );
-
-      if (isEtapaDisabled) {
-        setReadOnly(true);
-      }
-
-      setIsAnaliseDeInscricoes(
-        editalService.isAnaliseDeInscricoes(etapaAtual, edital)
-      );
-    }
-  }, [etapaAtual, edital, editalId]);
 
   return loadingEtapaAtual || loadingProcessoSeletivo ? (
     <Loading />

@@ -174,6 +174,13 @@ export default function EditalDetails() {
       return null;
     };
 
+    const getButtonsAntesDasInscricoes = (): JSX.Element | null => {
+      if (auth.isTeacher()) {
+        return buttonsEnum.ALUNOS_INSCRITOS;
+      }
+      return null;
+    };
+
     const getButtonsInscricoesAbertas = (): JSX.Element | null => {
       if (auth.isTeacher()) {
         return buttonsEnum.ALUNOS_INSCRITOS;
@@ -194,6 +201,13 @@ export default function EditalDetails() {
       return null;
     };
 
+    const getButtonsResultadosEmBreve = (): JSX.Element | null => {
+      if (auth.isTeacher()) {
+        return buttonsEnum.ALUNOS_INSCRITOS;
+      }
+      return null;
+    };
+
     const getButtonsResultadosDisponiveis = (): JSX.Element | null => {
       return (
         <Grid container justifyContent="center" sx={{ width: "100%", pt: 2 }}>
@@ -204,16 +218,22 @@ export default function EditalDetails() {
     };
 
     if (etapaAtual !== null && edital !== null) {
-      const etapa = editalService.etapaAtual(etapaAtual, edital);
+      const etapa = editalService.etapaAtual(etapaAtual);
       setNomeDaEtapaAtual(editalService.nomeDaEtapa(etapa));
       switch (etapa) {
+        case EtapasEnum.ANTES_DAS_INSCRICOES:
+          setButtons(getButtonsAntesDasInscricoes());
+          break;
         case EtapasEnum.INSCRICOES_ABERTAS:
           setButtons(getButtonsInscricoesAbertas());
           break;
         case EtapasEnum.ANALISE_DE_INSCRICOES:
           setButtons(getButtonsAnaliseInscricoes());
           break;
-        case EtapasEnum.RESULTADO_FINAL:
+        case EtapasEnum.RESULTADO_EM_BREVE:
+          setButtons(getButtonsResultadosEmBreve());
+          break;
+        case EtapasEnum.RESULTADO_DISPONIVEL:
           setButtons(getButtonsResultadosDisponiveis());
           break;
         default: {
@@ -222,7 +242,7 @@ export default function EditalDetails() {
         }
       }
     }
-  }, [etapaAtual, edital, editalId, navigate]);
+  }, [etapaAtual, edital, editalId, user, navigate]);
 
   return loadingEdital || loadingEtapaAtual ? (
     <Loading />
@@ -294,14 +314,9 @@ export default function EditalDetails() {
                   {edital?.etapas.map((etapa, index) => {
                     const dataInicio = dateToStr(etapa.data_inicio);
                     const dataFim = dateToStr(etapa.data_fim);
-                    const nomeDaEtapa = editalService.nomeDaEtapaRaw(
-                      etapa,
-                      edital
-                    );
-                    const isResultadoFinal = editalService.isResultadoFinal(
-                      etapa,
-                      edital
-                    );
+                    const nomeDaEtapa = editalService.nomeDaEtapaRaw(etapa);
+                    const isResultadoDisponivel =
+                      editalService.isResultadoDisponivel(etapa);
 
                     return (
                       <ListItem disablePadding key={etapa.id}>
@@ -312,7 +327,7 @@ export default function EditalDetails() {
                               :&nbsp;
                             </Typography>
                             <Typography>
-                              {!isResultadoFinal
+                              {!isResultadoDisponivel
                                 ? `${dataInicio} a ${dataFim}`
                                 : `A partir de ${dataInicio}`}
                             </Typography>
