@@ -59,7 +59,7 @@ export default function ListaUsuarios() {
             align: "center",
             variant: "h4",
           }}
-          subheader="Oque por aqui??"
+          subheader=""
           subheaderTypographyProps={{
             align: "center",
           }}
