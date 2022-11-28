@@ -94,7 +94,6 @@ export default function NovoEdital() {
   const { editalId } = useParams();
 
   const [etapasId, setEtapasId] = React.useState({
-    // TODO: interface
     etapa_inscricao: -1,
     etapa_analise: -1,
     etapa_resultado: -1,
@@ -112,7 +111,7 @@ export default function NovoEdital() {
     );
     return { inscricao, analise, resultado };
   };
-
+  
   const [loadingDetalhesProsel, setLoadingDetalhesProsel] = React.useState(
     editalId !== undefined
   ); // Inicializa como true se for edição
@@ -183,14 +182,16 @@ export default function NovoEdital() {
   // ========================
   // Integração
 
-  const [loadingEditProsel, setLoadingEditProsel] = React.useState(false);
-  const [errorEditProsel, setErrorEditProsel] = React.useState(false);
-  const [loadingEditEtapas, setLoadingEditEtapas] = React.useState({
+  const [sendRequest, setSendRequest] = useState(false);
+  const [loadingEditProsel, setLoadingEditProsel] = useState(false);
+  const [loadingEditEtapas, setLoadingEditEtapas] = useState({
     etapa_inscricao: false,
     etapa_analise: false,
     etapa_resultado: false,
   });
-  const [erroEditEtapas, setErrorEditEtapas] = React.useState({
+  
+  const [errorEditProsel, setErrorEditProsel] = useState(false);
+  const [erroEditEtapas, setErrorEditEtapas] = useState({
     etapa_inscricao: false,
     etapa_analise: false,
     etapa_resultado: false,
@@ -202,6 +203,7 @@ export default function NovoEdital() {
 
     if (editalId) {
       // Edição
+      setSendRequest(true);
       setLoadingEditProsel(true);
       editProsel(editalId, cadastroEdital)
         .then(() => {
@@ -275,6 +277,12 @@ export default function NovoEdital() {
         });
     }
   };
+
+  useEffect(()=>{
+    if (sendRequest && !loadingEditProsel && !Object.values(erroEditEtapas).includes(true)){
+      navigate("/", { state: { updateEdital: true } });
+    }
+  },[loadingEditProsel, loadingEditEtapas]);
 
   // ==================
   // Mensagens
