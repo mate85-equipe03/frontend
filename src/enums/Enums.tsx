@@ -14,6 +14,6 @@ export enum NomesEtapasEnum {
   ANTES_DAS_INSCRICOES = "Inscrições em Breve",
   INSCRICOES_ABERTAS = "Inscrições Abertas",
   ANALISE_DE_INSCRICOES = "Análise de Inscrições",
-  RESULTADO_EM_BREVE = "Resultado em Breve",
-  RESULTADO_FINAL = "Resultado Disponível",
+  RESULTADO_EM_BREVE = "Resultados em Breve",
+  RESULTADO_FINAL = "Resultados Disponíveis",
 }
