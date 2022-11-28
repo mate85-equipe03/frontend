@@ -197,11 +197,10 @@ export default function Home() {
       headerName: "Editar",
       width: 60,
       hide: !isRoot,
-      valueGetter: (params) => params.row.id,
       renderCell: (cellValues) => {
         return (
           <Link
-            href={`/edital/${cellValues.row.id}`}
+            href={`/edital/${cellValues.row.id}/editar`}
             underline="none"
             onClick={handleLinkClick}
           >

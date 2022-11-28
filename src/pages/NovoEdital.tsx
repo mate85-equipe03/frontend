@@ -112,6 +112,8 @@ export default function NovoEdital() {
 
   useEffect(() => {
     if (Number(editalId)) {
+      //Loading 
+
       getDetailsProcessoSeletivo(Number(editalId))
         .then(({ data }) => {
           const etapas = formatEtapas(data.etapas);
@@ -148,11 +150,10 @@ export default function NovoEdital() {
         })
         .catch()
         .finally(() => {
-          // reload page
           // setLoadingEdital(false);
         });
     }
-  });
+  },[]);
 
   // ========================
   // Integração

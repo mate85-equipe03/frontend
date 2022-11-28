@@ -24,7 +24,7 @@ const teacherRoutes: RouteProps[] = [
 
 const rootRoutes: RouteProps[] = [
   { path: "/edital/novo", element: <NovoEdital /> },
-  { path: "/edital/:editalId", element: <NovoEdital /> },
+  { path: "/edital/:editalId/editar", element: <NovoEdital /> },
   { path: "/cadastro-professor", element: <CadastroTeacher /> },
 ];
 
