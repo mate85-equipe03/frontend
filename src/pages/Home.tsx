@@ -42,6 +42,9 @@ export default function Home() {
   const novoEditalSuccess = location.state
     ? "novoEdital" in location.state
     : false;
+  const updateEditalSuccess = location.state
+    ? "updateEdital" in location.state
+    : false;
   const resultadoLiberadoSuccess = location.state
     ? "resultadoLiberado" in location.state
     : false;
@@ -108,6 +111,10 @@ export default function Home() {
     }
     if (novoEditalSuccess) {
       return "Processo Seletivo criado com sucesso.";
+    }
+
+    if (updateEditalSuccess) {
+      return "Processo seletivo atualizado com sucesso.";
     }
 
     if (signUpSuccess) {

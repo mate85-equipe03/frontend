@@ -111,7 +111,7 @@ export default function NovoEdital() {
     );
     return { inscricao, analise, resultado };
   };
-  
+
   const [loadingDetalhesProsel, setLoadingDetalhesProsel] = React.useState(
     editalId !== undefined
   ); // Inicializa como true se for edição
@@ -189,7 +189,7 @@ export default function NovoEdital() {
     etapa_analise: false,
     etapa_resultado: false,
   });
-  
+
   const [errorEditProsel, setErrorEditProsel] = useState(false);
   const [erroEditEtapas, setErrorEditEtapas] = useState({
     etapa_inscricao: false,
@@ -278,11 +278,15 @@ export default function NovoEdital() {
     }
   };
 
-  useEffect(()=>{
-    if (sendRequest && !loadingEditProsel && !Object.values(erroEditEtapas).includes(true)){
+  useEffect(() => {
+    if (
+      sendRequest &&
+      !loadingEditProsel &&
+      !Object.values(loadingEditEtapas).includes(true)
+    ) {
       navigate("/", { state: { updateEdital: true } });
     }
-  },[loadingEditProsel, loadingEditEtapas]);
+  }, [navigate, sendRequest, loadingEditProsel, loadingEditEtapas]);
 
   // ==================
   // Mensagens
