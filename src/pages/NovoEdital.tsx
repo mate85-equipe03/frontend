@@ -112,18 +112,20 @@ export default function NovoEdital() {
 
   useEffect(() => {
     if (Number(editalId)) {
-      //Loading 
+      // Loading
 
       getDetailsProcessoSeletivo(Number(editalId))
         .then(({ data }) => {
           const etapas = formatEtapas(data.etapas);
 
-          setCadastroEdital({
-            ...cadastroEdital,
-            titulo: data.titulo,
-            descricao: data.descricao,
-            semestre: data.semestre,
-            edital_url: data.edital_url,
+          setCadastroEdital((prevState) => {
+            return {
+              ...prevState,
+              titulo: data.titulo,
+              descricao: data.descricao,
+              semestre: data.semestre,
+              edital_url: data.edital_url,
+            };
           });
 
           if (
@@ -153,7 +155,7 @@ export default function NovoEdital() {
           // setLoadingEdital(false);
         });
     }
-  },[]);
+  }, [editalId]);
 
   // ========================
   // Integração
