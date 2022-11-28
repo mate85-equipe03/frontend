@@ -42,6 +42,9 @@ export default function Home() {
   const novoEditalSuccess = location.state
     ? "novoEdital" in location.state
     : false;
+  const resultadoLiberadoSuccess = location.state
+    ? "resultadoLiberado" in location.state
+    : false;
   window.history.replaceState(null, "");
   const { user } = useContext(UserContext);
   const [editais, setEditais] = useState<IEdital[]>([]);
@@ -109,6 +112,10 @@ export default function Home() {
 
     if (signUpSuccess) {
       return "Cadastro de professor realizado com sucesso.";
+    }
+
+    if (resultadoLiberadoSuccess) {
+      return "Resultado do edital liberado com sucesso.";
     }
 
     return null;

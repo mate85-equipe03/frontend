@@ -137,4 +137,8 @@ export const editDatasProsel = (
   );
 };
 
+export const patchLiberarResultado = (editalId: number) => {
+  return api.patch(`/processos-seletivos/${editalId}/liberar-resultado-final`);
+};
+
 export default api;
