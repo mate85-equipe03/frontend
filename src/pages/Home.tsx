@@ -7,6 +7,7 @@ import {
   Alert,
   Divider,
   Button,
+  IconButton,
 } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
@@ -17,6 +18,8 @@ import {
 } from "@mui/x-data-grid";
 import moment from "moment";
 import { Add } from "@mui/icons-material";
+import EditIcon from "@mui/icons-material/Edit";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { IEdital, IEtapa } from "../interfaces/Interfaces";
 import { getAllProcessosSeletivos } from "../services/Api";
 import Loading from "../components/Loading";
@@ -39,6 +42,12 @@ export default function Home() {
     : false;
   const novoEditalSuccess = location.state
     ? "novoEdital" in location.state
+    : false;
+  const updateEditalSuccess = location.state
+    ? "updateEdital" in location.state
+    : false;
+  const resultadoLiberadoSuccess = location.state
+    ? "resultadoLiberado" in location.state
     : false;
   window.history.replaceState(null, "");
   const { user } = useContext(UserContext);
@@ -105,8 +114,16 @@ export default function Home() {
       return "Processo Seletivo criado com sucesso.";
     }
 
+    if (updateEditalSuccess) {
+      return "Processo seletivo atualizado com sucesso.";
+    }
+
     if (signUpSuccess) {
       return "Cadastro de professor realizado com sucesso.";
+    }
+
+    if (resultadoLiberadoSuccess) {
+      return "Resultado do edital liberado com sucesso.";
     }
 
     return null;
@@ -120,8 +137,8 @@ export default function Home() {
     event.stopPropagation();
   };
 
-  const redirectToCadastroTeacher = () => {
-    navigate("/cadastro-professor");
+  const redirectToListaProfessores = () => {
+    navigate("/listar-usuarios");
   };
 
   const dateToStr = (rawDate: string) => {
@@ -190,6 +207,21 @@ export default function Home() {
         return nomeDaEtapa + (isEtapaComData ? ` (até ${dataFim})` : "");
       },
     },
+    {
+      field: "edit",
+      headerName: "Editar",
+      width: 60,
+      hide: !isRoot,
+      renderCell: (cellValues) => {
+        return (
+          <IconButton
+            onClick={() => navigate(`/edital/${cellValues.row.id}/editar`)}
+          >
+            <EditIcon />
+          </IconButton>
+        );
+      },
+    },
   ];
 
   const allColumnsWidth = colunas.reduce((acc, { width, hide }) => {
@@ -227,11 +259,12 @@ export default function Home() {
 
           <Button
             type="button"
+            onClick={redirectToListaProfessores}
             size="large"
-            onClick={redirectToCadastroTeacher}
             sx={{ mx: 1 }}
           >
-            <Add fontSize="small" sx={{ mr: 1 }} /> Cadastrar Professor
+            <FormatListBulletedIcon fontSize="small" sx={{ mr: 1 }} /> Lista de
+            Professores
           </Button>
         </Grid>
       )}

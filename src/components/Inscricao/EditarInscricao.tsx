@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import FormInscricao from "./FormInscricao";
-import ProducoesCientificas from "./ProducoesCientificasDjair";
+import ProducoesCientificas from "./ProducoesCientificas";
 import { getDetalhesInscricaoAluno, patchInscricao } from "../../services/Api";
 import {
   IDetalhesInscricao,
@@ -84,7 +84,11 @@ export default function EditarInscricao({
           <Typography variant="h6" sx={{ mt: 3 }}>
             Produções Científicas
           </Typography>
-          <ProducoesCientificas />
+          <ProducoesCientificas
+            readOnly={readOnly}
+            inscricaoId={inscricaoId}
+            editalId={editalId}
+          />
         </>
       )}
     </>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Grid, Typography } from "@mui/material";
-import ProducoesCientificas from "./ProducoesCientificasDjair";
+import ProducoesCientificas from "./ProducoesCientificas";
 
 interface IProps {
   editalId: number;
@@ -9,8 +9,8 @@ interface IProps {
 }
 
 export default function Etapa2({
-  inscricaoId, // eslint-disable-line @typescript-eslint/no-unused-vars
-  editalId, // eslint-disable-line @typescript-eslint/no-unused-vars
+  inscricaoId,
+  editalId,
   setCurrentEtapa,
 }: IProps) {
   const voltar = () => {
@@ -26,7 +26,11 @@ export default function Etapa2({
       <Typography variant="h6" sx={{ mt: 3 }}>
         Produções Científicas
       </Typography>
-      <ProducoesCientificas />
+      <ProducoesCientificas
+        readOnly={false}
+        inscricaoId={inscricaoId}
+        editalId={editalId}
+      />
       <Grid sx={{ mt: 4 }} container justifyContent="space-between">
         <Button color="inherit" onClick={voltar}>
           Voltar

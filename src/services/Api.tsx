@@ -10,6 +10,7 @@ import {
   IEtapa,
   ISignUpDataTeacher,
   ICadastroEdital,
+  IEditDatasEtapa,
 } from "../interfaces/Interfaces";
 
 const api = axios.create({
@@ -105,6 +106,13 @@ export const deleteInscricao = (inscricaoId: number) => {
   return api.delete(`/inscricoes/${inscricaoId}`);
 };
 
+export const deleteProducaoCientifica = (
+  inscricaoId: number,
+  producaoId: number
+) => {
+  return api.delete(`/inscricoes/${inscricaoId}/producoes/${producaoId}`);
+};
+
 export const getResultadoMestrado = (editalId: number) => {
   return api.get(`/processos-seletivos/${editalId}/resultado-final-mestrado`);
 };
@@ -117,8 +125,31 @@ export const postCadastroTeacher = (signUpData: ISignUpDataTeacher) => {
   return api.post("/professores", signUpData);
 };
 
-export const postNovoEdital = (editalData: ICadastroEdital) => {
+export const postNovoProsel = (editalData: ICadastroEdital) => {
   return api.post("/processos-seletivos", editalData);
+};
+
+export const editProsel = (editalId: string, editalData: ICadastroEdital) => {
+  return api.patch(`/processos-seletivos/${editalId}`, editalData);
+};
+
+export const editDatasProsel = (
+  editalId: string,
+  etapaId: number,
+  novasDatas: IEditDatasEtapa
+) => {
+  return api.patch(
+    `/processos-seletivos/${editalId}/etapas/${etapaId}`,
+    novasDatas
+  );
+};
+
+export const getAllProfessores = () => {
+  return api.get("/professores");
+};
+
+export const patchLiberarResultado = (editalId: number) => {
+  return api.patch(`/processos-seletivos/${editalId}/liberar-resultado-final`);
 };
 
 export default api;

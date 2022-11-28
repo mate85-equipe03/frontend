@@ -18,7 +18,7 @@ import {
   IHistorico,
 } from "../../interfaces/Interfaces";
 import BtnSubmitLoading from "../BtnSubmitLoading";
-import ProducoesCientificas from "./ProducoesCientificasDjair";
+import ProducoesCientificas from "./ProducoesCientificas";
 import Loading from "../Loading";
 import AttachInput from "../AttachInput";
 
@@ -455,8 +455,13 @@ export default function FormInscricao({
             <Typography variant="h6" sx={{ mt: 1 }}>
               Produções Científicas
             </Typography>
-            <ProducoesCientificas />
-
+            {inscricaoId && (
+              <ProducoesCientificas
+                readOnly={Boolean(readOnly)}
+                inscricaoId={inscricaoId}
+                editalId={editalId}
+              />
+            )}
             <Typography variant="h6" sx={{ mt: 5 }}>
               Revisão/Auditoria
             </Typography>
