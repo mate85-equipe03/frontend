@@ -455,8 +455,12 @@ export default function FormInscricao({
             <Typography variant="h6" sx={{ mt: 1 }}>
               Produções Científicas
             </Typography>
-            <ProducoesCientificas />
-
+            {inscricaoId && (
+              <ProducoesCientificas
+                inscricaoId={inscricaoId}
+                editalId={editalId}
+              />
+            )}
             <Typography variant="h6" sx={{ mt: 5 }}>
               Revisão/Auditoria
             </Typography>

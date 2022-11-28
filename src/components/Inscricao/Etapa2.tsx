@@ -9,8 +9,8 @@ interface IProps {
 }
 
 export default function Etapa2({
-  inscricaoId, // eslint-disable-line @typescript-eslint/no-unused-vars
-  editalId, // eslint-disable-line @typescript-eslint/no-unused-vars
+  inscricaoId,
+  editalId,
   setCurrentEtapa,
 }: IProps) {
   const voltar = () => {
@@ -26,7 +26,7 @@ export default function Etapa2({
       <Typography variant="h6" sx={{ mt: 3 }}>
         Produções Científicas
       </Typography>
-      <ProducoesCientificas />
+      <ProducoesCientificas inscricaoId={inscricaoId} editalId={editalId} />
       <Grid sx={{ mt: 4 }} container justifyContent="space-between">
         <Button color="inherit" onClick={voltar}>
           Voltar

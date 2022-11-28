@@ -84,7 +84,7 @@ export default function EditarInscricao({
           <Typography variant="h6" sx={{ mt: 3 }}>
             Produções Científicas
           </Typography>
-          <ProducoesCientificas />
+          <ProducoesCientificas inscricaoId={inscricaoId} editalId={editalId} />
         </>
       )}
     </>

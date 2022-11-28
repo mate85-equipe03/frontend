@@ -2,38 +2,54 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Grid, IconButton } from "@mui/material";
 import { useCallback, useContext, useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useParams } from "react-router-dom";
 import {
   deleteProducaoCientifica,
   getDetalhesInscricaoAluno,
+  getDetalhesInscricaoProfessor,
 } from "../../services/Api";
 import { IProducoes } from "../../interfaces/Interfaces";
 import UserContext from "../../context/UserContext";
 import Loading from "../Loading";
 import ModalProducao from "./ModalProducao";
+import auth from "../../services/Auth";
 
-export default function ProducoesCientificas() {
-  const { editalId } = useParams();
+interface IProps {
+  editalId: number;
+  inscricaoId: number;
+}
+
+export default function ProducoesCientificas({
+  inscricaoId,
+  editalId,
+}: IProps) {
   const { user } = useContext(UserContext);
   const [loadingDetalhes, setIsloadingDetalhes] = useState<boolean>(false);
-  const [inscricaoId, setInscricaoId] = useState<number>();
-
   const [producoes, setProducoes] = useState<IProducoes[]>([]);
-
   const carregaProducoes = useCallback(() => {
     if (user && editalId) {
-      setIsloadingDetalhes(true);
-      getDetalhesInscricaoAluno(Number(editalId))
-        .then(({ data }) => {
-          setInscricaoId(data.id);
-          setProducoes(data.producoes);
-        })
-        .catch()
-        .finally(() => {
-          setIsloadingDetalhes(false);
-        });
+      if (auth.isStudent()) {
+        setIsloadingDetalhes(true);
+        getDetalhesInscricaoAluno(Number(editalId))
+          .then(({ data }) => {
+            setProducoes(data.producoes);
+          })
+          .catch()
+          .finally(() => {
+            setIsloadingDetalhes(false);
+          });
+      } else if (auth.isTeacher()) {
+        setIsloadingDetalhes(true);
+        getDetalhesInscricaoProfessor(inscricaoId, Number(editalId))
+          .then(({ data }) => {
+            setProducoes(data.producoes);
+          })
+          .catch()
+          .finally(() => {
+            setIsloadingDetalhes(false);
+          });
+      }
     }
-  }, [editalId, user]);
+  }, [editalId, user, inscricaoId]);
 
   const handleDelete = (producaoId: number) => {
     if (user && editalId && inscricaoId) {
