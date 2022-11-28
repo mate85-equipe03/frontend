@@ -67,19 +67,14 @@ export default function ProducoesCientificas({
 
   const colunas: GridColDef[] = [
     {
-      field: "id",
-      headerName: "ID",
-      width: 25,
-    },
-    {
       field: "filename",
       headerName: "Arquivo",
-      width: 300,
+      width: 320,
     },
     {
       field: "categoria",
       headerName: "Categoria",
-      width: 150,
+      width: 155,
       valueGetter: (params) => params.row.categorias_producao.nome,
     },
     {
