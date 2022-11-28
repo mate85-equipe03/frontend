@@ -145,13 +145,9 @@ export default function Home() {
         const { etapas } = params.row;
         // TODO: Pegar etapa_atual quando o back mandar
         if (etapas.length > 0) {
-          const nomeDaEtapa = editalService.nomeDaEtapaRaw(
-            etapas[0],
-            params.row
-          );
-          const isResultadoFinal = editalService.isResultadoFinal(
-            etapas[0],
-            params.row
+          const nomeDaEtapa = editalService.nomeDaEtapaRaw(etapas[0]);
+          const isResultadoFinal = editalService.isResultadoDisponivel(
+            etapas[0]
           );
           const dataFim = dateToStr(etapas[0].data_fim);
           if (nomeDaEtapa) {

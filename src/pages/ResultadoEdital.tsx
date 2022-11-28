@@ -4,9 +4,8 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import UserContext from "../context/UserContext";
-import { IADetalhes, IEdital, IEtapa } from "../interfaces/Interfaces";
+import { IADetalhes } from "../interfaces/Interfaces";
 import {
-  getDetailsProcessoSeletivo,
   getEtapaAtualProcessoSeletivo,
   getResultadoDoutorado,
   getResultadoMestrado,
@@ -20,30 +19,22 @@ export default function ResultadoEdital() {
   );
   const { user } = useContext(UserContext);
   const { editalId } = useParams();
-  const [isLoadingPSDetails, setIsLoadingPSDetails] = useState<boolean>(true);
   const [isLoadingMestrado, setIsLoadingMestrado] = useState<boolean>(true);
   const [isLoadingDoutorado, setIsLoadingDoutorado] = useState<boolean>(true);
   const [loadingEtapaAtual, setLoadingEtapaAtual] = useState<boolean>(true);
-  const [etapaAtual, setEtapaAtual] = useState<IEtapa | null>(null);
-  const [edital, setEdital] = useState<IEdital | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const redirectToDetails = () => {
+      navigate(`/edital/${editalId}/detalhes`);
+    };
+
     const editalIdNumber = Number(editalId);
+
     if (editalIdNumber) {
-      setIsLoadingPSDetails(true);
       setIsLoadingMestrado(true);
       setIsLoadingDoutorado(true);
       setLoadingEtapaAtual(true);
-
-      getDetailsProcessoSeletivo(editalIdNumber)
-        .then(({ data }) => {
-          setEdital(data);
-        })
-        .catch()
-        .finally(() => {
-          setIsLoadingPSDetails(false);
-        });
 
       getResultadoMestrado(editalIdNumber)
         .then(({ data }) => {
@@ -65,7 +56,10 @@ export default function ResultadoEdital() {
 
       getEtapaAtualProcessoSeletivo(editalIdNumber)
         .then(({ data }) => {
-          setEtapaAtual(data);
+          const isResultadoFinal = editalService.isResultadoDisponivel(data);
+          if (!isResultadoFinal) {
+            redirectToDetails();
+          }
         })
         .catch()
         .finally(() => {
@@ -73,23 +67,6 @@ export default function ResultadoEdital() {
         });
     }
   }, [editalId, user, navigate]);
-
-  useEffect(() => {
-    const redirectToDetails = () => {
-      navigate(`/edital/${editalId}/detalhes`);
-    };
-
-    if (etapaAtual !== null && edital !== null) {
-      const isResultadoFinal = editalService.isResultadoFinal(
-        etapaAtual,
-        edital
-      );
-
-      if (!isResultadoFinal) {
-        redirectToDetails();
-      }
-    }
-  }, [etapaAtual, edital, editalId, navigate]);
 
   const colunas: GridColDef[] = [
     {
@@ -126,10 +103,7 @@ export default function ResultadoEdital() {
     return width ? acc + width : acc;
   }, 0);
 
-  return isLoadingPSDetails ||
-    isLoadingMestrado ||
-    isLoadingDoutorado ||
-    loadingEtapaAtual ? (
+  return isLoadingMestrado || isLoadingDoutorado || loadingEtapaAtual ? (
     <Loading />
   ) : (
     <Grid
