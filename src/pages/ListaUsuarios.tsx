@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, Grid } from "@mui/material";
+import { Card, CardContent, CardHeader, Divider, Grid } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
@@ -59,7 +59,14 @@ export default function ListaUsuarios() {
             align: "center",
             variant: "h4",
           }}
+          subheader="Oque por aqui??"
+          subheaderTypographyProps={{
+            align: "center",
+          }}
         />
+
+        <Divider sx={{ mx: 3, my: 2 }} />
+
         <CardContent sx={{ px: 10 }}>
           <DataGrid
             initialState={{
