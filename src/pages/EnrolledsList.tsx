@@ -1,10 +1,12 @@
 import {
   Alert,
+  Button,
   Card,
   CardContent,
   CardHeader,
   Divider,
   Grid,
+  Tooltip,
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -12,15 +14,10 @@ import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import WarningIcon from "@mui/icons-material/Warning";
 import CheckIcon from "@mui/icons-material/Check";
-import CheckIcon from "@mui/icons-material/Check";
 import {
- 
   getEnrolledList,
- 
   getDetailsProcessoSeletivo,
- ,
   patchLiberarResultado,
-patchLiberarResultado,
 } from "../services/Api";
 import { IADetalhes } from "../interfaces/Interfaces";
 import UserContext from "../context/UserContext";
@@ -37,6 +34,12 @@ export default function EnrolledsList() {
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
   const [loadingInscritos, setLoadingInscritos] = useState<boolean>(false);
   const [loadingProcesso, setLoadingProcesso] = useState<boolean>(false);
+  const [loadingPatchLiberarResultado, setLoadingPatchLiberarResultado] =
+    useState<boolean>(false);
+  const [faltaRevisarOuAuditar, setFaltaRevisarOuAuditar] =
+    useState<boolean>(true);
+  const [isResultadoLiberado, setIsResultadoLiberado] =
+    useState<boolean>(false);
 
   const revisaoSuccess = location.state ? "revisao" in location.state : false;
   const auditoriaSuccess = location.state
@@ -65,6 +68,14 @@ export default function EnrolledsList() {
     navigate(`/edital/${editalId}/inscritos/${params.row.id}`);
   };
 
+  const handleClickLiberarResultado = () => {
+    setLoadingPatchLiberarResultado(true);
+    patchLiberarResultado(Number(editalId))
+      .then(() => navigate("/", { state: { resultadoLiberado: true } }))
+      .catch()
+      .finally(() => setLoadingPatchLiberarResultado(false));
+  };
+
   useEffect(() => {
     setLoadingProcesso(true);
     getDetailsProcessoSeletivo(editalId)
@@ -77,19 +88,6 @@ export default function EnrolledsList() {
         setLoadingProcesso(false);
       });
   }, [editalId]);
-
-  useEffect(() => {
-    if (enrolledList) {
-      enrolledList.map((aluno) => {
-        if (aluno.revisor || aluno.auditor === null) {
-          setFaltaRevisarOuAuditar(true);
-        } else {
-          setFaltaRevisarOuAuditar(false);
-        }
-        return faltaRevisarOuAuditar;
-      });
-    }
-  }, [faltaRevisarOuAuditar, enrolledList]);
 
   const checkSuccessMessage = (): string | null => {
     if (revisaoSuccess) {

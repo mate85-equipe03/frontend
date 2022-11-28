@@ -137,6 +137,10 @@ export const editDatasProsel = (
   );
 };
 
+export const getAllProfessores = () => {
+  return api.get('/professores')
+}
+
 export const patchLiberarResultado = (editalId: number) => {
   return api.patch(`/processos-seletivos/${editalId}/liberar-resultado-final`);
 };
