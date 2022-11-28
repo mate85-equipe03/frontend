@@ -277,3 +277,10 @@ export interface IDatasEtapas {
   etapa_resultado_inicio: Dayjs | null;
   etapa_resultado_fim: Dayjs | null;
 }
+
+export interface IProfessores {
+  id: number;
+  userId: number;
+  siape: number;
+  nome: string;
+}

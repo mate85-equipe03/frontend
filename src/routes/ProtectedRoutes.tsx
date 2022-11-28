@@ -7,6 +7,7 @@ import { routesWithRedirect } from "./RoutesHelper";
 import Cadastro from "../pages/Cadastro";
 import NovoEdital from "../pages/NovoEdital";
 import CadastroTeacher from "../pages/CadastroTeacher";
+import ListaUsuarios from "../pages/ListaUsuarios";
 
 const studentRoutes: RouteProps[] = [
   { path: "/edital/:editalId/inscricao", element: <InscricaoStudentView /> },
@@ -27,6 +28,7 @@ const rootRoutes: RouteProps[] = [
     element: <NovoEdital />,
   },
   { path: "/cadastro-professor", element: <CadastroTeacher /> },
+  { path: "/listar-usuarios", element: <ListaUsuarios /> },
 ];
 
 const ProtectedRoutes = (): JSX.Element[] => {
