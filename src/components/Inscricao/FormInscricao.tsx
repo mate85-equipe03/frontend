@@ -457,6 +457,7 @@ export default function FormInscricao({
             </Typography>
             {inscricaoId && (
               <ProducoesCientificas
+                readOnly={Boolean(readOnly)}
                 inscricaoId={inscricaoId}
                 editalId={editalId}
               />

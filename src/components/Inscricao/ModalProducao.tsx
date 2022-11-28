@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Button,
   Dialog,
@@ -22,12 +22,14 @@ import api, { getDetailsProcessoSeletivo } from "../../services/Api";
 import { IEdital, IFile, IProducao } from "../../interfaces/Interfaces";
 import BtnSubmitLoading from "../BtnSubmitLoading";
 import AttachInput from "../AttachInput";
+import UserContext from "../../context/UserContext";
 
 interface PropsModal {
   onSuccess: () => void;
 }
 
 export default function ModalProducao({ onSuccess }: PropsModal) {
+  const { user } = useContext(UserContext);
   const { editalId } = useParams();
   const [edital, setEdital] = useState<IEdital | undefined>();
 
@@ -104,7 +106,7 @@ export default function ModalProducao({ onSuccess }: PropsModal) {
   };
 
   const postProducao = (payload: IProducao) => {
-    if (editalId) {
+    if (editalId && user) {
       setLoading(true);
       const formData = new FormData();
       payload.files.forEach((file) => {

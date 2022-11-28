@@ -15,11 +15,13 @@ import auth from "../../services/Auth";
 import PDFFile from "../PDFFile";
 
 interface IProps {
+  readOnly: boolean;
   editalId: number;
   inscricaoId: number;
 }
 
 export default function ProducoesCientificas({
+  readOnly,
   inscricaoId,
   editalId,
 }: IProps) {
@@ -74,7 +76,7 @@ export default function ProducoesCientificas({
     {
       field: "filename",
       headerName: "Arquivo",
-      width: auth.isStudent() ? 320 : 420,
+      width: auth.isStudent() && !readOnly ? 320 : 420,
       renderCell: (cellValues) => {
         return (
           <PDFFile
@@ -101,7 +103,7 @@ export default function ProducoesCientificas({
       field: "",
       headerName: "Remover",
       width: 100,
-      hide: !auth.isStudent(),
+      hide: !(auth.isStudent() && !readOnly),
       renderCell: (cellValues) => (
         <IconButton
           aria-label="delete"
@@ -139,7 +141,9 @@ export default function ProducoesCientificas({
           mb: 5,
         }}
       />
-      {auth.isStudent() && <ModalProducao onSuccess={carregaProducoes} />}
+      {auth.isStudent() && !readOnly && (
+        <ModalProducao onSuccess={carregaProducoes} />
+      )}
     </Grid>
   );
 }

@@ -26,7 +26,11 @@ export default function Etapa2({
       <Typography variant="h6" sx={{ mt: 3 }}>
         Produções Científicas
       </Typography>
-      <ProducoesCientificas inscricaoId={inscricaoId} editalId={editalId} />
+      <ProducoesCientificas
+        readOnly={false}
+        inscricaoId={inscricaoId}
+        editalId={editalId}
+      />
       <Grid sx={{ mt: 4 }} container justifyContent="space-between">
         <Button color="inherit" onClick={voltar}>
           Voltar
