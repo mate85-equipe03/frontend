@@ -41,7 +41,7 @@ export default function ResultadoEdital() {
 
     const editalIdNumber = Number(editalId);
 
-    if (user && editalIdNumber) {
+    if (editalIdNumber) {
       setIsLoadingPSDetails(true);
       setIsLoadingMestrado(true);
       setIsLoadingDoutorado(true);
@@ -87,7 +87,7 @@ export default function ResultadoEdital() {
           setLoadingEtapaAtual(false);
         });
     }
-  }, [editalId, user, navigate]);
+  }, [editalId, navigate]);
 
   const colunas: GridColDef[] = [
     {
