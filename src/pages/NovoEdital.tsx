@@ -102,44 +102,25 @@ export default function NovoEdital() {
     etapa_resultado: -1,
   });
 
-//   [
-//     {
-//       "id": 16,
-//       "processo_seletivo_id": 6,
-//       "name": "Inscrições",
-//       "data_inicio": "2023-03-14T00:00:00.000Z",
-//       "data_fim": "2023-04-30T00:00:00.000Z",
-//       "createdAt": "2022-11-28T00:18:09.697Z"
-//   },
-//   {
-//       "id": 17,
-//       "processo_seletivo_id": 6,
-//       "name": "Análise",
-//       "data_inicio": "2023-05-01T00:00:00.000Z",
-//       "data_fim": "2023-06-01T00:00:00.000Z",
-//       "createdAt": "2022-11-28T00:18:09.697Z"
-//   },
-//   {
-//       "id": 18,
-//       "processo_seletivo_id": 6,
-//       "name": "Resultado Final",
-//       "data_inicio": "2023-06-01T00:00:00.000Z",
-//       "data_fim": "2023-08-01T00:00:00.000Z",
-//       "createdAt": "2022-11-28T00:18:09.697Z"
-//   }
-// ]
-
-  const foo = (etapas:IEtapa[]) => {
-    const inscricao = etapas.find(etapa => {
-      // editalService.isInscricoesAbertas(etapa);
-    });
+  const formatEtapas = (etapas: IEtapa[]) => {
+    const inscricao = etapas.find((etapa) =>
+      editalService.isInscricoesAbertas(etapa)
+    );
+    const analise = etapas.find((etapa) =>
+      editalService.isAnaliseDeInscricoes(etapa)
+    );
+    const resultado = etapas.find((etapa) =>
+      editalService.isResultadoDisponivel(etapa)
+    );
+    return { inscricao, analise, resultado };
   };
 
   useEffect(() => {
     if (Number(editalId)) {
       getDetailsProcessoSeletivo(Number(editalId))
         .then(({ data }) => {
-          // console.log(data);
+          const etapas = formatEtapas(data.etapas);
+          console.log(etapas);
 
           setCadastroEdital({
             ...cadastroEdital,
@@ -149,30 +130,36 @@ export default function NovoEdital() {
             edital_url: data.edital_url,
           });
 
-          setEtapasId({
-            //TODO: validar etapa (n carregar a partir da posição do array)
-            etapa_inscricao: data.etapas[0].id, 
-            etapa_analise: data.etapas[1].id,
-            etapa_resultado: data.etapas[2].id,
-          });
+          if (
+            etapas &&
+            etapas.inscricao &&
+            etapas.analise &&
+            etapas.resultado
+          ) {
+            setEtapasId({
+              etapa_inscricao: etapas.inscricao.id,
+              etapa_analise: etapas.analise.id,
+              etapa_resultado: etapas.resultado.id,
+            });
 
-          setDatas({
-            etapa_inscricao_inicio: dayjs(data.etapas[0].data_inicio),
-            etapa_inscricao_fim: dayjs(data.etapas[0].data_fim),
-            etapa_analise_inicio: dayjs(data.etapas[1].data_inicio),
-            etapa_analise_fim: dayjs(data.etapas[1].data_fim),
-            etapa_resultado_inicio: dayjs(data.etapas[2].data_inicio),
-            etapa_resultado_fim: dayjs(data.etapas[2].data_fim),
-          });
+            setDatas({
+              etapa_inscricao_inicio: dayjs(etapas.inscricao.data_fim), 
+              etapa_inscricao_fim: dayjs(etapas.inscricao.data_fim),
+              etapa_analise_inicio: dayjs(etapas.analise.data_inicio),
+              etapa_analise_fim: dayjs(etapas.analise.data_fim),
+              etapa_resultado_inicio: dayjs(etapas.resultado.data_inicio),
+              etapa_resultado_fim: dayjs(etapas.resultado.data_fim),
+            });
+          }
         })
         .catch()
         .finally(() => {
+
+          // reload page
           // setLoadingEdital(false);
         });
     }
   }, []);
-
-
 
   // ========================
   // Integração
@@ -180,17 +167,14 @@ export default function NovoEdital() {
     event.preventDefault();
     setLoadingBtn(true);
 
-    console.log(cadastroEdital);
-
     if (editalId) {
       // Edição
-      console.log("EDIT");
 
       editProsel(editalId, cadastroEdital)
         .then((data) => {
-          // console.log(data);
+          console.log(data);
           // setNovoEditalError(false);
-          // navigate("/", { state: { novoEdital: true } });
+          // navigate("/", { state: { updateEdital: true } });
         })
         .catch(() => {
           setNovoEditalError(true);
@@ -207,8 +191,6 @@ export default function NovoEdital() {
         data_fim: cadastroEdital.etapa_inscricao_fim,
       };
 
-      console.log(editalId, novasDatas);
-
       editDatasProsel(editalId, etapasId.etapa_inscricao, novasDatas)
         .then((data) => {
           console.log(data);
@@ -220,6 +202,7 @@ export default function NovoEdital() {
           // setLoadingBtn(false);
           // window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         });
+
     } else {
       // Criação
       postNovoProsel(cadastroEdital)
