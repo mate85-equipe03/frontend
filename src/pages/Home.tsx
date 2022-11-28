@@ -133,6 +133,10 @@ export default function Home() {
     navigate("/cadastro-professor");
   };
 
+  const redirectToListaProfessores = () => {
+    navigate("/listar-usuarios");
+  };
+
   const dateToStr = (rawDate: string) => {
     const date = moment(rawDate);
     return date.format("DD/MM/YYYY");
@@ -249,6 +253,15 @@ export default function Home() {
             sx={{ mx: 1 }}
           >
             <Add fontSize="small" sx={{ mr: 1 }} /> Novo Processo Seletivo
+          </Button>
+
+          <Button
+            type="button"
+            onClick={redirectToListaProfessores}
+            size="large"
+            sx={{ mx: 1 }}
+          >
+            Lista de Professores
           </Button>
 
           <Button
