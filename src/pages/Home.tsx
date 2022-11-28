@@ -8,6 +8,7 @@ import {
   Divider,
   Button,
   Link,
+  IconButton,
 } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
@@ -217,13 +218,11 @@ export default function Home() {
       hide: !isRoot,
       renderCell: (cellValues) => {
         return (
-          <Link
-            href={`/edital/${cellValues.row.id}/editar`}
-            underline="none"
-            onClick={handleLinkClick}
+          <IconButton
+            onClick={() => navigate(`/edital/${cellValues.row.id}/editar`)}
           >
             <EditIcon />
-          </Link>
+          </IconButton>
         );
       },
     },
