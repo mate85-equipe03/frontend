@@ -5,9 +5,13 @@ import {
   CardHeader,
   Divider,
   CardContent,
+  Typography,
+  List,
+  ListItem,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Loading from "../components/Loading";
 import UserContext from "../context/UserContext";
 import DadosCandidato from "../components/DadosCandidato";
@@ -43,6 +47,8 @@ export default function InscricaoTeacherView() {
   const inscricaoId = Number(params.inscricaoId)
     ? Number(params.inscricaoId)
     : null;
+  const [revisorName, setRevisorName] = useState<string>();
+  const [auditorName, setAuditorName] = useState<string>();
 
   useEffect(() => {
     const isRevisadaEAuditada = (revisorId: number, auditorId: number) => {
@@ -55,8 +61,8 @@ export default function InscricaoTeacherView() {
       return false;
     };
 
-    const isIgualAoRevisor = (userId: number, revisorId: number) => {
-      if (userId === revisorId) {
+    const isIgualAoRevisor = (professorId: number, revisorId: number) => {
+      if (professorId === revisorId) {
         setWarningMessage(
           "Você está no modo Somente Leitura, pois o(a) auditor(a) deve ser diferente do(a) revisor(a)."
         );
@@ -66,13 +72,13 @@ export default function InscricaoTeacherView() {
     };
 
     const isReadOnly = (
-      userId: number,
+      professorId: number,
       revisorId: number,
       auditorId: number
     ) => {
       return (
         isRevisadaEAuditada(revisorId, auditorId) ||
-        isIgualAoRevisor(userId, revisorId)
+        isIgualAoRevisor(professorId, revisorId)
       );
     };
 
@@ -82,11 +88,15 @@ export default function InscricaoTeacherView() {
       setLoadingProcessoSeletivo(true);
       getDetalhesInscricaoProfessor(inscricaoId, editalId)
         .then(({ data }) => {
-          if (isReadOnly(user.id, data?.revisor_id, data?.auditor_id)) {
+          if (
+            isReadOnly(user.professor_id, data?.revisor_id, data?.auditor_id)
+          ) {
             setReadOnly(true);
           }
           setDadosInscricao(data);
           setIsAuditoria(Boolean(data?.revisor_id));
+          setRevisorName(data.revisor);
+          setAuditorName(data.auditor);
         })
         .catch()
         .finally(() => {
@@ -165,8 +175,25 @@ export default function InscricaoTeacherView() {
           }}
         />
         <Divider sx={{ mx: 3 }} />
-
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
+          <List sx={{ pb: 2 }}>
+            {revisorName && (
+              <ListItem disableGutters sx={{ color: "success.main" }}>
+                <CheckCircleIcon sx={{ mr: 0.5 }} />
+                <Typography sx={{ fontWeight: "bold" }}>
+                  Revisado por {revisorName}
+                </Typography>
+              </ListItem>
+            )}
+            {auditorName && revisorName && (
+              <ListItem disableGutters sx={{ color: "success.main" }}>
+                <CheckCircleIcon sx={{ mr: 0.5 }} />
+                <Typography sx={{ fontWeight: "bold" }}>
+                  Auditado por {auditorName}
+                </Typography>
+              </ListItem>
+            )}
+          </List>
           <DadosCandidato dadosInscrito={dadosInscricao?.aluno} />
           {editalId && inscricaoId && dadosInscricao && (
             <RevisarAuditarInscricao
