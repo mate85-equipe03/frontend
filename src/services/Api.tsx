@@ -122,12 +122,19 @@ export const postNovoProsel = (editalData: ICadastroEdital) => {
   return api.post("/processos-seletivos", editalData);
 };
 
-export const editProsel = (editalId:string, editalData: ICadastroEdital) => {
+export const editProsel = (editalId: string, editalData: ICadastroEdital) => {
   return api.patch(`/processos-seletivos/${editalId}`, editalData);
 };
 
-export const editDatasProsel = (editalId:string, etapaId:number, novasDatas:IEditDatasEtapa) => {
-  return api.patch(`/processos-seletivos/${editalId}/etapas/${etapaId}`, novasDatas);
+export const editDatasProsel = (
+  editalId: string,
+  etapaId: number,
+  novasDatas: IEditDatasEtapa
+) => {
+  return api.patch(
+    `/processos-seletivos/${editalId}/etapas/${etapaId}`,
+    novasDatas
+  );
 };
 
 export default api;

@@ -18,6 +18,7 @@ import {
 } from "@mui/x-data-grid";
 import moment from "moment";
 import { Add } from "@mui/icons-material";
+import EditIcon from "@mui/icons-material/Edit";
 import { IEdital, IEtapa } from "../interfaces/Interfaces";
 import { getAllProcessosSeletivos } from "../services/Api";
 import Loading from "../components/Loading";
@@ -26,7 +27,6 @@ import PDFFile from "../components/PDFFile";
 import auth from "../services/Auth";
 import Inscrito from "../components/Inscrito";
 import editalService from "../services/Edital";
-import EditIcon from "@mui/icons-material/Edit";
 import { EtapasEnum } from "../enums/Enums";
 
 export default function Home() {
@@ -201,7 +201,7 @@ export default function Home() {
       renderCell: (cellValues) => {
         return (
           <Link
-            href={ `/edital/${cellValues.row.id}`} 
+            href={`/edital/${cellValues.row.id}`}
             underline="none"
             onClick={handleLinkClick}
           >
