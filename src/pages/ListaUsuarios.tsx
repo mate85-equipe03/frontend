@@ -1,24 +1,27 @@
 import { Card, CardContent, CardHeader, Divider, Grid } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Loading from "../components/Loading";
+import UserContext from "../context/UserContext";
 import { IProfessores } from "../interfaces/Interfaces";
 import { getAllProfessores } from "../services/Api";
 
 export default function ListaUsuarios() {
-  /* const { user } = useContext(UserContext); */
+  const { user } = useContext(UserContext);
   const [listaProfessores, setListaProfessores] = useState<IProfessores[]>([]);
   const [loadingProfessores, setLoadingProfessoes] = useState<boolean>(false);
 
   useEffect(() => {
     setLoadingProfessoes(true);
-    getAllProfessores()
-      .then(({ data }) => setListaProfessores(data))
-      .catch()
-      .finally(() => {
-        setLoadingProfessoes(false);
-      });
-  }, []);
+    if (user) {
+      getAllProfessores()
+        .then(({ data }) => setListaProfessores(data))
+        .catch()
+        .finally(() => {
+          setLoadingProfessoes(false);
+        });
+    }
+  }, [user]);
 
   const colunas: GridColDef[] = [
     {
