@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   Card,
@@ -14,11 +14,15 @@ import {
 } from "@mui/material";
 
 import { PatternFormat } from "react-number-format";
-import { useNavigate } from "react-router-dom";
-import { Dayjs } from "dayjs";
+import { useNavigate, useParams } from "react-router-dom";
+import dayjs, { Dayjs } from "dayjs";
 import { NomesEtapasEnum } from "../enums/Enums";
-import { postNovoEdital } from "../services/Api";
-import { IDatasEtapas, ICadastroEdital } from "../interfaces/Interfaces";
+import { getDetailsProcessoSeletivo, postNovoEdital } from "../services/Api";
+import {
+  IDatasEtapas,
+  ICadastroEdital,
+  IEdital,
+} from "../interfaces/Interfaces";
 import BtnSubmitLoading from "../components/BtnSubmitLoading";
 import InputData from "../components/InputData";
 
@@ -77,24 +81,65 @@ export default function NovoEdital() {
     });
   }, [datas]);
 
+  // ==============================
+  // Edição
+  const { editalId } = useParams();
+
+  const [edital, setEdital] = useState<IEdital | null>(null);
+
+  useEffect(() => {
+    if (Number(editalId)) {
+      getDetailsProcessoSeletivo(Number(editalId))
+        .then(({ data }) => {
+          setCadastroEdital({
+            ...cadastroEdital,
+            titulo: data.titulo,
+            descricao: data.descricao,
+            semestre: data.semestre,
+            edital_url: data.edital_url,
+          });
+
+          setDatas({
+            etapa_inscricao_inicio: dayjs(data.etapas[0].data_inicio),
+            etapa_inscricao_fim: dayjs(data.etapas[0].data_fim),
+            etapa_analise_inicio: dayjs(data.etapas[1].data_inicio),
+            etapa_analise_fim: dayjs(data.etapas[1].data_fim),
+            etapa_resultado_inicio: dayjs(data.etapas[2].data_inicio),
+            etapa_resultado_fim: dayjs(data.etapas[2].data_fim),
+          });
+        })
+        .catch()
+        .finally(() => {
+          // setLoadingEdital(false);
+        });
+    }
+  }, []);
+
+  // ========================
+  // Integração
   const sendForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoadingBtn(true);
 
-    postNovoEdital(cadastroEdital)
-      .then(() => {
-        setNovoEditalError(false);
-        navigate("/", { state: { novoEdital: true } });
-      })
-      .catch(() => {
-        setNovoEditalError(true);
-      })
-      .finally(() => {
-        setLoadingBtn(false);
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-      });
-  };
+    console.log(cadastroEdital);
 
+    if (Number(editalId)) {
+      //editaInscrição
+    } else {
+      postNovoEdital(cadastroEdital)
+        .then(() => {
+          setNovoEditalError(false);
+          navigate("/", { state: { novoEdital: true } });
+        })
+        .catch(() => {
+          setNovoEditalError(true);
+        })
+        .finally(() => {
+          setLoadingBtn(false);
+          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        });
+    }
+  };
   return (
     <Grid
       container

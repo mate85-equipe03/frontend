@@ -7,6 +7,7 @@ import {
   Alert,
   Divider,
   Button,
+  Link,
 } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
@@ -20,6 +21,7 @@ import PDFFile from "../components/PDFFile";
 import auth from "../services/Auth";
 import Inscrito from "../components/Inscrito";
 import editalService from "../services/Edital";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -159,6 +161,24 @@ export default function Home() {
           }
         }
         return "";
+      },
+    },
+    {
+      field: "edit",
+      headerName: "Editar",
+      width: 60,
+      hide: !isRoot,
+      valueGetter: (params) => params.row.id,
+      renderCell: (cellValues) => {
+        return (
+          <Link
+            href={ `/edital/${cellValues.row.id}`} 
+            underline="none"
+            onClick={handleLinkClick}
+          >
+            <EditIcon />
+          </Link>
+        );
       },
     },
   ];
