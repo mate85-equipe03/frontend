@@ -60,8 +60,8 @@ export default function InscricaoTeacherView() {
       return false;
     };
 
-    const isIgualAoRevisor = (userId: number, revisorId: number) => {
-      if (userId === revisorId) {
+    const isIgualAoRevisor = (professorId: number, revisorId: number) => {
+      if (professorId === revisorId) {
         setWarningMessage(
           "Você está no modo Somente Leitura, pois o(a) auditor(a) deve ser diferente do(a) revisor(a)."
         );
@@ -71,13 +71,13 @@ export default function InscricaoTeacherView() {
     };
 
     const isReadOnly = (
-      userId: number,
+      professorId: number,
       revisorId: number,
       auditorId: number
     ) => {
       return (
         isRevisadaEAuditada(revisorId, auditorId) ||
-        isIgualAoRevisor(userId, revisorId)
+        isIgualAoRevisor(professorId, revisorId)
       );
     };
 
@@ -102,7 +102,9 @@ export default function InscricaoTeacherView() {
       setLoadingProcessoSeletivo(true);
       getDetalhesInscricaoProfessor(inscricaoId, editalId)
         .then(({ data }) => {
-          if (isReadOnly(user.id, data?.revisor_id, data?.auditor_id)) {
+          if (
+            isReadOnly(user.professor_id, data?.revisor_id, data?.auditor_id)
+          ) {
             setReadOnly(true);
           }
           setDadosInscricao(data);

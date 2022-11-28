@@ -9,6 +9,7 @@ export interface IUserContext {
   telefone: string;
   nome: string;
   matricula: string;
+  professor_id: number;
 }
 
 export interface IPropsUserContext {
@@ -257,6 +258,7 @@ export interface IUserBackend {
   telefone: string;
   nome: string;
   matricula: string;
+  professor_id: number;
 }
 
 export interface IRecoverData {
