@@ -12,6 +12,7 @@ import UserContext from "../../context/UserContext";
 import Loading from "../Loading";
 import ModalProducao from "./ModalProducao";
 import auth from "../../services/Auth";
+import PDFFile from "../PDFFile";
 
 interface IProps {
   editalId: number;
@@ -51,6 +52,10 @@ export default function ProducoesCientificas({
     }
   }, [editalId, user, inscricaoId]);
 
+  const handleLinkClick = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+  };
+
   const handleDelete = (producaoId: number) => {
     if (user && editalId && inscricaoId) {
       setIsloadingDetalhes(true);
@@ -69,7 +74,16 @@ export default function ProducoesCientificas({
     {
       field: "filename",
       headerName: "Arquivo",
-      width: 320,
+      width: auth.isStudent() ? 320 : 420,
+      renderCell: (cellValues) => {
+        return (
+          <PDFFile
+            pdfUrl={cellValues.row.url}
+            pdfTitle={cellValues.row.filename}
+            onClick={handleLinkClick}
+          />
+        );
+      },
     },
     {
       field: "categoria",
@@ -87,6 +101,7 @@ export default function ProducoesCientificas({
       field: "",
       headerName: "Remover",
       width: 100,
+      hide: !auth.isStudent(),
       renderCell: (cellValues) => (
         <IconButton
           aria-label="delete"
@@ -98,29 +113,33 @@ export default function ProducoesCientificas({
     },
   ];
 
-  const allColumnsWidth = colunas.reduce((acc, { width }) => {
-    return width ? acc + width : acc;
+  const allColumnsWidth = colunas.reduce((acc, { width, hide }) => {
+    return width && !hide ? acc + width : acc;
   }, 0);
 
   return loadingDetalhes ? (
     <Loading />
   ) : (
-    <Grid>
+    <Grid
+      sx={{
+        mt: 2,
+      }}
+    >
       <DataGrid
         initialState={{
           sorting: {
-            sortModel: [{ field: "nota_final", sort: "desc" }],
+            sortModel: [{ field: "categoria", sort: "asc" }],
           },
         }}
         disableSelectionOnClick
         rows={producoes}
         columns={colunas}
         sx={{
-          width: Math.min(allColumnsWidth + 2, 1000),
+          width: allColumnsWidth + 2,
           mb: 5,
         }}
       />
-      <ModalProducao onSuccess={carregaProducoes} />
+      {auth.isStudent() && <ModalProducao onSuccess={carregaProducoes} />}
     </Grid>
   );
 }

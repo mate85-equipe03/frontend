@@ -19,6 +19,7 @@ import {
 import moment from "moment";
 import { Add } from "@mui/icons-material";
 import EditIcon from "@mui/icons-material/Edit";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { IEdital, IEtapa } from "../interfaces/Interfaces";
 import { getAllProcessosSeletivos } from "../services/Api";
 import Loading from "../components/Loading";
@@ -127,10 +128,6 @@ export default function Home() {
 
   const handleLinkClick = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
-  };
-
-  const redirectToCadastroTeacher = () => {
-    navigate("/cadastro-professor");
   };
 
   const redirectToListaProfessores = () => {
@@ -261,16 +258,8 @@ export default function Home() {
             size="large"
             sx={{ mx: 1 }}
           >
-            Lista de Professores
-          </Button>
-
-          <Button
-            type="button"
-            size="large"
-            onClick={redirectToCadastroTeacher}
-            sx={{ mx: 1 }}
-          >
-            <Add fontSize="small" sx={{ mr: 1 }} /> Cadastrar Professor
+            <FormatListBulletedIcon fontSize="small" sx={{ mr: 1 }} /> Lista de
+            Professores
           </Button>
         </Grid>
       )}
