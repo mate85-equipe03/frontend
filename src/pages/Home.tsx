@@ -7,7 +7,7 @@ import {
   Alert,
   Divider,
   Button,
-  Link,
+  IconButton,
 } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
@@ -41,6 +41,9 @@ export default function Home() {
     : false;
   const novoEditalSuccess = location.state
     ? "novoEdital" in location.state
+    : false;
+  const updateEditalSuccess = location.state
+    ? "updateEdital" in location.state
     : false;
   const resultadoLiberadoSuccess = location.state
     ? "resultadoLiberado" in location.state
@@ -108,6 +111,10 @@ export default function Home() {
     }
     if (novoEditalSuccess) {
       return "Processo Seletivo criado com sucesso.";
+    }
+
+    if (updateEditalSuccess) {
+      return "Processo seletivo atualizado com sucesso.";
     }
 
     if (signUpSuccess) {
@@ -210,13 +217,11 @@ export default function Home() {
       hide: !isRoot,
       renderCell: (cellValues) => {
         return (
-          <Link
-            href={`/edital/${cellValues.row.id}/editar`}
-            underline="none"
-            onClick={handleLinkClick}
+          <IconButton
+            onClick={() => navigate(`/edital/${cellValues.row.id}/editar`)}
           >
             <EditIcon />
-          </Link>
+          </IconButton>
         );
       },
     },
