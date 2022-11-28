@@ -1,5 +1,6 @@
 import {
   Alert,
+  Button,
   Card,
   CardContent,
   CardHeader,
@@ -15,6 +16,7 @@ import { getEnrolledList, getDetailsProcessoSeletivo } from "../services/Api";
 import { IADetalhes } from "../interfaces/Interfaces";
 import UserContext from "../context/UserContext";
 import Loading from "../components/Loading";
+import auth from "../services/Auth";
 
 export default function EnrolledsList() {
   const navigate = useNavigate();
@@ -24,15 +26,29 @@ export default function EnrolledsList() {
   const { editalId } = useParams();
   const { user } = useContext(UserContext);
 
+
   const [enrolledList, setEnrolledList] = useState<IADetalhes[]>([]);
   const [loadingInscritos, setLoadingInscritos] = useState<boolean>(false);
   const [loadingProcesso, setLoadingProcesso] = useState<boolean>(false);
+  const [loadingBotãoLiberar, setLoadingBotãoLiberar] = useState<boolean>(false);
+  const [faltaRevisarOuAuditar, setFaltaRevisarOuAuditar] = useState<boolean>(false);
+
+  const [isTeacher, setIsTeacher] = useState<boolean>(false);
+  const [isAluno, setIsAluno] = useState<boolean>(false);
+  const [isRoot, setIsRoot] = useState<boolean>(false);
+
 
   const revisaoSuccess = location.state ? "revisao" in location.state : false;
   const auditoriaSuccess = location.state
     ? "auditoria" in location.state
     : false;
   window.history.replaceState(null, "");
+
+  useEffect(() => {
+    setIsTeacher(auth.isTeacher());
+    setIsAluno(auth.isStudent());
+    setIsRoot(auth.isRoot());
+  }, [user]);
 
   useEffect(() => {
     if (user && editalId) {
@@ -52,6 +68,10 @@ export default function EnrolledsList() {
     navigate(`/edital/${editalId}/inscritos/${params.row.id}`);
   };
 
+  const handleClickLiberarResultado = () => {
+
+  }
+
   useEffect(() => {
     setLoadingProcesso(true);
     getDetailsProcessoSeletivo(editalId)
@@ -63,6 +83,19 @@ export default function EnrolledsList() {
         setLoadingProcesso(false);
       });
   }, [editalId]);
+
+  useEffect(() => {
+    setLoadingBotãoLiberar(true)
+    if ( enrolledList ) {
+      enrolledList.map(aluno =>{
+        if ( aluno.revisor || aluno.auditor === null) {
+          setFaltaRevisarOuAuditar(true)
+          console.log("ué",faltaRevisarOuAuditar)
+        }
+      })
+    }
+    setLoadingBotãoLiberar(false)
+  }, [faltaRevisarOuAuditar])
 
   const checkSuccessMessage = (): string | null => {
     if (revisaoSuccess) {
@@ -174,7 +207,7 @@ export default function EnrolledsList() {
 
   const successMessage = checkSuccessMessage();
 
-  return loadingInscritos || loadingProcesso ? (
+  return loadingInscritos || loadingProcesso || loadingBotãoLiberar ? (
     <Loading />
   ) : (
     <Grid
@@ -201,7 +234,6 @@ export default function EnrolledsList() {
             align: "center",
           }}
         />
-
         <Divider sx={{ mx: 3, my: 2 }} />
 
         <CardContent sx={{ px: 10 }}>
@@ -221,6 +253,18 @@ export default function EnrolledsList() {
           />
         </CardContent>
       </Card>
+      {
+        faltaRevisarOuAuditar && (
+          <Button
+              type="button"
+              size="large"
+              onClick={handleClickLiberarResultado}
+              sx={{ m: 2 }}
+            >
+            Liberar Resultado
+            </Button>
+        )
+      }
     </Grid>
   );
 }
