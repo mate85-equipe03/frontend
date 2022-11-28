@@ -220,14 +220,14 @@ export default function EnrolledsList() {
         >
           <span>
             <Button type="button" size="large" sx={{ m: 2 }} disabled>
-              <WarningIcon />
+              <WarningIcon sx={{ mr: 0.5 }}/>
               Liberar Resultado
             </Button>
           </span>
         </Tooltip>
       ) : (
         <Button type="button" size="large" sx={{ m: 2 }} disabled={false}>
-          <CheckIcon />
+          <CheckIcon sx={{ mr: 0.5 }} />
           Liberar Resultado
         </Button>
       )}
