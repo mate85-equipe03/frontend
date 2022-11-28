@@ -46,6 +46,7 @@ export interface IEdital {
   isInscrito: boolean;
   idInscricao: number;
   categorias_producao: ICategoria[];
+  resultado_liberado: boolean;
   etapa_atual?: IEtapa;
 }
 
@@ -292,4 +293,9 @@ export interface IProfessores {
   userId: number;
   siape: number;
   nome: string;
+}
+
+export interface IEditDatasEtapa {
+  data_inicio: string;
+  data_fim: string;
 }

@@ -7,6 +7,7 @@ import {
   Alert,
   Divider,
   Button,
+  Link,
 } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
@@ -17,6 +18,7 @@ import {
 } from "@mui/x-data-grid";
 import moment from "moment";
 import { Add } from "@mui/icons-material";
+import EditIcon from "@mui/icons-material/Edit";
 import { IEdital, IEtapa } from "../interfaces/Interfaces";
 import { getAllProcessosSeletivos } from "../services/Api";
 import Loading from "../components/Loading";
@@ -39,6 +41,9 @@ export default function Home() {
     : false;
   const novoEditalSuccess = location.state
     ? "novoEdital" in location.state
+    : false;
+  const resultadoLiberadoSuccess = location.state
+    ? "resultadoLiberado" in location.state
     : false;
   window.history.replaceState(null, "");
   const { user } = useContext(UserContext);
@@ -107,6 +112,10 @@ export default function Home() {
 
     if (signUpSuccess) {
       return "Cadastro de professor realizado com sucesso.";
+    }
+
+    if (resultadoLiberadoSuccess) {
+      return "Resultado do edital liberado com sucesso.";
     }
 
     return null;
@@ -192,6 +201,23 @@ export default function Home() {
         const dataFim = dateToStr(etapaAtual.data_fim);
 
         return nomeDaEtapa + (isEtapaComData ? ` (até ${dataFim})` : "");
+      },
+    },
+    {
+      field: "edit",
+      headerName: "Editar",
+      width: 60,
+      hide: !isRoot,
+      renderCell: (cellValues) => {
+        return (
+          <Link
+            href={`/edital/${cellValues.row.id}/editar`}
+            underline="none"
+            onClick={handleLinkClick}
+          >
+            <EditIcon />
+          </Link>
+        );
       },
     },
   ];
