@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import {
   Grid,
   Alert,
@@ -167,7 +169,7 @@ export default function InscricaoTeacherView() {
         />
         <Divider sx={{ mx: 3 }} />
         <CardContent sx={{ px: { xs: 5, sm: 10 } }}>
-          <List sx={{ pb: 2 }}>
+          {/* <List sx={{ pb: 2 }}>
             {revisorName && (
               <ListItem disableGutters sx={{ color: "success.main" }}>
                 <CheckCircleIcon sx={{ mr: 0.5 }} />
@@ -184,7 +186,7 @@ export default function InscricaoTeacherView() {
                 </Typography>
               </ListItem>
             )}
-          </List>
+          </List> */}
           <DadosCandidato dadosInscrito={dadosInscricao?.aluno} />
           {editalId && inscricaoId && dadosInscricao && (
             <RevisarAuditarInscricao
