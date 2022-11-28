@@ -30,8 +30,8 @@ export default function EnrolledsList() {
   const [loadingProcesso, setLoadingProcesso] = useState<boolean>(false);
   const [loadingBotãoLiberar, setLoadingBotãoLiberar] =
     useState<boolean>(false);
-  const [faltaRevisarOuAuditar, setFaltaRevisarOuAuditar] =
-    useState<boolean>(false);
+  const [naoFaltaRevisarOuAuditar, setNaoFaltaRevisarOuAuditar] =
+    useState<boolean>(true);
 
   const revisaoSuccess = location.state ? "revisao" in location.state : false;
   const auditoriaSuccess = location.state
@@ -76,13 +76,13 @@ export default function EnrolledsList() {
     if (enrolledList) {
       enrolledList.map((aluno) => {
         if (aluno.revisor || aluno.auditor === null) {
-          setFaltaRevisarOuAuditar(true);
+          setNaoFaltaRevisarOuAuditar(true);
         }
-        return faltaRevisarOuAuditar;
+        return naoFaltaRevisarOuAuditar;
       });
     }
     setLoadingBotãoLiberar(false);
-  }, [faltaRevisarOuAuditar, enrolledList]);
+  }, [naoFaltaRevisarOuAuditar, enrolledList]);
 
   const checkSuccessMessage = (): string | null => {
     if (revisaoSuccess) {
@@ -240,7 +240,7 @@ export default function EnrolledsList() {
           />
         </CardContent>
       </Card>
-      {!faltaRevisarOuAuditar && (
+      {!naoFaltaRevisarOuAuditar && (
         <Button type="button" size="large" sx={{ m: 2 }}>
           Liberar Resultado
         </Button>
