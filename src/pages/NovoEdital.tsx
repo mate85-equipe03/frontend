@@ -31,6 +31,7 @@ import {
 import BtnSubmitLoading from "../components/BtnSubmitLoading";
 import InputData from "../components/InputData";
 import editalService from "../services/Edital";
+import Loading from "../components/Loading";
 
 export default function NovoEdital() {
   const navigate = useNavigate();
@@ -110,9 +111,14 @@ export default function NovoEdital() {
     return { inscricao, analise, resultado };
   };
 
+  const [loadingDetalhesProsel, setLoadingDetalhesProsel] = React.useState(
+    editalId !== undefined
+  ); // Inicializa como true se for edição
+
   useEffect(() => {
     if (Number(editalId)) {
       // Loading
+      setLoadingDetalhesProsel(true);
 
       getDetailsProcessoSeletivo(Number(editalId))
         .then(({ data }) => {
@@ -141,17 +147,31 @@ export default function NovoEdital() {
             });
 
             setDatas({
-              etapa_inscricao_inicio: dayjs(etapas.inscricao.data_inicio).add(1, 'day'),
-              etapa_inscricao_fim: dayjs(etapas.inscricao.data_fim).add(1, 'day'),
-              etapa_analise_inicio: dayjs(etapas.analise.data_inicio).add(1, 'day'),
-              etapa_analise_fim: dayjs(etapas.analise.data_fim).add(1, 'day'),
-              etapa_resultado_inicio: dayjs(etapas.resultado.data_inicio).add(1, 'day'),
-              etapa_resultado_fim: dayjs(etapas.resultado.data_fim).add(1, 'day'),
+              etapa_inscricao_inicio: dayjs(etapas.inscricao.data_inicio).add(
+                1,
+                "day"
+              ),
+              etapa_inscricao_fim: dayjs(etapas.inscricao.data_fim).add(
+                1,
+                "day"
+              ),
+              etapa_analise_inicio: dayjs(etapas.analise.data_inicio).add(
+                1,
+                "day"
+              ),
+              etapa_analise_fim: dayjs(etapas.analise.data_fim).add(1, "day"),
+              etapa_resultado_inicio: dayjs(etapas.resultado.data_inicio).add(
+                1,
+                "day"
+              ),
+              etapa_resultado_fim: dayjs(etapas.resultado.data_fim).add(
+                1,
+                "day"
+              ),
               // add 1 dia para ajustar conversão da data. TODO: Verificar configurações de fuso horario?
             });
 
-            console.log(cadastroEdital);
-            console.log(datas);
+            setLoadingDetalhesProsel(false);
           }
         })
         .catch()
@@ -244,7 +264,9 @@ export default function NovoEdital() {
         });
     }
   };
-  return (
+  return loadingDetalhesProsel ? (
+    <Loading />
+  ) : (
     <Grid
       container
       direction="column"
