@@ -141,7 +141,7 @@ export default function NovoEdital() {
             });
 
             setDatas({
-              etapa_inscricao_inicio: dayjs(etapas.inscricao.data_fim),
+              etapa_inscricao_inicio: dayjs(etapas.inscricao.data_inicio),
               etapa_inscricao_fim: dayjs(etapas.inscricao.data_fim),
               etapa_analise_inicio: dayjs(etapas.analise.data_inicio),
               etapa_analise_fim: dayjs(etapas.analise.data_fim),
