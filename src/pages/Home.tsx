@@ -42,6 +42,9 @@ export default function Home() {
   const novoEditalSuccess = location.state
     ? "novoEdital" in location.state
     : false;
+  const resultadoLiberadoSuccess = location.state
+    ? "resultadoLiberado" in location.state
+    : false;
   window.history.replaceState(null, "");
   const { user } = useContext(UserContext);
   const [editais, setEditais] = useState<IEdital[]>([]);
@@ -111,6 +114,10 @@ export default function Home() {
       return "Cadastro de professor realizado com sucesso.";
     }
 
+    if (resultadoLiberadoSuccess) {
+      return "Resultado do edital liberado com sucesso.";
+    }
+
     return null;
   };
 
@@ -124,6 +131,10 @@ export default function Home() {
 
   const redirectToCadastroTeacher = () => {
     navigate("/cadastro-professor");
+  };
+
+  const redirectToListaProfessores = () => {
+    navigate("/listar-usuarios");
   };
 
   const dateToStr = (rawDate: string) => {
@@ -242,6 +253,15 @@ export default function Home() {
             sx={{ mx: 1 }}
           >
             <Add fontSize="small" sx={{ mr: 1 }} /> Novo Processo Seletivo
+          </Button>
+
+          <Button
+            type="button"
+            onClick={redirectToListaProfessores}
+            size="large"
+            sx={{ mx: 1 }}
+          >
+            Lista de Professores
           </Button>
 
           <Button
