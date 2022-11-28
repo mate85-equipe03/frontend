@@ -1,10 +1,17 @@
-import { Card, CardContent, CardHeader, Grid } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Grid,
+  Typography,
+} from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import UserContext from "../context/UserContext";
-import { IADetalhes, IEdital, IEtapa } from "../interfaces/Interfaces";
+import { IADetalhes, IEdital } from "../interfaces/Interfaces";
 import {
   getDetailsProcessoSeletivo,
   getEtapaAtualProcessoSeletivo,
@@ -14,21 +21,24 @@ import {
 import editalService from "../services/Edital";
 
 export default function ResultadoEdital() {
+  const [edital, setEdital] = useState<IEdital>();
   const [resultadoMestrado, setResultadoMestrado] = useState<IADetalhes[]>([]);
   const [resultadoDoutorado, setResultadoDoutorado] = useState<IADetalhes[]>(
     []
   );
   const { user } = useContext(UserContext);
   const { editalId } = useParams();
-  const [isLoadingPSDetails, setIsLoadingPSDetails] = useState<boolean>(true);
   const [isLoadingMestrado, setIsLoadingMestrado] = useState<boolean>(true);
   const [isLoadingDoutorado, setIsLoadingDoutorado] = useState<boolean>(true);
+  const [isLoadingPSDetails, setIsLoadingPSDetails] = useState<boolean>(true);
   const [loadingEtapaAtual, setLoadingEtapaAtual] = useState<boolean>(true);
-  const [etapaAtual, setEtapaAtual] = useState<IEtapa | null>(null);
-  const [edital, setEdital] = useState<IEdital | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const redirectToDetails = () => {
+      navigate(`/edital/${editalId}/detalhes`);
+    };
+
     const editalIdNumber = Number(editalId);
     if (user && editalIdNumber) {
       setIsLoadingPSDetails(true);
@@ -65,7 +75,11 @@ export default function ResultadoEdital() {
 
       getEtapaAtualProcessoSeletivo(editalIdNumber)
         .then(({ data }) => {
-          setEtapaAtual(data);
+          const isResultadoDisponivel =
+            editalService.isResultadoDisponivel(data);
+          if (!isResultadoDisponivel) {
+            redirectToDetails();
+          }
         })
         .catch()
         .finally(() => {
@@ -73,23 +87,6 @@ export default function ResultadoEdital() {
         });
     }
   }, [editalId, user, navigate]);
-
-  useEffect(() => {
-    const redirectToDetails = () => {
-      navigate(`/edital/${editalId}/detalhes`);
-    };
-
-    if (etapaAtual !== null && edital !== null) {
-      const isResultadoFinal = editalService.isResultadoFinal(
-        etapaAtual,
-        edital
-      );
-
-      if (!isResultadoFinal) {
-        redirectToDetails();
-      }
-    }
-  }, [etapaAtual, edital, editalId, navigate]);
 
   const colunas: GridColDef[] = [
     {
@@ -137,17 +134,29 @@ export default function ResultadoEdital() {
       direction="column"
       justifyContent="center"
       alignItems="center"
-      sx={{ width: "100%" }}
+      sx={{ width: "100%", mt: 5 }}
     >
       <Card>
         <CardHeader
-          title="Resultado Final Mestrado"
+          title="Resultado Final"
           titleTypographyProps={{
             align: "center",
             variant: "h4",
+            p: 1,
           }}
+          subheader={edital?.titulo}
+          subheaderTypographyProps={{
+            align: "center",
+          }}
+          sx={{}}
         />
-        <CardContent sx={{ px: 10 }}>
+
+        <Divider sx={{ mx: 8 }} />
+
+        <CardContent sx={{ px: 10, mt: 2 }}>
+          <Typography sx={{ pb: 1 }} align="center" variant="h6">
+            Mestrado
+          </Typography>
           <DataGrid
             initialState={{
               sorting: {
@@ -163,14 +172,9 @@ export default function ResultadoEdital() {
             }}
           />
 
-          <CardHeader
-            title="Resultado Final Doutorado"
-            titleTypographyProps={{
-              align: "center",
-              variant: "h4",
-            }}
-          />
-
+          <Typography sx={{ pb: 1 }} align="center" variant="h6">
+            Doutorado
+          </Typography>
           <DataGrid
             initialState={{
               sorting: {
