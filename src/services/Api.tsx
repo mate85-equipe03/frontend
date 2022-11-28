@@ -106,6 +106,13 @@ export const deleteInscricao = (inscricaoId: number) => {
   return api.delete(`/inscricoes/${inscricaoId}`);
 };
 
+export const deleteProducaoCientifica = (
+  inscricaoId: number,
+  producaoId: number
+) => {
+  return api.delete(`/inscricoes/${inscricaoId}/producoes/${producaoId}`);
+};
+
 export const getResultadoMestrado = (editalId: number) => {
   return api.get(`/processos-seletivos/${editalId}/resultado-final-mestrado`);
 };

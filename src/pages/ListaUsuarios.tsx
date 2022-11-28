@@ -1,6 +1,15 @@
-import { Card, CardContent, CardHeader, Divider, Grid } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Grid,
+} from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import UserContext from "../context/UserContext";
 import { IProfessores } from "../interfaces/Interfaces";
@@ -10,6 +19,12 @@ export default function ListaUsuarios() {
   const { user } = useContext(UserContext);
   const [listaProfessores, setListaProfessores] = useState<IProfessores[]>([]);
   const [loadingProfessores, setLoadingProfessoes] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+
+  const redirectToCadastroTeacher = () => {
+    navigate("/cadastro-professor");
+  };
 
   useEffect(() => {
     setLoadingProfessoes(true);
@@ -25,19 +40,14 @@ export default function ListaUsuarios() {
 
   const colunas: GridColDef[] = [
     {
-      field: "id",
-      headerName: "ID",
+      field: "siape",
+      headerName: "Siape",
       width: 100,
     },
     {
       field: "nome",
       headerName: "Nome",
-      width: 300,
-    },
-    {
-      field: "siape",
-      headerName: "Siape",
-      width: 100,
+      width: 400,
     },
   ];
 
@@ -55,7 +65,19 @@ export default function ListaUsuarios() {
       alignItems="center"
       sx={{ width: "100%" }}
     >
-      <Card>
+      <Button
+        type="button"
+        size="large"
+        onClick={redirectToCadastroTeacher}
+        sx={{ mx: 1 }}
+      >
+        <Add fontSize="small" sx={{ mr: 1 }} /> Cadastrar Professor
+      </Button>
+      <Card
+        sx={{
+          mt: 5,
+        }}
+      >
         <CardHeader
           title="Professores Cadastrados"
           titleTypographyProps={{
