@@ -13,11 +13,11 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import WarningIcon from "@mui/icons-material/Warning";
+import { Error } from "@mui/icons-material";
 import { getEnrolledList, getDetailsProcessoSeletivo } from "../services/Api";
 import { IADetalhes } from "../interfaces/Interfaces";
 import UserContext from "../context/UserContext";
 import Loading from "../components/Loading";
-import { Error } from "@mui/icons-material";
 
 export default function EnrolledsList() {
   const navigate = useNavigate();
@@ -245,10 +245,15 @@ export default function EnrolledsList() {
         </CardContent>
       </Card>
       <Tooltip
-        title="Para liberar o resultado, todas as inscrições têm que estar revisadas e auditadas." followCursor
+        title="Para liberar o resultado, todas as inscrições têm que estar revisadas e auditadas."
+        followCursor
       >
         <span>
-          <Button type="button" startIcon={<Error />} size="large" sx={{ m: 2 }}
+          <Button
+            type="button"
+            startIcon={<Error />}
+            size="large"
+            sx={{ m: 2 }}
             disabled={faltaRevisarOuAuditar}
           >
             Liberar Resultado
