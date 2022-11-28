@@ -10,6 +10,7 @@ import {
   IEtapa,
   ISignUpDataTeacher,
   ICadastroEdital,
+  IEditDatasEtapa,
 } from "../interfaces/Interfaces";
 
 const api = axios.create({
@@ -117,8 +118,23 @@ export const postCadastroTeacher = (signUpData: ISignUpDataTeacher) => {
   return api.post("/professores", signUpData);
 };
 
-export const postNovoEdital = (editalData: ICadastroEdital) => {
+export const postNovoProsel = (editalData: ICadastroEdital) => {
   return api.post("/processos-seletivos", editalData);
+};
+
+export const editProsel = (editalId: string, editalData: ICadastroEdital) => {
+  return api.patch(`/processos-seletivos/${editalId}`, editalData);
+};
+
+export const editDatasProsel = (
+  editalId: string,
+  etapaId: number,
+  novasDatas: IEditDatasEtapa
+) => {
+  return api.patch(
+    `/processos-seletivos/${editalId}/etapas/${etapaId}`,
+    novasDatas
+  );
 };
 
 export const patchLiberarResultado = (editalId: number) => {

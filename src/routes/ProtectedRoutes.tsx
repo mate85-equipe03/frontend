@@ -6,6 +6,7 @@ import auth from "../services/Auth";
 import { routesWithRedirect } from "./RoutesHelper";
 import Cadastro from "../pages/Cadastro";
 import NovoEdital from "../pages/NovoEdital";
+
 import CadastroTeacher from "../pages/CadastroTeacher";
 
 const studentRoutes: RouteProps[] = [
@@ -22,10 +23,8 @@ const teacherRoutes: RouteProps[] = [
 ];
 
 const rootRoutes: RouteProps[] = [
-  {
-    path: "/edital/novo",
-    element: <NovoEdital />,
-  },
+  { path: "/edital/novo", element: <NovoEdital /> },
+  { path: "/edital/:editalId/editar", element: <NovoEdital /> },
   { path: "/cadastro-professor", element: <CadastroTeacher /> },
 ];
 
