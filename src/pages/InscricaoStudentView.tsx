@@ -94,7 +94,7 @@ export default function InscricaoStudentView() {
         redirectToDetails();
       }
 
-      if (isResultadoFinal) {
+      if (isResultadoDisponivel) {
         if (inscricaoId) {
           setReadOnly(true);
         } else {

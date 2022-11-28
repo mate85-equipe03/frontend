@@ -315,7 +315,7 @@ export default function EditalDetails() {
                     const dataInicio = dateToStr(etapa.data_inicio);
                     const dataFim = dateToStr(etapa.data_fim);
                     const nomeDaEtapa = editalService.nomeDaEtapaRaw(etapa);
-                    const isResultadoFinal =
+                    const isResultadoDisponivel =
                       editalService.isResultadoDisponivel(etapa);
 
                     return (
@@ -327,7 +327,7 @@ export default function EditalDetails() {
                               :&nbsp;
                             </Typography>
                             <Typography>
-                              {!isResultadoFinal
+                              {!isResultadoDisponivel
                                 ? `${dataInicio} a ${dataFim}`
                                 : `A partir de ${dataInicio}`}
                             </Typography>
