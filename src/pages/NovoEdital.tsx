@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React, { useEffect, useState } from "react";
 import {
   Grid,
@@ -214,12 +216,12 @@ export default function NovoEdital() {
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         });
 
-      const editDatasEtapa = (nomeEtapa: string) => {
-        nomeEtapa = "etapa_" + nomeEtapa;
+      const editDatasEtapa = (etapa: string) => {
+        const nomeEtapa = `etapa_${etapa}`;
 
         const novasDatas = {
-          data_inicio: (cadastroEdital as any)[nomeEtapa + "_inicio"],
-          data_fim: (cadastroEdital as any)[nomeEtapa + "_fim"],
+          data_inicio: (cadastroEdital as any)[`${nomeEtapa}_inicio`],
+          data_fim: (cadastroEdital as any)[`${nomeEtapa}_fim`],
         };
 
         const etapaId = (etapasId as any)[nomeEtapa];
@@ -278,14 +280,17 @@ export default function NovoEdital() {
   // Mensagens
 
   const checkErrorMessage = (): string | null => {
-    if (novoEditalError || errorEditProsel || Object.values(erroEditEtapas).includes(true)) {
+    if (
+      novoEditalError ||
+      errorEditProsel ||
+      Object.values(erroEditEtapas).includes(true)
+    ) {
       return "Ocorreu um erro. Tente novamente.";
     }
     return null;
   };
 
   const ErrorMessage = checkErrorMessage();
-
 
   return loadingDetalhesProsel ? (
     <Loading />
