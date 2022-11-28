@@ -6,6 +6,7 @@ import {
   CardHeader,
   Divider,
   Grid,
+  Tooltip,
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -16,6 +17,7 @@ import { getEnrolledList, getDetailsProcessoSeletivo } from "../services/Api";
 import { IADetalhes } from "../interfaces/Interfaces";
 import UserContext from "../context/UserContext";
 import Loading from "../components/Loading";
+import { Error } from "@mui/icons-material";
 
 export default function EnrolledsList() {
   const navigate = useNavigate();
@@ -77,7 +79,8 @@ export default function EnrolledsList() {
       enrolledList.map((aluno) => {
         if (aluno.revisor || aluno.auditor === null) {
           setFaltaRevisarOuAuditar(true);
-          return
+        } else {
+          setFaltaRevisarOuAuditar(false);
         }
         return faltaRevisarOuAuditar;
       });
@@ -241,11 +244,17 @@ export default function EnrolledsList() {
           />
         </CardContent>
       </Card>
-      {!faltaRevisarOuAuditar && (
-        <Button type="button" size="large" sx={{ m: 2 }}>
-          Liberar Resultado
-        </Button>
-      )}
+      <Tooltip
+        title="Para liberar o resultado, todas as inscrições têm que estar revisadas e auditadas." followCursor
+      >
+        <span>
+          <Button type="button" startIcon={<Error />} size="large" sx={{ m: 2 }}
+            disabled={faltaRevisarOuAuditar}
+          >
+            Liberar Resultado
+          </Button>
+        </span>
+      </Tooltip>
     </Grid>
   );
 }
