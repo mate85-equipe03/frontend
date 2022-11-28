@@ -40,7 +40,7 @@ export default function ResultadoEdital() {
     };
 
     const editalIdNumber = Number(editalId);
-    if (user && user && editalIdNumber) {
+    if (user && editalIdNumber) {
       setIsLoadingPSDetails(true);
       setIsLoadingMestrado(true);
       setIsLoadingDoutorado(true);
