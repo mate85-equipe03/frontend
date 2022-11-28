@@ -182,9 +182,13 @@ export default function NovoEdital() {
   // Integração
 
   const [loadingEditProsel, setLoadingEditProsel] = React.useState(false);
-  const [ErroEditProsel, setErroEditProsel] = React.useState(false);
-
-  const [loadingEtapas, setLoadingEtapas] = React.useState({
+  const [errorEditProsel, setErrorEditProsel] = React.useState(false);
+  const [loadingEditEtapas, setLoadingEditEtapas] = React.useState({
+    etapa_inscricao: false,
+    etapa_analise: false,
+    etapa_resultado: false,
+  });
+  const [erroEditEtapas, setErrorEditEtapas] = React.useState({
     etapa_inscricao: false,
     etapa_analise: false,
     etapa_resultado: false,
@@ -200,11 +204,10 @@ export default function NovoEdital() {
       editProsel(editalId, cadastroEdital)
         .then(() => {
           setLoadingEditProsel(false);
-          // setNovoEditalError(false);
-          // navigate("/", { state: { updateEdital: true } });
+          setErrorEditProsel(false);
         })
         .catch(() => {
-          setErroEditProsel(true);
+          setErrorEditProsel(true);
         })
         .finally(() => {
           setLoadingBtn(false);
@@ -212,29 +215,42 @@ export default function NovoEdital() {
         });
 
       const editDatasEtapa = (nomeEtapa: string) => {
-        // setLoading
+        nomeEtapa = "etapa_" + nomeEtapa;
 
         const novasDatas = {
-          data_inicio: (cadastroEdital as any)[
-            "etapa_" + nomeEtapa + "_inicio"
-          ],
-          data_fim: (cadastroEdital as any)["etapa_" + nomeEtapa + "_fim"],
+          data_inicio: (cadastroEdital as any)[nomeEtapa + "_inicio"],
+          data_fim: (cadastroEdital as any)[nomeEtapa + "_fim"],
         };
 
-        const etapaId = (etapasId as any)["etapa_" + nomeEtapa];
+        const etapaId = (etapasId as any)[nomeEtapa];
 
         editDatasProsel(editalId, etapaId, novasDatas)
           .then(() => {
-            // console.log(data);
+            setLoadingEditEtapas((prevState) => {
+              return {
+                ...prevState,
+                [nomeEtapa]: false,
+              };
+            });
           })
           .catch(() => {
-            setNovoEditalError(true);
+            setErrorEditEtapas((prevState) => {
+              return {
+                ...prevState,
+                [nomeEtapa]: true,
+              };
+            });
           })
           .finally(() => {
-            // setLoadingBtn(false);
-            // window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+            window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
           });
       };
+
+      setLoadingEditEtapas({
+        etapa_inscricao: true,
+        etapa_analise: true,
+        etapa_resultado: true,
+      });
 
       editDatasEtapa("inscricao");
       editDatasEtapa("analise");
@@ -257,6 +273,20 @@ export default function NovoEdital() {
         });
     }
   };
+
+  // ==================
+  // Mensagens
+
+  const checkErrorMessage = (): string | null => {
+    if (novoEditalError || errorEditProsel || Object.values(erroEditEtapas).includes(true)) {
+      return "Ocorreu um erro. Tente novamente.";
+    }
+    return null;
+  };
+
+  const ErrorMessage = checkErrorMessage();
+
+
   return loadingDetalhesProsel ? (
     <Loading />
   ) : (
@@ -267,9 +297,9 @@ export default function NovoEdital() {
       alignItems="center"
       sx={{ height: "100%" }}
     >
-      {novoEditalError && (
+      {ErrorMessage && (
         <Alert severity="error" sx={{ mb: 2 }}>
-          Ocorreu um erro. Tente novamente.
+          {ErrorMessage}
         </Alert>
       )}
       <Card sx={{ minWidth: 275, maxWidth: 500, pb: 4 }}>
